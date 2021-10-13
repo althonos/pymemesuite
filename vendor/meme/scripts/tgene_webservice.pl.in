@@ -1,0 +1,166 @@
+#!@WHICHPERL@
+=head1 NAME
+
+tgene_webservice - Run tgene in a restricted mode and create an index webpage.
+
+=head1 SYNOPSIS
+
+  tgene_webservice [options] <locus_file>
+  
+  Options:
+  
+    -annotation-file-name <afile>   annotation file name
+    -transcript-types <ttypes>      types of transcript to use from annotation file
+    -max-link-distances <mlds>      comma-separated list of maximum distances between an RE and its target
+    -max-pvalue <mpv> 		    maximum p-value for including non-CT, non-CL links in output
+    -tissues <tissues>              comma-separated list (no spaces) of tissue names
+    -histone-root <hrd>             histone root directory
+    -histones <histones>            comma-separated list (no spaces) of histone names
+    -rna-source			    type of RNA expression data you are providing
+    -expression-root <erd>          expression root directory
+    -use-gene-ids                   use the 'gene_id' field rather than 'transcript_id' field
+                                    to associate expression file and annotation file entries;
+    -lecat			    low expression correlation adjustment threshold; default: 0
+    -no-closest-locus               don't include closest locus for all targets
+                                    unless constraints are satisfied
+    -no-closest-tss                 don't include closest TSS (target transcript) for all loci
+                                    unless constraints are satisfied
+    
+    Files present in the server tgene databases can be specified by appending 'db/'
+    to the file name.
+=cut
+
+use strict;
+use warnings;
+# load standard perl libraries
+use Cwd;
+use Getopt::Long qw(:config permute auto_help);
+use Pod::Usage;
+# load custom perl libraries
+use lib qw(@PERLLIBDIR@);
+use StatusPage qw(arg_checks opt_uploaded opt_safe opt_integer opt_number opt_evalue);
+use MemeWebUtils qw(dir_listing_set dir_listing added_files create_tar);
+
+# constants
+my $bin_dir = '@BINDIR@';
+my $libexec_dir = '@LIBEXECDIR@';
+my $tgene_db_dir = '@MEMEDB@/tgene_databases';
+my $workdir = &getcwd();
+
+# required parameters
+my $locus_file;
+
+# options
+my ($annotation_file_name, 
+  $transcript_types, 
+  $max_link_distances, 
+  $max_pvalue, 
+  $tissues, 
+  $histone_root, 
+  $histones, 
+  $rna_source, 
+  $expression_root, 
+  $use_gene_ids,
+  $lecat, 
+  $no_closest_locus, 
+  $no_closest_tss 
+);
+
+#status page
+my $status = new StatusPage('TGENE', \@ARGV);
+$status->add_message('Parsing arguments');
+my @arg_errors = ();
+my $program = 'T-Gene';
+my $page = 'index.html';
+my $refresh = 10;
+
+# parse options
+my $opts_ok = do {
+  local $SIG{__WARN__} = sub { my ($msg) = @_; chomp($msg); push(@arg_errors, $msg); };
+  GetOptions(
+    '<>' => arg_checks(opt_uploaded(\$locus_file)),
+    'annotation-file-name=s' => \$annotation_file_name,
+    'transcript-types=s' => \$transcript_types,
+    'max-link-distances=s' => \$max_link_distances,
+    'max-pvalue=f' => opt_evalue(\$max_pvalue),
+    'tissues=s' => \$tissues,
+    'histone-root=s' => \$histone_root,
+    'histones=s' => \$histones,
+    'rna-source=s' => opt_safe(\$rna_source),
+    'expression-root=s' => \$expression_root,
+    'use-gene-ids' => \$use_gene_ids,
+    'lecat=f' => opt_number(\$lecat),
+    'no-closest-locus' => \$no_closest_locus,
+    'no-closest-tss' => \$no_closest_tss
+  );
+};
+# add additional error messages for missing sequences and motifs
+push(@arg_errors, "No locus file provided.") unless defined $locus_file;
+$opts_ok = 0 if (scalar(@arg_errors) > 0);
+
+# display the error messages both to the status page and stdout
+foreach my $arg_error (@arg_errors) {
+  print STDERR $arg_error, "\n";
+  $status->add_message($arg_error);
+}
+
+# setup status page
+$status->add_file('html', 'tgene.html', 'T-Gene HTML output');
+$status->add_file('links', 'links.tsv', 'Links in TSV format');
+$status->add_file('loci', $locus_file, 'Uploaded Loci');
+# Add the histone and expression files
+$status->add_file('expression', 'TrExp.tsv', 'Expression level across panel in TSV format');
+$status->add_file('expression_noise', 'TrExp+noise.tsv', 'Expression level across tissue panel (with noise added) in TSV format');
+foreach my $histone (split(/,/, $histones)) {
+  $status->add_file("histone_$histone", "HistLev.$histone.tsv", "Histone $histone level across panel in TSV format");
+  $status->add_file("histone_noise_$histone", "HistLev+noise.$histone.tsv", "Histone $histone level across tissue panel (with noise added) in TSV format");
+}
+$status->add_message($opts_ok ? 'Arguments ok' : "Error parsing arguments");
+$status->update($opts_ok ? 'Starting' : 'Error');
+
+# exit if there was an error reading the arguments
+unless ($opts_ok) {
+  $status->write_log();
+  pod2usage(2);
+}
+# create the symlink to the databases
+symlink($tgene_db_dir, 'db');
+# ensure it will be removed on completion (when the log is written)
+$status->set_cleanup( sub { unlink('db'); } );
+
+# take a listing of all the files in the current directory
+my $before = &dir_listing_set($workdir);
+
+# Run tgene
+my @tgene_args = ($locus_file, $annotation_file_name, '--oc', '.');
+push(@tgene_args, '--transcript-types', $transcript_types) if (defined($transcript_types));
+push(@tgene_args, '--max-link-distances', $max_link_distances) if (defined($max_link_distances));
+push(@tgene_args, '--max-pvalue', $max_pvalue) if (defined($max_pvalue));
+if ($tissues ne "none") {
+  push(@tgene_args, '--tissues', $tissues) if (defined($tissues));
+  push(@tgene_args, '--histone-root', $histone_root) if (defined($histone_root));
+  push(@tgene_args, '--histones', $histones) if (defined($histones));
+  push(@tgene_args, '--rna-source', $rna_source) if (defined($rna_source));
+  push(@tgene_args, '--expression-root', $expression_root) if (defined($expression_root));
+  push(@tgene_args, '--use-gene-ids') if (defined($use_gene_ids));
+  push(@tgene_args, '--lecat', $lecat) if (defined($lecat));
+}
+push(@tgene_args, '--no-closest-locus') if (defined($no_closest_locus));
+push(@tgene_args, '--no-closest-tss') if (defined($no_closest_tss));
+push(@tgene_args, '--fdesc', 'description') if (-e 'description');
+
+$status->run(PROG => 'tgene', BIN => $bin_dir, ARGS => \@tgene_args);
+
+# determine all files added
+my @tar_files = &added_files($before, &dir_listing_set($workdir));
+# read inputs
+push(@tar_files, $locus_file);
+# create tar with all new files plus the input files
+my $tar = &create_tar(0, "", "", "", "", "", "", "", "", @tar_files);
+$status->add_file('tgz', $tar, 'Gzipped Tar file of all output');
+
+# done
+$status->add_message("Done");
+$status->update();
+$status->write_log();
+1;

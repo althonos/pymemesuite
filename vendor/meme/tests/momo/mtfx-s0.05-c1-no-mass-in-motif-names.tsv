@@ -1,0 +1,24 @@
+mod	motif	regexp	score	fg_match	fg_size	bg_match	bg_size	fg/bg	unadjusted_p-value
+S	xxx_S_GxL	...SG.L	3.84	3	111	5	2056	11.1	6.1e-003
+S	xxx_S_xGx	...S.G.	1.48	13	111	140	2056	1.7	4.5e-002
+T	xxL_T_Exx	..LTE..	3.50	4	90	10	1629	7.2	4.7e-003
+T	xRY_T_xxx	.RYT...	2.91	2	90	3	1629	12.1	2.4e-002
+T	xxx_T_xxD	...T..D	1.33	11	90	93	1629	2.1	1.7e-002
+T	Rxx_T_xPx	R..T.P.	2.89	2	90	3	1629	12.1	2.4e-002
+T	xxE_T_xxP	..ET..P	3.19	2	90	2	1629	18.1	1.5e-002
+T	xxx_T_GxE	...TG.E	3.04	3	90	7	1629	7.8	1.3e-002
+T	VKx_T_xxx	VK.T...	3.73	5	90	16	1629	5.7	3.7e-003
+T	xxV_T_xxK	..VT..K	3.38	3	90	6	1629	9.1	9.3e-003
+T	xEL_T_xxx	.ELT...	2.87	3	90	9	1629	6.0	2.2e-002
+T	xxC_T_xxx	..CT...	1.33	3	90	22	1629	2.5	1.4e-001
+Y	AKE_Y_xxG	AKEY..G	3.67	2	48	2	944	19.7	1.3e-002
+Y	xxx_Y_xDV	...Y.DV	3.54	3	48	6	944	9.8	7.3e-003
+Y	xxR_Y_Txx	..RYT..	2.90	2	48	3	944	13.1	2.1e-002
+Y	xxx_Y_xxG	...Y..G	1.56	8	48	56	944	2.8	9.2e-003
+Y	xxI_Y_Rxx	..IYR..	3.01	2	48	5	944	7.9	4.1e-002
+Y	xxx_Y_Vxx	...YV..	1.42	6	48	56	944	2.1	7.2e-002
+Y	xxR_Y_xFx	..RY.F.	2.99	2	48	3	944	13.1	2.1e-002
+
+# MoMo (Modification Motifs): Version 5.4.0 compiled on May 20 2021 at 11:57:28
+# The format of this file is described at https://meme-suite.org/meme/doc/momo-output-format.html.
+# momo motifx --oc results/momo13 --db-background --protein-database /Users/t.bailey/meme_git/meme-xstreme/tests/momo/small-yeast.fasta --score-threshold 0.05 --min-occurrences 1 /Users/t.bailey/meme_git/meme-xstreme/tests/momo/small-tide-mod-phospho.txt

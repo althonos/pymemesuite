@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>XSTREME - Submission form</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../doc/images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="../doc/images/memesuite_icon.png">
+    <link href="../doc/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="../css/component_motifs.css" rel="stylesheet" type="text/css">
+    <link href="../css/component_sequences.css" rel="stylesheet" type="text/css">
+    <link href="../css/component_bfile.css" rel="stylesheet" type="text/css">
+    <script src="../doc/js/menu-path.js"></script>
+    <script src="../doc/js/menu.js"></script>
+    <script src="../doc/js/motif_logo.js"></script>
+    <script src="../doc/js/utilities.js"></script>
+    <script src="../js/site.js"></script>
+    <script src="../js/alphabet_parser.js"></script>
+    <script src="../js/fasta-debug.js"></script>
+    <script src="../js/motif_parser.js"></script>
+    <script src="../js/bg_parser.js"></script>
+    <script src="../js/component_motifs.js"></script>
+    <script src="../js/component_sequences.js"></script>
+    <script src="../js/component_bfile.js"></script>
+    <script src="../js/xstreme.js"></script>
+    <style>
+      span.pad {
+        display: inline-block;
+        min-width: 12em;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Help Popups -->
+
+    <!--{help/}-->
+
+    <div class="pop_content" style="display:none" id="pop_discr">
+      <p>
+        XSTREME will report motifs that are enriched in your (primary) sequences relative to a control set of sequences. 
+	XSTREME inputs the primary and control sequences to the STREME motif discovery algorithm, 
+        and to the SEA motif enrichment analysis algorithm. XSTREME will also create a Markov background 
+        model from the control sequences (unless you provide one) that it inputs to the STREME, MEME and SEA algorithms. 
+      </p>
+      <p>
+        If you do not provide control sequences, STREME and SEA create them by shuffling a copy of each primary sequence, 
+        using an <i>m</i>-order shuffle.  The value of <i>m</i> depends on the sequence alphabet (see Universal options, below). 
+        Shuffling also preserves the positions of non-core (e.g., ambiguous) characters in each sequence to avoid artifacts. 
+      </p>
+      <p>
+         Alternatively, you may may provide a set of control sequences ("User-provided sequences").
+      </p>
+      <p>
+        <b>IMPORTANT NOTE:</b> If you provide control sequences,
+	they should ideally have the same length distribution as your
+	the primary sequences.  For example, all sequences
+	in both sets could have the same length, or, for each sequence in
+	the primary set there could be exactly <i>N</i> sequences with the 
+	same length as it in in the control set.
+	Failure to ensure this may cause XSTREME to report inaccurate 
+	estimates of the statistical significance (<i>p</i>-value)
+	of the motifs it finds.
+      </p>
+
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" style="display:none" id="pop_sequences" >
+      <p>Select a file of <a href="../doc/fasta-format.html">FASTA formatted</a>
+      biological sequences or paste in <a href="../doc/fasta-format.html"
+      >FASTA formatted</a> biological sequences to search sequence motifs.</p>
+      <p>The more sequences that you can give XSTREME the 
+      more subtle the motifs it can find.
+      For ChIP-seq we recommend using sequences of length 100bp centered on
+      the summit or center of the peak.  For CLIP-seq we recommend using
+      the actual peak regions.  
+      </p>
+      <p>See the <a href="@SITE_URL@/doc/examples/example-datasets/Klf1.fna"
+      >example DNA sequences</a> that were used to create the <a
+      href="../doc/examples/xstreme_example_output_files/xstreme.html">sample output</a>
+      to get an idea of input that works well for XSTREME.</p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" style="display:none" id="pop_control_sequences" >
+      <p>Select a file of <a href="../doc/fasta-format.html">FASTA formatted</a>
+      biological sequences or paste in <a href="../doc/fasta-format.html"
+      >FASTA formatted</a> biological sequences to use as controls in the 
+      search for motifs.  
+      </p>
+      <p>
+        XSTREME inputs the primary and control sequences to the STREME motif 
+        discovery algorithm, and to the SEA motif enrichment analysis algorithm. 
+        If you do not provide a background model (see "Universal options", below)
+        XSTREME also creates a Markov background model from the control sequences 
+        that it inputs to the STREME, MEME and SEA algorithms.
+      </p>
+      <p>Your control sequences should have approximately the same length 
+      distribution and background frequencies as your primary sequences
+      the motifs that you are attempting to find.
+      The more control sequences that you can give XSTREME, the 
+      more subtle the motifs it can find.
+      </p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_motifs">
+      <p>XSTREME will determine which of these known motifs are enriched in
+      your sequences relative to the control sequences (using SEA).  It will also compare
+      any motifs it discovers to each of these known motifs (using Tomtom).
+      </p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" style="display:none" id="pop_email">
+      <p>Enter the email address where you want the job notification email to
+      be sent. Please check that this is a valid email address!</p>
+      <p>The notification email will include a link to your job results.</p>
+      <p><b>Note:</b> You can also access your jobs via the <b>Recent Jobs</b>
+        menu on the left of all MEME Suite input pages.  That menu only
+        keeps track of jobs submitted during the current session of your internet browser.</p>
+      <p><b>Note:</b> Most MEME Suite servers only store results for a couple of days.
+      So be sure to download any results you wish to keep.</p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" style="display:none" id="pop_job_description">
+      <p>The job description will be included in the notification email you 
+      receive and in the XSTREME output.</p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_width">
+      <p>This is the width (number of characters in the sequence pattern) of a
+      single discovered motif.  STREME and MEME choose the optimal width of each motif individually
+      using a statistical heuristic function.
+      You can choose limits
+      for the minimum and maximum motif widths that STREME and MEME will consider. The
+      width of each motif that STREME and MEME report will lie within the limits you
+      choose.</p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_order">
+      <p>
+        Specify the order (<i>m</i>) for the background model and sequence shuffling.
+        By default, XSTREME uses <i>m</i>=2 for DNA and RNA sequences, and <i>m</i>=0 for
+        protein or custom alphabet sequences.
+	Check this box and set the value of <i>m</i> if you want to override
+	the default value of <i>m</i> that XSTREME uses.
+      </p>
+      <p>
+        If you upload a background model (see option above), XSTREME will only
+	use the <i>m</i>-order portion of that model.
+        If you do not upload a background model,
+	XSTREME will create an order-<i>m</i> model
+	from the control sequences that you provide, or from the shuffled primary sequences
+	if you don't provide control sequences.
+      </p>
+      <p>
+        If you do not specify a set of control sequences, XSTREME will 
+	create one by shuffling each primary sequence while preserving
+	the frequencies of all words of length <i>k</i> that it contains,
+	where <i>k</i>=<i>m</i>+1.
+      </p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_ctrim">
+      <p>
+        Check this box and enter a size if you want to limit motif discovery and enrichment
+	analysis to the central regions of the (primary) sequences.  Only the
+        central 'size' characters of each (primary) sequence will be input to the
+	STREME, MEME and SEA algorithms. The full-length sequences will still be used for the 
+	positional distribution plots and as input to FIMO.
+      </p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" style="display:none" id="pop_align">
+      <p>For the site positional distribution diagrams, align the sequences
+         on their left ends, on their centers, or on their right ends.
+         For visualizing motif distributions, center alignment is
+         ideal for ChIP-seq and similar data; right alignment
+         for sequences upstream of transcription start sites; left
+         alignment for many proteins or 3' UTR sequences.
+      </p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" style="display:none" id="pop_evt">
+      <p>XSTREME will only include motifs in its output if their <i>E</i>-value is
+	no larger than this value. 
+	This is also used as the default <i>E</i>-value threshold for STREME and MEME
+	(see "STREME options" and "MEME options", below).
+      </p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_dna2rna">
+      <p>When your sequences are in the DNA alphabet but you want
+      them to be treated as single-stranded RNA, check this box.</p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_background">
+      <p>The background model normalizes for biased distribution of
+      letters and groups of letters in your sequences.
+      A 0-order model adjusts for single letter biases, a 1-order model adjusts for
+      dimer biases (e.g., GC content in DNA sequences), etc.</p>
+      <p>By default XSTREME will determine the background Markov model from
+      the control sequences (or from the primary sequences if you do not provide 
+      control sequences).  The order of the background model depends
+      on the sequence alphabet, but you can also set it manually (see option "What Markov order...", below).
+      Alternately you may select "Upload background model" and input a file containing
+      a <a href="../doc/bfile-format.html">background model</a>.</p>
+      <p>The downloadable version of the MEME Suite contains a program named
+      "fasta-get-markov" that you can use to create background model files in
+      the correct format from FASTA sequence files.</p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" style="display:none" id="pop_streme_limits">
+      <p>STREME stops looking for motifs when one of the limits below is met. 
+        There is an additional time limit which is set by the server operator.
+      </p>
+      <dl>
+        <dt>Default <i>E</i>-value threshold</dt>
+        <dd>STREME will use the value of the <i>E</i>-value threshold
+        given above under "Universal options".  The STREME <i>E</i>-value
+        is the probability of a motif being found that would discriminate
+        the primary sequences from the control sequences at least as well,
+        assuming that the letters in the primary sequences were randomly shuffled.
+        STREME stops when 3 motifs have been found whose <i>E</i>-values exceed
+        this threshold.
+        </dd>
+        <dt><i>E</i>-value threshold</dt>
+        <dd>Check this box and enter the desired threshold if you
+	want STREME to use a different <i>E</i>-value threshold than MEME.
+        </dd>
+        <dt>Number of motifs</dt>
+        <dd>Check this box and set the (maximum) number of motifs
+        you want STREME to find before it stops.  STREME will ignore
+        the <i>E</i>-value threshold if this box is checked.
+        By default STREME does not limit the number of motifs to be found,
+        but uses the <i>E</i>-value threshold as its stopping criterion.</dd>
+      </dl>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" style="display:none" id="pop_meme_limits">
+      <p>MEME stops looking for motifs when one of the limits below is met. 
+        There is an additional time limit which is set by the server operator.
+      <p>
+      <dl>
+        <dt>Default <i>E</i>-value threshold</dt>
+        <dd>MEME will use the value of the <i>E</i>-value threshold
+        given above under "Universal options".  The MEME <i>E</i>-value
+        is the probability of a motif being found that would have
+	information content as at least as high, assuming that the letters 
+        in the primary sequences were randomly shuffled (0-order shuffle).
+        MEME stops when the next motif has <i>E</i>-value exceeding this threshold.
+        </dd>
+        <dt><i>E</i>-value threshold</dt>
+        <dd>Check this box and enter the desired threshold if you
+	want MEME to use a different <i>E</i>-value threshold than STREME.
+        </dd>
+        <dt>Number of motifs</dt>
+        <dd>Check this box and set the (maximum) number of motifs
+        you want MEME to find before it stops.  MEME will ignore
+        the <i>E</i>-value threshold if this box is checked.
+        By default MEME does not limit the number of motifs to be found,
+        but uses the <i>E</i>-value threshold as its stopping criterion.</dd>
+      </dl>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" style="width:500px" id="pop_meme_dist">
+      <p>This is where you tell MEME how you believe occurrences of the motifs
+      are distributed among the sequences. Selecting the correct type of
+      distribution improves the sensitivity and quality of the motif search.</p>
+      <dl>
+        <dt>Zero or one occurrence per sequence</dt>
+        <dd>MEME assumes that each sequence may contain <b>at most</b> one
+        occurrence of each motif. This option is useful when you suspect that
+        some motifs may be missing from some of the sequences. In that case, the
+        motifs found will be more accurate than using the one occurrence per
+        sequence option. This option takes more computer time than the one
+        occurrence per sequence option (about twice as much) and is slightly less
+        sensitive to weak motifs present in all of the sequences.</dd>
+        <dt>One occurrence per sequence</dt>
+        <dd>MEME assumes that each sequence in the dataset contains
+        <b>exactly</b> one occurrence of each motif. This option is the fastest
+        and most sensitive but the motifs returned by MEME may be "blurry" if
+        any of the sequences is missing them.</dd>
+        <dt>Any number of repetitions</dt>
+        <dd>MEME assumes each sequence may contain <b>any number</b> of
+        non-overlapping occurrences of each motif. This option is useful when
+        you suspect that motifs repeat multiple times within a single sequence.
+        In that case, the motifs found will be much more accurate than using one
+        of the other options. This option can also be used to discover repeats
+        within a single sequence. This option takes much more computer time than
+        the one occurrence per sequence option (about ten times as much) and is
+        somewhat less sensitive to weak motifs which do not repeat within a
+        single sequence than the other two options.</dd>
+      </dl>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_sea_seqs">
+      <p>Check this box if you want SEA to output the IDs of the sequences matching
+	each significant motif in a TSV file.  This file can be very large, so don't
+	check this box if you don't need that information.
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <!-- Content Starts -->
+    <div class="content_box">
+      <!--{header}-->
+      <p>
+      <!--{title}-->XSTREME<!--{/title}--> - <!--{subtitle}-->Motif Discovery and Enrichment Analysis<!--{/subtitle}--><br>
+      <!--{logo}-->../doc/images/xstreme_icon.png<!--{/logo}-->: <!--{alt}-->XSTREME Logo<!--{/alt}--><br>
+      <!--{blurb}--><span class="blurb" data-id="xstreme"></span><!--{/blurb}-->
+      </p>
+      <!--{/header}-->
+      <form enctype="multipart/form-data" accept-charset="utf-8"
+	method="POST" action="xstreme" id="xstreme_form">
+        <fieldset>
+          <legend>Data Submission Form</legend>
+          <p class="meme">Perform motif discovery, motif enrichment analysis and motif clustering.</p>
+          <!-- mode -->
+          <h2 class="meme">Select the type of control sequences to use</h2>
+          <div class="subcontent">
+            <input type="radio" name="discr" id="discr_off" value="0" checked>
+            <label for="discr_off">Shuffled input sequences</label>
+            <input type="radio" name="discr" id="discr_on" value="1">
+            <label for="discr_on">User-provided sequences</label>
+            <div class="help" data-topic="pop_discr"></div>
+          </div>
+          <!-- /mode -->
+
+          <!--{alphabet}-->
+          <p style="border: 1px solid black">
+          <!--{prefix}-->alphabet<!--{/prefix}--><br>
+          <!--{description}-->sequence alphabet<!--{/description}-->
+          <!--{register}-->register_component<!--{/register}-->
+          <!--{/alphabet}-->
+          </p>
+
+          <!--{sequences}-->
+          <p style="border: 1px solid black">
+          <!--{prefix}-->sequences<!--{/prefix}--><br>
+          <!--{description}-->primary sequences<!--{/description}-->
+          <!--{title}-->Input the sequences<!--{/title}--><br>
+          <!--{subtitle}-->Enter the sequences in which you want to find motifs.<!--{/subtitle}--><br>
+          <!--{default}-->FILE<!--{/default}-->
+          <!--{alphabets}-->DNA RNA Protein<!--{/alphabets}-->
+          <!--{min_seq_len}-->3<!--{/min_seq_len}-->
+          <!--{min_seq_count}-->2<!--{/min_seq_count}-->
+	  <!--{max_seq_count}-->2500000<!--{/max_seq_count}-->
+          <!--{max_seq_total}-->80000000<!--{/max_seq_total}-->
+          <!--{register}-->register_component<!--{/register}-->
+          <!--{/sequences}-->
+          </p>
+
+          <div id="discr_sequences_area" style="display:none">
+            <!--{control}-->
+            <p style="border: 1px solid black">
+            <!--{prefix}-->control_sequences<!--{/prefix}--><br>
+            <!--{description}-->control sequences<!--{/description}-->
+            <!--{title}-->Input the control sequences<!--{/title}--><br>
+            <!--{subtitle}-->XSTREME will find motifs that are enriched relative to these sequences.<!--{/subtitle}--><br>
+            <!--{default}-->FILE<!--{/default}-->
+            <!--{min_seq_len}-->3<!--{/min_seq_len}-->
+            <!--{min_seq_count}-->2<!--{/min_seq_count}--> 
+	    <!--{max_seq_count}-->2500000<!--{/max_seq_count}-->
+	    <!--{max_seq_total}-->80000000<!--{/max_seq_total}-->
+            <!--{register}-->register_component<!--{/register}-->
+            </p>
+            <!--{/control}-->
+          </div>
+
+          <div id="dna2rna_area" style="display:none">
+            <p>
+	      <h3 class="meme top">Convert DNA sequences to RNA?</h3>
+	      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" value="1" id="dna2rna" name="dna2rna">
+	      <label for="dna2rna">Convert DNA to RNA</label>
+	      <div class="help" data-topic="pop_dna2rna"></div>
+            </p>
+          </div>
+
+          <!--{motifs}-->
+          <!--{prefix}-->motifs<!--{/prefix}-->
+          <!--{title}-->Input the motifs<!--{/title}-->
+          <!--{subtitle}-->Select, upload or enter a set of known motifs.<!--{/subtitle}-->
+          <!--{alphabets}-->DNA RNA Protein<!--{/alphabets}-->
+          <!--{default}-->DATABASE<!--{/default}-->
+          <!--{enable_db/}-->
+          <!--{register}-->register_component<!--{/register}-->
+          <!--{/motifs}-->
+
+          <!--{job_details/}-->
+
+          <!-- Advanced Options -->
+          <div style="margin-top:5px; margin-bottom: 5px; width:80%;">
+
+	    <!--{universal_opts}-->
+	      <!--{prefix}-->universal_opts<!--{/prefix}-->
+	      <!--{title}-->Universal options<!--{/title}-->
+	      <!--{change_fn}-->general_changed<!--{/change_fn}-->
+	      <!--{reset_fn}-->general_reset<!--{/reset_fn}-->
+	    <!--{/universal_opts}-->
+
+	    <div>
+	      <h3 class="meme">How should XSTREME limit its search?</h3>
+	      <label for="evt">&nbsp;<i>E</i>-value &le; </label>
+	      <input class="meme numonly sz4" type="text" name="evt" id="evt" value="0.05" step="any" min="0.2" max="10" size="4">
+	      <div class="help" data-topic="pop_evt"></div>
+
+	      <h3 class="meme">What width motifs XSTREME discover?</h3>
+	      <span class="pad">
+		<label for="minw">&nbsp;Minimum width:</label>
+		<input class="meme intonly sz2" type="number" name="minw" value="6"
+		step="1" min="3" max="30" size="2" id="minw">
+	      </span>
+	      <label for="maxw">Maximum width:</label>
+	      <input class="meme intonly sz2" type="number" name="maxw" value="15"
+	      step="1" min="3" max="30"  size="2" id="maxw">
+	      <div class="help" data-topic="pop_width"></div>
+
+	      <!--{bfile}-->
+		<!--{prefix}-->background<!--{/prefix}-->
+		<!--{alphabets}-->DNA RNA Protein<!--{/alphabets}-->
+		<!--{enable_control/}-->
+		<!--{enable_upload/}-->
+		<!--{selected}-->control<!--{/selected}-->
+		<!--{register}-->register_component<!--{/register}-->
+	      <!--{/bfile}-->
+
+	      <!-- order -->
+	      <h3 class="meme">What Markov order should XSTREME use for shuffling sequences and the background model?</h3>
+	      <span class="enabopt">
+		<input type="checkbox" value="1" name="order_enable" id="order_enable">
+		<label for="order">order: </label>
+		<input class="meme intonly sz2" type="number" name="order" value="0"
+		  step="1" min="0" max="4" size="2" id="order">
+	      </span>
+	      <div class="help" data-topic="pop_order"></div>
+	      <!-- /order -->
+
+	      <!-- ctrim -->
+	      <h3 class="meme">Should XSTREME use only the central portion of the (primary) sequences?</h3>
+	      <span class="enabopt">
+		<input type="checkbox" value="1" name="ctrim_enable" id="ctrim_enable">
+		<label for="ctrim">size: </label>
+		<input class="meme intonly sz4" type="number" name="ctrim" value="100"
+		  step="any" min="2" size="4" id="ctrim">
+	      </span>
+	      <div class="help" data-topic="pop_ctrim"></div>
+	      <!-- /ctrim -->
+
+	      <!-- align-->
+	      <h3 class="meme">How should sequences be aligned for site positional diagrams?</h3>
+		<label for="align">&nbsp;&nbsp;Align sequences on their:</label>
+		<input type="radio" name="align" id="align_left" value="left">
+		<label for="left"><b>Left Ends</b></label>
+		<input type="radio" name="align" id="align_center" value="center" checked>
+		<label for="left"><b>Centers</b></label>
+		<input type="radio" name="align" id="align_right" value="right">
+		<label for="right"><b>Right Ends</b></label>
+		<div class="help" data-topic="pop_align"></div>
+	      </div>
+	      <!-- /align-->
+
+	    <!--{streme_opts}-->
+	      <!--{prefix}-->streme_opts<!--{/prefix}-->
+	      <!--{title}-->STREME options<!--{/title}-->
+	      <!--{change_fn}-->streme_changed<!--{/change_fn}-->
+	      <!--{reset_fn}-->streme_reset<!--{/reset_fn}-->
+	    <!--{/streme_opts}-->
+	    <div>
+	      <h3 class="meme top">How should STREME limit its search?</h3>
+	      <span class="selectopt pad">
+		<input type="radio" name="streme_srch_limit" id="streme_enable_default_ethresh" value="streme_enable_default_ethresh" checked>
+		<label for="streme_default_ethresh">Default <i>E</i>-value</label>
+		<input type="radio" name="streme_srch_limit" id="streme_enable_ethresh" value="streme_enable_ethresh">
+		<label for="streme_ethresh"><i>E</i>-value &le; </label>
+		<input class="meme numonly sz4" type="text" name="streme_ethresh" id="streme_ethresh" value="0.05" step="any" min="0" size="4">
+		<input type="radio" name="streme_srch_limit" id="streme_enable_nmotifs" value="streme_enable_nmotifs">
+		<label for="streme_nmotifs">Number of motifs:</label>
+		<input class="meme intonly sz2" type="number" name="streme_nmotifs" id="streme_nmotifs" value="5" step="1" min="0" size="2">
+	      </span>
+	      <div class="help" data-topic="pop_streme_limits"></div>
+	    </div>
+
+	    <!--{meme_opts}-->
+	      <!--{prefix}-->meme_opts<!--{/prefix}-->
+	      <!--{title}-->MEME options<!--{/title}-->
+	      <!--{change_fn}-->meme_changed<!--{/change_fn}-->
+	      <!--{reset_fn}-->meme_reset<!--{/reset_fn}-->
+	    <!--{/meme_opts}-->
+	    <div>
+	      <h3 class="meme top">How should MEME limit its search?</h3>
+	      <span class="selectopt pad">
+		<input type="radio" name="meme_srch_limit" id="meme_enable_default_ethresh" value="meme_enable_default_ethresh" checked>
+		<label for="meme_default_ethresh">Default <i>E</i>-value</label>
+		<input type="radio" name="meme_srch_limit" id="meme_enable_ethresh" value="meme_enable_ethresh">
+		<label for="meme_ethresh"><i>E</i>-value &le;</label>
+		<input class="meme numonly sz4" type="text" name="meme_ethresh" id="meme_ethresh" value="0.05" step="any" min="0" size="4">
+		<input type="radio" name="meme_srch_limit" id="meme_enable_nmotifs" value="meme_enable_nmotifs">
+		<label for="meme_nmotifs">Number of motifs:</label>
+		<input class="meme intonly sz2" type="number" name="meme_nmotifs" id="meme_nmotifs" value="5" step="1" min="0" size="2">
+	      </span>
+	      <div class="help" data-topic="pop_meme_limits"></div>
+
+	      <h3 class="meme top">What is the expected motif site distribution?</h3>
+	      <select class="meme" name="meme_dist" id="meme_dist">
+		<option value="zoops" selected><b>Zero or one</b> occurrence per sequence</option>
+		<option value="oops" ><b>One</b> occurrence per sequence</option>
+		<option value="anr" ><b>Any number</b> of repetitions</option>
+	      </select>
+	      <div class="help" data-topic="pop_meme_dist"></div>
+	    </div>
+	    <!--{sea_opts}-->
+	      <!--{prefix}-->sea_opts<!--{/prefix}-->
+	      <!--{title}-->SEA options<!--{/title}-->
+	      <!--{change_fn}-->sea_changed<!--{/change_fn}-->
+	      <!--{reset_fn}-->sea_reset<!--{/reset_fn}-->
+	    <!--{/sea_opts}-->
+	    <div>
+	      <h3 class="meme top">Should SEA output a TSV file of matching sequences?</h3>
+	      &nbsp;&nbsp;<input class="meme" type="checkbox" value="1" name="sea_seqs" id="sea_seqs">
+	      <label for="sea_seqs">Output the matching sequences in a TSV file</label>
+	      <div class="help" data-topic="pop_sea_seqs"></div>
+	    </div>
+          </div>
+          <!-- /Advanced Options -->
+          <!--{submit_reset/}-->
+        </fieldset>
+      </form>
+      <!--{footer/}-->
+    </div>
+  </body>
+</html>

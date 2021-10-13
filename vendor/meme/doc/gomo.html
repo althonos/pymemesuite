@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>GOMo - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+    <script src="js/shared-doc.js"></script>
+    <script src="js/citation.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+    <div class="prog_logo">
+      <img src="images/gomo_icon.png" alt="GOMo Logo">
+      <h1>GOMo</h1>
+      <h2>Gene Ontology for Motifs</h2>
+    </div>
+
+    <div style='display:inline' id='man_web_button'>
+      <p> <button onclick="toggle_man_display()">View Web Version</button> </p>
+    </div>
+
+    <div style='display:none' id='man_cmd_button'>
+      <p> <button onclick="toggle_man_display()">View Command-Line Version</button> </p>
+    </div>
+
+    <div style='display:inline' id='man_usage'>
+      <div class="usage">
+        <h3>Usage:</h3>
+	<code>gomo [options] &lt;go-term database&gt; &lt;scoring file&gt;+</code>
+      </div>
+    </div>
+
+    <h3>Description</h3>
+    <div class="indent">
+       <span class="man blurb" data-id="gomo"></span>
+    </div>
+
+    <!-- Command Line Version Doc -->
+    <div style='display:inline' id='man_cmd'>
+
+      <h3>Input</h3>
+      <div class="indent">
+        <h4><span class='popt'>&lt;go-term database&gt;</span></h4>
+	<div class="indent">
+	  <p>The name of a file containing GO terms mapped to to the sequences in the scoring
+	  file. Database are provided by the webservices and are formatted using a
+	  simple tab separated values (tsv) format:<br /></p>
+	  <pre>"GO-term" "Sequence identifiers separated by tabs"</pre>
+	  <p>The exception to this rule is the first line which instead contains the 
+	  URL to an on-line database (if any) containing entries for the gene IDs. 
+          The URL should have ampersands (&amp;) replaced with 
+          <code>&amp;amp;</code> and the place 
+          for the gene ID marked by the token <code>!!GENEID!!</code>.  
+          Each gene ID reported
+	  in GOMo's output will be linked to the URL with the actual gene ID inserted.
+          </p>
+	</div>
+
+        <h4><span class='popt'>&lt;scoring file&gt;+</span></h4>
+	<div class="indent">
+	  <p>The names of one or more XML files.  Each file contains motif scores for a 
+          set of sequences from a genome following the 
+	  <a href="http://zlab.bu.edu/~phaverty/SupplementalData/CisML">CisML</a>
+	  schema. When scoring data is available for multiple related species, GOMo
+	  can take multiple scoring files where the true sequence identifiers have
+	  been mapped to their orthologs in the reference species for which the
+	  GO-term database was supplied (see <span class='popt'>&lt;go-term database&gt;</span>, above).</p>
+	  <p>
+	  Scoring files may easily be created using the <a href=ama.html>AMA</a> utility
+	  that is part of the downloadable MEME Suite.  A typical command to
+	  create a scoring file named "<code>ama_out/ama.xml</code>" using AMA would be:</p>
+	  <pre>
+	    <code>ama ama_out -pvalues &lt;motif_file&gt; &lt;fasta_sequence_file&gt; &lt;background_file&gt;</code>
+          </pre> 
+	  <p>By default GOMo uses the <i>p</i>-value given
+          for each gene in the CisML file to rank the genes.  
+          Any sequence failing to provide a <i>p</i>-value will cause GOMo to exit.
+          The <span class="popt">--gs</span> switch causes GOMo to use the
+          gene scores from the CisML file instead for ranking genes.</p>
+        </div>
+      </div>
+	
+      <h3>Output</h3>
+      <div class="indent">
+        <p>
+          GOMo writes its output to files in a directory named
+          <code>gomo_out</code>, which it creates if necessary. You can change the
+          output directory using the <span class='popt'>--o</span> or <span class='popt'>--oc</span> options.
+          The directory will contain the following files:
+        </p>
+	<ul>
+	  <li><a href=examples/gomo_example_output_files/gomo.html><code>gomo.html</code></a> -
+	    an HTML file that provides the results in a human-readable format</li>
+	  <li><a href=examples/gomo_example_output_files/gomo.tsv><code>gomo.tsv</code></a> -
+	    a TSV (tab-separated values) file that provides
+	    the results in a format suitable for parsing by scripts and viewing with Excel</li>
+	  <li><a href=examples/gomo_example_output_files/gomo.xml><code>gomo.xml</code></a> -
+	    an XML file that provides the results in a machine-readable format
+	</ul>
+        <p>
+	  You can override the creation of files altogether by
+	  specifying the <span class="popt">--text</span> option, which causes GOMo to
+	  output its TSV format to standard output.  
+        </p>
+        <p>
+          <b>Note:</b> See this detailed description of the <a href=gomo-output-format.html>GOMo output formats</a>
+          for more information.
+        </p>
+      </div>
+
+      <h3>Options:</h3> 
+      <div class="indent">
+	<table class="options">
+	  <thead>
+	    <tr>
+	      <th>Option</th><th>Parameter</th><th>Description</th><th>Default Behavior</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr>
+	      <th colspan="4">General Options</th>
+	    </tr>
+	    <script>
+	      wropt("all-o", {"ddash": true, "dir": "gomo_out"});
+	      wropt("all-oc", {"ddash": true, "dir": "gomo_out"});
+	    </script>
+	    <tr>
+	      <td class="popt">--text</td><td>&nbsp;</td>
+	      <td>Output in tab separated values format to standard output. Will
+		not create an output directory or files.</td>
+	      <td></td>
+	    </tr>
+	    <tr>
+	      <td class="popt">--motifs</td><td><span class="pdat">motifs</span></td>
+	      <td>Path to the optional motif file in <a href=meme-format.html>MEME Motif Format</a> 
+	      that was used to generate (all of the) scoring file(s).  The motifs in this
+              file will be used to generate sequence logos in the GOMo
+              HTML output.</td>
+	      <td>No logos are displayed in the HTML output.</td>
+	    </tr>
+	    <tr>
+	      <td class="popt">--dag</td><td><span class="pdat">godag</span></td>
+	      <td>Path to the optional <a href="godag-format.html"
+	      >Gene Ontology DAG</a> file to be used for identifying the most specific
+	      terms in the GOMo xml output so they can be highlighted in the HTML 
+	      output.</td>
+	      <td></td>
+	    </tr>
+	    <tr>
+	      <td class="popt">--motif</td><td><span class="pdat">id</span></td>
+	      <td>Use only the motif identified by <span class="pdat">id</span>.
+	      This option may be repeated.</td>
+	      <td>All motifs are used.</td>
+	    </tr>
+	    <tr>
+	      <td class="popt">--shuffle_scores</td>
+	      <td><span class="pdat">n</span></td>
+	      <td>Generate empirical null by shuffling the sequence-to-score 
+                  assignments <span class="pdat">n</span> times.  
+	          Use the  resulting distribution
+		  to compute empirical <i>p</i>-values.
+	      <td>Shuffle 1000 times.</td>
+	    </tr>
+	    <tr>
+	      <td class="popt">--t</td>
+	      <td><span class="pdat">q</span></td>
+	      <td>Threshold used on the score <i>q</i>-values for reporting
+	      results.  To show all results use a value of 1.0.</td>
+	      <td>A threshold of 0.05 is used.</td>
+	    </tr>
+	    <tr>
+	      <td class="popt">--gs</td><td>&nbsp;</td>
+	      <td>Use the scores contained in the CisML file for
+	      ranking genes.  Any sequence failing to provide a score 
+              will cause GOMo to exit.</td>
+	      <td>Use the <i>p</i>-values contained in the CisML file 
+              for ranking genes.</td>
+	    </tr>
+	    <tr>
+	      <td class="popt">--score_E_thresh</td>
+	      <td><span class="pdat">E</span></td>
+	      <td>All genes with <span class="pdat">E</span>-values 
+		 in the CisML file larger than <span class="pdat">E</span>
+		 are treated as having the maximum possible score
+                 (and as having tied worst rank when the genes are sorted
+		 for the rank-sum test).  The <span class="pdat">E</span>-values
+		 are computed by multiplying the <span class="pdat">p</span>-values
+                 by the number of genes in the CisML file.  Setting 
+                 <span class="pdat">E</span> to a number less than 1 can reduce
+	         the effect of noise.  The threshold will be ignored when 
+                 GOMo is told to use gene scores rather than 
+                 <span class="pdat">p</span>-values
+                 via the <span class="popt">--gs</span> switch.</td>
+	      <td><i>E</i>-values are not thresholded when ranking genes.</td>
+	    </tr>
+	    <tr>
+	      <td class="popt">--min_gene_count</td>
+	      <td><span class="pdat">n</span></td>
+	      <td>Only consider GO terms annotated with a at least
+		<span class="pdat">n</span> genes.</td>
+	      <td>A value of 1 is used, which shows all results.</td>
+	    </tr>
+	    <tr>  
+	      <td class="popt">--nostatus</td><td>&nbsp;</td>
+	      <td>Suppresses the progress information.</td>
+	      <td></td>
+	    </tr>
+	    <script>wropt("all-verbosity", {"ddash": true});</script>
+	    <script>wropt("all-version", {"ddash": true});</script>
+	  </tbody>
+	</table>
+      </div>
+    </div>
+
+    <h3 id="citing">Citing</h3>
+    <div class=indent id="citation"> <script>print_citation("citation", "GOMo");</script> </div>
+
+    <script src="js/manual.js"></script>
+
+  </body>
+</html>

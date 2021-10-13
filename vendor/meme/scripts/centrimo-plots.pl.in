@@ -1,0 +1,843 @@
+#!@WHICHPERL@ -w
+# AUTHOR: Philip Machanick & Timothy L. Bailey
+# CREATE DATE: 14 April 2011
+
+use strict;
+use Scalar::Util qw(looks_like_number);
+use File::Path qw(make_path);
+use Data::Dumper;
+
+# requires
+push(@INC, split(":", $ENV{'PATH'}));   # look in entire path
+my $MAXIT = 100;
+my $EPS = 3.0e-7;
+my $FPMIN = 1.0e-300;
+my @gamma_c = (
+    76.18009172947146,
+    -86.50532032941677,
+    24.01409824083091,
+    -1.231739572450155,
+    0.1208650973866179e-2,
+    -0.5395239384953e-5
+);
+
+# requires an output from CENTRIMO
+# which should result in the following output format:
+# MOTIF <motif_name>
+# [<position> <score> <number of sequences scored at position>]+
+# where <score> is the number of sequences with their best site at <position>
+
+#
+# output is files:
+#
+# combined.pdf,png 
+#	for best <m> motifs:
+#	  density plot of best_site_position
+#	  p-value
+#	  number of sequences scored
+#
+# <motif_name>.pdf,png 
+#	for <motif_name>
+#	  best_site density plot 
+# 	  p-value
+#	  number of sequences scored
+#
+# centrimo.txt (sorted by <adjusted_p-value>)
+#	[<motif_name> <adjusted_p-value> <log_adjusted_p-value> <width_of_best_bin> <total_width> <sites_in_best_bin> <total_sites> <prob_success> <binomial_p-value> <number_of_multiple_tests>]+
+
+my $MINUSINF = -1E9;
+
+my ($motif, $start, $score) = ("", -1,$MINUSINF);
+my ($prevmotif, $prevstart, $prevscore);
+my $i = 0;
+# rely on the fact that empty locations in arrays are undefined in case any positions aren't scored
+my $printed = 0;
+my $PGM = $0;      # name of program
+
+$PGM =~ s#.*/##;                # remove part up to last slash
+
+my $pgm_noextension = $PGM;
+$pgm_noextension =~ s/\.[^.]*$//;
+
+my $def_outdir = $pgm_noextension."_out";
+my $outdir;
+my $ethresh = 10;
+
+my $binsize = 10;
+my $maxwin = -1;		# use sequence length
+my $rescale = 0;
+my $max_combined_motifs = 5;
+my $main_title = "";
+my $plot_individual_motifs = 0;
+my $force_miny = 0;
+my @selected_motifs = ();
+my $keypos = "top right";
+my $fontsize = 11;
+
+my $usage = <<USAGE;    # usage message
+USAGE: $PGM [options]
+    options:
+        [-o|-oc] 	   directory send output to the named directory; 
+			   use oc to use an existing directory
+                           default: -oc $def_outdir
+	[-indiv]	   output a site-probability plot for each motif;
+			   default: output combined plot only
+        [-max <m>]	   maximum number of best motifs in combined
+			   site-probability plot; default: $max_combined_motifs
+	[-ethresh <e>]	   only output results with E-value <= <e>; 
+			   default: $ethresh
+        [-bin <size>]      size of bins for smoothing plotted data,
+                           if bin size is 1, displays error bars;
+                           default: $binsize
+	[-maxwin <mw>]	   maximum width of central window to consider
+        [-title <title>]   print <title> as title of plots
+			   default: no title
+        [-rescale]         put all plots on the same Y axis
+                           default: don't rescale
+	[-miny <miny>]	   use this value of minimum y scale;
+			   default: $force_miny
+	[-id <name>]*	   make a plot named 'selected.[png,pdf]
+			   containing these named motifs
+	[-keypos]	   position the key using a quoted (X Y) pair from:
+			   (top, center, bottom) and (left, center, right)
+			   default: '$keypos'
+	[-fontsize]	   set the size of the font;
+			   default: $fontsize 
+        [-h]               print this help message and exit
+
+    Creates central enrichment plots in both PNG and PDF formats.
+
+    Reads CentriMo text output (site_counts.txt) and creates
+    a plot with the site-probability curves for the motifs
+    with the lowest central enrichment p-values named 'combined.[png,pdf]'.
+
+    If -id is given one or more times, creates
+    a plot with the site-probability curves for the selected motifs
+    named 'selected.[png,pdf]'.
+
+    If -indiv is given, creates individual plots for each motif
+    named '<motif>.[png,pdf]'.
+
+    Creates a text file listing the central enrichment
+    statistics for all significantly enriched motifs named 'centrimo.txt'.
+
+    Reads from standard input.
+    Writes to output directory:
+USAGE
+
+my $N;
+
+my $clobber; # set if happy to reuse existing directory
+
+while ($#ARGV >= 0) {
+  $_ = shift;
+  if ($_ eq "-h") {        	# help
+    &print_usage("", 1);
+  } elsif ($_ eq "-o") {        # don't clobber output
+     $outdir = shift;     
+  } elsif ($_ eq "-oc") { 
+     $outdir = shift;
+     $clobber = 1;
+  } elsif ($_ eq "-ethresh") {
+     $ethresh = shift;
+  } elsif ($_ eq "-bin") {
+     $binsize = shift;
+     &print_usage("bad bin size: `$binsize'", 1) unless looks_like_number($binsize) && $binsize > 0 && int($binsize) == $binsize;
+  } elsif ($_ eq "-maxwin") {
+     $maxwin = shift;
+     &print_usage("bad maxwin size: `$maxwin'", 1) unless looks_like_number($maxwin) && $maxwin > 0 && int($maxwin) == $maxwin;
+  } elsif ($_ eq "-rescale") {
+    $rescale = 1;
+  } elsif ($_ eq "-miny") {
+    $force_miny = shift;
+  } elsif ($_ eq "-max") {
+    $max_combined_motifs = shift;
+  } elsif ($_ eq "-title") {
+    $main_title = shift;
+  } elsif ($_ eq "-indiv") {
+    $plot_individual_motifs = 1;
+  } elsif ($_ eq "-id") {
+    push @selected_motifs, shift;
+  } elsif ($_ eq "-keypos") {
+    $keypos = shift;
+  } elsif ($_ eq "-fontsize") {
+    $fontsize = shift;
+  } else {
+    &print_usage("bad arg: `$_'", 1);
+  }
+}
+
+if (defined $outdir) {
+  &print_usage("output directory name already used for a file: `$outdir'", 1) if    (-e $outdir && !-d $outdir);
+  &print_usage("output directory exists, use -oc to overwrite: `$outdir'", 1) if    (!$clobber && -d $outdir);
+} else {
+  $outdir = $def_outdir;
+  $clobber = 1;
+}
+
+#http://perldoc.perl.org/File/Path.html
+make_path( $outdir, {error => \my $err} );
+if (@$err) {
+    for my $diag (@$err) {
+        my ($file, $message) = %$diag;
+        print "error creating output directory `$outdir: $message\n";
+    }
+    exit(1);
+}
+
+my @motifscores = ();		# [<start> <score>]+ read from fimo output
+my %motifplotstring = (); 	# record plot string for motif to patch in y scale before printing
+my @print_motifs = ();		# motifs to print (satisfy E-value constraint)
+my %enrichment_pvalue= (); 	# p-value of most enriched central bin and other stuff as array_ptr
+my %secondary_name = ();	# secondary IDs for motifs
+my ($miny, $maxy) = (1, 0);
+
+#
+# Read CENTRIMO output file
+#
+while (<>) {
+    next if m/^\s*#/; # skip comment lines
+    $prevmotif = $motif;
+    $prevstart = $start;
+    $prevscore = $score;
+    chomp; # for error reporting
+    if (m/^\s*DB \d+ MOTIF\s+(\S+)(?:\s+(\S+)){0,1}/) { 		# a new motif if the line starts with MOTIF
+	$motif = $1;
+	# save motif secondary name
+        if (defined $2) { 
+          $secondary_name{$motif} = $2;
+        } else {
+          $secondary_name{$motif} = "N/A"
+        }
+        printf(STDERR "%-50s\r", "motif: $motif");
+        if (defined($motifplotstring{$motif})) {
+            print STDERR "ERROR: Motif `$motif' defined twice, giving up.\n";
+            exit(1);
+        }
+        # if seen a motif before
+	#   1) compute the density of position of best site and create file <s,p(s)>
+	#   2) compute the enrichment p-value
+	#   3) create plot string
+        if ($prevmotif) { 			
+          &process_motif($prevmotif, $outdir, $binsize, $maxwin, \$miny, \$maxy, \@motifscores);
+          $printed = 1;
+          @motifscores = ();
+        }
+    } else {
+      # record score in current line
+      ($start, $score) = split;
+      die "bad line in data : `$_'" unless looks_like_number($start) && looks_like_number($score);
+      push(@motifscores, [$start, $score]);
+      $printed = 0;
+    }
+} # while
+printf STDERR "\n";
+
+# Process last motif
+&process_motif($prevmotif, $outdir, $binsize, $maxwin, \$miny, \$maxy, \@motifscores) unless $printed;
+
+#
+# Print the results in file centrimo.txt and create a plotstring
+# for each motif to be output.
+#
+#
+&print_results($outdir, log($ethresh), \%enrichment_pvalue, \%secondary_name, $force_miny);
+
+#
+# Create the commands for a file with density plots for top <m> motifs,
+# sorted by p-value in increasing order.
+#
+%motifplotstring = () unless $plot_individual_motifs;
+foreach my $type ("png", "pdf") {
+  $motifplotstring{"combined.$type"} = "";
+}
+
+my $motif_number = 0;
+foreach my $motif (sort {$enrichment_pvalue{$a}->[0] <=> $enrichment_pvalue{$b}->[0]} keys %enrichment_pvalue) {
+  $motif_number++;
+  last if ($motif_number > $max_combined_motifs);
+  foreach my $type ("png", "pdf") {
+    $motifplotstring{"combined.$type"} .= &makeplotstring($motif, $secondary_name{$motif}, 0, ($motif_number==1), $main_title, $force_miny, $type, $keypos, $fontsize);
+  }
+}
+
+#
+# Create the commands for a file with density plots for selected motifs.
+#
+if (@selected_motifs) {
+  foreach my $type ("png", "pdf") {
+    $motifplotstring{"selected.$type"} = "";
+  }
+  $motif_number = 0;
+  foreach my $motif (@selected_motifs) {
+    $motif_number++;
+    foreach my $type ("png", "pdf") {
+      $motifplotstring{"selected.$type"} .= &makeplotstring($motif, $secondary_name{$motif}, 0, ($motif_number==1), $main_title, $force_miny, $type, $keypos, $fontsize);
+    }
+  }
+}
+
+# check if gnuplot is avaliable
+if (`which gnuplot`) {
+  #
+  # adjust the Y scale of the previously stored plot strings
+  # create the plot files per motif
+  # then run them through gnuplot
+  #
+  $miny = 0;					# force miny = 0
+  foreach my $motif (keys %motifplotstring) {
+    if ($motifplotstring{$motif}) {		# skip if string empty
+      my $motif_plot = $motifplotstring{$motif};
+      # these replaces have no effect if we aren't in rescale mode
+      $motif_plot =~ s/--YMIN--/$miny/;
+      $motif_plot =~ s/--YMAX--/$maxy/;
+      &printplot($outdir, $motif_plot, $motif);
+      &doplot($outdir, $motif);
+    }
+  }
+} else {
+  print(STDERR "Not making plots because gnuplot was not found.\n");
+}
+
+# Remove all motif.txt files
+foreach my $motif (keys %enrichment_pvalue) {
+  unlink "$outdir/$motif.txt"; # remove text file
+}
+
+################################################################################
+#			subroutines 					       # 
+################################################################################
+use POSIX qw/floor/;
+
+################################################################################
+#	exp10_logx
+#
+#   	Get the exponent and mantissa of large numbers expressed as log10(x)
+#	for printing with prec digits after the decimal point in mantissa.
+################################################################################
+sub exp10_logx {
+  my ($logx, $prec) = @_;
+
+  my $e = floor($logx);
+  my $m = 10**($logx - $e);
+  if ($m + (.5*(10**(-$prec))) >= 10) { 
+    $m = 1; 
+    $e += 1;
+  }
+  return($m, $e);
+}
+
+
+################################################################################
+#
+#	process_motif
+#
+#	Compute the best-site vs. position density plot and output to file.
+#	Compute the enrichment p-value.
+#	Create the plotstring.
+#
+#	Globals:
+#		%enrichment_pvalue
+#		%motifplotstring
+#
+################################################################################
+sub process_motif {
+  my ($motif, $outdir, $binsize, $maxwin, $miny_ptr, $maxy_ptr, $motifscores_ptr) = @_;
+
+  &make_density_file($outdir, $motif, $motifscores_ptr, $binsize, $miny_ptr, $maxy_ptr);
+  $enrichment_pvalue{$motif} = &compute_central_enrichment($motifscores_ptr, $maxwin);
+} # process_motif
+
+################################################################################
+#	get the adjusted p-value of the most enriched central window
+#
+#	returns ($best_p_adj, $bin_width, $total_width, $n_successes, $n_trials,
+#		$p_success)
+#
+#	where $best_p_adj is adjusted for multiple testing.
+################################################################################
+sub compute_central_enrichment {
+  my ($motif_counts, $maxwin) = @_;
+#   	$motifs_counts	array reference: each element j is an array reference
+#     			to an array containing site, count, number
+#     			where number is the number of sequences contributing 
+#			to the count
+#	$maxwin		maximum width of central windows to consider
+#			if -1, use length of sequence
+#
+  my $length = @$motif_counts;		# length of sequence
+  my $j;
+  my $tot = 0;
+  for ($j = 0; $j < $length; $j++) { $tot += $motif_counts->[$j]->[1]; }
+  my $even = $length % 2 ? 0 : 1;	# =1 if length is even, 0 if odd
+  my $center = int($length / 2.0);	# center of sequence
+
+  # consider windows of width up to $maxwin
+  if ($maxwin == -1 || $maxwin > $length) { $maxwin = $length;}
+
+  #
+  # count the number of best-sites in each central bin
+  #
+  my @bin_count;			# count of bin [$center-$i, $center+$i]
+  $bin_count[0] = $even ? 0 : $motif_counts->[$center]->[1];
+  my $i;
+  for ($i = 1; $i <= $length/2; $i++) {
+    my $left_count = $motif_counts->[$center-$i]->[1];
+    my $right_count = $motif_counts->[$center+$i-$even]->[1];
+    $bin_count[$i] = $bin_count[$i-1] + $left_count + $right_count;
+  }
+  my $n_bins = $i-1;
+  my $total_width = 2*$n_bins + (1-$even);
+  my $total_count = $bin_count[$n_bins];
+
+  #
+  # compute enrichment in all central windows
+  #
+  my $best_log_p_adj = 1.0;
+  my $best_log_p = 1.0;
+  my $best_bin = 0;
+  my $n_trials = $total_count;
+  for ($i = 1; $i <= $n_bins; $i++) {
+    my $n_successes = $bin_count[$i];
+    my $current_width = 2*$i + (1-$even);
+    last if ($current_width > $maxwin);
+    #my $p_success = (2*$i + (1-$even))/(2*$n_bins + (1-$even));
+    my $p_success = $current_width/$total_width;
+    # compute prob. of n success in t trials with p of success
+    my $log_p_value = $n_successes == 0 ? 0 : &log_betai($n_successes, $n_trials-$n_successes+1, $p_success);
+    # adjusted p-value is: 1 - (1-pv)**n_bins
+    my $log_p_adj = &logev(log($n_bins), $log_p_value);
+    if ($log_p_adj < $best_log_p_adj) {
+      $best_log_p_adj = $log_p_adj;
+      $best_log_p = $log_p_value;
+      $best_bin = $i;
+    }
+  }
+
+  my $p_success = (2*$best_bin)/(2*$n_bins);
+  my $n_successes = $bin_count[$best_bin];
+
+  # return a pointer to the results
+  my @newdata;
+  
+  my $best_width = 2*$best_bin + (1-$even);
+  $p_success = $best_width/$total_width;
+  push(@newdata, $best_log_p_adj, $best_width, $total_width, $n_successes, $n_trials, $p_success, $best_log_p, $n_bins);
+  return(\@newdata);
+
+} # compute_central_enrichment 
+
+################################################################################
+#
+#   make_density_file($outdir, $motif, $motifscores, $binsize, $miny_ptr, $maxy_ptr)
+#
+#   writes density vs. position to a file named as $motif.txt in the
+#   directory given by $outdir
+#
+#   $motifscores: array reference: each element j is an array reference
+#     to an array containing site, score, number
+#     where number is the number of sequences contributing to the score
+#   $binsize: if > 1, bin scores 0..$binsize-1, $binsize..2$binsize-1, ..
+#   $miny, $maxy: minimum and maximum Y seen so far; 
+#
+################################################################################
+sub make_density_file {
+    my ($outdir, $motif, $motif_scores, $binsize, $miny_ptr, $maxy_ptr) = @_;
+
+    open (OUT, ">$outdir/$motif.txt");
+    my ($bin_total_score) = (0);
+    my $n_scores = @$motif_scores;		# number of scores in array
+    my ($bin_start, $bin_end, $bin_next);
+    my $bin_size;
+    my $bin_count = 0;				# number of sequence positions in bin
+    my ($start, $score);	 		# each data input line
+
+    # get the starting position of scores
+    my $scoredata = @$motif_scores[0];
+    ($start, $score) = @$scoredata;
+    my $initial_offset = $start-1;		# input file is 1-relative
+
+    # get the number of sequences with a site for this motif
+    my $num_seqs_with_site = 0;
+    foreach my $scoredata (@$motif_scores) {
+	# get score for the current position in alignment
+        ($start, $score) = @$scoredata;
+        $num_seqs_with_site += $score; 
+    }
+
+    foreach my $scoredata (@$motif_scores) {
+
+	# get score for the current position in alignment
+        ($start, $score) = @$scoredata;
+
+	# compute the probability of the best site being at current position
+	my $prob = $score/($num_seqs_with_site+0.001);	# avoid divide by 0
+
+        if (!defined ($bin_start)) { 			# first time around
+            $bin_start = $start;
+            $bin_next = $start + $binsize;
+            $bin_size = 1;
+        }
+
+        if ($start >= $bin_next) { 			# overshot the end of the bin
+
+	    # save x, y and scored_positions/bin_width
+            my $x = ($bin_count>1) ? ($bin_start+$bin_end)/2 : $bin_start;
+            my $y = $bin_total_score / $bin_count;	# average prob in bin
+
+            # tlb: shift X so 0 is center of sequences in plot
+            print OUT ($x-$initial_offset-$n_scores/2.0)."\t".$y."\n";
+
+	    # update min and max probs
+            if (! defined($$miny_ptr) || $y < $$miny_ptr) { $$miny_ptr = $y; }
+            if (! defined($$maxy_ptr) || $y > $$maxy_ptr) { $$maxy_ptr = $y; }
+
+            $bin_start = $bin_next;
+            $bin_next = $bin_start + $binsize;
+            $bin_total_score = $prob;
+            $bin_count = 1;
+
+        } else {
+            $bin_end = $start;
+            $bin_total_score += $prob;
+            $bin_size = $start - $bin_start;
+            $bin_count++;
+        }
+    }
+
+    # finish off if the last bin didn't empty
+    my $last_binsize = $bin_count;
+    if ($last_binsize) {
+        my $x = $last_binsize>1 ? ($bin_start+$bin_end)/2 : $bin_start;
+        my $y = $bin_total_score / $bin_count;		# average prob in bin
+
+        # tlb: shift X so 0 is center of sequences
+        print OUT ($x-$initial_offset-$n_scores/2.0)."\t".$y."\t"."\n";
+        if (! defined($$miny_ptr) || $y < $$miny_ptr) { $$miny_ptr = $y; }
+        if (! defined($$maxy_ptr) || $y > $$maxy_ptr) { $$maxy_ptr = $y; }
+    }
+
+    close (OUT);
+} # make_density_file
+
+################################################################################
+#	print_results
+#
+#	Create the file "centrimo.txt" containing one line for each motif
+#	with the enrichment p-value and other stuff.
+#
+#	Globals:
+#		%motifplotstring
+#
+################################################################################
+sub print_results {
+  my ($outdir, $log_ethresh, $datavalues, $secondary_name, $miny) = @_;
+
+  open (OUTALL, ">$outdir/centrimo.txt");
+  printf(OUTALL "%-20s\tE-value\tadj_p-value\tlog_adj_p-value\tbin_width\ttotal_width\tsites_in_bin\ttotal_sites\tp_success\tp-value\tmult_tests\n", "# motif");
+
+  # get the motifs
+  my @motifs = keys %$datavalues;
+  my $log_nmotifs = log(@motifs);
+
+  # count significant motifs and remove non-significant ones
+  my $n_sig_motifs = 0;
+  foreach my $motif (@motifs) {
+    my($log_p_adj, $bw, $tw, $succ, $trials, $psucc, $log_p, $ntests) = @{$datavalues->{$motif}};
+    my $log_evalue = $log_nmotifs + $log_p_adj;
+    my $secondary = $secondary_name->{$motif};
+    if ($secondary eq "N/A") {
+      $secondary = "";
+    } else {
+      $secondary = " ".$secondary;
+    }
+    if ($log_evalue <= $log_ethresh) {
+      $n_sig_motifs++;
+    }
+  }
+  printf(OUTALL "# Found %d motifs with E-values <= %g\n", $n_sig_motifs, exp($log_ethresh));
+
+  # print motifs sorted by increasing p-value
+  my @sorted_motifs = sort {$datavalues->{$a}->[0] <=> $datavalues->{$b}->[0]} keys %$datavalues;
+
+  foreach my $motif (@sorted_motifs) {
+    my($log_p_adj, $bw, $tw, $succ, $trials, $psucc, $log_p, $ntests) = @{$datavalues->{$motif}};
+    my $log_evalue = $log_nmotifs + $log_p_adj;
+    # print result if satisfies E-value threshold
+    if ($log_evalue <= $log_ethresh) {
+      $n_sig_motifs++;
+      my ($m0, $e0) = &exp10_logx($log_evalue/log(10.0), 1);
+      my ($m1, $e1) = &exp10_logx($log_p_adj/log(10.0), 1);
+      my ($m2, $e2) = &exp10_logx($log_p/log(10.0), 1);
+      my $secondary = $secondary_name->{$motif};
+      printf(OUTALL "%-15s\t%-15s\t%3.1fe%+04.0f\t%3.1fe%+04.0f\t%.4g\t%.0f\t%.0f\t%.0f\t%.0f\t%.5g\t%3.1fe%+04.0f\t%d\n", 
+	$motif, $secondary, $m0, $e0, $m1, $e1, $log_p_adj, $bw, $tw, $succ, $trials, $psucc, $m2, $e2, $ntests);
+      foreach my $type ("png", "pdf") {
+	$motifplotstring{"$motif.$type"} = &makeplotstring($motif, $secondary, $rescale, 1, $main_title, $miny, $type, $keypos, $fontsize);
+      }
+    } else {
+      # remove text file
+      unlink "$outdir/$motif.txt";
+    }
+  }
+
+  close(OUT);
+} # print_results
+
+################################################################################
+#
+# 	makeplotstring
+#
+#   creates a gunplot string to be written to a file and input to gnuplot
+#      $motif:     name of motif to use in title and input file name
+#      $rescale:   if defined, rescale all plots (here, put in markers to replace)
+#      $first_motif: if false add to growing plot command
+#   returns:
+#      string containing plot commands, with --YMIN-- and --YMAX-- to be replaced
+#      by actual values (if $rescale is undefined, these markers left out)
+#
+#	Globals: 
+#		%enrichment_pvalue
+#
+################################################################################
+sub makeplotstring{
+    my ($motif, $secondary, $rescale, $first_motif, $main_title, $miny, $type, $keypos, $fontsize) = @_;
+    
+    my $log_p_adj = $enrichment_pvalue{$motif}->[0];
+    my $width = $enrichment_pvalue{$motif}->[1];
+    my ($m, $e) = &exp10_logx($log_p_adj/log(10.0), 1);
+    my $nseqs = $enrichment_pvalue{$motif}->[4];
+    if ($secondary eq "N/A") {
+      $secondary = "";
+    } else {
+      $secondary = " ".$secondary;
+    }
+    my $title = sprintf("%s %s   p=%3.1fe%-4d", $motif, $secondary, $m, $e);
+    my $lw = 3;
+    my $fontscale = 0.047 * $fontsize;
+
+    my $command = "";
+    if ($first_motif) {
+      $command .= "set title \'$main_title\'\n" if ($main_title ne "");
+      $command .= "set terminal png enhanced $fontsize font 'Helvetica'\n" if ($type eq "png");
+      $command .= "set terminal pdf enhanced color font 'Helvetica' fontscale $fontscale\n" if ($type eq "pdf");
+      $command .= 
+      "set size ratio 0.55\n".
+      "set key $keypos\n".
+      "set ylabel 'Probability'\n".
+      "set xlabel 'Position of Best Site in Sequence'\n".
+      ($rescale==1 ? "set yrange [ --YMIN-- : --YMAX-- ]\n" : "set yrange [$miny:]\n").
+      "plot '$outdir/$motif.txt' using 1:2 with lines lw $lw title '$title'"; 
+    } else {
+      $command = ", '$outdir/$motif.txt' using 1:2 with lines lw $lw title '$title'"; 
+    }
+    return $command
+} # makeplotstring
+
+################################################################################
+#
+# 	printplot
+#
+#   creates a gunplot file $motif.plot in the current directory
+#   using a previously prepared string containing the plot commands
+#
+################################################################################
+sub printplot {
+  my ($outdir, $motif_plot, $motif) = @_;
+  open (OUT, ">$outdir/$motif.plot");
+  print OUT "$motif_plot\n";
+  close (OUT);
+}
+
+#################################################################################################
+# doplot ($outdir, $motif)
+#   runs gunplot using a file created by printplot, creating $motif.eps in the current directory
+#################################################################################################
+sub doplot {
+  my ($outdir, $motif) = @_;
+  my $plot = `gnuplot "$outdir/$motif.plot"`;
+  unlink "$outdir/$motif.plot"; 		# delete plot file after use
+  open (OUT, ">$outdir/$motif");
+  print OUT $plot;
+  close (OUT);
+}
+
+
+##################################################################################################
+# print_usage ($message,$quit)
+#  print the $message if given then the global $usage message and if $quit is defined us its value
+#  as the exit argument
+##################################################################################################
+sub print_usage {
+    my ($message,$quit) = @_;
+    print STDERR $message,"\n" if defined($message);
+    print STDERR $usage;
+    exit ($quit) if defined($quit);
+}
+
+# routines for computing the incomplete beta function I_x(a,b)
+
+#
+# incomplete beta function
+#
+sub betai {
+  my($a, $b, $x) = @_;
+  my($bt, $thresh);
+
+  if ($x<0 || $x>1) { die("Bad x=`$x' in routine betai\n"); }
+  if ($x==0 || $x==1) {
+    $bt = 0;
+  } else {
+    $bt = exp(&gammaln($a+$b)-&gammaln($a)-&gammaln($b)+$a*log($x)+$b*log(1-$x));
+  }
+  $thresh = ($a+1)/($a+$b+2);
+  if ($x<$thresh) {
+    return($bt*&betacf($a,$b,$x)/$a);
+  } else {
+    return(1.0-$bt*&betacf($b,$a,1-$x)/$b);
+  }
+} # betai
+
+#
+# log incomplete beta function
+#
+sub log_betai {
+  my($a, $b, $x) = @_;
+  my($log_bt, $thresh);
+
+  if ($x<0 || $x>1) { die("Bad x in routine betai\n"); }
+  if ($x==0 || $x==1) {
+    $log_bt = -1e300;		# log(0)
+  } else {
+    $log_bt = &gammaln($a+$b)-&gammaln($a)-&gammaln($b)+$a*log($x)+$b*log(1-$x);
+  }
+  $thresh = ($a+1)/($a+$b+2);
+  if ($x<$thresh) {
+    return($log_bt + log(&betacf($a,$b,$x)/$a));
+  } else {
+    return(log(1.0 - exp($log_bt)*&betacf($b,$a,1-$x)/$b));
+  }
+} # log_betai
+
+#
+#	used by betai
+#
+sub betacf {
+  my($a, $b, $x) = @_;
+  my($qab, $qap, $qam, $c, $aa, $d, $h, $m, $m2, $del);
+
+  $qab = $a+$b;
+  $qap = $a+1.0;
+  $qam = $a-1.0;
+  $c = 1.0;
+  $d = 1.0-$qab*$x/$qap;
+
+  if (&abs($d) < $FPMIN) { $d = $FPMIN; }
+  $d = 1.0/$d;
+  $h = $d;
+
+  for ($m=1; $m<=$MAXIT; $m++) {
+    $m2 = 2*$m;
+    $aa = $m*($b-$m)*$x/(($qam+$m2)*($a+$m2));
+    $d=1.0+$aa*$d;
+    if (&abs($d) < $FPMIN) { $d=$FPMIN; }
+    $c=1.0+$aa/$c;
+    if (&abs($c) < $FPMIN) { $c=$FPMIN; }
+    $d = 1.0/$d;
+    $h *= $d*$c;
+    $aa = -($a+$m)*($qab+$m)*$x/(($a+$m2)*($qap+$m2));
+
+    $d=1.0+$aa*$d;
+    if (&abs($d) < $FPMIN) { $d=$FPMIN; }
+    $c=1.0+$aa/$c;
+    if (&abs($c) < $FPMIN) { $c=$FPMIN; }
+    $d = 1.0/$d;
+
+    $del = $d*$c;
+    $h *= $del;
+    if (&abs($del-1.0) < $EPS) {last};
+  }
+  if ($m > $MAXIT) { print(STDERR "a or b too big or MAXIT too small in betacf\n"); }
+
+  $h;
+} # betacf
+
+#
+#	compute absolute value
+#
+sub abs {
+  my($x) = @_;
+  $x >= 0 ? $x : -$x;
+} # abs
+
+#
+# 	compute log gamma function
+#
+sub gammaln {
+  my($x) = @_;
+  my($i, $xx, $s, $res);
+ 
+  $xx = $x;
+  $s = 1.000000000190015;
+  for ($i=0; $i<=5; $i++) { $s += $gamma_c[$i]/++$xx; }
+
+  $res = (($x+0.5) * log($x+5.5)) - ($x+5.5) + log(2.5066282746310005*$s/$x);
+  ($res >= 0) ? $res : 0;		# avoid roundoff error
+
+} #gammaln
+
+
+#
+# p-value of extreme value of p-value given n independent trials
+#	1 - (1-p)^n
+#
+sub ev {
+  my($n,                # n independent trials
+     $p                 # each with p-value p
+  ) = @_;
+  my($x, $g, $term);
+  $x = $n*$p;                   # good if small
+  if ($x < 0.001) {
+    return($x);
+  } elsif ($p < 1e-10) {	# 1-p = 1
+    # get log(1+x) by Taylor series
+    $x = -$p;
+    $g = $term = $x;
+    for ($i=2; $i<5; $i++) {
+      $term *= -$x;
+      $g += $term/$i;
+    }
+    $g *= $n;			# log(1+x)^n = log(1-p)^n
+    return(1-exp($g));
+  } else {
+    1.0 - (1.0-$p)**$n;
+  }   
+} #ev
+
+################################################################################
+#       logev
+#
+#  Compute the log p-value of the extreme value of n independent observations
+#  given the (log of) single-trial probability p of the observed extreme and
+#  the (log of) n;
+#        if (n*p < A) pv = n*p   // error < 0.5*(np)**2; rel.error < np/(2*(1-np/2)) ~ 0.5*A
+#        else if (n*p > B) pv = 1.0
+#        else if (n > B) pv = 1 - (1-A)**(n*p/A)
+#        else pv = 1 - (1-p)**n  // p > A/B
+#  where A=1e-6, B=100.
+################################################################################
+sub logev {
+  my ($logn, $logp) = @_;
+  my $A = 1e-6;
+  my $LOGMINPROD = -13.8155105579643;   # log(1e-6)
+  my $LOGMAXPROD = 4.60517018598809;    # log(100)
+  my $log_ev =
+    ($logn+$logp < $LOGMINPROD) ? $logn+$logp :
+      ( ($logn+$logp > $LOGMAXPROD) ? 0 :
+        #( ($logn > $LOGMAXPROD) ? log(1 - pow((1-$A), exp($logn+$logp-$LOGMINPROD))) :
+        ( ($logn > $LOGMAXPROD) ? log(1 - (1-$A)**exp($logn+$logp-$LOGMINPROD)) :
+          ( log(1 - (1-exp($logp))**exp($logn))) ) );
+  return($log_ev);
+} # logev
+
+1;

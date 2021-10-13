@@ -1,0 +1,139 @@
+table.regulatory_links {
+  margin-top: 20px;
+  border-collapse:collapse;
+}
+table.regulatory_links * td, 
+table.regulatory_links * th {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+table.regulatory_links * td.col_max_expr,
+table.regulatory_links * td.col_max_hist,
+table.regulatory_links * td.col_distance, 
+table.regulatory_links * td.col_correlation, 
+table.regulatory_links * td.col_corr_pvalue, 
+table.regulatory_links * td.col_dist_pvalue,
+table.regulatory_links * td.col_cnd_pvalue, 
+table.regulatory_links * td.col_qvalue
+{
+  text-align: right;
+  padding-right: 40px;
+}
+
+table.regulatory_links * td.col_correlation_sign,
+table.regulatory_links * td.col_strand,
+table.regulatory_links * td.col_closest_locus,
+table.regulatory_links * td.col_closest_tss
+{
+  text-align: center;
+  padding-right: 40px;
+}
+
+table.inputs {
+  margin-top: 20px;
+  border-collapse:collapse;
+}
+
+table.inputs * td, table.inputs * th {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+div.hide_tissue_panel .tissue_panel {
+  display: none;
+}
+
+table.hide_tissue_panel .tissue_panel {
+  display: none;
+}
+
+table.hide_gene_id .col_gene_id {
+  display: none;
+}
+table.hide_gene_name .col_gene_name {
+  display: none;
+}
+table.hide_tss_id .col_tss_id {
+  display: none;
+}
+table.hide_tss_locus .col_tss_locus {
+  display: none;
+}
+table.hide_strand .col_strand {
+  display: none;
+}
+table.hide_max_expr .col_max_expr {
+  display: none;
+}
+table.hide_re_locus .col_re_locus{
+  display: none;
+}
+table.hide_max_hist .col_max_hist {
+  display: none;
+}
+table.hide_distance .col_distance{
+  display: none;
+}
+table.hide_closest_locus .col_closest_locus{
+  display: none;
+}
+table.hide_closest_tss .col_closest_tss{
+  display: none;
+}
+table.hide_histone .col_histone{
+  display: none;
+}
+table.hide_correlation .col_correlation {
+  display: none;
+}
+table.hide_correlation_sign .col_correlation_sign {
+  display: none;
+}
+table.hide_corr_pvalue .col_corr_pvalue {
+  display: none;
+}
+table.hide_dist_pvalue .col_dist_pvalue {
+  display: none;
+}
+table.hide_cnd_pvalue .col_cnd_pvalue {
+  display: none;
+}
+table.hide_qvalue .col_qvalue {
+  display: none;
+}
+
+div.filter {
+  display: inline-block;
+  padding-right: 10px;
+}
+div.hide {
+  display: none;
+}
+
+div.pop_content {
+  position:absolute;
+  z-index:1;
+  width:300px;
+  padding: 5px;
+  background: #E4ECEC;
+  font-size: 12px;
+  font-family: Arial;
+  border-style: double;
+  border-width: 3px;
+  border-color: #AA2244;
+  display:none;
+}
+
+span.arrow {
+  font-size: larger;
+  color: red;
+}
+
+input.error:enabled {
+  background: #FF5555;
+}

@@ -1,0 +1,155 @@
+&test('tgene1', 'tgene P300 chr21 -no-closest-locus',
+  'tgene', '',
+  [
+    '-oc', 'results/tgene1', 
+    make_test_src_path('tgene/P300.2x.bed'),
+    make_test_src_path('tgene/gencode.v7.transcripts.chr21.gtf'),
+    '-max-link-distances', '500000,1000',
+    '-tissues', 'A549,Ag04450,Bj,Gm12878,H1hesc,Helas3,Hepg2,Huvec,K562,Mcf7,Nhek,Sknshra',
+    '-histone-root', make_test_src_path('tgene/Histone'),
+    '-histones', 'H3k27ac,H3k4me3',
+    '-rna-source', 'Cage',
+    '-expression-root', make_test_src_path('tgene/Expression'),
+    '-no-closest-locus',
+    '-desc', 'Predicted links from P300 binding sites to genes on human chromosome 21',
+    '-verbosity', 1
+  ],
+  [
+    {
+      output => 'results/tgene1/links.tsv', 
+      reference => make_test_src_path('tgene/p300_links.tsv'), 
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/tgene1/tgene.html', 
+      reference => make_test_src_path('tgene/p300_tgene.html'), 
+      type => 'json', ignore => [
+        'data:(version|revision|release|cmd)', 
+        'data:options:annotation_file',
+        'data:options:expression_root',
+        'data:options:histone_root',
+        'data:options:locus_file',
+        'data:options:tissues',
+        'programs@.*:time'
+      ]
+    }
+  ],
+  'results/tgene1'
+);
+
+&test('tgene2', 'tgene P300 chr21 with empty tissues',
+  'tgene', '',
+  [
+    '-oc', 'results/tgene2', 
+    make_test_src_path('tgene/P300.2x.bed'),
+    make_test_src_path('tgene/gencode.v7.transcripts.chr21.gtf'),
+    '-max-link-distances', '500000,1000',
+    '-tissues', 'A549,Ag04450,Bj,Gm12878,H1hesc,Helas3,Hepg2,Hmec,Hsmm,Huvec,K562,Mcf7,Nhek,Nhlf,Sknshra',
+    '-histone-root', make_test_src_path('tgene/Histone'),
+    '-histones', 'H3k27ac,H3k4me3',
+    '-rna-source', 'Cage',
+    '-expression-root', make_test_src_path('tgene/Expression'),
+    '-no-closest-locus',
+    '-desc', 'Predicted links from P300 binding sites to genes on human chromosome 21',
+    '-verbosity', 1
+  ],
+  [
+    {
+      output => 'results/tgene2/links.tsv', 
+      reference => make_test_src_path('tgene/p300_links.tsv'), 
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/tgene2/tgene.html', 
+      reference => make_test_src_path('tgene/p300_tgene.html'), 
+      type => 'json', 
+      ignore => [
+        'data:(version|revision|release|cmd)',
+        'data:options:annotation_file',
+        'data:options:expression_root',
+        'data:options:histone_root',
+        'data:options:locus_file',
+        'data:options:tissues',
+        'programs@.*:time'
+      ]
+    }
+  ],
+  'results/tgene2'
+);
+
+&test('tgene3', 'tgene Rxra Chr21, no H3k4me3, -no-closest-locus -no-closest-tss',
+  'tgene', '',
+  [
+    '-oc', 'results/tgene3', 
+    make_test_src_path('tgene/Rxra.bed'), 
+    make_test_src_path('tgene/gencode.v7.transcripts.chr21.gtf'),
+    '-max-link-distances', '500000',
+    '-tissues', 'A549,Ag04450,Bj,Gm12878,H1hesc,Helas3,Hepg2,Huvec,K562,Mcf7,Nhek,Sknshra',
+    '-rna-source', 'Cage',
+    '-histone-root', make_test_src_path('tgene/Histone'),
+    '-histones', 'H3k27ac',
+    '-rna-source', 'Cage',
+    '-expression-root', make_test_src_path('tgene/Expression'),
+    '-no-closest-locus',
+    '-no-closest-tss',
+    '-desc', 'Predicted links from Rxra binding sites to genes on human chromosome 21 using H3k27ac only',
+    '-verbosity', 1
+  ],
+  [
+    {
+      output => 'results/tgene3/links.tsv', 
+      reference => make_test_src_path('tgene/Rxra_links.tsv'), 
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/tgene3/tgene.html', 
+      reference => make_test_src_path('tgene/Rxra_tgene.html'), 
+      type => 'json', 
+      ignore => [
+        'data:(version|revision|release|cmd)',
+        'data:options:annotation_file',
+        'data:options:expression_root',
+        'data:options:histone_root',
+        'data:options:locus_file',
+        'programs@.*:time'
+      ]
+    }
+  ],
+  'results/tgene3'
+);
+
+&test('tgene4', 'tgene P300 chr21 -no-closest-locus no panel',
+  'tgene', '',
+  [
+    '-oc', 'results/tgene4',
+    make_test_src_path('tgene/P300.2x.bed'),
+    make_test_src_path('tgene/gencode.v7.transcripts.chr21.gtf'),
+    '-max-link-distances', '500000',
+    '-no-closest-locus',
+    '-desc', 'Predicted links from P300 binding sites to genes on human chromosome 21 w/o tissue panel',
+    '-verbosity', 3
+  ],
+  [
+    {
+      output => 'results/tgene4/links.tsv', 
+      reference => make_test_src_path('tgene/p300_no_panel_links.tsv'), 
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/tgene4/tgene.html', 
+      reference => make_test_src_path('tgene/p300_no_panel_tgene.html'), 
+      type => 'json', 
+      ignore => [
+        'data:(version|revision|release|cmd)', 
+        'data:options:annotation_file',
+        'data:options:expression_root',
+        'data:options:histone_root',
+        'data:options:locus_file',
+        'data:options:tissues',
+        'programs@.*:time'
+      ]
+    }
+  ],
+  'results/tgene4'
+);
+

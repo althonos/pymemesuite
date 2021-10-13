@@ -1,0 +1,326 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>SEA results</title>
+    <script src="sea_data.js"></script>
+    <script src="constants.js"></script>
+    <script src="utilities.js"></script>
+    <script src="motif_logo.js"></script>
+    <script src="simple-shared-doc.js"></script>
+    <script src="sea_doc.js"></script>
+    <script src="discovery_doc.js"></script>
+    <script src="delay_draw.js"></script>
+    <script src="centrimo_graph.js"></script>
+    <script src="site_histogram.js"></script>
+    <script src="citation.js"></script>
+    <script src="alphabet_utilities.js"></script>
+    <script src="sea_template.js"></script>
+    <script src="description_section.js"></script>
+    <link rel="stylesheet" type="text/css" href="sea_template.css">
+    <link rel="stylesheet" type="text/css" href="meme.css">
+  </head>
+  <body onload="page_loaded()" onpageshow="page_shown(event)" onresize="update_scroll_pad()">
+    <!-- Help popups -->
+    <div class="pop_content" id="pop_alph_name">
+      <script>print_doc_para('pop_alph_name', 'shared', 'alph-name', 'The ');</script>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_alph_bg">
+      <script>print_doc_para('pop_alph_bg', 'shared', 'alph-bg', 'The ');</script>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content_wide" id="pop_results">
+      <script>print_doc("pop_results", "sea", "sea-tsv-description");</script>
+      <script>print_doc("pop_results", "shared", "motif-consensus");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content_wide" id="pop_sequences">
+      <script>print_doc("pop_sequences", "sea", "sea-sequences-tsv");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_db">
+      <script>print_doc_para("pop_db", 'shared', "motif-db", "motif.");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_id">
+      <script>print_doc_para("pop_id", 'shared', "motif-id");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_name">
+      <script>print_doc_para("pop_name", 'shared', "motif-alt-id");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_pvalue">
+      <script>print_doc_para('pop_pvalue', 'sea', 'sea-pvalue');
+      </script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_evalue">
+      <script>print_doc_para('pop_evalue', 'sea', 'sea-evalue');</script> 
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_qvalue">
+      <script>print_doc_para("pop_qvalue", 'shared', "bh-q-value", "SEA", "motif");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_tp">
+      <script>print_doc_para('pop_tp', 'sea', 'sea-tp');</script> 
+      </p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_fp">
+      <script>print_doc_para('pop_fp', 'sea', 'sea-fp');</script> 
+      </p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_ratio">
+      <script>print_doc_para("pop_ratio", 'sea', "sea-enr_ratio");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_score_thresh">
+	<script>print_doc_para("pop_score_thresh", 'sea', "sea-score_thr");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_site_distr">
+      <script>print_doc_para("pop_site_distr", "discovery", "site_distr", "primary");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_site_hist">
+      <script>print_doc_para("pop_site_hist", "discovery", "site_hist", "primary");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <!-- Page start -->
+      <div class="prog_logo big">
+        <img src="sea_icon.png" alt="SEA Logo">
+        <h1>SEA</h1>
+        <h2>Simple Enrichment Analysis</h2>
+      </div>
+      <p>
+        For further information on how to interpret these results please access
+        <a href="@SITE_URL@/doc/sea-output-format.html">@SITE_URL@/doc/sea-output-format.html</a>.<br>
+	To get a copy of the MEME software please access 
+        <a href="@SOURCE_URL@">@SOURCE_URL@</a>. 
+      </p>
+      <p id="citation">
+        <script>print_citation("citation", "SEA");</script>
+      </p>
+    <!-- navigation -->
+    <div class="pad2">
+      <a class="jump" href="#data_sec">Enriched Motifs</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="#input_sec">Input Files</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="#info_sec">Program information</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="sea.tsv">Results in TSV Format</a>&nbsp;<span id="results_help"></span>
+      <div id="sequences_file">
+	&nbsp;&nbsp;|&nbsp;&nbsp;
+	<a class="jump" href="sequences.tsv">Matching Sequences</a>&nbsp;<span id="sequences_help"></span>
+      </div>
+      <script>
+        make_help_button($("results_help"), "pop_results");
+        make_help_button($("sequences_help"), "pop_sequences");
+        sequences_file.style.display = (data.options.noseqs == "false") ? "inline" : "none";
+      </script>
+    </div>
+    <!-- alert the user when their browser is not up to the task -->
+    <noscript><h1 style="color:red">Javascript is required to view these results!</h1></noscript>
+    <script>
+      if (!window.HTMLCanvasElement)
+        document.write("<h1 style=\"color:red\">Your browser does not support canvas!</h1>\n");
+    </script>
+    <!-- description -->
+    <!-- write out the job description -->
+    <span id="ins_desc"></span>
+    <script>make_description($("ins_desc"), data.description);</script>
+    <!-- enriched motfis -->
+    <h2 class="mainh pad2" id="data_sec">Enriched Motifs</h2>
+    <div class="box">
+      <!-- messages -->
+      <p>
+      <script>
+	document.write('<b>Found ' + 
+          (data['motifs'].length ? data['motifs'].length : 'no') + 
+          (data['options']['thresh_type'] == "pvalue" ? 
+	      ' motifs with <i>p</i>-values &le; ' :
+            (data['options']['thresh_type'] == "qvalue" ? 
+	      ' motifs with q-values &le; ' :
+	      ' motifs with <i>E</i>-values &le; '
+          )) + data['options']['thresh'] + '.</b>');
+      </script>
+      </p>
+
+      <table class="results" id="results">
+        <thead>
+          <tr id="header_row">
+            <th class="col_logo">Logo</th>
+            <th class="col_db">Database&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_db')"></div></th>
+            <th class="col_id">ID&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_id')"></div></th>
+            <th class="col_name">Alt ID&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_name')"></div></th>
+            <th class="col_pvalue"><i>P</i>-value&nbsp;<div 
+                class="help" onclick="help_popup(this, 'pop_pvalue')"></div></th>
+            <th class="col_evalue"><i>E</i>-value&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_evalue')"></div></th>
+            <th class="col_qvalue">Q-value&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_qvalue')"></div></th>
+            <th class="col_tp">TP&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_tp')"></div></th>
+            <th class="col_fp">FP&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_fp')"></div></th>
+            <th class="col_ratio">Enrichment<br>Ratio&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_ratio')"></div></th>
+            <th class="col_score_thresh">Score<br>Threshold&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_score_thresh')"></div></th>
+          </tr>
+        </thead>
+      </table>
+      <script>
+        if (data['motifs'].length > 0) { 
+          if (data['motifs'][0]['site_distr']) {
+            add_text_header_cell($("header_row"), "Positional Distribution", "pop_site_distr", "col_distribution");
+            add_text_header_cell($("header_row"), "Matches per Sequence", "pop_site_hist", "col_histogram");
+          }
+          make_results_table(); 
+        }
+      </script>
+    </div>
+
+    <h2 id="input_sec" class="mainh pad2">Input Files</h2>
+    <div class="box">
+      <h4>Alphabet</h4>
+      <span id="bg_source"></span>
+      <span id="bg_order"></span>
+      <span id="alpha_bg"></span>
+      <script>
+      {
+        $("bg_source").appendChild(make_background_source("Background source", data.background['source']));
+        $("bg_order").innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;<b>Order:</b> " + data.options['order'] +
+          (data.options['order']>0 ? " (only order-0 shown)" : "");
+        $("alpha_bg").appendChild(make_alpha_bg_table(sea_alphabet));
+      }
+      </script>
+      <h4>Sequences</h4>
+        <!-- This script prints the whole table so things will be "balanced". -->
+	<script>
+          {
+            var db = data['sequence_db'];
+            document.write("<table class=\"inputs\">\n");
+            if (data['control_db']) {
+              document.write("<tr><th>Primary Sequences</th><th>Number</th><th>Control Sequences</th><th>Number</th></tr>");
+            } else {
+              document.write("<tr><th>Primary Sequences</th><th>Number</th></tr>");
+            }
+            document.write("<tr><td>" + db['source'] + "</td>");
+            document.write("<td>" + db['count'] + "</td>");
+            if (data['control_db']) {
+              var db = data['control_db'];
+              if (db['from']) {
+                document.write("<td>primary sequences shuffled conserving " + (data['options']['order']+1) + "-mer frequencies</td>");
+              } else {
+		document.write("<td>" + db['source'] + "</td>");
+              }
+              document.write("<td>" + db['count'] + "</td>");
+            }
+            document.write("</tr></table>");
+          }
+	</script>
+      <h4>Motifs</h4>
+      <table class="inputs">
+        <tr><th>Database</th><th>Source</th><th>Motif Count</th></tr>
+        <script>
+        {
+          var motif_dbs = data['motif_dbs'];
+          for (var i = 0; i < motif_dbs.length; i++) {
+            var db = motif_dbs[i];
+            document.write("<tr>");
+            document.write("<td>"  + db['name'] + "</td>");
+            document.write("<td>" + db['source'] + "</td>");
+            document.write("<td>" + db['count'] + "</td>");
+            document.write("</tr>");
+          }
+        }
+        </script>
+      </table>
+      <h4>Other Settings</h4>
+      <table id="tbl_settings" class="inputs hide_advanced">
+        <tr>
+          <th>Strand Handling</th>
+          <td id="opt_strand">
+            <span class="strand_none">This alphabet only has one strand.</span>
+            <span class="strand_given">Only the given strand is processed.</span>
+            <span class="strand_both">Both the given and reverse complement strands are processed.</span>
+          </td>
+        </tr>
+        <tr><th>Objective Function</th><td id="opt_objfun"></td></tr>
+        <tr><th>Statistical Test</th><td id="opt_test"></td></tr>
+        <tr id="shuffling"><th>Sequence Shuffling</th><td id="opt_shuffling"></td></tr>
+        <tr><th>Hold-out Set</th><td id="opt_is_holdout"></td></tr>
+        <tr><th>Pseudocount</th><td id="opt_pseudo"></td></tr>
+        <tr><th>Significance threshold</th><td id="opt_thresh"></td></tr>
+        <tr><th>Random Number Seed</th><td id="opt_seed"></td></tr>
+      </table>
+    </div>
+    <script>
+      {
+        // Don't display shuffling line if not relevant.
+        if (data.sequence_db.source === data.sequence) {
+          var element=document.getElementById("shuffling");
+          element.style.display="none";
+        }
+        $("opt_strand").className = (sea_alphabet.has_complement() ? (data.options.strands == "both" ? "both" : "given") : "none");
+        $("opt_objfun").innerHTML = data.options.objfun;
+        $("opt_test").innerHTML = data.options.test;
+        $("opt_shuffling").innerHTML = data.options.objfun == "Central Distance" ? "None." : "Control sequences are primary sequences shuffled preserving " + (data.options.order+1) + "-mer frequencies.";
+        $("opt_pseudo").innerHTML = data.options.pseudocount + " times the background frequencies";
+        $("opt_thresh").innerHTML = "Motifs must have an enrichment " + (data.options.qvalue ? " q-value of " : " E-value of ") + data.options.thresh + " or smaller.";
+        $("opt_thresh").innerHTML = "Motifs must have an enrichment " +
+          (data.options.thresh_type == "pvalue" ? 
+	    "<i>p</i>-value" : (data.options.thresh_type == "qvalue" ?  "q-value" : "<i>E</i>-value")) +
+          " of " + data.options.thresh + " or smaller.";
+        $("opt_seed").innerHTML = data.options.seed;
+        $("opt_is_holdout").innerHTML = data.options.is_holdout ? 100*data.options.hofract + "% of the input sequences were randomly assigned to the hold-out set to improve <i>p</i>-value accuracy." : "There were not enough input sequences to create a hold-out set so the <i>p</i>-values will be less accurate.";
+      }
+    </script>
+
+    <!-- list information on this program -->
+    <div id="info_sec" class="bar">
+      <div class="subsection">
+        <h5 id="version">SEA version</h5>
+        <span id="ins_version"></span>
+        (Release date: <span id="ins_release"></span>)<br>
+      </div>
+      <script>
+        $("ins_version").innerHTML = data["version"];
+        $("ins_release").innerHTML = data["release"];
+      </script>
+      <div class="subsection" id="reference">
+        <script>print_citation("reference", "SEA");</script>
+      </div>
+      <div class="subsection">
+	<h5 id="command">Command line summary</h5>
+	<textarea id="cmd" rows="5" style="width:100%;" readonly="readonly">
+	</textarea>
+	<script>$("cmd").value = data["cmd"].join(" ");</script>
+      </div>
+    </div>
+    <div id="scrollpad"></div>
+  </body>
+</html>

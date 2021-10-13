@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>XSTREME Results</title>
+    <script src="xstreme_data.js"></script>
+    <script src="constants.js"></script>
+    <script src="utilities.js"></script>
+    <script src="motif_logo.js"></script>
+    <script src="delay_draw.js"></script>
+    <script src="simple-shared-doc.js"></script>
+    <script src="discovery_doc.js"></script>
+    <script src="xstreme_doc.js"></script>
+    <script src="xstreme_template.js"></script>
+    <script src="alphabet_utilities.js"></script>
+    <script src="centrimo_graph.js"></script>
+    <script src="site_histogram.js"></script>
+    <script src="citation.js"></script>
+    <script src="description_section.js"></script>
+    <link rel="stylesheet" type="text/css" href="xstreme_template.css">
+    <link rel="stylesheet" type="text/css" href="meme.css">
+  </head>
+  <body onload="page_loaded()" onpageshow="page_shown(event)" 
+    onresize="page_resize()" onscroll="delayed_process_draw_tasks()">
+    <!-- Help popups -->
+    <div class="pop_content" id="pop_alph_name">
+      <script>print_doc_para('pop_alph_name', 'shared', 'alph-name', 'The ');</script>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_alph_bg">
+      <script>print_doc_para('pop_alph_bg', 'shared', 'alph-bg', 'The ');</script>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_summary">
+      <script>print_doc("pop_summary", "xstreme", "xstreme-results-tsv");</script>
+      <script>print_doc("pop_summary", "shared", "motif-consensus");</script>
+      <div style="float:right; bottom:0px;">[ 
+	<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_nonredundant">
+      <script>print_doc("pop_nonredundant", "xstreme", "xstreme-nonredundant-motifs");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_source">
+      <script>print_doc_para("pop_source", "xstreme", "xstreme-source");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_pgm_evalue">
+      <script>print_doc_para("pop_pgm_evalue", "xstreme", "xstreme-significance", "the link is <b>greyed out</b>");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_rank">
+      <script>print_doc_para("pop_rank", "xstreme", "xstreme-rank");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_similar_known_motifs">
+      <script>print_doc_para("pop_similar_known_motifs", "xstreme", "xstreme-sim_known_motifs");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_show_clustered">
+      <script>print_doc_para("pop_show_clustered", "xstreme", "xstreme-show_clustered");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_site_distr">
+      <script>print_doc_para("pop_site_distr", "discovery", "site_distr", "(full-length) primary", "SEA");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_site_hist">
+      <script>print_doc_para("pop_site_hist", "discovery", "site_hist", "primary", "SEA");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_fimo_sites">
+      <script>print_doc_para("pop_fimo_sites", "xstreme", "xstreme-fimo_sites");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <!-- End help popups -->
+
+    <div class="prog_logo big">
+      <img src="xstreme_icon.png" alt="XSTREME Logo" id="title_icon">
+      <h1>XSTREME</h1>
+      <h2>Motif Discovery and Enrichment Analysis</h2>
+    </div>
+    <p>
+      For further information on how to interpret these results please access
+      <a href="@SITE_URL@/doc/xstreme-output-format.html">@SITE_URL@/doc/xstreme-output-format.html</a>.<br>
+      To get a copy of the MEME software please access
+      <a href="@SOURCE_URL@">@SOURCE_URL@</a>.
+    </p>
+    <p id="citation"> <script>print_citation("citation", "XSTREME");</script></p>
+    <!-- navigation -->
+    <div class="pad2">
+      <a class="jump" href="#data_sec">Motifs</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="#programs_sec">Programs</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="#input_sec">Input Files</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="#info_sec">Program information</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="xstreme.tsv">Summary in TSV Format</a>&nbsp;<span id="summary_help"></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="xstreme.txt">Non-redundant Motifs in MEME Text Format</a>&nbsp;<span id="nonredundant_help"></span>
+      <script> 
+        make_help_button($("summary_help"), "pop_summary"); 
+        make_help_button($("nonredundant_help"), "pop_nonredundant"); 
+      </script>
+    </div>
+    <!-- alert the user when their browser is not up to the task -->
+    <noscript><h1 style="color:red">Javascript is required to view these results!</h1></noscript>
+    <h1 id="html5_warning" style="color:red; display:none;">Your browser does not support canvas!</h1>
+    <script>if (!window.HTMLCanvasElement) $("html5_warning").style.display = "block";</script>
+    <!-- write out the job description -->
+    <span id="ins_desc"></span>
+    <script>make_description($("ins_desc"), data.description);</script>
+    <!-- write out clustered motifs -->
+    <h2 class="mainh pad2" id="data_sec">Motifs</h2>
+    <div class="box">
+      <p><b>Enriched motifs
+      (E-value &le; <span id="ins_evt"></span>).</b></p>
+      <script> $("ins_evt").innerHTML = data["evt"] + (data["mea_only"] ? "" : " and 3 best STREME motifs"); </script>
+      <div class="motifbox">
+        <span class="action" onclick="show_all(true)">Expand All Clusters</span>
+        <span class="action" onclick="show_all(false)">Collapse All Clusters</span>
+      </div>
+      <div id="logos"></div>
+      <script>make_clustered_motifs($("logos"));</script>
+    </div>
+    <!-- write out a list of all programs run -->
+    <h2 class="mainh pad2" id="programs_sec">Programs</h2>
+    <div class="box" id="program_listing"></div>
+    <script>make_program_listing($("program_listing"));</script>
+    <!-- write out input files -->
+    <h2 id="input_sec" class="mainh pad2">Input Files</h2>
+    <div id="input_files" class="box">
+      <h4>Alphabet</h4>
+      <span id="bg_source"></span>
+      <div  id="alpha_bg"></div>
+      <script>
+        $("bg_source").appendChild(make_background_source("Background source", data.background.source));
+        $("alpha_bg").appendChild(make_alpha_bg_table(xstreme_alphabet));
+      </script>
+      <div id="sequence_db"></div>
+      <script>make_sequence_db_listing('sequence_db', "Primary Sequences");</script>
+      <div id="neg_sequence_db"></div>
+      <script>make_sequence_db_listing('neg_sequence_db', "Control Sequences");</script>
+      <h4 id="motif_dbs_header">Motifs</h4>
+      <div id="motif_dbs"></div>
+      <script>make_motif_db_listing($("motif_dbs"));</script>
+    </div>
+    <!-- list information on this program -->
+    <div id="info_sec" class="bar">
+      <div class="subsection">
+        <h5 id="version">XSTREME version</h5>
+        <span id="ins_version"></span> 
+        (Release date: <span id="ins_release"></span>)<br>
+      </div>
+      <script>
+        $("ins_version").innerHTML = data["version"];
+        $("ins_release").innerHTML = data["release"];
+      </script>
+      <div class="subsection" id="reference"> <script>print_citation("reference", "XSTREME");</script></div>
+      <div class="subsection">
+	<h5 id="command">Command line</h5>
+	<textarea id="cmd" rows="5" style="width:100%;" readonly="readonly">
+	</textarea>
+	<script>$("cmd").value = data["cmd"].join(" ");</script>
+      </div>
+    </div>
+    <div id="scrollpad"></div>
+  </body>
+</html>

@@ -1,0 +1,97 @@
+# Test fimo
+$out_dir = 'results/fimo1';
+$out_file = catfile($out_dir, 'fimo.tsv');
+&test('fimo1', '',
+  'fimo', '',
+  [
+    '--oc', $out_dir, 
+    '--thresh', 0.001, 
+    '--norc',
+    make_test_src_path('fimo/MCM1.meme.html'), 
+    make_test_src_path('fimo/spiked.fasta')
+  ],
+  [
+    {
+      output => $out_file, 
+      reference => make_test_src_path('fimo/fimo.tsv'), 
+      type => 'text', 
+      ignore => ['^#']
+    }
+  ],
+  $out_dir
+);
+
+# Test fimo with --motif option and --no-qvalue
+$out_dir = 'results/fimo2';
+$out_file = catfile($out_dir, 'fimo.tsv');
+&test('fimo2', '',
+  'fimo', '',
+  [
+    '--oc', $out_dir, 
+    '--motif', 'CGGYGGGG', 
+    '--motif', 'GCATCRGRBSAGA', 
+    '--no-qvalue',
+    '--motif-pseudo', 0.01, 
+    '--thresh', 0.01, 
+    'common/crp0.meme.xml', 
+    make_test_src_path('motiph/spiked.fasta')
+  ],
+  [
+    {
+      output => $out_file, 
+      reference => make_test_src_path('fimo/fimo-motif23.tsv'), 
+      type => 'text', 
+      ignore => ['^#']
+    }
+  ],
+  $out_dir
+);
+
+# Test fimo with --psp and --prior-dist options
+$out_dir = 'results/fimo3';
+$out_file = catfile($out_dir, 'fimo.tsv');
+&test('fimo3', '',
+  'fimo', '',
+  [
+    '--oc', $out_dir, 
+    '--psp', make_test_src_path('fimo/GCN4_YPD.psp'), 
+    '--prior-dist', make_test_src_path('fimo/prior.dist.txt'), 
+    make_test_src_path('fimo/GCN4.meme.txt'), 
+    make_test_src_path('fimo/GCN4_YPD.fasta')
+  ],
+  [
+    {
+      output => $out_file, 
+      reference => make_test_src_path('fimo/fimo-priors.tsv'), 
+      type => 'text', 
+      ignore => ['^#']
+    }
+  ],
+  $out_dir
+);
+
+# Test fimo with --psp and --prior-dist options
+# with genomic coordinates provied in PSP and fasta files.
+$out_dir = 'results/fimo4';
+$out_file = catfile($out_dir, 'fimo.tsv');
+&test('fimo4', '',
+  'fimo', '',
+  [
+    '--oc', $out_dir, 
+    '--parse-genomic-coord', 
+    '--psp', make_test_src_path('fimo/GCN4_YPD-genomic.psp'), 
+    '--prior-dist', make_test_src_path('fimo/prior.dist.txt'), 
+    make_test_src_path('fimo/GCN4.meme.txt'), 
+    make_test_src_path('fimo/GCN4_YPD-genomic.fasta')
+  ],
+  [
+    {
+      output => $out_file, 
+      reference => make_test_src_path('fimo/fimo-priors-genomic.tsv'), 
+      type => 'text', 
+      ignore => ['^#']
+    }
+  ],
+  $out_dir
+);
+

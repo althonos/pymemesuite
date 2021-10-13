@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>fasta-dinucleotide-shuffle - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+    <script src="js/shared-doc.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+    <h2>fasta-dinucleotide-shuffle</h2>
+    
+    <div class="usage">
+      <h3>Usage (Python 2.7):</h3>
+      <code>fasta-dinucleotide-shuffle [options] </code>
+      <p />
+      <h3>Usage (Python 3.x):</h3>
+      <code>fasta-dinucleotide-shuffle-py3 [options] </code>
+    </div>
+
+    <h3>Description</h3>
+    <div class="indent">
+      <p>The program fasta-dinucleotide-shuffle creates a shuffled version
+      of a FASTA file of nucleotide sequences (other alphabets may be specified).
+      The letters in each sequence in the input file are shuffled in such a way
+      that dinucleotide frequencies are exactly preserved.  
+      Any alias symbols are converted to their core symbol before shuffling.</p>
+      <p>Note that the other shuffling program provided with the MEME Suite,
+      <a href="fasta-shuffle-letters.html">fasta-shuffle-letters</a>,
+      supports all the features that fasta-dinucleotide-shuffle has and runs 
+      faster so it should be used in preference.</p>
+       <p />
+       Two different versions of fasta-dinucleotide-shuffle are provided:
+       <code>fasta-dinucleotide-shuffle</code> for Python 2.7 and
+       <code>fasta-dinucleotide-shuffle-py3</code> for Python 3.x.
+       The random number generator has changed between Python
+       2.7 and Python 3.x, so results between the two verisons may differ.
+    </div>
+
+    <h3>Input</h3>
+    <div class="indent">
+      <p>Sequences in <a href="fasta-format.html">FASTA format</a> from a file.</p>
+    </div>
+
+    <h3>Output</h3>
+    <div class="indent">
+      <p>Writes a <a href="fasta-format.html">FASTA format</a> file to standard output.</p>
+    </div>
+
+    <h3>Options</h3>
+    <div class="indent">
+      <table class="options">
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Parameter</th>
+            <th>Description</th>
+            <th>Default Behavior</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th colspan="4">General Options</th>
+          </tr>
+          <tr>
+            <td class="popt">-f</td><td><span class="pdat">filename</span></td>
+            <td>Name of input file (required).</td>
+            <td>None.</td>
+          </tr>
+          <tr>
+            <td class="popt">-t</td><td><span class="pdat">tag</span></td>
+            <td>The letters in <span class="pdat">tag</span> are appended to the
+                FASTA identifier of each shuffled sequence.</td>
+            <td>Each shuffled sequence has the same name as the original.</td>
+          </tr>
+          </tr>
+          <tr>
+            <td class="popt">-s</td><td><span class="pdat">seed</span></td>
+            <td>Use <span class="pdat">seed</span> as the starting seed
+                for the random number generator.  </td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td class="popt">-c</td><td><span class="pdat">n</span></td>
+            <td>Make <span class="pdat">n</span> shuffled copies of each original sequence.</td>
+            <td>Make 1 shuffled copy.</td>
+          </tr>
+          <tr>
+            <td class="popt">-a</td><td><span class="pdat">filename</span></td>
+            <td>Provide the <a href="alphabet-format.html">alphabet definition</a>
+              to use for non-DNA alphabets.  Sequences will be verified to be in the given alphabet.</td>
+            <td>Use the <a href="alphabet-format.html#standard_DNA">standard DNA alphabet</a>.</td>
+          </tr>
+          <script>
+            wropt("all-help", {"short": true});
+          </script>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
+

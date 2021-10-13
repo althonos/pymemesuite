@@ -1,0 +1,22 @@
+my $ignore = ['Create date', 'microsec', 'millisec', '# version', 
+  'Total time', '^CPU:', '^Overhead'];
+&test(
+  'mhmmscan1', '',
+  'mhmmscan', '', 
+  [
+    '--pseudo-weight', '1', 
+    '--text', 
+    make_test_src_path('mhmm/crp0.linear.mhmm'), 
+    make_test_src_path('common/crp0.fasta')
+  ],
+  [
+    {
+      output => '-', 
+      reference => make_test_src_path('mhmmscan/mhmmscan.txt'), 
+      type => 'text', 
+      ignore => $ignore
+    }
+  ],
+  'results/mhmmscan1'
+);
+

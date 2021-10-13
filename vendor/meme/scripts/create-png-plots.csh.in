@@ -1,0 +1,100 @@
+#!/bin/csh
+# AUTHOR: Timothy L. Bailey
+# CREATE DATE: 15-Apr-2015
+
+set pgm = $0; set pgm = $pgm:t
+set args = ($*)
+
+set archive = "/data/apache-tomcat/instance/meme/work/memesuite-logs"
+set public = "/data/apache-tomcat/instance/meme/work/meme-data/meme-software/usage-reports"
+set types = (runs users max cpu)
+set years1 = 5	# number of years for yearly plot
+set years2 = 2	# number of years for monthly plot
+if ($#argv < 0) then
+  usage:
+  more << USAGE
+  USAGE:
+        $pgm [options]
+
+        [-arch <arch>]	local directory containing archived logs;
+                default: $archive
+        [-pub <public>]	web accessible directory for reports
+		default: $public
+        [-years1 <years1>] number of previous years to cover in yearly plot
+		default: $years1
+        [-years2 <years2>] number of years to cover in monthly plot
+		default: $years2
+
+	Make combined usage reports for all tools in the MEME Suite
+	as PNG files and place on the <public> website.
+        Creates usage report from local log files
+        (including from alternate sites) in
+          <suffix>-usage-report.pdf
+        and places it on the public website.
+
+USAGE
+  exit 1
+endif
+
+unlimit cputime
+onintr cleanup
+
+# get input arguments
+while ("$1" != "")
+  switch ($1)
+  case -h:
+    goto usage
+  case -arch:
+    shift
+    set archive = "$1"
+    breaksw
+  case -pub:
+    shift
+    set public = "$1"
+    breaksw
+  case -years1:
+    shift
+    set years1 = "$1"
+    breaksw
+  case -years2:
+    shift
+    set years2 = "$1"
+    breaksw
+  default:
+    goto usage
+  endsw
+  shift
+end
+
+# get current month and year
+set d = (`date +"%m %Y"`)
+set month = $d[1]
+set year = $d[2]
+
+# get the starting and ending dates for the yearly report
+@ year1 = $year - $years1
+set MINDATE1 = "-min_date 1 $year1"
+set MAXDATE1 = "-max_date $month $year"
+
+# get the starting and ending dates for the monthly report
+@ year2 = $year - $years2
+set MINDATE2 = "-min_date $month $year2"
+set MAXDATE2 = "-max_date $month $year"
+
+# Make yearly and monthly plots
+foreach type ($types)
+  set t = `echo $type | awk '{print substr($1, 1, 1)}'`
+
+  echo Making yearly report for $type
+  cat $archive/LOGS/*-log.???? | @LIBEXECDIR@/plot-usage -name SUITE -$t -yearly $MINDATE1 $MAXDATE1 -png
+  rm -f plot-usage_${type}_SUITE.ps
+  mv plot-usage_${type}_SUITE.png $public
+
+  echo Making monthly report for $type
+  cat $archive/LOGS/*-log.???? | @LIBEXECDIR@/plot-usage -name SUITE_MONTHLY -$t $MINDATE2 $MAXDATE2 -png
+  rm -f plot-usage_${type}_SUITE_MONTHLY.ps
+  mv plot-usage_${type}_SUITE_MONTHLY.png $public
+
+end
+
+cleanup:

@@ -1,0 +1,69 @@
+***Introduction***           
+
+The  MEME suite provides online tools for discovering and using protein and 
+DNA sequence motifs.  A motif is a pattern of nucleotides or amino acids that 
+appears repeatedly in a group of related  DNA or protein sequences.  The MEME 
+suite represents motifs as position-dependent scoring matrices. 
+
+The MEME suite consists of programs which allow you to: 
+
+* MEME      - for discovery of motifs shared by a group of sequences, 
+* STREME    - for discovery expression motifs in large datasets
+* MEME-ChIP - for analysis of large DNA datasets like ChIPseq output,
+* GLAM2     - for discovery of gapped motifs,
+* MoMo      - for finding post-translationally modified protein motifs,
+* DREME     - [deprecated] for discovery of short regular expression motifs,
+* CentriMo  - for central enrichment analysis of motifs,
+* AME       - for general enrichment analysis of motifs,
+* SpaMo     - for finding motif complexes by analysing motif spacing,
+* GOMo      - for finding Gene Ontology terms linked to the motifs,
+* FIMO      - for scanning sequences with motifs,
+* MAST      - for scanning sequences to find groups of motifs,
+* MCAST     - for scanning sequences for motif clusters,
+* GLAM2scan - for scanning sequences with gapped motifs,
+* Tomtom    - for comparing motifs to other motifs,
+* T-Gene    - for predicting regulatory links between genomic loci and genes
+
+and that's just the web enabled tools.
+
+You can download the C source code for MEME suite from
+https://meme-suite.org/meme/doc/download.html
+
+You can also use the MEME suite via its website at https://meme-suite.org .
+
+***Citing***
+
+To cite the full MEME suite, please cite:  
+> Timothy L. Bailey, Mikael Bodén, Fabian A. Buske, Martin Frith,   
+  Charles E. Grant, Luca Clementi, Jingyuan Ren, Wilfred W. Li,   
+  William S. Noble, "MEME SUITE: tools for motif discovery and searching",   
+  Nucleic Acids Research, 37:W202-W208, 2009.  
+
+To cite individual tools, please check the citation page:  
+    https://meme-suite.org/meme/doc/cite.html  
+
+
+***Installation***       
+
+See `doc/install.html` for operating system requirements, prerequisite
+software, and installation instructions.
+
+***Documentation***
+
+Documentation is available online at https://meme-suite.org/meme/doc/overview.html
+otherwise look in the `doc/` folder for `overview.html` as a place to start.  
+If you did installation with the `--enable-web` switch, the html documentation
+will be installed with the website at `<website>/meme_<version>/doc/overview.html`. 
+
+***Problems and comments*** 
+
+Please address any problems or comments to:  
+    meme-suite@uw.edu 
+or  
+    https://groups.google.com/forum/#!forum/meme-suite  
+
+***Release Notes***
+
+See file `<distribution-path>/doc/release-notes.html`  
+or after a basic install see `<install-path>/doc/release_notes.html`  
+or for a website install see `<website>/meme_<version>/doc/release-notes.html`  

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>STREME Tutorial - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+    <h2>STREME Tutorial</h2>
+    <h3>Overview</h3>
+    <p>
+      STREME is a tool for discovering ungapped motifs that
+      are enriched in the primary dataset that you provide. 
+      (If you have fewer than 50 sequences, MEME may work better than STREME.)
+      It can work with sets of sequences in the DNA, RNA, Protein alphabets, or 
+      in a custom alphabet designed by you.
+      You can also use STREME to discover motifs that are enriched 
+      in the primary dataset relative to a second (control) dataset
+      that you provide.  By default, STREME creates a control dataset
+      for you by shuffling each of the sequences in the primary dataset.
+    </p>
+    <p>
+      <b>Note:</b> We recommend using STREME when you wish to find motifs
+      in sets of 50 or more sequences, and we recommend using
+      MEME for smaller datasets (1 to 49 sequences).
+    </p>
+    <h3>How STREME works</h3>
+    <p>STREME searches for motifs by iterating the following five
+      steps to until the stopping criterion you selected is met.
+      The stopping criterion can be either the statistical significance
+      (<i>p</i>-value) of the motif, or the total number of motifs found.
+    </p>
+    <ol>
+      <li><b>Suffix Tree Creation.</b>
+	<p>
+	  STREME builds a single suffix tree that includes both
+	  the primary and control sequences (but not the hold-out set
+	  sequences, see below under "Motif Statistical Signficance" for
+          an explanation of the hold-out set).  By default, STREME 
+          looks for motifs that optimize a "Differential Enrichment" objective
+          function, but it can also find motifs that tend to occur
+          in the centers of sequences using a "Central Distance" objective function.
+	</p>
+      </li>
+      <li><b>Seed Word Evaluation.</b>
+	<p>
+	  STREME uses the tree to efficiently
+	  evaluate all seed words of length up the maximum motif width,
+	  computing the <i>p</i>-value of each such word's relative enrichment
+	  in the primary sequences using the chosen objective function.
+	  (Note: With the Differential Enrichment objective function,
+	  STREME will use the Binomial test instead of Fisher's exact test if
+	  the primary and control sequences have different average lengths.
+	  With the Central Distance objective function, STREME computes
+	  the cumulative Bates distribution of the average distances of
+	  the seed word from the centers of the sequences.)
+	</p>
+      </li>
+      <li><b>Motif Refinement.</b>
+	<p>
+	  STREME converts each of the best seed words into a motif,
+	  and iterative refines each motif, selecting the motif that
+	  best discriminates the primary sequences from the control sequences.
+	  At each iteration of refinement, the current motif and the k-order
+	  background are used with the suffix tree to efficiently find the best
+	  site in each sequence.  The primary and control sequences are then sorted
+	  by the log-likelihood score of their best site, and the score threshold
+	  that optimizes the <i>p</i>-value of the statistical test
+	  (which depends on the chosen objective function) is found.
+	  The iteration ends by estimating a new version of the motif
+	  from the single best site in each primary sequence whose
+	  score is above the optimal threshold.  This new motif is
+	  used in the next refinement iteration.  Refinement stops
+	  when the <i>p</i>-value fails to improve or the maximum number
+	  allowed iterations have been performed.
+	</p>
+      </li>
+      <li><b>Motif Significance Computation.</b>
+	<p>
+	  STREME computes the unbiased statistical significance of the of
+	  the motif by using the motif and the optimal discriminative score threshold (based on the
+	  primary and control sequences) to classify the hold-out set sequences,
+	  and then applying the statistical test (Fisher's exact test, Binomial test,
+	  or the cumulative Bates distribution) to the classification.
+	  Classification is based on the best match to the motif in each
+	  sequence (on either strand when the alphabet is complementable).
+	</p>
+      </li>
+      <li><b>Motif Erasing.</b>
+	<p>
+	  STREME "erases" each of the sites of the best motif
+	  from both the primary and control sequences by converting the sites
+	  to the "N" (DNA and RNA) or "X" (Protein) character.
+	</p>
+      </li>
+    </ol>
+    <h3>Sequence set</h3>
+    <p>
+      STREME works best with lots of relatively short (&le; 1000 character) sequences. 
+      If you have a just (a few) long sequences, then you probably should split them into
+      many smaller sequences. With ChIP-seq data we recommend using
+      100bp regions centered on the peaks.  With CLIP-seq data, we recommend using the
+      actual CLIP-seq peaks (without centering or trimming).  If you have fewer
+      than 50 sequences, you might want to consider using MEME instead of STREME.
+    </p>
+    <h3>Comparative sequence set</h3>
+    <p>
+      STREME always uses a control sequence set, but you don't have to supply
+      it as STREME will create one by shuffling the input sequences. If you wish 
+      to use your own sequence set then there are a few guidelines you should 
+      follow.
+    </p>
+    <p>
+      The sequence lengths of the control sequences should be roughly
+      the same as the sequences to search for motifs. This is because STREME uses a null
+      model that assumes that the probability of finding a match in a sequence in 
+      either sequence set will be roughly the same for an uninteresting motif. 
+      If the average length of your control sequences is longer than that of 
+      the primary sequences, STREME trims the control sequences so that both sets 
+      have the same average length.
+    </p>
+    <h3>Motif statistical significance</h3>
+    <p>
+      STREME can compute very accurate statistical significance estimates (<i>p</i>-values)
+      for the motifs it discovers, as long as there are at least 50 sequences in the primary set
+      of sequences.  The way STREME does this is by holding out some sequences (10% by
+      default) to use only for computing motif significance.  To make the significance
+      estimate accurate, STREME selects the "hold-out set" at random before searching 
+      for motifs.  If your primary sequence set is too small (&lt; 50 sequences),
+      STREME will not report motif <i>p</i>-values, and the SCORE that it reports instead
+      should not be used as an indication of motif significance.
+    </p>
+    <h3>RNA motifs</h3>
+    <p>
+      When searching for RNA motifs, you can provide the sequences in either the RNA or DNA
+      alphabets.  STREME will automatically convert the sequences to the RNA alphabet, and
+      report RNA motifs.  When searching for RNA motifs, STREME treats the sequences
+      as single-stranded, even if they use the DNA alphabet.
+    </p>
+    <h3>Sequence shuffling and background model creation</h3>
+    <p>
+      STREME has a parameter, <i>order</i>, that
+      controls how it compensates for the innate non-randomness of biological
+      sequences.  It uses this parameter to control the order of the Markov
+      model it uses for modeling sequences, and for determining how to shuffle
+      the primary sequences when creating control sequences (unless you provide them).
+      Setting <i>order</i> to higher values can help STREME to avoid finding uninteresting
+      motifs that are just due to the non-randomness of 
+      biological sequences (e.g., CpG islands).
+    </p>
+    <p>
+      By default, STREME sets <i>order</i> to 2 for DNA and RNA sequences,
+      and to 0 for protein sequences and sequences in user-specified alphabets.
+      STREME always constructs and uses a Markov model of the control sequences
+      (or the primary sequences if you don't supply control sequences).
+      When shuffling sequences, STREME does so in such a way that the frequencies of 
+      words of length <i>order</i>+1 in each sequence remains the same before and after shuffling.
+      You can change the value of <i>order</i> via the web-server or on the
+      command line.
+    </p>
+    <h3>Ambiguous characters</h3>
+    <p>
+      STREME essentially ignores ambiguous characters by changing them
+      all to the sequence alphabet's wildcard character (e.g. "N" for
+      DNA and RNA, or "X" for protein).  STREME will not include any
+      portion of a sequence that overlaps a wildcard in its search
+      for motifs.
+    </p>
+  </body>
+</html>
+

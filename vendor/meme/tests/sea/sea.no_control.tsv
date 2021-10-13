@@ -1,0 +1,12 @@
+RANK	DB	ID	ALT_ID	CONSENSUS	TP	TP%	FP	FP%	ENR_RATIO	SCORE_THR	PVALUE	LOG_PVALUE	EVALUE	LOG_EVALUE	QVALUE	LOG_QVALUE
+1	common/Jaspar-subset.meme	MA0039.2	Klf4	DGGGYGKGGC	140	45.90	86	28.20	1.62	3.9	4.13e-6	-12.40	4.54e-5	-10.00	4.54e-5	-10.00
+2	common/Jaspar-subset.meme	MA0140.1	Tal1::Gata1	CTGBNNNNNDSAGATAAG	127	41.64	85	27.87	1.49	3.5	2.38e-4	-8.34	2.62e-3	-5.94	1.31e-3	-6.64
+3	common/Jaspar-subset.meme	MA0035.2	Gata1	DSAGATAAGVV	70	22.95	44	14.43	1.58	6.7	4.61e-3	-5.38	5.07e-2	-2.98	1.69e-2	-4.08
+4	common/Jaspar-subset.meme	MA0443.1	btd	RRGGGGCGKR	58	19.02	35	11.48	1.64	4.8	6.45e-3	-5.04	7.10e-2	-2.65	1.77e-2	-4.03
+5	common/Jaspar-subset.meme	MA0300.1	GAT1	YYGATAAG	60	19.67	42	13.77	1.42	4	3.24e-2	-3.43	3.56e-1	-1.03	7.12e-2	-2.64
+6	common/Jaspar-subset.meme	MA0079.2	SP1	CCCCKCCCCC	55	18.03	39	12.79	1.4	6.8	4.61e-2	-3.08	5.07e-1	-0.68	8.04e-2	-2.52
+7	common/Jaspar-subset.meme	MA0270.1	AFT2	SACACCCB	43	14.10	29	9.51	1.47	9.2	5.11e-2	-2.97	5.63e-1	-0.58	8.04e-2	-2.52
+
+# SEA (Simple Enrichment Analysis): Version 5.4.0 compiled on Aug 20 2021 at 15:30:59
+# The format of this file is described at https://meme-suite.org/meme/doc/sea-output-format.html.
+# sea --verbosity 1 --oc results/sea1 --p common/Klf1-200-100.combined.fa --m common/Jaspar-subset.meme --thresh 0.1 --qvalue

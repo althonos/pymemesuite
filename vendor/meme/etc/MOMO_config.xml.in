@@ -1,0 +1,46 @@
+<appConfig xmlns="http://nbcr.sdsc.edu/opal/types" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata appName="MOMO @SERVICE_VERSION@">
+    <usage>MOMO: post-translational modification motifs</usage>
+    <info>
+    <![CDATA[
+momo [options] [-ptm <ptm file>
+                            [ -filter_field <encoded field name> 
+                              -filter_type lt|lteq|eq|gteq|gt 
+                              -filter_thresh <threshold> ]? ]+
+
+  PSM arguments:
+    -ptm <ptm file>                       Specify a PTM file for processing
+    -ptm-type <type>                      comet|ms-gf+|tide|percolator
+    -psm-column-name <name>               Name of column containing modified peptides
+                                          (PTM file(s) must be in PSM format)
+    -filter_field <encoded field name>    Specify a field of the previously
+                                           specified PSM file to filter on.
+    -filter_type lt|lteq|eq|gteq|gt       Specify the filtering type for the
+                                           previously specified PSM file as: 
+                                            lt   - less than,
+                                            le   - less than or equal,
+                                            eq   - equal,
+                                            ge   - greater than or equal, or
+                                            gt   - greater than.
+    -filter_thresh <threshold>            Specify the number used to filter the
+                                           previously specified PSM file.
+    -db-background                        use the flank file for background peptides
+    -flank <FASTA file>                   Specify a protein FASTA file
+                                           containing flanking sequence;
+                                           any paths begining with db/ are
+                                           pre-existing databases.
+    -occurs <num>                         Set the minimum number of occurences.
+    -width <width>                        Set the width of the motifs.
+    -remove-unknowns                      modified peptides will be removed if
+                                            they contain 'X'
+    -single-per-mass                      A single motif will be generated for each distinct
+                                            modification mass.
+    -harvard                              emulate original motif-x (including p-value hack)
+    -help                                 Show this brief help message.
+    ]]>
+    </info>
+  </metadata>
+  <binaryLocation>@SERVICE_DIR@/momo_webservice</binaryLocation>
+  <drmaaQueue>@drmaa_queue@</drmaaQueue>
+  <parallel>false</parallel>
+</appConfig>

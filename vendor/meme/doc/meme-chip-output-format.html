@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>MEME-ChIP Output Formats - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/simple-shared-doc.js"></script>
+    <script src="js/meme-chip_doc.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+
+    <h2>MEME-ChIP Output Formats</h2>
+
+    <ul>
+      <h3><li><a href="#html_results">MEME-ChIP Results HTML Format</a></li></h3>
+      <h3><li><a href="#tsv_results">MEME-ChIP Results Summary TSV Format</a></li></h3>
+      <h3><li><a href="#combined_motifs">MEME-ChIP Combined Motifs (text) Format</a></li></h3>
+    </ul>
+
+    <div id="html_results">
+      <h3>MEME-ChIP Results HTML Format</h3>
+      <p>See this self-documenting <a href="examples/memechip_example_output_files/meme-chip.html">sample results HTML file</a>.</p>
+    </div>
+
+    <div id="tsv_results">
+      <h3>MEME-ChIP Results Summary TSV Format</h3>
+      <p>See this <a href="examples/memechip_example_output_files/summary.tsv">sample results summary TSV file</a>.</p>
+      <script>print_doc("tsv_results", "meme-chip", "meme-chip-results-tsv");</script>
+      <script>print_doc("tsv_results", "shared", "motif-consensus");</script>
+    </div>
+
+    <div id="combined_motifs">
+      <h3>MEME-ChIP Combined Motifs Format (text) Format</h3>
+      <p>See this <a href="examples/memechip_example_output_files/combined.meme">sample combined motifs text file</a>.</p>
+      <script>print_doc("combined_motifs", "meme-chip", "meme-chip-combined-motifs");</script>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>fasta-center - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+    <script src="js/shared-doc.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+    <h2>fasta-center</h2>
+    
+    <div class="usage">
+      <h3>Usage:</h3>
+      <code>fasta-center [options] </code>
+    </div>
+
+    <h3>Description</h3>
+    <div class="indent">
+      <p>
+      Reads sequences in FASTA format.  For each sequence, it
+      outputs the central portion of the sequence.  
+      The flanking regions can also be output to a separate file.
+      When the alphabet is specified and the central portion of a
+      sequence consists of nothing but the wildcard it is not output.
+      </p>
+    </div>
+
+    <h3>Input</h3>
+    <div class="indent">
+      <p>Sequences in <a href="fasta-format.html">FASTA format</a> from standard input.</p>
+    </div>
+
+    <h3>Output</h3>
+    <div class="indent">
+      <p>Writes a <a href="fasta-format.html">FASTA format</a> file to standard output.</p>
+    </div>
+
+    <h3>Options</h3>
+    <div class="indent">
+      <table class="options">
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Parameter</th>
+            <th>Description</th>
+            <th>Default Behavior</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th colspan="4">Alphabet Options</th>
+          </tr>
+          <script>
+              wropt("all-alph", {"ddash": false, "fasta-center": true});
+              wropt("all-stdalph", {"ddash": false, "ignore": true, "dna": true});
+              wropt("all-stdalph", {"ddash": false, "ignore": true, "rna": true});
+              wropt("all-stdalph", {"ddash": false, "ignore": true, "protein": true});
+          </script>
+          </tbody>
+          <tbody>
+          <tr>
+            <th colspan="4">General Options</th>
+          </tr>
+          <tr>
+            <td class="popt">-len</td><td><span class="pdat">len</span></td>
+            <td>Length of central region to output.  If this is larger than
+            the length of a sequence, the entire sequence is output.</td>
+            <td>100</td>
+          </tr>
+          <tr>
+            <td class="popt">-flank</td><td><span class="pdat">filename</span></td>
+            <td>Output the regions flanking the central regions to a file
+                named <span class="pdat">filename</span>.  
+                The FASTA IDs of the flanking regions on the left (right) 
+                are the original FASTA ID with '-L' ('-R') appended.</td>
+            <td>Flanking regions are not output.</td>
+          </tr>
+          <tr>
+            <td class="popt">-reject</td><td><span class="pdat">filename</span></td>
+            <td>Output any rejected central regions to a file
+                named <span class="pdat">filename</span>.</td>
+            <td>Rejected central regions are not output.</td>
+          </tr>
+          <script>
+            wropt("all-help", {"short": true});
+          </script>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
+

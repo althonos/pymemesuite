@@ -1,0 +1,21 @@
+MOTIF_INDEX	MOTIF_SOURCE	MOTIF_ID	ALT_ID	CONSENSUS	WIDTH	SITES	E-VALUE	E-VALUE_SOURCE	MOST_SIMILAR_MOTIF_SOURCE	MOST_SIMILAR_MOTIF	URL
+1	MEME	m1CWGN	MEME-1	m1CWGN	6	1156	3.9e-120	MEME	 	 	 
+2	common/dna_with_covalent.meme	GCAm1C	Gm1TGC	GCAm1C	6	861	2.1e-024	CENTRIMO	 	 	 
+3	common/dna_with_covalent.meme	Gm1TGC	GCAm1C	Gm1TGC	6	861	2.1e-024	CENTRIMO	 	 	 
+4	common/dna_with_covalent.meme	GCAm7C	Gx1TGC	GCAm7C	6	870	3.0e-022	CENTRIMO	 	 	 
+5	common/dna_with_covalent.meme	TGCm1C	Gm1GCA	TGCm1C	6	999	7.1e-018	CENTRIMO	 	 	 
+6	common/dna_with_covalent.meme	Gm7GCA	TGCx1C	Gm7GCA	6	1005	1.5e-017	CENTRIMO	 	 	 
+7	common/dna_with_covalent.meme	GCm1C1	mGm1GC	GCm1C1	6	506	1.7e-017	CENTRIMO	 	 	 
+8	common/dna_with_covalent.meme	GCAGCA	TGCTGC	GCAGCA	6	958	5.5e-015	CENTRIMO	 	 	 
+9	common/dna_with_covalent.meme	TGCmGC	GC1GCA	TGCmGC	6	375	3.5e-009	CENTRIMO	 	 	 
+10	STREME	3-CTGAGGCWGM	STREME-3	CTGAGGCWGM	10	106	3.0e-007	STREME	common/dna_with_covalent.meme	GCAGCA (TGCTGC)	 
+11	STREME	14-GGTGATGGGm1AGC	STREME-14	14-GGTGATGGGm1AGC	14	46	6.1e-007	STREME	common/Jaspar-subset.meme	MA0079.2 (SP1)	http://jaspar.genereg.net/cgi-bin/jaspar_db.pl?ID=MA0079.2&rm=present&collection=CORE
+12	STREME	2-CAGACAGCm1GCCAC	STREME-2	CAGACAGCm1GCCAC	15	79	6.0e-006	STREME	common/Jaspar-subset.meme	MA0079.1 (SP1)	http://jaspar.genereg.net/cgi-bin/jaspar_db.pl?ID=MA0079.1&rm=present&collection=CORE
+13	STREME	1-CAGAGGACAGGTGTC	STREME-1	CAGAGGACAGGTGTC	15	71	1.4e-005	STREME	common/Jaspar-subset.meme	MA0270.1 (AFT2)	http://jaspar.genereg.net/cgi-bin/jaspar_db.pl?ID=MA0270.1&rm=present&collection=CORE
+14	STREME	11-GCAGTGTTTTGGA	STREME-11	11-GCAGTGTTTTGGA	13	32	1.4e-005	STREME	 	 	 
+15	STREME	9-CCTAGTCACTG	STREME-9	CCTAGTCACTG	11	56	4.4e-005	STREME	common/Jaspar-subset.meme	MA0035.2 (Gata1)	http://jaspar.genereg.net/cgi-bin/jaspar_db.pl?ID=MA0035.2&rm=present&collection=CORE
+16	STREME	4-CCATTACTA	STREME-4	CCATTACTA	9	65	2.7e-002	STREME	common/Jaspar-subset.meme	MA0309.1 (GZF3)	http://jaspar.genereg.net/cgi-bin/jaspar_db.pl?ID=MA0309.1&rm=present&collection=CORE
+
+# MEME-ChIP (Motif Analysis of Large Nucleotide Datasets): Version 5.4.0 released on Mon Aug 16 16:18:19 2021 -0700
+# The format of this file is described at https://meme-suite.org/meme//doc/meme-chip-output-format.html
+# meme-chip -oc results/meme-chip2 -meme-nmotifs 1 -xalph common/dna_with_covalent.alph -bfile common/dna_with_covalent.bg -db common/Jaspar-subset.meme -db common/dna_with_covalent.meme common/dna_with_covalent.fa --meme-p 6

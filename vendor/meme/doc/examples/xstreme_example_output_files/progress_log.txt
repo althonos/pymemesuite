@@ -1,0 +1,94 @@
+Invoking:
+  getsize nrmix.nseqs.100.100bp.seed.1.fa 1> $metrics
+Finished invoke:
+  name: count_primary_seqs  status: 0  time: 0.032145
+Invoking:
+  fasta-get-markov -nostatus -nosummary -dna -m 2 -pseudo 1 nrmix.nseqs.100.100bp.seed.1.fa xstreme_example_output_files/background
+Finished invoke:
+  name: bg  status: 0  time: 0.01633
+Invoking:
+  streme --verbosity 1 --oc xstreme_example_output_files/streme_out -dna --minw 6 --maxw 15 --order 2 --bfile xstreme_example_output_files/background --seed 0 --align center --evalue --thresh 0.05 --p nrmix.nseqs.100.100bp.seed.1.fa
+Finished invoke:
+  name: streme  status: 0  time: 63.242776
+Invoking:
+  meme -oc xstreme_example_output_files/meme_out -mod zoops -minw 6 -maxw 15 -bfile xstreme_example_output_files/background -markov_order 2 -seed 0 -dna -revcomp -evt 0.05 -p 6 -nostatus nrmix.nseqs.100.100bp.seed.1.fa
+Finished invoke:
+  name: meme  status: 0  time: 987.549238
+Invoking:
+  sea --verbosity 1 --oc xstreme_example_output_files/sea_disc_out --qvalue --thresh 1 --order 2 --bfile xstreme_example_output_files/background --seed 0 --align center --motif-pseudo 0.01 --noseqs --m xstreme_example_output_files/meme_out/meme.xml --m xstreme_example_output_files/streme_out/streme.xml --p nrmix.nseqs.100.100bp.seed.1.fa
+Finished invoke:
+  name: sea_disc  status: 0  time: 0.750327
+Invoking:
+  sea --verbosity 1 --oc xstreme_example_output_files/sea_out --thresh 0.05 --order 2 --bfile xstreme_example_output_files/background --seed 0 --align center --motif-pseudo 0.01 --m xstreme_example_output_files/meme_out/meme.xml --m xstreme_example_output_files/streme_out/streme.xml --m JASPAR2018_CORE_non-redundant.meme --p nrmix.nseqs.100.100bp.seed.1.fa
+Finished invoke:
+  name: sea  status: 0  time: 42.932143
+Invoking:
+  sea --verbosity 1 --oc xstreme_example_output_files/distr_out --pvalue --thresh 1 --hofract 0 --order 2 --bfile xstreme_example_output_files/background --seed 0 --motif-pseudo 0.01 --p nrmix.nseqs.100.100bp.seed.1.fa --m xstreme_example_output_files/combined.meme
+Finished invoke:
+  name: distr_sea  status: 0  time: 8.213379
+Invoking:
+  tomtom -verbosity 1 -oc xstreme_example_output_files/streme_tomtom_out -min-overlap 5 -dist ed -evalue -thresh 1 -no-ssc xstreme_example_output_files/streme_out/streme.xml JASPAR2018_CORE_non-redundant.meme
+Finished invoke:
+  name: streme_tomtom  status: 0  time: 6.419442
+Invoking:
+  tomtom -verbosity 1 -oc xstreme_example_output_files/meme_tomtom_out -min-overlap 5 -dist ed -evalue -thresh 1 -no-ssc xstreme_example_output_files/meme_out/meme.xml JASPAR2018_CORE_non-redundant.meme
+Finished invoke:
+  name: meme_tomtom  status: 0  time: 10.109786
+Invoking:
+  tomtom -verbosity 1 -text -thresh 0.1 xstreme_example_output_files/combined.meme xstreme_example_output_files/combined.meme 1> xstreme_example_output_files/motif_alignment.txt
+Finished invoke:
+  name: align_tomtom  status: 0  time: 24.089878
+Invoking:
+  fimo --parse-genomic-coord --verbosity 1 --oc xstreme_example_output_files/fimo_out_1 --bgfile xstreme_example_output_files/background --motif 2-GCTGAGTCATN xstreme_example_output_files/streme_out/streme.xml nrmix.nseqs.100.100bp.seed.1.fa
+Finished invoke:
+  name: fimo1  status: 0  time: 0.194076
+Invoking:
+  fimo --parse-genomic-coord --verbosity 1 --oc xstreme_example_output_files/fimo_out_2 --bgfile xstreme_example_output_files/background --motif CCASYAGRKGGCRSY xstreme_example_output_files/meme_out/meme.xml nrmix.nseqs.100.100bp.seed.1.fa
+Finished invoke:
+  name: fimo2  status: 0  time: 0.196038
+Invoking:
+  fimo --parse-genomic-coord --verbosity 1 --oc xstreme_example_output_files/fimo_out_3 --bgfile xstreme_example_output_files/background --motif 5-AGATAAGG xstreme_example_output_files/streme_out/streme.xml nrmix.nseqs.100.100bp.seed.1.fa
+Finished invoke:
+  name: fimo3  status: 0  time: 0.192328
+Invoking:
+  fimo --parse-genomic-coord --verbosity 1 --oc xstreme_example_output_files/fimo_out_4 --bgfile xstreme_example_output_files/background --motif SCCCCGCCCCC xstreme_example_output_files/meme_out/meme.xml nrmix.nseqs.100.100bp.seed.1.fa
+Finished invoke:
+  name: fimo4  status: 0  time: 0.199773
+Invoking:
+  fimo --parse-genomic-coord --verbosity 1 --oc xstreme_example_output_files/fimo_out_5 --bgfile xstreme_example_output_files/background --motif 3-GCGCATGCGCAC xstreme_example_output_files/streme_out/streme.xml nrmix.nseqs.100.100bp.seed.1.fa
+Finished invoke:
+  name: fimo5  status: 0  time: 0.19151
+Invoking:
+  fimo --parse-genomic-coord --verbosity 1 --oc xstreme_example_output_files/fimo_out_6 --bgfile xstreme_example_output_files/background --motif 4-CACTTCCTGKT xstreme_example_output_files/streme_out/streme.xml nrmix.nseqs.100.100bp.seed.1.fa
+Finished invoke:
+  name: fimo6  status: 0  time: 0.19066
+Invoking:
+  fimo --parse-genomic-coord --verbosity 1 --oc xstreme_example_output_files/fimo_out_7 --bgfile xstreme_example_output_files/background --motif GACTACAWYTCCCAG xstreme_example_output_files/meme_out/meme.xml nrmix.nseqs.100.100bp.seed.1.fa
+Finished invoke:
+  name: fimo7  status: 0  time: 0.194531
+Invoking:
+  fimo --parse-genomic-coord --verbosity 1 --oc xstreme_example_output_files/fimo_out_8 --bgfile xstreme_example_output_files/background --motif TTTTYTTTTYTTTYW xstreme_example_output_files/meme_out/meme.xml nrmix.nseqs.100.100bp.seed.1.fa
+Finished invoke:
+  name: fimo8  status: 0  time: 0.194076
+Invoking:
+  fimo --parse-genomic-coord --verbosity 1 --oc xstreme_example_output_files/fimo_out_9 --bgfile xstreme_example_output_files/background --motif 8-GGTCACGTGABBS xstreme_example_output_files/streme_out/streme.xml nrmix.nseqs.100.100bp.seed.1.fa
+Finished invoke:
+  name: fimo9  status: 0  time: 0.192357
+Invoking:
+  fimo --parse-genomic-coord --verbosity 1 --oc xstreme_example_output_files/fimo_out_10 --bgfile xstreme_example_output_files/background --motif 7-CAAGATGGC xstreme_example_output_files/streme_out/streme.xml nrmix.nseqs.100.100bp.seed.1.fa
+Finished invoke:
+  name: fimo10  status: 0  time: 0.193131
+Invoking:
+  fimo --parse-genomic-coord --verbosity 1 --oc xstreme_example_output_files/fimo_out_11 --bgfile xstreme_example_output_files/background --motif TGCACTCCAGCCTGG xstreme_example_output_files/meme_out/meme.xml nrmix.nseqs.100.100bp.seed.1.fa
+Finished invoke:
+  name: fimo11  status: 0  time: 0.19583
+Invoking:
+  fimo --parse-genomic-coord --verbosity 1 --oc xstreme_example_output_files/fimo_out_12 --bgfile xstreme_example_output_files/background --motif RGCTCACTGCAGCCT xstreme_example_output_files/meme_out/meme.xml nrmix.nseqs.100.100bp.seed.1.fa
+Finished invoke:
+  name: fimo12  status: 0  time: 0.193705
+Writing output
+Invoking:
+  xstreme_html_to_tsv xstreme_example_output_files/xstreme.html xstreme_example_output_files/xstreme.tsv "xstreme -oc xstreme_example_output_files --meme-p 6 --p nrmix.nseqs.100.100bp.seed.1.fa --m JASPAR2018_CORE_non-redundant.meme" 5.4.0 "Mon Aug 16 16\:18\:19 2021 -0700"
+Finished invoke:
+  name: summary  status: 0  time: 0.501175
+Done

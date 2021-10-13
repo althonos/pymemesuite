@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CentriMo - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+    <script src="js/shared-doc.js"></script>
+    <script src="js/citation.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+    <div class="prog_logo">
+      <img src="images/centrimo_icon.png" alt="CentriMo Logo">
+      <h1>CentriMo</h1>
+      <h2>Local Motif Enrichment Analysis</h2>
+    </div>
+
+    <div style='display:inline' id='man_web_button'>
+      <p> <button onclick="toggle_man_display()">View Web Version</button> </p>
+    </div>
+
+    <div style='display:none' id='man_cmd_button'>
+      <p> <button onclick="toggle_man_display()">View Command-Line Version</button> </p>
+    </div>
+
+    <div style='display:inline' id='man_usage'>
+      <div class="usage">
+        <h3>Usage:</h3>
+        <code>centrimo [options] &lt;primary sequence file&gt; &lt;motif file&gt;+</code>
+      </div>
+    </div>
+
+    <h3>Description</h3>
+    <div class="indent">
+       <span class="man blurb" data-id="centrimo"></span>
+    </div>
+
+    <!-- Command Line Version Doc -->
+    <div style='display:inline' id='man_cmd'>
+      <h3>Input</h3>
+      <div class="indent">
+        <h4><span class='popt'>&lt;primary sequence file&gt;</span></h4>
+        <div class="indent">
+          <p>The name of a file containing <a href="fasta-format.html">FASTA formatted sequences</a>,
+          ideally all of the same length. The sequences in this file are referred to as the
+          "primary sequences" when a second set of (control) sequences is provided using
+          the <span class="popt">--neg</span> option (see below).</p>
+        </div>
+        <h4><span class='popt'>&lt;motif file&gt;+</span></h4>
+        <div class="indent">
+          <p>The names of one or more files containing <a href="meme-format.html">MEME formatted motifs</a>.
+          Outputs from MEME and DREME are supported, as well as Minimal MEME
+          Format. You can convert many other motif formats to MEME format
+          using <a href="overview.html#motif_conversion_utilities">conversion scripts</a>
+          available with the MEME Suite.</p>
+        </div>
+      </div>
+
+      <h3>Output</h3>
+      <div class="indent">
+        <p>
+          CentriMo writes its output to files in a directory named
+          <code>centrimo_out</code>, which it creates if necessary. You can change the
+          output directory using the <span class='popt'>--o</span> or <span class='popt'>--oc</span> options.
+          The directory will contain:
+        </p>
+        <ul>
+          <li><a href=examples/centrimo_example_output_files/centrimo.html><code>centrimo.html</code></a> -
+	    an HTML file that provides the results in a human-readable format;
+	    this file allows interactive selection of which motifs to plot the 
+	    positional distribution for, as well as control over smoothing and other plotting parameters
+          <li><a href=examples/centrimo_example_output_files/centrimo.tsv><code>centrimo.tsv</code></a> - 
+            a <a href=centrimo-output-format.html#tsv_results>TSV (tab-separated values)</a>
+            the results in a format suitable for parsing by scripts and viewing with Excel
+          <li><a href=examples/centrimo_example_output_files/site_counts.txt><code>site_counts.txt</code></a> -
+            a <a href=centrimo-output-format.html#txt_sites>text file</a>
+	    that lists, for each motif and each sequence position, 
+	    the number of sequences where the best match of the motif occurs at the given position
+        </ul>
+        <p>
+	  <b>Note:</b> See this detailed description of the <a href=centrimo-output-format.html>CentriMo output formats</a>
+	  for more information.
+        </p>
+        
+      </div>
+      <h3>Options</h3>
+      <div class="indent">
+        <table class="options">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Parameter</th>
+              <th>Description</th>
+              <th>Default Behavior</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th colspan="4">Input/Output</th>
+            </tr>
+            <script>
+              wropt("all-o", {"ddash": true, "dir": "centrimo_out"});
+              wropt("all-oc", {"ddash": true, "dir": "centrimo_out"});
+            </script>
+            <tr>
+              <td class="popt">--neg</td><td><span class="pdat">control sequence file</span></td>
+              <td>Plot the motif distributions in this set (the control sequences) as well.
+              Also, for each enriched region in the primary sequences, the significance of the 
+              <b>relative</b> enrichment of the motif in that region in the primary
+              versus control sequences is evaluated using Fisher's exact test.
+              <td>&nbsp;</td>
+            </tr>
+            <script>
+              wropt("all-xalph", {"ddash": true});
+              wropt("all-bg", {"ddash": true, "bfile":true, "centrimo": true, "sequences": true});
+              wropt("all-pseudo", {"ddash": true});
+              wropt("all-inc", {"inc": true, "ddash": true, "centrimo": true});
+              wropt("all-inc", {"inc": false, "ddash": true, "centrimo": true});
+            </script>
+            <tr>
+              <td class="popt">--seqlen</td><td><span class="pdat">length</span></td>
+              <td>Use sequences with the length <span class="pdat">length</span> 
+              ignoring all other sequences in the input file(s).</td>
+              <td>Use sequences with the same length as the first sequence,
+              ignoring all other sequences in the input file(s).</td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <th colspan="4">Scanning</th>
+            </tr>
+            <tr>
+              <td class="popt">--score</td> 
+              <td><span class="pdat">S</span></td>   
+              <td>The score threshold for predicting motif sites. 
+		By default, motif log-odds scores are used and the threshold 
+		<span class="pdat">S</span> is in bits.  
+		If option <span class="popt">--use-lo-fraction</span> is given,
+	        motif log-odds scorea are still used, but
+		the score threshold is <span class="pdat">S</span> times the maximum
+		log-odds score possible for the motif.
+		If option <span class="popt">--use-pvalues</span> is given, 
+		adjusted motif <i>p</i>-values are used instead of log-odds scores.  
+		Sequences without a match with score &ge; <span class="pdat">S</span> (log-odds) or 
+                &le; <span class="pdat">S</span> (<i>p</i>-values) are ignored.</td> 
+              <td>A threshold of 5 bits (default), 25% of maximum 
+		(<span class="popt">--use-lo-fraction</span>), or 
+		0.05 (<span class="popt">--use-pvalues</span>) is used.
+            </tr>
+            <tr>
+              <td class="popt">--use-lo-fraction</td> 
+              <td></span></td>   
+              <td>The score threshold <span class="pdat">S</span> (see option
+		<span class="popt">--score</span>, above) gives the fraction
+		of the maximum log-odds score for a motif site.
+	        Not compatible with option <span class="popt">--use-pvalues</span>.</td>
+              <td>The score threshold <span class="pdat">S</span> is in bits.</td>
+            </tr>
+            <tr>
+              <td class="popt">--use-pvalues</td> 
+              <td></span></td>   
+              <td>Use the adjusted motif <i>p</i>-value of potential sites for scoring motifs.
+		The <i>p</i>-value of a potential site is adjusted for the number of possible 
+		positions a site could occur in the given sequence.
+		See option <span class="popt">--score</span> for how to set the <i>p</i>-value threshold.  
+	        Not compatible with option <span class="popt">--use-lo-fraction</span>.</td>
+              <td>Use the motif log-odds score for scoring motifs.</td>
+            </tr>
+            <tr>
+              <td class="popt">--norc</td> 
+              <td>&nbsp;</td>   
+              <td>Scan only the given strand of sequences.</td> 
+              <td>Scans the given and reverse complement strands of
+		sequences with complementable alphabets.</td>
+            </tr>
+            <tr>
+              <td class="popt">--sep</td> 
+              <td>&nbsp;</td>   
+              <td>Create a reverse complement for each given motif and
+		scan separately with both.  
+		<b>Note: </b>this option implies <span class="popt">--norc</span>.</td> 
+              <td>Scan with the given motifs only.</td>
+            </tr>
+            <tr>
+              <td class="popt">--flip</td> 
+              <td>&nbsp;</td>   
+              <td>Reverse complement matches appear 'reflected' around sequence centers.</td>
+              <td>Do not 'flip' the sequence; use rc of motif instead.</td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <th colspan="4">Enrichment</th>
+            </tr>
+            <tr>
+              <td class="popt">--optimize-score</td><td>&nbsp;</td>
+              <td>Search for the optimal score subject to the constraint given by
+              the <span class="popt">--score</span> option.</td>
+              <td>The score threshold is used (see option <span class="popt">--score</span>, above).</td>
+            </tr>
+            <tr>
+              <td class="popt">--maxreg</td> 
+              <td><span class="pdat">max region</span></td>   
+              <td>The maximum region size to consider.</td> 
+              <td>Try all region sizes up to the sequence width.</td>
+            </tr>
+            <tr>
+              <td class="popt">--minreg</td> 
+              <td><span class="pdat">min region</span></td>   
+              <td>The minimum region size to consider.  Must be less than <span class="pdat">max region</span>.</td> 
+              <td>Try regions 1 bp and larger.</td>
+            </tr>
+            <tr>
+              <td class="popt">--local</td>
+              <td>&nbsp;</td>
+              <td>Compute enrichment of all regions.</td>
+              <td>Compute enrichment of central regions.</td>
+            </tr>
+            <tr>
+              <td class="popt">--cd</td>
+              <td>&nbsp;</td>
+              <td>Measure enrichment using the average distance between the center of the best site
+	      and the sequence center. The score threshold is varied to optimize the significance
+	      of the (small) distance, which is computed using the cumulative Bates distribution.
+	      <b>Note 1:</b> Only sequences with a site at or above the minimum score are considered
+		(see the <span class="popt">--score</span> option, below).
+	      <b>Note 2:</b> If a sequence has ties for best site, their average distance is used.
+	      <b>Note 3:</b> This option implies the <span class="popt">--optimize-score</span> option,
+		and may not be used with options <span class="popt">--local</span>,
+		<span class="popt">--neg</span>, <span class="popt">--minreg</span> or 
+		<span class="popt">--maxreg</span>.
+              <td>Enrichment is measured by counting the number of times the best site
+		occurs in the the central region vs. the flanks of the sequence.</td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <th colspan="4">Output filtering</th>
+            </tr>
+            <tr>
+              <td class="popt">--ethresh</td>
+              <td><span class="pdat">thresh</span></td>
+              <td>Limit the results to motifs with an enriched region whose
+              <i>E</i>-value is less than <span class="pdat">thresh</span>.
+              Enrichment <i>E</i>-values are computed by first adjusting the binomial
+              <i>p</i>-value of a region for the number of regions tested using the
+              Bonferroni correction, and then multiplying the adjusted <i>p</i>-value
+              by the number of motifs in the input to CentriMo.</td>  
+              <td>Include motifs with <i>E</i>-values up to 10.</td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <th colspan="4">Miscellaneous</th>
+            </tr>
+            <script>
+              wropt("all-desc", {"ddash": true});
+              wropt("all-dfile", {"ddash": true});
+            </script>
+            <tr>
+              <td class="popt">--noseq</td>
+              <td>&nbsp;</td>
+              <td>Do not store sequence IDs in the output of CentriMo.</td>
+              <td>CentriMo stores a list of the sequence IDs with matches in the
+              best region for each motif. This can potentially make the file
+              size much larger.</td>
+            </tr>
+            <script>
+              wropt("all-verbosity", {"ddash": true});
+              wropt("all-version", {"ddash": true});
+            </script>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 id="citing">Citing</h3>
+    <div class=indent id="citation"> <script>print_citation("citation", "CentriMo");</script> </div>
+
+    <script src="js/manual.js"></script>
+
+  </body>
+</html>
+

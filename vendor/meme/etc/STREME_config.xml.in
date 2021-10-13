@@ -1,0 +1,72 @@
+<appConfig xmlns="http://nbcr.sdsc.edu/opal/types" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata appName="STREME @SERVICE_VERSION@">
+    <usage>STREME: Sensitive, Thorough, Rapid, Enriched Motif Elicitation</usage>
+    <info>
+    <![CDATA[
+    streme_webservice [options] <positive sequences file>
+
+    -n <file>           file containing negative sequences
+    -minw <minw>        minimum motif width
+    -maxw <maxw>        maximum motif width
+    -pvt <pvt>          maximum motif pvalue
+    -nmotifs <nmotifs>  maximum motif count
+    -kmer <kmer>        size of kmer to preserve when shuffling
+    -help               brief help message
+    ]]>
+    </info>
+    <!-- information about command-line arguments -->
+    <types>
+      <taggedParams>
+        <separator> </separator>
+        <param>
+          <id>negative_sequences</id>
+          <tag>-n</tag>
+          <paramType>FILE</paramType>
+          <ioType>INPUT</ioType>
+          <required>false</required>
+          <textDesc>Comparative sequences</textDesc>
+        </param>
+        <param>
+          <id>pvt</id>
+          <tag>-e</tag>
+          <paramType>FLOAT</paramType>
+          <required>false</required>
+          <default>NONE</default>
+          <textDesc>Maximum p-value</textDesc>
+        </param>
+        <param>
+          <id>nmotifs</id>
+          <tag>-nmotifs</tag>
+          <paramType>INT</paramType>
+          <required>false</required>
+          <textDesc>Maximum motif count</textDesc>
+        </param>
+      </taggedParams>
+      <untaggedParams>
+        <param>
+          <id>sequences</id>
+          <paramType>FILE</paramType>
+          <ioType>INPUT</ioType>
+          <required>true</required>
+          <textDesc>Sequences</textDesc>
+        </param>
+      </untaggedParams>
+      <groups>
+        <group>
+          <name>required_params</name>
+          <elements>sequences</elements>
+          <textDesc>Required Parameters</textDesc>
+        </group>
+        <group>
+          <name>optional_params</name>
+          <elements>negative_sequences evalue_threshold count_threshold</elements>
+          <textDesc>Optional Parameters</textDesc>
+        </group>
+      </groups>
+    </types>
+  </metadata>
+  <binaryLocation>@SERVICE_DIR@/streme_webservice</binaryLocation>
+  <drmaaQueue>@drmaa_queue@</drmaaQueue>
+  <parallel>false</parallel>
+</appConfig>
+

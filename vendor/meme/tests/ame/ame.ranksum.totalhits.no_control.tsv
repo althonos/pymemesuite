@@ -1,0 +1,16 @@
+rank	motif_DB	motif_ID	motif_alt_ID	consensus	p-value	adj_p-value	E-value	tests	FASTA_max	pos	neg	U	pleft	pright	pboth	adj_pleft	adj_pright	adj_pboth
+1	common/Jaspar-subset.meme	MA0039.2	Klf4	DGGGYGKGGC	1.25e-18	4.23e-16	5.49e-15	338	-57.4	35	0	522.5	1.00e0	1.25e-18	2.50e-18	1.00e0	4.23e-16	8.45e-16
+4	common/Jaspar-subset.meme	MA0270.1	AFT2	SACACCCB	2.39e-3	5.55e-1	7.21e0	338	-117	27	0	2824	9.98e-1	2.39e-3	4.79e-3	1.00e0	5.55e-1	8.02e-1
+5	common/Jaspar-subset.meme	MA0309.1	GZF3	YGATAASR	4.30e-2	1.00e0	1.30e1	338	-52.9	37	0	4605	9.57e-1	4.30e-2	8.60e-2	1.00e0	1.00e0	1.00e0
+6	common/Jaspar-subset.meme	MA0443.1	btd	RRGGGGCGKR	4.75e-1	1.00e0	1.30e1	338	7.35	230	0	1.237e+04	5.25e-1	4.75e-1	9.49e-1	1.00e0	1.00e0	1.00e0
+7	common/Jaspar-subset.meme	MA0300.1	GAT1	YYGATAAG	1.56e-1	1.00e0	1.30e1	338	-52.9	37	0	5001	8.44e-1	1.56e-1	3.12e-1	1.00e0	1.00e0	1.00e0
+8	common/Jaspar-subset.meme	MA0079.2	SP1	CCCCKCCCCC	2.62e-1	1.00e0	1.30e1	338	-46.9	50	0	6793	7.38e-1	2.62e-1	5.24e-1	1.00e0	1.00e0	1.00e0
+9	common/Jaspar-subset.meme	MA0079.1	SP1	KRGGCDGGGT	1.48e-1	1.00e0	1.30e1	338	-44.8	57	0	7306	8.52e-1	1.48e-1	2.97e-1	1.00e0	1.00e0	1.00e0
+10	common/Jaspar-subset.meme	MA0035.2	Gata1	DSAGATAAGVV	1.82e-1	1.00e0	1.30e1	338	-52.9	37	0	5059	8.18e-1	1.82e-1	3.64e-1	1.00e0	1.00e0	1.00e0
+11	common/Jaspar-subset.meme	MA0140.1	Tal1::Gata1	CTGBNNNNNDSAGATAAG	4.79e-1	1.00e0	1.30e1	338	16.4	253	0	1.071e+04	5.21e-1	4.79e-1	9.57e-1	1.00e0	1.00e0	1.00e0
+12	common/Jaspar-subset2.meme	MA0443.1	btd	RRGGGGCGKR	4.75e-1	1.00e0	1.30e1	338	7.35	230	0	1.237e+04	5.25e-1	4.75e-1	9.49e-1	1.00e0	1.00e0	1.00e0
+13	common/Jaspar-subset2.meme	MA0039.1	Klf4	WARRGRAAGG	3.09e-1	1.00e0	1.30e1	338	-39	83	0	1.02e+04	6.91e-1	3.09e-1	6.19e-1	1.00e0	1.00e0	1.00e0
+
+# AME (Analysis of Motif Enrichment): Version 5.4.0 compiled on May 20 2021 at 11:57:07
+# The format of this file is described at https://meme-suite.org/meme/doc/ame-output-format.html.
+# ame --verbose 1 --method ranksum --scoring totalhits --oc results/ame13 --evalue-report-threshold 100 --hit-lo-fraction 0.85 --bgfile --uniform-- common/Klf1-200-100.combined.fa common/Jaspar-subset.meme common/Jaspar-subset2.meme

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>T-Gene verification</title>
+<link href="../css/status.css" rel="stylesheet" type="text/css" />
+<script src="../doc/js/utilities.js"></script>
+<script src="../js/status.js"></script>
+<script>
+var verify = 
+<!--{message}-->
+{
+  "items": [
+    {
+      "type": "loci",
+      "name": "Loci file"
+    },
+    {
+      "type": "cname",
+      "name": "Annotation File",
+      "key": "annotation_file_name",
+      "any":  "!!VALUE!!"
+    },
+    {
+      "type": "cname",
+      "name": "Transcript Types",
+      "key": "transcript_types",
+      "any":  "!!VALUE!!"
+    },
+    {
+      "type": "number",
+      "name": "<i>p</i>-value threshold",
+      "key": "max_pvalue",
+      "any": "Limit output to links with <i>p</i>-value &le; !!VALUE!!."
+    },
+    {
+      "type": "cname",
+      "name": "Genome Name",
+      "key": "genome_name",
+      "any":  "!!VALUE!!"
+    },
+    {
+      "type": "cname",
+      "name": "Tissue Panel Name",
+      "key": "panel_name",
+      "any":  "!!VALUE!!"
+    },
+    {
+      "type": "span",
+      "name": "Genome Description",
+      "key": "genome_description",
+      "any":  "!!VALUE!!"
+    },
+    {
+      "type": "span",
+      "name": "Tissue Panel Description",
+      "key": "panel_description"
+    },
+    {
+      "type": "cname",
+      "name": "Genome Release",
+      "key": "genome_release",
+      "any":  "!!VALUE!!"
+    },
+    {
+      "type": "cname",
+      "name": "Tissues with Histone and Expression Data",
+      "key": "tissues",
+      "any":  "!!VALUE!!"
+    },
+    {
+      "type": "cname",
+      "name": "Histone Modification(s)",
+      "key": "histones",
+      "any":  "!!VALUE!!"
+    },
+    {
+      "type": "cname",
+      "name": "Maximum Link Distance(s)",
+      "key": "max_link_distances",
+      "any":  "!!VALUE!!"
+    },
+    {
+      "type": "cname",
+      "name": "RNA Source",
+      "key": "rna_source",
+      "any":  "!!VALUE!!"
+    },
+    {
+      "type": "flag",
+      "name": "Number of TSSes per Gene",
+      "key": "use_gene_ids",
+      "on": "One",
+      "off": "One or more"
+    },
+    {
+      "type": "number",
+      "name": "Low Expression Correlation Adjustment Threshold",
+      "key": "lecat",
+      "any": "Reduce the correlation of links with minimum expression &le; !!VALUE!!."
+    },
+    {
+      "type": "flag",
+      "name": "Closest locus",
+      "key": "closest_locus",
+      "on": "Output link to closest locus (or loci, if ties) for each TSS.",
+      "off": "Output link to closest locus only if it satisfies the maximum link distance constraint."
+    },
+    {
+      "type": "flag",
+      "name": "Closest TSS",
+      "key": "closest_tss",
+      "on": "Output link to closest TSS (or TSSes, if ties) for each locus.",
+      "off": "Output link to closest TSS only if it satisfies the maximum link distance constraint."
+    }
+  ]
+}<!--{/message}-->;
+</script>
+
+</head>
+
+<body>
+<!--{title}-->T-Gene<!--{/title}--> - <!--{subtitle}-->Prediction of Target Genes<!--{/subtitle}--><br>
+<!--{logo}-->doc/images/tgene_icon.png<!--{/logo}-->: <!--{alt}-->T-Gene Logo<!--{/alt}--><br>
+<div id="info"></div>
+<script>display_job_information($("info"), verify["items"], data);</script>
+</body>
+</html>

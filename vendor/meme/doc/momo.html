@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>MoMo - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+    <script src="js/shared-doc.js"></script>
+    <script src="js/citation.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+    <div class="prog_logo">
+      <img src="images/momo_icon.png" alt="MoMo Logo">
+      <h1>MoMo</h1>
+      <h2>Modification Motifs</h2>
+    </div>
+    
+    <div style='display:inline' id='man_web_button'>
+      <p> <button onclick="toggle_man_display()">View Web Version</button> </p>
+    </div>
+
+    <div style='display:none' id='man_cmd_button'>
+      <p> <button onclick="toggle_man_display()">View Command-Line Version</button> </p>
+    </div>
+
+    <div style='display:inline' id='man_usage'>
+      <div class="usage">
+        <h3>Usage:</h3>
+        <code>momo &lt;algorithm&gt; [options] &lt;PTM file&gt;+</code>
+      </div>
+    </div>
+    <h3>Description</h3>
+    <div class="indent">
+       <span class="man blurb" data-id="momo"></span>
+    </div>
+
+    <!-- Command Line Version Doc -->
+    <div style='display:inline' id='man_cmd'>
+      <h3>Input</h3>
+      <div class="indent">
+        <h4><span class='popt'>&lt;algorithm&gt;</span></h4>
+        <p>The name of the algorithm to use to search for motifs. Available algorithms are
+	  <b><span class="popt">motifx</span></b>, 
+	  <b><span class="popt">modl</span></b>, and
+          <b><span class="popt">simple</span></b>.
+        <ul>
+          <li><b><span class="popt">motifx</span>:</b>
+	    The motif-x algorithm utilizes a greedy iterative search to discover motifs by recursively 
+	    picking the most statistically significant position/residue pair according to 
+	    binomial probability, reducing the dataset (foreground and background) 
+	    to only peptides containing that pair, 
+	    and continuing until no more position/residue pairs are significant according 
+	    to a user-defined threshold.  If this motif has at least one statistically significant 
+	    position/residue pair, all instances of the pattern are removed, 
+	    and the algorithm continues to generate motifs until this condition fails.
+            <br>
+	    The <a href="http://motif-x.med.harvard.edu">motif-x algorithm</a> is described in the paper
+	    Schwartz, D. and Gygi, S. P. (2005). 
+	    "An iterative statistical approach to the identification of protein phosphorylation motifs from 
+	    large-scale data sets".  <i>Nature Biotechnology</i>, 23(11), 1391-1398.
+	  </li>
+          <li><b><span class="popt">modl</span>:</b>
+	    The MoDL algorithm is based on the principle of minimum description length (MDL). 
+	    It searches for a set of motifs that minimizes the number of bits to encode the set of 
+	    modified peptides and motifs, using a greedy iterative approach. 
+	    The algorithm uses a list of candidate single-residue motifs (excluding the modified site) 
+	    that exist in the modification dataset. Then, starting with an empty initial set of motifs, 
+	    the algorithm generates five potential motif <i>sets</i> by either (1) removing a candidate motif, 
+	    (2) adding a candidate motif, (3) adding a candidate motif then removing a motif, 
+	    (4) merging a motif with a candidate motif, or (5) merging a motif with a candidate motif 
+	    and then removing a motif. The algorithm then chooses the potential motif set with the 
+	    minimum description length, and makes it the new 'initial' set of motifs.  
+	    The algorithm iterates the above steps a specified 
+	    number of times <i>t</i>, or until the description length of the motif set does not change 
+	    for <i>L</i> iterations (<i>t=50</i> and <i>L=10</i> by default). 
+	    <br>The <a href="http://compbio.cs.brown.edu/projects/modl">MoDL algorithm</a> is described in the paper
+            Ritz, A., Shakhnarovich, G., Salomon, A., and Raphael, B. (2009). 
+	    "Discovery of phosphorylation motif mixtures in phosphoproteomics data".  
+            <i>Bioinformatics</i>, 25(1), 14-21.
+          </li>
+          <li><b><span class="popt">simple</span>:</b> 
+	        Creates a maximum-likelihood position weight matrix
+		(PWM) motif for each distinct central residue present in the modified peptides 
+	        in the input PTM file(s). The weights in the PWM are the
+		observed frequencies of the amino acids in the equal-length 
+		modified peptides, aligned on their central residue (the modified amino acid).  
+		If the modified peptides in the input PTM file(s) have differing lengths,
+		their lengths are adjusted to be equal, 
+		as described below under the <span class="popt">--width</span> option.
+	  </li>
+        </ul>
+        </p>
+
+        <h4><span class='popt'>&lt;PTM file&gt;+</span></h4>
+        <p>The names of one or more files with peptide sequences containing a post-translationally modified amino acid.
+	(These are referred to as the "foreground" peptides.)
+	Each file must be either in <a href="psm-format.html">PSM format</a>, <a href="fasta-format.html">FASTA format</a>,
+	or "Raw" (one sequence per line) format.  All files must use the same format, and MoMo will attempt to determine the 
+	format of the file(s) using the following rules, in order:
+        <ul>
+          <li><b>FASTA:</b> The first non-empty line begins with the '<b>&gt;</b>' character.</li>
+          <li><b>PSM:</b> The first non-empty line contains a <b>tab</b> character.</li>
+          <li><b>Raw:</b> Otherwise.</li>
+        </ul>
+        </p>
+        <p>With FASTA or Raw format files, all sequences must have the same length, the length
+	must be 7 or be specified using the option <span class="popt">--width</span>, below, 
+	the sequences must be in the <a href=iupac.html>Protein IUPAC</a> alphabet,
+	and the modified amino acid is assumed to be the <b>central</b> residue.
+        </p>
+        <p>With PSM format files, one column must contain the modified peptides with the modified amino acid
+	indicated as described in the <a href="psm-format.html">PSM format</a> documentation.
+	You can specify the name of the modified peptide column using the <span class="popt">--sequence-column</span>, 
+	option, below.  MoMo will attempt to expand all modified peptides to the width of the longest modified peptide 
+	or the requested motif width, whichever is wider.  
+	(See option <span class="popt">--width</span>, below, for a description of how the expansion is done.)
+        </p>
+      </div>
+
+      <h3>Output</h3>
+      <div class="indent">
+        <p>
+          MoMo writes its output to files in a directory named
+          <code>momo_out</code>, which it creates if necessary. You can change the
+          output directory using the <span class='popt'>--o</span> or <span class='popt'>--oc</span> options.
+          The directory will contain the following files:
+        </p>
+        <ul>
+          <li><a href=examples/momo_example_output_files/momo.html><code>momo.html</code></a> - 
+	    an HTML file that provides the results in a human-readable format</li>
+          <li><a href=examples/momo_example_output_files/momo.tsv><code>momo.tsv</code></a> - 
+	     a TSV (tab-separated values) file that provides the results in a format suitable 
+             for parsing by scripts and viewing with Excel</li> 
+          <li><a href=examples/momo_example_output_files/momo.txt><code>momo.txt</code></a> - 
+	    a plain text file containing the motifs discovered by MoMo in <a href="meme-format.html">MEME Motif Format</a></li>
+          <li><a href=examples/momo_example_output_files/S79.9.png><code>&lt;name&gt;.png</code></a> -
+            PNG image files containing sequence logos for each of the
+            motifs found by MoMo (where &lt;name&gt; is the motif name)</li>
+        </ul>
+        <p>
+          <b>Note:</b> See this detailed description of the <a href=momo-output-format.html>MoMo output formats</a>
+          for more information.
+        </p>
+      </div>
+
+      <h3>Options</h3>
+      <div class="subcontent">
+        <input type="radio" name="algorithm" id="alg_mtfx" value="alg_mtfx" checked>
+          <label for="alg_mtfx">motif-x</label>
+        <input type="radio" name="algorithm" id="alg_modl" value="alg_modl">
+          <label for="alg_modl">MoDL</label>
+        <input type="radio" name="algorithm" id="alg_simp" value="alg_simp">
+          <label for="alg_simp">simple</label>
+      </div>
+
+      <div class="indent">
+        <table class="options">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Parameter</th>
+              <th>Description</th>
+              <th>Default Behavior</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th colspan="4">General Options</th>
+            </tr>
+            <script>
+              wropt("all-o", {"ddash": true, "dir": "momo_out"});
+              wropt("all-oc", {"ddash": true, "dir": "momo_out"});
+            </script>
+            <tr>
+              <td class="popt">--psm-type</td>
+              <td>
+                 <span class="popt">comet</span>|&#8203;
+                 <span class="popt">ms-gf+</span>|&#8203;
+                 <span class="popt">tide</span>|&#8203;
+                 <span class="popt">percolator</span>
+	      </td>
+	      <td>If the PTM file(s) are in <a href="psm-format.html">tab-separated Peptide-Spectrum Match (PSM) format</a>, 
+		you can specify the name of the program that created them.
+                This will cause MoMo to set the name of the column
+		containing the <b>modified peptides</b> appropriately.
+	      </td>
+	      <td>
+                MoMo will attempt to determine the type of the PTM file(s), and 
+		if they are in a PSM format, you must use 
+	        the <span class="popt">--sequence-column</span> option, below.
+	      </td>
+            <tr>
+              <td class="popt">--sequence-column</td><td><span class="pdat">name</span></td>
+	      <td>The name of the column containing the <b>modified peptides</b> in the PTM file. 
+		This option is required if the PTM file(s)
+		are in <a href="psm-format.html">PSM format</a> unless you use
+		the <span class="popt">--psm-type</span> option, above..
+              </td>
+              <td>None.</td>
+            </tr>
+            <tr>
+              <td class="popt">--width</td><td><span class="pdat">width</span></td>
+              <td>The width of motifs to discover. 
+		Because motifs will be symmetric around the central, modified residue, <span class="pdat">width</span>
+		must be <b>odd</b>.  The behavior of MoMo depends on the format of the PTM input file(s).
+		<table class="dark">
+                  <tr>
+                    <th>PTM file format</th><th>MoMo Behavior</th>
+                  </tr>
+                  <tr>
+                    <td>FASTA or Raw format</td>
+                    <td>
+		      No effect.  An error is reported if the length of any sequence in the input
+		      files differs from <span class="pdat">width</span>.
+                    </td>
+                  <tr>
+                    <td>PSM format</td>
+                    <td>
+		      If a modified peptide is shorter than <span class="pdat">width</span>,
+		      MoMo will first attempt to expand it by looking up its context in the 
+		      <span class="pdat">protein database file</span>, if given (see option
+		      <span class="popt">--protein-database</span>, below.)
+		      If the modified peptide is still shorter than <span class="pdat">width</span>,
+		      MoMo will pad it on either side as required using the <a href=iupac.html>Protein IUPAC</a> 'X' character.
+		      If the longest modified peptide is still shorter than <span class="pdat">width</span>,
+		      MoMo will set the motif width to the length of the longest (expanded and padded) modified peptide.
+                    </td>
+                  </tr>
+                </table>
+                </td>
+              <td>
+                 <b>FASTA or Raw format:</b> Motifs of width 7 are generated.<br> 
+                 <b>PSM format:</b> Motifs of width the length of the longest modified peptide are generated.
+              </td>
+            </tr>
+            <tr id="seed">
+              <td class="popt">--seed</td><td><span class="pdat">seed</span></td>
+              <td>The seed for initializing the random number generator used for shuffling foreground
+		peptides (preserving the central residue) to use as the background peptides 
+                unless you specify option <span class="popt">--db_background</span>, below.</td>
+              <td>A value of 0 is used.</td>
+	    </tr>
+            <tr id="db_background">
+              <td class="popt">--db-background</td><td></td>
+              <td>The background peptides for the motif-x and MoDL algorithms will be extracted
+		from the protein database if you specify option <span class="popt">--protein-database</span>, below.
+              </td>
+              <td>Shuffled versions (preserving the central residue) of each of the foreground peptides
+		will be used as the background peptides for the motif-x and MoDL algorithms.
+              </td>
+            </tr>
+            <tr id="protein_database">
+              <td class="popt">--protein-database</td><td><span class="pdat">protein database file</span></td>
+              <td>A protein database that will be used to allow expansion of modified peptides
+		from PSM formatted PTM input file(s) 
+		(see option <span class="popt">--width</span>, above),
+		for estimating the amino acid background frequencies, and
+		potentially for creating a set of background peptides (see option
+	        <span class="popt">--db_background</span>, above).
+                (This is typically the protein database that was used to generate the PTM input file(s).)
+                This file may be in either <a href="fasta-format.html">FASTA</a> or Raw format.  
+		If it is in FASTA format, the sequences may be of any length.
+		If it is in Raw format, each sequence must be of the length specified by the
+		<span class="popt">--width</span> option, above, and there must be exactly one sequence per line,
+		with no sequence ID lines.  
+		The background frequencies are used as follows:
+		<table class="dark">
+		  <tr><th>Algorithm</th><th>MoMo Behavior</th></tr>
+		  <tr>
+		    <td>motifx</td>
+		    <td>
+		      The background frequencies are used to estimate the binomial probabilities.
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>modl</td>
+		    <td>
+		      The background frequencies are used to estimate the description length.
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>simple</td>
+		    <td>
+		      The background frequencies are included in the <a href="meme-format.html">MEME Motif Format</a>
+		      motif output file <code>momo.txt</code>.
+		    </td>
+		  </tr>
+		</table>
+              </td>
+              <td>
+	      Modified peptides from PTM file(s) in PSM format are padded using the <a href=iupac.html>Protein IUPAC</a> 'X'
+	      character as required, and the amino acid background frequencies are derived from the frequencies in the
+	      foreground peptides (after expansion and padding).
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--filter</td><td><span class="popt"><span class="pdat">field</span>,lt|le|eq|ge|gt,<span class="pdat">threshold</span>
+              </span></td>
+              <td>Specifies a (single) filter that causes only modified peptides that pass the given test to be included in the analysis. 
+		The test consists of three components separated by commas with no spaces in between.
+		(If the field name contains spaces, enclose the entire test string in quotes.)
+		The <span class="pdat">field</span> component of the parameter specifies the name of the
+                column in the <a href="psm-format.html">PSM format</a> PTM file from which the score is drawn.  
+		The next component specifies whether only
+		modified peptides with scores less than (<span class="popt">lt</span>), 
+		less than or equal (<span class="popt">le</span>),
+		equal (<span class="popt">eq</span>),
+		greater than or equal (<span class="popt">ge</span>),
+		or greater than (<span class="popt">gt</span>) 
+		the <span class="pdat">threshold</span> are retained.
+              </td>
+              <td>No filter.</td>
+            </tr>
+            <tr>
+              <td class="popt">--remove-unknowns</td><td><span class="popt">T|F</span></td>
+              <td>If TRUE (<span class="popt">T</span>), all foreground and background peptides that contain an 'X' 
+		(after expansion and padding, see option <span class="popt">--width</span>, above)
+	        will be removed from the analysis.</td>
+              <td id="remove_unknowns_f">Do not remove peptides just because they contain an 'X'.</td>
+              <td id="remove_unknowns_t">Remove peptides if they contain an 'X'.</td>
+            </tr>
+            <tr>
+              <td class="popt">--eliminate-repeats</td><td><span class="pdat">num</span></td>
+              <td>Any groups of peptides in the foreground or background sets whose <span class="pdat">num</span> 
+		central residues (after expansion and padding, see option <span class="popt">--width</span>, above)
+		are identical will be replaced with a single copy.
+		Because the window is symmetric around the central, 
+		modified residue, <span class="pdat">num</span> must be odd.  
+		To turn this option off, specify a width of 0.
+		<b>Note: </b>Since shorter peptides will be padded with the 'X' character, which
+		matches any other character, shorter peptides will match longer ones that
+		contain them, and will be subject to elimination.
+	      </td>
+              <td>Behave as if the value <span class="pdat">width</span> (see option <span class="popt">--width</span>, above)
+		 was given for <span class="pdat">num</span>.
+            </tr>
+            <tr id="min_occurrences">
+              <td class="popt">--min-occurrences</td><td><span class="pdat">num</span></td>
+              <td>Only attempt to construct a motif for a particular modification of an amino acid
+		if there are at least <span class="pdat">num</span> foreground and background peptides
+		(after eliminating repeats, see option <span class="popt">--eliminate-repeats</span>, above)
+		that contain it.
+              </td>
+              <td>Behave as if 5 was given for <span class="pdat">num</span>.</td>
+            </tr>
+            <tr id="min_occurrences_motifx">
+              <td class="popt">--min-occurrences</td><td><span class="pdat">num</span></td>
+              <td>The minimum number of peptides in the post-translationally modified 
+		data set needed to match the residue/position pair for each recursive iteration of motif-x.
+		Also, MoMo only attempts to construct a motif for a particular modification of an amino acid
+                if there are at least <span class="pdat">num</span> foreground and background peptides
+                (after eliminating repeats, see option <span class="popt">--eliminate-repeats</span>, above)
+                that contain it.
+              <td>Behave as if 20 was given for <span class="pdat">num</span>.</td>
+            </tr>
+            <tr>
+              <td class="popt">--single-motif-per-mass</td><td></td>
+              <td>Generate a single motif that combines all central residues
+		that have the same modification mass.
+		Only valid with PSM formatted PTM files.
+		(The modification mass is given as a number following
+		the modified amino acid in the modified peptide as described in the
+		<a href="psm-format.html">PSM format</a> documentation.)
+		For example, phosphorylation is typically specified
+                as a mass of 79.97 added to the residues S, T or Y. If this
+		option is <b>not</b> given, three separate motifs are generated, each with a perfectly 
+		conserved central residue. If this option <b>is</b> given,
+                then all the phosphorylation events are combined into a single
+                motif, with a mixture of S, T and Y in the central position.
+	      </td>
+              <td>Generate a motif for each combination of residue and modification mass.</td>
+            </tr>
+            <tr id="hash_fasta">
+              <td class="popt">--hash-fasta</td><td><span class="pdat">k</span></td>
+              <td>If a protein database is provided in <a href="fasta-format.html">FASTA format</a>, 
+		the process of finding the location of a peptide within the protein
+                can be sped up using an O(1) lookup table hashing from
+                each unique <span class="pdat">k</span>-mer to an arraylist of locations.
+                If <span class="pdat">k</span> is 0, the program will proceed using
+                linear search instead of creating a lookup table.
+		<b>Note: </b>With a full mammalian proteome as the protein database,
+		MoMo will typically run faster using hashing (e.g., set <span class="pdat">k</span> to 6)
+		if your PTM file(s) contain more than 50,000 peptides in total.
+              </td>
+              <td>Behave as if 0 was given for <span class="pdat">k</span>.</td>
+            </tr>
+            <tr id="max_motifs">
+              <td class="popt">--max-motifs</td><td><span class="pdat">num</span></td>
+              <td>MoDL will stop after it finds <span class="pdat">num</span> motifs.</td>
+              </td>
+              <td>Behave as if 100 was given for <span class="pdat">num</span>.</td>
+            </tr>
+            <tr id="max_iterations">
+              <td class="popt">--max-iterations</td><td><span class="pdat">num</span></td>
+              <td>MoDL will stop after <span class="pdat">num</span> iterations.</td>
+              <td>Behave as if 50 was given for <span class="pdat">num</span>.</td>
+            </tr>
+            <tr id="max_no_decrease">
+              <td class="popt">--max-no-decrease</td><td><span class="pdat">num</span></td>
+              <td>MoDL will stop if there is no decrease in MDL for <span class="pdat">num</span> iterations.
+              </td>
+              <td>Behave as if 10 was given for <span class="pdat">num</span>.</td>
+            </tr>
+            <tr id="score_threshold">
+              <td class="popt">--score-threshold</td><td><span class="pdat">num</span></td>
+              <td>The largest binomial probability for a residue/position pair to be 
+		counted as significant during each recursive iteration of motif-x.</td>
+              <td>Behave as if 1e-6 was given for <span class="pdat">num</span>. 
+            </tr>
+            <tr id="harvard">
+              <td class="popt">--harvard</td><td></td>
+              <td>Mimic the behavior of (the Harvard version of) 
+		<a href=http://motif-x.med.harvard.edu/motif-x.html>motif-x</a> 
+		more closely by only calculating binomial <i>p</i>-values no smaller than 
+		10<sup>-16</sup> for residue/position pairs. 
+		Smaller <i>p</i>-values are set to 10<sup>-16</sup>, 
+	        and ties are broken by sorting residue/position pairs by decreasing number of peptides
+		that match them.</td>
+              <td>Calculate residue/position pair binomial <i>p</i>-values in log-space, allowing
+	      <i>p</i>-values as small as e<sup>(-10<sup>300</sup>)</sup></span>. 
+            </tr>
+	    <script>wropt("all-verbosity", {"ddash": true});</script>
+	    <script>wropt("all-version", {"ddash": true});</script>
+            <tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+		
+    <script>
+      
+      document.getElementById("alg_simp").addEventListener("click", on_alg_change, false);
+      document.getElementById("alg_mtfx").addEventListener("click", on_alg_change, false);
+      document.getElementById("alg_modl").addEventListener("click", on_alg_change, false);
+      on_alg_change();
+      
+      function on_alg_change() {
+        document.getElementById("remove_unknowns_t").style.display = (document.getElementById('alg_mtfx').checked ? 'table-cell' : 'none');
+        document.getElementById("remove_unknowns_f").style.display = (document.getElementById('alg_mtfx').checked ? 'none' : 'table-cell');
+
+        document.getElementById("min_occurrences_motifx").style.display = (document.getElementById('alg_mtfx').checked ? 'table-row' : 'none');
+        document.getElementById("min_occurrences").style.display = (document.getElementById('alg_mtfx').checked ? 'none' : 'table-row');
+
+        document.getElementById("score_threshold").style.display = (document.getElementById('alg_mtfx').checked ? 'table-row' : 'none');
+        document.getElementById("harvard").style.display = (document.getElementById('alg_mtfx').checked ? 'table-row' : 'none');
+        
+        document.getElementById("max_iterations").style.display = (document.getElementById('alg_modl').checked ? 'table-row' : 'none');
+        document.getElementById("max_no_decrease").style.display = (document.getElementById('alg_modl').checked ? 'table-row' : 'none');
+        document.getElementById("max_motifs").style.display = (document.getElementById('alg_modl').checked ? 'table-row' : 'none');
+        //document.getElementById("no_decrease_stop_iteration").style.display = (document.getElementById('alg_modl').checked ? 'table-row' : 'none');
+        
+      }
+    </script>
+
+    <h3>Citing</h3>
+    <div class=indent id="citation"><script>print_citation("citation", "MoMo");</script></div>
+
+    <script src="js/manual.js"></script>
+  </body>
+</html>

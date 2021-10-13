@@ -1,0 +1,751 @@
+#!/usr/bin/perl test_driver
+
+# parts to ignore in MEME text, HTML or TSV output
+my %momo_ignore = (
+  'text' => [
+    'MEME version', '^#'
+  ],
+  'json' => [
+    '^data:(version|revision|release|cmd)',
+    '^data:ptm_files',
+    '^data:options:protein_database'
+  ],
+  'tsv' => [
+    '^#'
+  ]
+);
+my $momo_dir = 'src';
+
+#goto test18;
+
+# Test momo default input (PSM), default width (7) 
+$out_dir = 'results/momo1';
+$out_file = 'momo/default-no-fasta';
+my($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref) = &get_files($out_dir, $out_file);
+&test(
+  'momo1', '',
+  'momo', '',
+  [
+    'simple', 
+    '--oc', $out_dir, 
+    '--sequence-column', 
+    'sequence', 
+    make_test_src_path('momo/small-tide-mod.txt')
+  ],
+  [ 
+    { 
+      output => $txt_out, 
+      reference => make_test_src_path($txt_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    },
+    { 
+        output => $html_out, 
+        reference => make_test_src_path($html_ref), 
+        type => 'json', 
+        ignore => $momo_ignore{'json'} 
+    },
+    { 
+      output => $tsv_out, 
+      reference => make_test_src_path($tsv_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    }
+  ],
+  $out_dir, $momo_dir
+);
+
+# Test momo default (PSM) input with protein database; width larger than default
+$out_dir = 'results/momo2';
+$out_file = 'momo/default-with-fasta';
+my($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref) = &get_files($out_dir, $out_file);
+&test(
+  'momo2', '',
+  'momo', '',
+  [
+    'simple', 
+    '--oc', $out_dir, 
+    '--psm-type', 'tide', 
+    '--protein-database', make_test_src_path('momo/small-yeast.fasta'), 
+    '--width', '11', 
+    make_test_src_path('momo/small-tide-mod.txt')
+  ],
+  [
+    { 
+        output => $txt_out, 
+        reference => make_test_src_path($txt_ref), 
+        type => 'text', 
+        ignore => $momo_ignore{'text'} 
+    },
+    { 
+        output => $html_out, 
+        reference => make_test_src_path($html_ref), 
+        type => 'json', 
+        ignore => $momo_ignore{'json'} 
+    },
+    { 
+        output => $tsv_out, 
+        reference => make_test_src_path($tsv_ref), 
+        type => 'text', 
+        ignore => $momo_ignore{'text'} 
+    }
+  ],
+  $out_dir, $momo_dir
+);
+
+# Test momo single-motif-per-mass option, filetype psm
+$out_dir = 'results/momo3';
+$out_file = make_test_src_path('momo/single-motif-per-mass');
+my($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref) = &get_files($out_dir, $out_file);
+&test(
+  'momo3', '',
+  'momo', '',
+  [
+    'simple', 
+    '--oc', $out_dir, 
+    '--psm-type', 'tide', 
+    '--single-motif-per-mass', 
+    make_test_src_path('momo/small-tide-mod.txt')
+  ],
+  [
+    { 
+      output => $txt_out, 
+      reference => $txt_ref, 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    },
+    { 
+      output => $html_out,
+      reference => $html_ref, 
+      type => 'json', 
+      ignore => $momo_ignore{'json'} 
+    },
+    { 
+      output => $tsv_out, 
+      reference => $tsv_ref, 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} }
+  ],
+  $out_dir, 
+  $momo_dir
+);
+
+# Test disable hash-fasta option
+$out_dir = 'results/momo4';
+$out_file = 'momo/default-with-fasta';
+my($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref) = &get_files($out_dir, $out_file);
+&test(
+  'momo4', '',
+  'momo', '',
+  [
+    'simple', 
+    '--oc', $out_dir, 
+    '--psm-type', 'tide', 
+    '--protein-database', make_test_src_path('momo/small-yeast.fasta'),
+    '--width', '11', 
+    '--hash-fasta', '0', 
+    make_test_src_path('momo/small-tide-mod.txt')
+  ],
+  [
+    { 
+        output => $txt_out, 
+        reference => make_test_src_path($txt_ref), 
+        type => 'text', 
+        ignore => $momo_ignore{'text'} 
+    },
+    { 
+      output => $html_out, 
+      reference => make_test_src_path($html_ref), 
+      type => 'json', 
+      ignore => $momo_ignore{'json'} 
+    },
+    { 
+      output => $tsv_out, 
+      reference => make_test_src_path($tsv_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    }
+  ],
+  $out_dir, 
+  $momo_dir
+);
+
+# Test eliminate-repeats option with length of 3
+$out_dir = 'results/momo5';
+$out_file = 'momo/elim3';
+my($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref) = &get_files($out_dir, $out_file);
+&test(
+  'momo5', '',
+  'momo', '',
+  [
+    'simple', 
+    '--oc', $out_dir, 
+    '--psm-type', 'tide', 
+    '--eliminate-repeats', '3', 
+    '--protein-database', make_test_src_path('momo/small-yeast.fasta'), 
+    make_test_src_path('momo/small-tide-mod.txt')
+  ],
+  [
+    { 
+      output => $txt_out, 
+      reference => make_test_src_path($txt_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    },
+    { 
+      output => $html_out, 
+      reference => make_test_src_path($html_ref), 
+      type => 'json', 
+      ignore => $momo_ignore{'json'} 
+    },
+    { 
+      output => $tsv_out, 
+      reference => make_test_src_path($tsv_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    }
+  ],
+  $out_dir, 
+  $momo_dir
+);
+
+# Test disable eliminate-repeats option (length of 0)
+$out_dir = 'results/momo6';
+$out_file = 'momo/elim0';
+my($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref) = &get_files($out_dir, $out_file);
+&test(
+  'momo6', '',
+  'momo', '',
+  [
+    'simple', 
+    '--oc', $out_dir, 
+    '--psm-type', 'tide', 
+    '--eliminate-repeats', '0', 
+    make_test_src_path('momo/small-tide-mod.txt')
+  ],
+  [
+    { 
+      output => $txt_out, 
+      reference => make_test_src_path($txt_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    },
+    { 
+      output => $html_out, 
+      reference => make_test_src_path($html_ref), 
+      type => 'json', 
+      ignore => $momo_ignore{'json'} 
+    },
+    { 
+      output => $tsv_out, 
+      reference => make_test_src_path($tsv_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    }
+  ],
+  $out_dir, 
+  $momo_dir
+);
+
+# Test filter option (xcorr rank <= 3)
+$out_dir = 'results/momo7';
+$out_file = 'momo/filterxcorrrankle3';
+my($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref) = &get_files($out_dir, $out_file);
+&test(
+  'momo7', 
+  '',
+  'momo', 
+  '',
+  [
+    'simple', 
+    '--oc', $out_dir, 
+    '--psm-type', 'tide', 
+    '--filter', "xcorr rank,le,3", 
+    make_test_src_path('momo/small-tide-mod.txt')
+  ],
+  [
+    { 
+      output => $txt_out, 
+      reference => make_test_src_path($txt_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    },
+    { 
+      output => $html_out, 
+      reference => make_test_src_path($html_ref), 
+      type => 'json', 
+      ignore => $momo_ignore{'json'} 
+    },
+    { 
+      output => $tsv_out, 
+      reference => make_test_src_path($tsv_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    }
+  ],
+  $out_dir, 
+  $momo_dir
+);
+
+# Test filetype raw
+$out_dir = 'results/momo8';
+$out_file = 'momo/default-with-fasta-no-mass-in-motif-names-raw';
+my($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref) = &get_files($out_dir, $out_file);
+&test(
+  'momo8',
+  '',
+  'momo',
+  '',
+  [
+    'simple', 
+    '--oc', $out_dir,
+    '--protein-database', make_test_src_path('momo/small-yeast.fasta'), 
+    make_test_src_path('momo/small-tide-mod-phospho.txt')
+  ],
+  [
+    { 
+      output => $txt_out, 
+      reference => make_test_src_path($txt_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    },
+    { 
+      output => $html_out, 
+      reference => make_test_src_path($html_ref), 
+      type => 'json', 
+      ignore => $momo_ignore{'json'} 
+    },
+    { 
+      output => $tsv_out, 
+      reference => make_test_src_path($tsv_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    }
+  ],
+  $out_dir, 
+  $momo_dir
+);
+
+# Test filetype fasta
+$out_dir = 'results/momo9';
+$out_file = 'momo/default-with-fasta-no-mass-in-motif-names-fasta';
+my($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref) = &get_files($out_dir, $out_file);
+&test(
+  'momo9', 
+  '',
+  'momo', 
+  '',
+  [
+    'simple', 
+    '--oc', $out_dir, 
+    '--protein-database', make_test_src_path('momo/small-yeast.fasta'), 
+    make_test_src_path('momo/small-tide-mod-phospho.fasta')
+  ],
+  [
+    { 
+      output => $txt_out, 
+      reference => make_test_src_path($txt_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    },
+    { 
+      output => $html_out, 
+      reference => make_test_src_path($html_ref), 
+      type => 'json', 
+      ignore => $momo_ignore{'json'} 
+    },
+    { 
+      output => $tsv_out, 
+      reference => make_test_src_path($tsv_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    }
+  ],
+  $out_dir, 
+  $momo_dir
+);
+
+# Test multiple file analysis
+$out_dir = 'results/momo10';
+$out_file = 'momo/default-no-fasta-multi';
+my($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref) = &get_files($out_dir, $out_file);
+&test(
+  'momo10', 
+  '',
+  'momo', 
+  '',
+  [
+    'simple', 
+    '--oc', $out_dir, 
+    '--psm-type', 'tide', 
+    make_test_src_path('momo/small-tide-mod-1-out-of-2.txt'), 
+    make_test_src_path('momo/small-tide-mod-2-out-of-2.txt')
+  ],
+  [
+    { 
+      output => $txt_out, 
+      reference => make_test_src_path($txt_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    },
+    { 
+      output => $html_out, 
+      reference => make_test_src_path($html_ref), 
+      type => 'json', 
+      ignore => $momo_ignore{'json'} 
+    },
+    { 
+      output => $tsv_out, 
+      reference => make_test_src_path($tsv_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    }
+  ],
+  $out_dir, 
+  $momo_dir
+);
+
+# Test motifx
+$out_dir = 'results/momo11';
+$out_file = 'momo/mtfx-s0.05-c1';
+my($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref) = &get_files($out_dir, $out_file);
+&test(
+  'momo11', 
+  '',
+  'momo', '',
+  [
+    'motifx', 
+    '--oc', $out_dir, 
+    '--psm-type', 'tide', 
+    '--protein-database', make_test_src_path('momo/small-yeast.fasta'),
+    '--score-threshold', "0.05", 
+    '--min-occurrences', "1", 
+    '--harvard', 
+    '--seed', '273', 
+    make_test_src_path('momo/small-tide-mod.txt')
+  ],
+  [
+    { 
+      output => $txt_out, 
+      reference => make_test_src_path($txt_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    },
+    { 
+      output => $html_out, 
+      reference => make_test_src_path($html_ref), 
+      type => 'json', 
+      ignore => $momo_ignore{'json'} 
+    },
+    { 
+      output => $tsv_out, 
+      reference => make_test_src_path($tsv_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    }
+  ],
+  $out_dir, 
+  $momo_dir
+);
+
+# Test motifx single motif per mass
+$out_dir = 'results/momo12';
+$out_file = 'momo/mtfx-s0.05-c1-smpmT';
+my($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref) = &get_files($out_dir, $out_file);
+&test(
+  'momo12', 
+  '',
+  'momo', 
+  '',
+  [
+    'motifx', 
+    '--oc', $out_dir, 
+    '--psm-type', 'tide', 
+    '--db-background', 
+    '--protein-database', make_test_src_path('momo/small-yeast.fasta'), 
+    '--score-threshold', "0.05", 
+    '--min-occurrences', "1", 
+    '--single-motif-per-mass', 
+    '--harvard', 
+    make_test_src_path('momo/small-tide-mod.txt')
+  ],
+  [
+    { 
+      output => $txt_out, 
+      reference => make_test_src_path($txt_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    },
+    { 
+      output => $html_out, 
+      reference => make_test_src_path($html_ref), 
+      type => 'json', 
+      ignore => $momo_ignore{'json'} 
+    },
+    { 
+      output => $tsv_out, 
+      reference => make_test_src_path($tsv_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    }
+  ],
+  $out_dir, 
+  $momo_dir
+);
+
+# Test motifx filetype raw
+$out_dir = 'results/momo13';
+$out_file = 'momo/mtfx-s0.05-c1-no-mass-in-motif-names';
+my($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref) = &get_files($out_dir, $out_file);
+&test(
+  'momo13', 
+  '',
+  'momo', 
+  '',
+  [
+    'motifx', 
+    '--oc', $out_dir, 
+    '--db-background', 
+    '--protein-database', make_test_src_path('momo/small-yeast.fasta'), 
+    '--score-threshold', "0.05", 
+    '--min-occurrences', "1", 
+    make_test_src_path('momo/small-tide-mod-phospho.txt')
+  ],
+  [
+    { 
+      output => $txt_out, 
+      reference => make_test_src_path($txt_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    },
+    { 
+      output => $html_out, 
+      reference => make_test_src_path($html_ref), 
+      type => 'json', 
+      ignore => $momo_ignore{'json'} 
+    },
+    { 
+      output => $tsv_out, 
+      reference => make_test_src_path($tsv_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    }
+  ],
+  $out_dir, 
+  $momo_dir
+);
+
+# Test motifx with bgfile and type prealigned
+$out_dir = 'results/momo14';
+$out_file = 'momo/mtfx-s0.05-c1-no-mass-in-motif-names-bg-kmers-only-bgfreqs';
+my($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref) = &get_files($out_dir, $out_file);
+&test(
+  'momo14', 
+  '',
+  'momo', 
+  '',
+  [
+    'motifx', 
+    '--oc', $out_dir, 
+    '--db-background', 
+    '--protein-database', make_test_src_path('momo/small-yeast-prealigned-no-unknowns.txt'), 
+    '--score-threshold', "0.05", 
+    '--min-occurrences', "1", 
+    make_test_src_path('momo/small-tide-mod-phospho.txt')
+  ],
+  [
+    { 
+      output => $txt_out, 
+      reference => make_test_src_path($txt_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    },
+    { 
+      output => $html_out, 
+      reference => make_test_src_path($html_ref), 
+      type => 'json', 
+      ignore => $momo_ignore{'json'} 
+    },
+    { 
+      output => $tsv_out, 
+      reference => make_test_src_path($tsv_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    }
+  ],
+  $out_dir, 
+  $momo_dir
+);
+
+# Test momo default output w/ msgf file
+$out_dir = 'results/momo15';
+$out_file = 'momo/default-msgf-no-fasta';
+my($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref) = &get_files($out_dir, $out_file);
+&test(
+  'momo15', 
+  '',
+  'momo', 
+  '',
+  [
+    'simple', 
+    '--oc', $out_dir, 
+    '--psm-type', 'ms-gf+', 
+    '--sequence-column', 'Peptide', 
+    make_test_src_path('momo/small-msgf-mod.txt')
+  ],
+  [
+    { 
+      output => $txt_out, 
+      reference => make_test_src_path($txt_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    },
+    { 
+      output => $html_out, 
+      reference => make_test_src_path($html_ref), 
+      type => 'json', 
+      ignore => $momo_ignore{'json'} 
+    },
+    { 
+      output => $tsv_out, 
+      reference => make_test_src_path($tsv_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    }
+  ],
+  $out_dir, 
+  $momo_dir
+);
+
+# Test momo default output comet file
+$out_dir = 'results/momo16';
+$out_file = 'momo/default-comet-no-fasta';
+my($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref) = &get_files($out_dir, $out_file);
+&test(
+  'momo16', 
+  '',
+  'momo', 
+  '',
+  [
+    'simple', 
+    '--oc', $out_dir, 
+    '--psm-type', 'comet', 
+    '--sequence-column', 'modified sequence', 
+    make_test_src_path('momo/small-comet-mod.txt')
+  ],
+  [
+    { 
+      output => $txt_out, 
+      reference => make_test_src_path($txt_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    },
+    { 
+      output => $html_out, 
+      reference => make_test_src_path($html_ref), 
+      type => 'json', 
+      ignore => $momo_ignore{'json'} 
+    },
+    { 
+      output => $tsv_out, 
+      reference => make_test_src_path($tsv_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    }
+  ],
+  $out_dir, 
+  $momo_dir
+);
+
+# Test momo modl
+$out_dir = 'results/momo17';
+$out_file = 'momo/modl-default';
+my($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref) = &get_files($out_dir, $out_file);
+&test(
+  'momo17', 
+  '',
+  'momo', 
+  '',
+  [
+    'modl', 
+    '--oc', $out_dir, 
+    '--psm-type', 'tide', 
+    '--protein-database', make_test_src_path('momo/small-yeast.fasta'), 
+    make_test_src_path('momo/small-tide-mod.txt')
+  ],
+  [
+    { 
+      output => $txt_out, 
+      reference => make_test_src_path($txt_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    },
+    { 
+      output => $html_out, 
+      reference => make_test_src_path($html_ref), 
+      type => 'json', 
+      ignore => $momo_ignore{'json'} 
+    },
+    { 
+      output => $tsv_out, 
+      reference => make_test_src_path($tsv_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    }
+  ],
+  $out_dir, 
+  $momo_dir
+);
+
+# Test momo modl -db-background
+$out_dir = 'results/momo18';
+$out_file = 'momo/modl-db-background';
+my($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref) = &get_files($out_dir, $out_file);
+&test(
+  'momo18', 
+  '',
+  'momo', 
+  '',
+  [
+    'modl', 
+    '--oc', $out_dir, 
+    '--psm-type', 'tide', 
+    '--db-background', 
+    '--remove-unknowns', 'T',
+    '--protein-database', make_test_src_path('momo/small-yeast.fasta'), 
+    make_test_src_path('momo/small-tide-mod.txt')
+  ],
+  [
+    { 
+      output => $txt_out, 
+      reference => make_test_src_path($txt_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    },
+    { 
+      output => $html_out, 
+      reference => make_test_src_path($html_ref), 
+      type => 'json', 
+      ignore => $momo_ignore{'json'} 
+    },
+    { 
+      output => $tsv_out, 
+      reference => make_test_src_path($tsv_ref), 
+      type => 'text', 
+      ignore => $momo_ignore{'text'} 
+    }
+  ],
+  $out_dir, 
+  $momo_dir
+);
+
+sub get_files {
+  my ($out_dir, $out_file) = @_;
+  my $txt_out = catfile($out_dir, 'momo.txt');
+  my $html_out = catfile($out_dir, 'momo.html');
+  my $tsv_out = catfile($out_dir, 'momo.tsv');
+  my $txt_ref = "$out_file.txt";
+  my $html_ref = "$out_file.html"; 
+  my $tsv_ref = "$out_file.tsv"; 
+  return($txt_out, $html_out, $tsv_out, $txt_ref, $html_ref, $tsv_ref);
+}

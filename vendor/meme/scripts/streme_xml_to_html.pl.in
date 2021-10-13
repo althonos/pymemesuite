@@ -1,0 +1,562 @@
+#!@WHICHPERL@
+=head1 NAME
+
+streme_xml_to_html - Make a STREME HTML output from a STREME XML output.
+
+=head1 SYNOPSIS
+
+streme_xml_to_html <STREME XML file> <STREME HTML file>
+=cut
+
+use strict;
+use warnings;
+
+use Cwd qw(abs_path);
+use Fcntl qw(O_RDONLY SEEK_SET);
+use File::Basename qw(fileparse);
+use File::Spec::Functions qw(tmpdir);
+use File::Temp qw(tempfile);
+use Getopt::Long;
+use Pod::Usage;
+use XML::Parser::Expat;
+
+use lib '@PERLLIBDIR@';
+
+my $etc_dir;
+my $temp_dir;
+my $scripts_dir;
+
+#
+# initialise the global constants
+# 
+sub initialise {
+  # setup etc dir
+  $etc_dir = defined($ENV{MEME_DATA_DIR}) ? $ENV{MEME_DATA_DIR} : '@APPCONFIGDIR@';
+  # setup temporary directory
+  $temp_dir = '@TMP_DIR@';
+  # use the perl default if none is supplied or the replace fails
+  $temp_dir = tmpdir() if ($temp_dir eq '' || $temp_dir =~ m/^\@TMP[_]DIR\@$/);
+
+  # find the location of the script
+  my $script_name;
+  ($script_name, $scripts_dir) = fileparse(__FILE__);
+  $scripts_dir = abs_path($scripts_dir);
+
+  # add script location to search path
+  unshift(@INC, $scripts_dir);
+
+  require HtmlMonolithWr;
+  require StremeSAX;
+} # initialize
+
+sub arguments {
+  # Set Option Defaults
+  my $options = {XML_PATH => undef, HTML_PATH => undef};
+  # General Options
+  my $help = 0; # FALSE
+  my @errors = ();
+  my @dbs = ();
+
+  # get the options from the arguments
+  my $options_success = 0; # FALSE
+  # redirect stderr to a temp file so we can get the error message from GetOptions
+  my $olderr;
+  my $tmperr = tempfile('GetOptions_XXXXXXXXXX', DIR => $temp_dir, UNLINK => 1);
+  open($olderr, ">&STDERR") or die("Can't dup STDERR: $!");
+  open(STDERR, '>&', $tmperr) or die("Can't redirect STDERR to temp file: $!");
+  # parse options
+  $options_success = GetOptions(
+    'help|?'          => \$help,
+  );
+  ($options->{XML_PATH}, $options->{HTML_PATH}) = @ARGV;
+  # display help
+  pod2usage(1) if $help;
+  # reset STDERR
+  open(STDERR, ">&", $olderr) or die("Can't reset STDERR: $!");
+  # read argument parsing errors
+  seek($tmperr, 0, SEEK_SET);
+  while (<$tmperr>) {chomp; push(@errors, $_);}
+  close($tmperr);
+  # check source XML file
+  unless (defined($options->{XML_PATH})) {
+    push(@errors, "No STREME XML file specified");
+  } elsif (not -e $options->{XML_PATH}) {
+    push(@errors, "The STREME XML file specified does not exist");
+  }
+  unless (defined($options->{HTML_PATH})) {
+    push(@errors, "No output file specified");
+  }
+  # print errors
+  foreach my $error (@errors) {
+    print STDERR $error, "\n";
+  }
+  pod2usage(2) if @errors;
+  # return options
+  return $options;
+} # arguments
+
+sub start_streme {
+  my ($info, $vmajor, $vminor, $vpatch, $release_date) = @_;
+  my $wr = $info->{wr};
+  $wr->str_prop('program', 'streme');
+  $wr->str_prop('version', "$vmajor.$vminor.$vpatch");
+  # streme doesn't include the revision information in the XML
+  $wr->str_prop('release', $release_date);
+} # start_streme
+
+sub end_streme {
+  my ($info) = @_;
+  my $wr = $info->{wr};
+} # end_streme
+
+sub start_model {
+  my ($info) = @_;
+  $info->{model} = {};
+} # start_model
+
+sub end_model {
+  my ($info) = @_;
+  my $wr = $info->{wr};
+
+  if (defined($info->{model}->{description})) {
+    $wr->str_prop("description", $info->{model}->{description});
+  }
+  $wr->str_array_prop("cmd", split(/\s+/, $info->{model}->{command_line}));
+  $wr->property("options");
+  $wr->start_object_value();
+  $wr->str_prop("strands", $info->{model}->{strands});
+  $wr->str_prop("objfun", $info->{model}->{objfun});
+  $wr->str_prop("test", $info->{model}->{test});
+  $wr->num_prop("minw", $info->{model}->{minw});
+  $wr->num_prop("maxw", $info->{model}->{maxw});
+  $wr->num_prop("kmer", $info->{model}->{kmer});
+  $wr->num_prop("hofract", $info->{model}->{hofract});
+  $wr->num_prop("neval", $info->{model}->{neval});
+  $wr->num_prop("nref", $info->{model}->{nref});
+  $wr->num_prop("niter", $info->{model}->{niter});
+  $wr->num_prop("patience", $info->{model}->{patience});
+  $wr->num_prop("seed", $info->{model}->{seed});
+  $wr->bool_prop("useer", $info->{model}->{useer});
+  $wr->num_prop("minscore", $info->{model}->{minscore});
+  $wr->num_prop("ignore_depth", $info->{model}->{ignore_depth});
+  $wr->num_prop("nsubsets", $info->{model}->{nsubsets});
+  $wr->num_prop("min_pal_ratio", $info->{model}->{min_pal_ratio});
+  $wr->num_prop("max_pal_ed", $info->{model}->{max_pal_ed});
+  $wr->bool_prop("cand", $info->{model}->{cand});
+  $wr->bool_prop("experimental", $info->{model}->{experimental});
+  $wr->num_prop("totallength", $info->{model}->{totallength});
+
+  # Site distribution.  Added in version 5.4.0.
+  $wr->str_prop("align", $info->{model}->{align});
+
+  $wr->property("stop");
+  $wr->start_object_value();
+  if (defined($info->{model}->{stop}->{thresh_type})) {
+    $wr->str_prop("thresh_type", $info->{model}->{stop}->{thresh_type});
+  }
+  if (defined($info->{model}->{stop}->{thresh})) {
+    $wr->num_prop("thresh", $info->{model}->{stop}->{thresh});
+  }
+  if (defined($info->{model}->{stop}->{nmotifs})) {
+    $wr->num_prop("nmotifs", $info->{model}->{stop}->{nmotifs});
+  }
+  if (defined($info->{model}->{stop}->{time})) {
+    $wr->num_prop("time", $info->{model}->{stop}->{time});
+  }
+  $wr->end_object_value();	# stop
+
+  $wr->end_object_value(); 	# options
+
+  $wr->property("alphabet");
+  $info->{alph}->to_json($wr);
+
+  $wr->property("background");
+  $wr->start_object_value();
+  $wr->str_prop("source", $info->{bg}->{source});
+  $wr->num_prop("order", $info->{bg}->{order});
+  $wr->num_array_prop("freqs", @{$info->{bg}->{freqs}});
+  $wr->end_object_value();
+
+  $wr->property("train_positives");
+  $wr->start_object_value();
+  $wr->str_prop("file", $info->{model}->{train_positives}->{file});
+  $wr->num_prop("count", $info->{model}->{train_positives}->{count});
+  $wr->num_prop("maxlen", $info->{model}->{train_positives}->{maxlen}) if $info->{model}->{train_positives}->{maxlen};
+  $wr->num_prop("positions", $info->{model}->{train_positives}->{positions});
+  $wr->end_object_value();
+
+  $wr->property("train_negatives");
+  $wr->start_object_value();
+  $wr->str_prop("from", $info->{model}->{train_negatives}->{from});
+  if ($info->{model}->{train_negatives}->{from} eq 'file') {
+    $wr->str_prop("file", $info->{model}->{train_negatives}->{file});
+  }
+  $wr->num_prop("count", $info->{model}->{train_negatives}->{count});
+  $wr->num_prop("positions", $info->{model}->{train_negatives}->{positions});
+  $wr->end_object_value();
+
+  $wr->property("test_positives");
+  $wr->start_object_value();
+  $wr->num_prop("count", $info->{model}->{test_positives}->{count});
+  $wr->num_prop("positions", $info->{model}->{test_positives}->{positions});
+  $wr->end_object_value();
+
+  $wr->property("test_negatives");
+  $wr->start_object_value();
+  $wr->num_prop("count", $info->{model}->{test_negatives}->{count});
+  $wr->num_prop("positions", $info->{model}->{test_negatives}->{positions});
+  $wr->end_object_value();
+
+  $wr->property("sequence_db");
+  $wr->start_object_value();
+  $wr->num_array_prop("freqs", @{$info->{model}->{sequence_db}});
+  $wr->end_object_value();
+
+} # end_model
+
+sub handle_command_line {
+  my ($info, $command_line) = @_;
+  $info->{model}->{command_line} = $command_line;
+}
+
+sub handle_train_positives {
+  my ($info, $count, $positions, $maxlen, $file) = @_;
+  $info->{model}->{train_positives} = {
+    count => $count, positions => $positions, maxlen => $maxlen, file => $file
+  };
+}
+
+sub handle_train_negatives {
+  my ($info, $count, $positions, $from, $file) = @_;
+  $info->{model}->{train_negatives} = {
+    count => $count, positions => $positions, from => $from, file => $file
+  };
+}
+
+sub handle_test_positives {
+  my ($info, $count, $positions) = @_;
+  $info->{model}->{test_positives} = {
+    count => $count, positions => $positions
+  };
+}
+
+sub handle_test_negatives {
+  my ($info, $count, $positions) = @_;
+  $info->{model}->{test_negatives} = {
+    count => $count, positions => $positions
+  };
+}
+
+sub handle_sequence_db {
+  my ($info, @probs) = @_;
+  $info->{model}->{sequence_db} = [@probs];
+}
+
+sub handle_alphabet {
+  my ($info, $alphabet) = @_;
+  $info->{alph} = $alphabet;
+}
+
+sub handle_strands {
+  my ($info, $strands) = @_;
+  $info->{model}->{strands} = $strands;
+}
+
+sub handle_background_frequencies {
+  my ($info, $source, $order, $freqs) = @_;
+  $info->{bg} = {source => $source, order => $order, freqs => $freqs};
+}
+
+sub handle_stop {
+  my ($info, $thresh_type, $thresh, $nmotifs, $time) = @_;
+  $info->{model}->{stop} = {thresh_type => $thresh_type, thresh => $thresh, nmotifs => $nmotifs, time => $time};
+}
+
+sub handle_objfun {
+  my ($info, $objfun) = @_;
+  $info->{model}->{objfun} = $objfun;
+}
+
+sub handle_test {
+  my ($info, $test) = @_;
+  $info->{model}->{test} = $test;
+}
+
+sub handle_minw {
+  my ($info, $minw) = @_;
+  $info->{model}->{minw} = $minw;
+}
+
+sub handle_maxw {
+  my ($info, $maxw) = @_;
+  $info->{model}->{maxw} = $maxw;
+}
+
+sub handle_kmer {
+  my ($info, $kmer) = @_;
+  $info->{model}->{kmer} = $kmer;
+}
+
+sub handle_hofract {
+  my ($info, $hofract) = @_;
+  $info->{model}->{hofract} = $hofract;
+}
+
+sub handle_neval {
+  my ($info, $neval) = @_;
+  $info->{model}->{neval} = $neval;
+}
+
+sub handle_nref {
+  my ($info, $nref) = @_;
+  $info->{model}->{nref} = $nref;
+}
+
+sub handle_niter {
+  my ($info, $niter) = @_;
+  $info->{model}->{niter} = $niter;
+}
+
+sub handle_patience {
+  my ($info, $patience) = @_;
+  $info->{model}->{patience} = $patience;
+}
+
+sub handle_seed {
+  my ($info, $seed) = @_;
+  $info->{model}->{seed} = $seed;
+}
+
+sub handle_useer{
+  my ($info, $useer) = @_;
+  $info->{model}->{useer} = $useer;
+}
+
+sub handle_minscore{
+  my ($info, $minscore) = @_;
+  $info->{model}->{minscore} = $minscore;
+}
+
+sub handle_ignore_depth{
+  my ($info, $ignore_depth) = @_;
+  $info->{model}->{ignore_depth} = $ignore_depth;
+}
+
+sub handle_nsubsets{
+  my ($info, $nsubsets) = @_;
+  $info->{model}->{nsubsets} = $nsubsets;
+}
+
+sub handle_min_pal_ratio{
+  my ($info, $min_pal_ratio) = @_;
+  $info->{model}->{min_pal_ratio} = $min_pal_ratio;
+}
+
+sub handle_max_pal_ed{
+  my ($info, $max_pal_ed) = @_;
+  $info->{model}->{max_pal_ed} = $max_pal_ed;
+}
+
+sub handle_cand {
+  my ($info, $cand) = @_;
+  $info->{model}->{cand} = $cand;
+}
+
+sub handle_experimental {
+  my ($info, $experimental) = @_;
+  $info->{model}->{experimental} = $experimental;
+}
+
+sub handle_totallength {
+  my ($info, $totallength) = @_;
+  $info->{model}->{totallength} = $totallength;
+}
+
+sub handle_align {
+  my ($info, $align) = @_;
+  $info->{model}->{align} = $align;
+}
+
+sub handle_host {
+  my ($info, $host) = @_;
+  $info->{model}->{host} = $host;
+}
+
+sub handle_description {
+  my ($info, $description) = @_;
+  $info->{model}->{description} = $description;
+}
+
+sub handle_reason_for_stopping {
+  my ($info, $reason_for_stopping) = @_;
+  my $wr = $info->{wr};
+  $wr->str_prop("stop_reason", $reason_for_stopping);
+}
+
+sub start_motifs {
+  my ($info) = @_;
+  my $wr = $info->{wr};
+  $wr->property("motifs");
+  $wr->start_array_value();
+}
+
+sub end_motifs {
+  my ($info) = @_;
+  my $wr = $info->{wr};
+  $wr->end_array_value();
+}
+
+sub start_motif {
+  my ($info, $id, $alt, $width, $initial_width, $seed, $score_threshold, 
+    $train_pos_count, $train_neg_count, $train_log_pvalue, $train_pvalue, $train_dtc, $train_bernoulli,
+    $test_pos_count, $test_neg_count, $test_log_pvalue, $test_pvalue, $test_log_evalue, $test_evalue,
+    $test_dtc, $test_bernoulli, $elapsed_time, $total_sites, $site_distr, $max_sites, $site_hist
+  ) = @_;
+
+  my $wr = $info->{wr};
+  $wr->start_object_value();
+
+  $wr->num_prop("db", 0);
+  $wr->str_prop("id", $id);
+  $wr->str_prop("alt", $alt);
+  $wr->num_prop("width", $width);
+  $wr->num_prop("initial_width", $initial_width);
+  $wr->str_prop("seed", $seed);
+  $wr->num_prop("score_threshold", $score_threshold);
+
+  $wr->num_prop("train_pos_count", $train_pos_count);
+  $wr->num_prop("train_neg_count", $train_neg_count);
+  $wr->num_prop("train_log_pvalue", $train_log_pvalue);
+  $wr->str_prop("train_pvalue", $train_pvalue);
+  $wr->num_prop("train_dtc", $train_dtc);
+  $wr->num_prop("train_bernoulli", $train_bernoulli);
+
+  $wr->num_prop("test_pos_count", $test_pos_count);
+  $wr->num_prop("test_neg_count", $test_neg_count);
+  $wr->num_prop("test_log_pvalue", $test_log_pvalue);
+  $wr->str_prop("test_pvalue", $test_pvalue);
+  $wr->num_prop("test_log_evalue", $test_log_evalue);
+  $wr->str_prop("test_evalue", $test_evalue);
+  $wr->num_prop("test_dtc", $test_dtc);
+  $wr->num_prop("test_bernoulli", $test_bernoulli);
+  $wr->num_prop("elapsed_time", $elapsed_time);
+
+  $wr->num_prop("total_sites", $total_sites);
+  $wr->property("site_distr");
+  $wr->num_array_value(split / /, $site_distr);
+  $wr->num_prop("max_sites", $max_sites);
+  $wr->property("site_hist");
+  $wr->num_array_value(split / /, $site_hist);
+
+  # Add these dummy fields to make the MEME HTML parsers happy
+  $wr->num_prop("len", $width);
+  $wr->num_prop("nsites", $train_pos_count+$test_pos_count);
+  #$wr->str_prop("evalue", $test_pvalue);
+  $wr->str_prop("evalue", 0);		# not the real E-value
+
+  $wr->property("pwm");
+  $wr->start_array_value();
+} # start_motif
+
+sub end_motif {
+  my ($info) = @_;
+  my $wr = $info->{wr};
+
+  $wr->end_array_value();
+  $wr->end_object_value();
+}
+
+sub handle_pos {
+  my ($info, @probs) = @_;
+  my $wr = $info->{wr};
+  $wr->num_array_value(@probs);
+}
+
+sub handle_run_time {
+  my ($info, $cpu) = @_;
+  my $wr = $info->{wr};
+  $wr->property("runtime");
+  $wr->start_object_value();
+  $wr->str_prop("host", $info->{model}->{host});
+  $wr->num_prop("cpu", $cpu);
+  $wr->end_object_value();
+}
+
+sub transform_data {
+  my ($opts, $jsonwr) = @_;
+  my $info = {wr => $jsonwr};
+
+  my $sax = new StremeSAX($info,
+    start_streme => \&start_streme,
+    end_streme=> \&end_streme,
+    start_model => \&start_model,
+    end_model => \&end_model,
+    handle_command_line => \&handle_command_line,
+    handle_train_positives => \&handle_train_positives,
+    handle_train_negatives => \&handle_train_negatives,
+    handle_test_positives => \&handle_test_positives,
+    handle_test_negatives => \&handle_test_negatives,
+    handle_sequence_db => \&handle_sequence_db,
+    handle_alphabet => \&handle_alphabet,
+    handle_strands => \&handle_strands,
+    handle_background_frequencies => \&handle_background_frequencies,
+    handle_stop => \&handle_stop,
+    handle_objfun => \&handle_objfun,
+    handle_test => \&handle_test,
+    handle_minw => \&handle_minw,
+    handle_maxw => \&handle_maxw,
+    handle_kmer => \&handle_kmer,
+    handle_hofract => \&handle_hofract,
+    handle_neval=> \&handle_neval,
+    handle_nref=> \&handle_nref,
+    handle_niter=> \&handle_niter,
+    handle_patience => \&handle_patience,
+    handle_seed => \&handle_seed,
+    handle_useer => \&handle_useer,
+    handle_minscore => \&handle_minscore,
+    handle_ignore_depth => \&handle_ignore_depth,
+    handle_nsubsets => \&handle_nsubsets,
+    handle_min_pal_ratio => \&handle_min_pal_ratio,
+    handle_max_pal_ed => \&handle_max_pal_ed,
+    handle_cand => \&handle_cand,
+    handle_experimental => \&handle_experimental,
+    handle_totallength => \&handle_totallength,
+    handle_align => \&handle_align,
+    handle_host => \&handle_host,
+    handle_description => \&handle_description,
+    start_motifs => \&start_motifs,
+    end_motifs => \&end_motifs,
+    start_motif => \&start_motif,
+    end_motif => \&end_motif,
+    handle_pos => \&handle_pos,
+    handle_reason_for_stopping => \&handle_reason_for_stopping,
+    handle_run_time => \&handle_run_time
+  );
+  my $fh;
+  sysopen($fh, $opts->{XML_PATH}, O_RDONLY) or die("Failed to open file \"$opts->{XML_PATH}\"\n");
+  while (<$fh>) {
+    $sax->parse_more($_);
+    if ($sax->has_errors()) {
+      die("Failed to write HTML output due to errors processing the XML:\n" . join("\n", $sax->get_errors()));
+    }
+  }
+  $sax->parse_done();
+  if ($sax->has_errors()) {
+    die("Failed to write HTML output due to errors processing the XML:\n" . join("\n", $sax->get_errors()));
+  }  
+}
+
+sub main {
+  &initialise();
+  my $opts = &arguments();
+  # start writing HTML
+  my $htmlwr = new HtmlMonolithWr($etc_dir, 'streme_template.html', 
+    $opts->{HTML_PATH}, 'streme_data.js' => 'data');
+  # transform the XML into JSON
+  &transform_data($opts, $htmlwr->output());
+  # finish writing HTML
+  $htmlwr->output();
+}
+
+&main();
+1;

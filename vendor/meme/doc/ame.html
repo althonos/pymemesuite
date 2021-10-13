@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>AME - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+    <script src="js/shared-doc.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+    <div class="prog_logo">
+      <img src="images/ame_icon.png" alt="AME Logo">
+      <h1>AME</h1>
+      <h2>Analysis of Motif Enrichment</h2>
+    </div>
+
+    <div style='display:inline' id='man_web_button'>
+      <p> <button onclick="toggle_man_display()">View Web Version</button> </p>
+    </div>
+
+    <div style='display:none' id='man_cmd_button'>
+      <p> <button onclick="toggle_man_display()">View Command-Line Version</button> </p>
+    </div>
+
+    <div style='display:inline' id='man_usage'>
+      <div class="usage">
+        <h3>Usage:</h3>
+        <code>ame [options] &lt;sequence file&gt; &lt;motif file&gt;+</code>
+      </div>
+    </div>
+
+    <h3>Description</h3>
+    <div class="indent">
+       <span class="man blurb" data-id="ame"></span>
+    </div>
+
+    <!-- Command Line Version Doc -->
+    <div style='display:inline' id='man_cmd'>
+      <h3>Input</h3>
+      <div class="indent">
+        <h4><span class='popt'><b>&lt;sequence file&gt;</b></span></h4>
+        <p id="fasta_scores">The name of a file containing a set of (primary) sequences in <a href="fasta-format.html">FASTA</a> format.  
+	The FASTA header line of each sequence may contain a number (called a <b>'FASTA score'</b>) 
+	immediately following the sequence name that is used by some of AME's statistical enrichment methods.
+        <ul>
+	  <code>&gt;sequence_name score other_descriptive_text</code>
+        </ul>
+	The (optional) FASTA scores can represent any biological signal related to
+	the sequences such as expression level, peak height or fluorescence score.
+	If the sequences do not contain FASTA scores, some of AME's statistical enrichment methods
+	utilize the order of the sequences in the sequence file.
+
+        <h4><span class='popt'><b>&lt;motif file&gt;+</b></span></h4>
+        <p>The names of one or more files containing <a href="meme-format.html">MEME formatted motifs</a>.
+        Outputs from MEME and DREME are supported, as well as Minimal MEME
+        Format. You can convert many other motif formats to MEME format
+        using <a href="overview.html#motif_conversion_utilities">conversion scripts</a>
+        available with the MEME Suite.</p>
+      </div>
+      <h3>Output</h3>
+      <div class="indent">
+        <p>
+          AME writes its output to files in a directory named
+          <code>ame_out</code>, which it creates if necessary. You can change the
+          output directory using the <span class='popt'>--o</span> or <span class='popt'>--oc</span> options.
+          The directory will contain the following files:
+        </p>
+        <ul>
+          <li><a href=examples/ame_example_output_files/ame.html><code>ame.html</code></a> -
+	    an HTML file that provides the results in a human-readable format
+          <li><a href=examples/ame_example_output_files/ame.tsv><code>ame.tsv</code></a> -
+            a <a href=ame-output-format.html#tsv_results>TSV (tab-separated values)</a>
+            the results in a format suitable for parsing by scripts and viewing with Excel
+          <li><a href=examples/ame_example_output_files/sequences.tsv><code>sequences.tsv</code></a> -
+	    (optional, <span class='popt'>--method fisher</span> only) 
+	    a <a href=ame-output-format.html#tsv_sequences>TSV (tab-separated values)</a>
+            file that lists the true- and false-positive sequences identified by AME
+        </ul>
+        <p>
+	  In all output files, only results for significantly enriched motifs are reported.
+        </p>
+        <p>
+	  <b>Note:</b> See this detailed description of the <a href=ame-output-format.html>AME output formats</a>
+	  for more information.
+        </p>
+      <h3>Algorithm</h3>
+      <div class="indent">
+	<p><b>Scores-</b> AME uses two scores for each sequence in computing motif enrichment.
+	The 'PWM score' is computed by scoring the sequence with the motif.
+	The 'FASTA score' is either provided in the sequence header line (see above);
+	otherwise it is the rank of the sequence within the sequence file.
+	</p>
+	<p><b>Partition maximization-</b> AME sorts the sequences in <b>increasing</b> order of FASTA score, 
+	and then 'partitions' the sequences, labeling the first <i>N</i> sequences 'positive', 
+        and the rest 'negative'.  AME computes the significance of motif enrichment 
+	using this labeling and the PWM scores, and then repeats the process using values of <i>N</i> from 
+	1 to the total number of sequences. AME reports the partition with the highest significance.
+	</p>
+        <p><b>Variations-</b> The above behavior can be modified using the options described
+	below.  For example, with some enrichment methods you can switch the roles of the FASTA
+	and PWM scores (see options <span class='popt'>--poslist</span> and <span class='popt'>--linreg-switchxy</span>, below).
+	With two enrichment methods (<span class='popt'>fisher</span> and <span class='popt'>ranksum</span>),
+	you can provide control sequences (see <span class="popt">--control</span>, below),
+	which causes both FASTA scores and sequence order to be ignored.  
+	Two other enrichment methods (<span class='popt'>pearson</span> and <span class='popt'>spearman</span>),
+        which are based on the correlation coefficient, ignore the 'negative' sequences entirely
+	during partition maximization.
+	You can also <b>define</b> which sequences are 'positive' by specifying
+	'<span class='popt'>--fix-partition N</span>', which
+	causes the first <i>N</i> sequences (sorted by FASTA score) to be labeled 'positive'.
+      </div>
+
+      <h3>Options</h3>
+      <div class="indent">
+        <table class="options">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Parameter</th>
+              <th>Description</th>
+              <th>Default Behavior</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th colspan="4">General Options</th>
+            </tr>
+            <script>
+              wropt("all-o", {"ddash": true, "dir": "ame_out"});
+              wropt("all-oc", {"ddash": true, "dir": "ame_out"});
+            </script>
+            <tr>
+              <td class="popt">--text</td><td></td>
+              <td>Output TSV format only to standard output.</td>
+              <td>AME behaves as if <code>--oc&nbsp;ame_out</code> had
+              been specified.</td>
+            </tr>
+            <tr>
+              <td class="popt">--control</td><td><span class="pdat">file</span></td>
+              <td>A set of control sequences in <a href="fasta-format.html">FASTA</a> format
+		or the keyword <span class='popt'>--shuffle--</span>. 
+                AME will determine if each motif is enriched in the primary sequences compared to the control sequences
+		by labeling the primary sequences 'positive' and the control sequences 'negative', and then
+		applying the enrichment method to that labeling.
+		The keyword <span class='popt'>--shuffle--</span> causes AME to create (a minimum of 1000) 
+		control sequences by shuffling the letters in each primary sequence while preserving 
+		the frequencies of <i>k</i>-mers (see option <span class='popt'>--kmer</span>, below).
+		<b>Note: </b>The control sequences should have (approximately) the same distribution of lengths
+		as the primary sequences or AME may fail to correctly detect enriched motifs and will report 
+		inaccurate <i>p</i>-values.
+              </td>
+              <td>AME sorts the sequences by FASTA score and performs partition maximization,
+		labeling the first <i>N</i> sequences as positive, for <i>N=1,..,</i>number of sequences.
+	      </td>
+            </tr>
+            <tr>
+	      <td class="popt">--kmer</td><td><span class="pdat">k</span></td>
+	      <td>Preserve the frequencies of <span class="pdat">k</span>-mers when creating
+		a control dataset by shuffling the letters of each primary sequence.</td>
+	      <td>A value of 2 is used.</td>
+            </tr>
+            <tr>
+	      <td class="popt">--seed</td><td><span class="pdat">s</span></td>
+	      <td>Use <span class="pdat">s</span> as the initial random number seed
+		when shuffling sequence letters.</td>
+	      <td>A value of 1 is used.</td>
+            <tr>
+            <tr>
+              <td class="popt">--method</td><td><span
+                  class="popt">fisher</span>|<span 
+                  class="popt">ranksum</span>|<span 
+                  class="popt">pearson</span> |<span
+                  class="popt">spearman</span>|<span
+                  class="popt">3dmhg</span>|<span 
+                  class="popt">4dmhg</span>
+              </td>
+              <td>The method for testing motif enrichment. 
+                <dl>
+                  <dt><code>fisher</code> -</dt> 
+                   <dd>the one-tailed Fisher's Exact test. 
+		    By default, AME performs partition maximization, <b>labeling</b> sequences
+		    sorted by FASTA score, and <b>classifies</b> them using 
+		    the <span class='pdat'>hit threshold</span> 
+		    (see <span class='popt'>--hit-lo-fraction</span>, below).
+		    If you specify which sequences are 'positive' using 
+		    either '<span class='popt'>--control</span>' or '<span class='popt'>--fix-partition</span>',
+		    AME instead maximizes over all possible PWM thresholds that are at least as large as
+		    the <span class='pdat'>sequence threshold</span> defined for the scoring method in
+		    use (see <span class='popt'>--scoring</span>, below).
+		    </dd>
+                  <dt><code>ranksum</code> -</dt> 
+		    <dd>the one-tailed Wilcoxon rank-sum test, also known as the Mann-Whitney U test.
+		  </dd>
+                  <dt><code>pearson</code> -</dt> 
+                    <dd>the significance of the Pearson correlation coefficient
+                    between the PWM score and the FASTA score.
+		    Requires FASTA scores in the all sequence headers.
+		    If there are fewer than 30 sequences, AME computes the 
+		    mean-squared error of the linear regression between the PWM score and the FASTA score instead.
+                    Not valid with <code>--control</code>. 
+		    </dd>
+                  <dt><code>spearman</code> -</dt> <dd>
+		    the significance of Spearman's rank coefficient (&rho;)
+		    between the PWM score ranks and the FASTA score ranks.
+                    Not valid with <code>--control</code>.
+		   </dd>
+                  <dt><code>3dmhg</code> and <code>4dmhg</code> -</dt> 
+		    <dd>the 3-dimensional (<code>3dmhg</code>) and 4-dimensional (<code>4dmhg</code>)
+		    multi-hypergeometric tests are <b>two-tailed tests</b> described in McLeay and Bailey, 
+                    "Motif Enrichment Analysis: a unified framework and an evaluation on ChIP data", 
+                    BMC Bioinformatics <b>11</b>:165, 2010. These tests require <code>--scoring totalhits</code>;
+		    the <code>3dmhg</code> function discriminates among sequences with 0, 1 or &ge; 2 hits, and
+		    the <code>4dmhg</code> function discriminates among sequences with 0, 1, 2 or &ge; 3 hits.
+		    <b>Note:</b> Motifs enriched in <i>either</i> 
+                    the primary or control sequences (or at the top or bottom of the sequences 
+                    if you only give one sequence file) are considered significant by these tests.
+                    Not valid with <code>--control</code>.  </dd>
+                </dl> 
+              </td>
+              <td>The one-tailed Fisher's exact test (<code>fisher</code>) method is used for testing motif enrichment.</td>
+            </tr>
+            <tr>
+              <td class="popt">--scoring</td><td><span
+                  class="popt">avg</span>|<span
+                  class="popt">max</span>|<span
+                  class="popt">sum</span>|<span
+                  class="popt">totalhits</span></td>
+              <td>The method for scoring a single sequence for matches to a motif's PWM.
+		The PWM score assigned to a sequence is either:
+                <dl>
+                  <dt><code>avg</code> -</dt> <dd>the average motif odds score of all positions in the sequence;
+		  the <span class='pdat'>sequence threshold</span> assumes that the sequence has one "hit"
+		  (see <span class='popt'>--hit-lo-fraction</span>, below)
+		  and the rest of the sites in the sequence have an average odds of 1.</dd>
+                  <dt><code>max</code> -</dt> <dd>the maximum motif odds score over all positions in the sequence;
+		  the <span class='pdat'>sequence threshold</span> is equal to <span class='pdat'>hit threshold</span>
+		  (see <span class='popt'>--hit-lo-fraction</span>, below).</dd>
+                  <dt><code>sum</code> -</dt> <dd>the sum of the motif odds scores of all positions in the sequence;
+		  the <span class='pdat'>sequence threshold</span> assumes that the sequence has one "hit"
+		  (see <span class='popt'>--hit-lo-fraction</span>, below)
+		  and the rest of the sites in the sequence have an average odds of 1.</dd>
+                  <dt><code>totalhits</code> -</dt> <dd>the total number of positions in the sequence whose odds score 
+		  is at least <span class="pdat">hit score</span> (see <code>--hit-lo-fraction</code>, below);
+		  the <span class='pdat'>sequence threshold</span> is 1.</dd>
+                </dl>
+              </td>
+              <td>The <code>avg</code> scoring method is used.</td>
+            </tr>
+            <tr>
+              <td class="popt">--hit-lo-fraction</td><td><span class="pdat">fraction</span></td>
+              <td>The <span class='pdat'>hit threshold</span> for a motif is defined as
+		<span class="pdat">fraction</span> times the maximum possible log-odds score for the motif.
+		A position is considered a "hit" if the log-odds score is 
+		greater than or equal to the <span class='pdat'>hit threshold</span>.</td>
+              <td>A value of 0.25 is used.</td>
+            </tr>
+            <tr>
+              <td class="popt">--evalue-report-threshold</td><td><span class="pdat">evalue</span></td>
+              <td><i>E</i>-value threshold for reporting a motif as significantly enriched.</td>
+              <td>A threshold of 10 is used for reporting a motif.</td>
+            </tr>
+            <tr>
+              <td class="popt">--fasta-threshold</td><td><span class="pdat">score</span></td>
+              <td>For the Fisher's exact test only when you use <code>--poslist pwm</code>,
+		and you do not use <code>--control</code> <code>--fix-partition</code>.
+		AME will <b>classify</b> sequences with FASTA scores <b>below</b> 
+		<span class="pdat">score</span> as 'positives'.</td>
+              <td>A maximum FASTA score of 0.001 is used by AME to classify a sequence as 'positive'.</td>
+            </tr>
+            <tr>
+              <td class="popt">--fix-partition</td><td><span class="pdat">N</span></td>
+              <td>Causes AME to evaluate only the single partition consisting
+		of the first <span class="pdat">N</span> sequences.
+		May not be use with <span class="popt">--control</span> or <span class="popt">--poslist pwm</span>.
+	      </td>
+              <td>Partition maximization is performed.
+            </tr>
+	    <tr>
+              <td class="popt">--poslist</td><td><span class="popt">pwm</span>|<span class="popt">fasta</span></td>
+              <td>For partition maximization, test thresholds on either X (PWM score)
+              or Y (FASTA score). May not be used with <span class="popt">--control</span> or
+	      <span class="popt">--fix-partition</span>.
+	      <!--Only applies for partition maximization and for the Ranksum test.-->
+                <dl>
+                  <dt><code>pwm</code> -</dt><dd>Use PWM score (X).<dd>
+                  <dt><code>fasta</code> -</dt><dd>Use FASTA score (Y).<dd>
+                </dl>
+              <b>Hint:</b> Be careful switching the <code>poslist</code>. It switches between
+              using X and Y for determining true positives in the contingency matrix,
+              in addition to switching which of X and Y AME uses for partition maximization.</td>
+              </td>
+              <td>Use the FASTA score.</td>
+            </tr>
+            <tr>
+              <td class="popt">--log-fscores</td><td>&nbsp;</td>
+              <td>Convert FASTA scores into log-space.
+	      Only relevant for the <span class='popt'>pearson</span> method.
+              </td>
+              <td>Use the FASTA score directly.</td>
+            </tr>
+            <tr>
+              <td class="popt">--log-pwmscores</td><td>&nbsp;</td>
+              <td>Convert PWM scores into log-space.
+	      Only relevant for the <span class='popt'>pearson</span> method.
+              </td>
+              <td>Use the PWM score directly.</td>
+            </tr>
+            <tr>
+              <td class="popt">--linreg-switchxy</td><td>&nbsp;</td>
+              <td>Make the x-points FASTA scores and the y-points PWM scores. 
+	      Only relevant for the <span class='popt'>pearson</span> and <span class='popt'>spearman</span> methods.
+              </td>  
+              <td>Keep the original axis.</td>
+            </tr>
+            <script>
+              wropt("all-xalph", {"ddash": true});
+              wropt("all-bg", {"ddash": true, "bfile": true, "centrimo": true, "sequences": true});
+              wropt("all-pseudo", {"ddash": true, "legacy": true});
+              wropt("all-inc", {"inc": true, "ddash": true, "centrimo": true});
+              wropt("all-inc", {"inc": false, "ddash": true, "centrimo": true});
+            </script>
+            <tr>
+              <td class="popt">--noseq</td>
+              <td>&nbsp;</td>
+              <td>(<span class='popt'>--method fisher</span> only) 
+		Do not output the TSV (tab-separated values) file 
+                <a href=examples/ame_example_output_files/sequences.tsv><code>sequences.tsv</code></a>.
+		<b>Note: </b>This option is <b>recommended</b> when there are many many
+		motifs and many input sequences as the TSV file can become
+		extremely large.
+              </td>
+              <td>AME outputs file 
+                <a href=examples/ame_example_output_files/sequences.tsv><code>sequences.tsv</code></a>,
+		which lists the true- and false-positive sequences identified 
+		by AME using Fisher's Exact test.</td>
+            </tr>
+            <script>
+              wropt("all-help", {"ddash": true});
+              wropt("all-version", {"ddash": true});
+            </script>
+            <tr>
+              <td class="popt">--verbose</td><td>1|2|3|4|5</td>
+              <td>A number that regulates the verbosity level of the output 
+              information messages. If set to 1 (quiet) then AME will only 
+              output error messages whereas the other extreme 5 (dump) 
+              outputs lots of mostly useless information. This option is
+              best placed first. At verbosity level 3, AME will report
+              the significance of each set of each partition of the sequences
+              that it considers.</td>
+              <td>The verbosity level is set to 2 (normal).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Citing</h3>
+    <div class="indent">
+      <p>If you use AME in your research, please cite the following paper:<br />
+        <span class="citation">
+          Robert McLeay and Timothy L. Bailey, 
+          &quot;Motif Enrichment Analysis: A unified framework and method evaluation&quot;, 
+          <i>BMC Bioinformatics</i>, <b>11</b>:165, 2010, doi:10.1186/1471-2105-11-165.
+          <a href="http://www.biomedcentral.com/1471-2105/11/165">[full text]</a>
+        </span>
+      </p>
+    </div>
+
+    <script src="js/manual.js"></script>
+
+  </body>
+</html>
+

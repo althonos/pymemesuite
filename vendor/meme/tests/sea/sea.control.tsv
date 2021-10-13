@@ -1,0 +1,18 @@
+RANK	DB	ID	ALT_ID	CONSENSUS	TP	TP%	FP	FP%	ENR_RATIO	SCORE_THR	PVALUE	LOG_PVALUE	EVALUE	LOG_EVALUE	QVALUE	LOG_QVALUE
+1	common/Jaspar-subset.meme	MA0039.2	Klf4	DGGGYGKGGC	73	43.20	10	5.92	6.73	8	8.74e-16	-34.67	1.14e-14	-32.11	1.14e-14	-32.11
+2	common/Jaspar-subset.meme	MA0140.1	Tal1::Gata1	CTGBNNNNNDSAGATAAG	35	20.71	2	1.18	12	8.7	2.64e-9	-19.75	3.44e-8	-17.19	1.72e-8	-17.88
+3	common/Jaspar-subset.meme	MA0300.1	GAT1	YYGATAAG	28	16.57	4	2.37	5.8	6	1.55e-5	-11.07	2.02e-4	-8.51	6.72e-5	-9.61
+4	common/Jaspar-subset.meme	MA0035.2	Gata1	DSAGATAAGVV	35	20.71	8	4.73	4	6.4	3.13e-5	-10.37	4.06e-4	-7.81	1.02e-4	-9.19
+5	common/Jaspar-subset.meme	MA0309.1	GZF3	YGATAASR	19	11.24	2	1.18	6.67	8.9	2.15e-4	-8.44	2.80e-3	-5.88	5.59e-4	-7.49
+6	common/Jaspar-subset.meme	MA0079.1	SP1	KRGGCDGGGT	41	24.26	16	9.47	2.47	6.2	1.04e-3	-6.87	1.36e-2	-4.30	2.26e-3	-6.09
+7	common/Jaspar-subset.meme	MA0270.1	AFT2	SACACCCB	20	11.83	5	2.96	3.5	9.6	4.32e-3	-5.44	5.62e-2	-2.88	8.02e-3	-4.83
+8	common/Jaspar-subset.meme	MA0079.2	SP1	CCCCKCCCCC	12	7.10	3	1.78	3.25	8.4	3.10e-2	-3.47	4.03e-1	-0.91	5.04e-2	-2.99
+9	common/Jaspar-subset.meme	MA0443.1	btd	AGGGGGCGGR	21	12.43	10	5.92	2	0.94	8.45e-2	-2.47	1.10e0	0.09	1.10e-1	-2.21
+10	common/Jaspar-subset2.meme	MA0443.1	btd	AGGGGGCGGR	21	12.43	10	5.92	2	0.94	8.45e-2	-2.47	1.10e0	0.09	1.10e-1	-2.21
+11	common/Jaspar-subset.meme	MA0091.1	TAL1::TCF3	NSAMCATCTGKT	20	11.83	11	6.51	1.75	0.51	1.83e-1	-1.70	2.38e0	0.87	2.17e-1	-1.53
+12	common/Jaspar-subset2.meme	MA0039.1	Klf4	WAARGRAAGG	150	88.76	137	81.07	1.09	1.4	2.90e-1	-1.24	3.78e0	1.33	3.15e-1	-1.16
+13	common/Jaspar-subset.meme	MA0163.1	PLAG1	GGGGCCCAAGGGGG	1	0.59	0	0.00	2	14	5.00e-1	-0.69	6.50e0	1.87	5.00e-1	-0.69
+
+# SEA (Simple Enrichment Analysis): Version 5.4.0 compiled on Aug 20 2021 at 15:30:59
+# The format of this file is described at https://meme-suite.org/meme/doc/sea-output-format.html.
+# sea --verbosity 1 --oc results/sea2 --p common/Klf1-200-100.fa --n common/Klf1-200-100-shuffled.py2.fa --motif-pseudo 0 --hofract 0 --m common/Jaspar-subset.meme --m common/Jaspar-subset2.meme --thresh 10

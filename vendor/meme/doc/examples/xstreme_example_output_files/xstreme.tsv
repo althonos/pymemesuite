@@ -1,0 +1,189 @@
+RANK	SEED_MOTIF	CLUSTER	SOURCE	ID	ALT_ID	CONSENSUS	WIDTH	SITES	SEA_PVALUE	EVALUE	EVALUE_ACC	SIM_SOURCE	SIM_MOTIF	MOTIF_URL
+1	1	1	STREME	2-GCTGAGTCATN	STREME-2	GCTGAGTCATN	11	181	1.41e-040	8.45e-004	1	JASPAR2018_CORE_non-redundant.meme	MA1101.1 (BACH2)	http://jaspar2018.genereg.net/matrix/MA1101.1
+2	1	2	MEME	CCASYAGRKGGCRSY	MEME-4	CCASYAGRKGGCRSY	15	214	2.07e-038	4.60e-056	1	JASPAR2018_CORE_non-redundant.meme	MA0139.1 (CTCF)	http://jaspar2018.genereg.net/matrix/MA0139.1
+3	0	2	STREME	1-CCASYAGRGGGCGCY	STREME-1	CCASYAGRGGGCGCY	15	170	7.39e-037	8.06e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0139.1 (CTCF)	http://jaspar2018.genereg.net/matrix/MA0139.1
+4	0	2	JASPAR2018_CORE_non-redundant.meme	MA0139.1	CTCF	YGRCCASYAGRKGGCRSYR	19	178	4.03e-036	5.72e-033	1	JASPAR2018_CORE_non-redundant.meme	MA0139.1	http://jaspar2018.genereg.net/matrix/MA0139.1
+5	0	1	JASPAR2018_CORE_non-redundant.meme	MA1101.1	BACH2	NMTGACTCAGCANH	14	168	1.29e-035	1.83e-032	1	JASPAR2018_CORE_non-redundant.meme	MA1101.1	http://jaspar2018.genereg.net/matrix/MA1101.1
+6	0	1	JASPAR2018_CORE_non-redundant.meme	MA0150.2	Nfe2l2	CASNATGACTCAGCA	15	196	7.11e-035	1.01e-031	1	JASPAR2018_CORE_non-redundant.meme	MA0150.2	http://jaspar2018.genereg.net/matrix/MA0150.2
+7	0	1	JASPAR2018_CORE_non-redundant.meme	MA0490.1	JUNB	NRRTGASTCAK	11	219	2.45e-033	3.49e-030	1	JASPAR2018_CORE_non-redundant.meme	MA0490.1	http://jaspar2018.genereg.net/matrix/MA0490.1
+8	0	1	JASPAR2018_CORE_non-redundant.meme	MA1134.1	FOS::JUNB	KATGASTCATHN	12	199	1.19e-032	1.69e-029	1	JASPAR2018_CORE_non-redundant.meme	MA1134.1	http://jaspar2018.genereg.net/matrix/MA1134.1
+9	0	1	JASPAR2018_CORE_non-redundant.meme	MA0476.1	FOS	DVTGASTCATB	11	172	2.11e-030	3.01e-027	1	JASPAR2018_CORE_non-redundant.meme	MA0476.1	http://jaspar2018.genereg.net/matrix/MA0476.1
+10	0	1	MEME	VATGACTCAG	MEME-2	VATGACTCAG	10	210	2.65e-030	3.50e-062	1	JASPAR2018_CORE_non-redundant.meme	MA1101.1 (BACH2)	http://jaspar2018.genereg.net/matrix/MA1101.1
+11	0	1	JASPAR2018_CORE_non-redundant.meme	MA0099.3	FOS::JUN	ATGAGTCAYM	10	203	7.07e-029	1.01e-025	1	JASPAR2018_CORE_non-redundant.meme	MA0099.3	http://jaspar2018.genereg.net/matrix/MA0099.3
+12	0	1	JASPAR2018_CORE_non-redundant.meme	MA1135.1	FOSB::JUNB	KRTGASTCAT	10	211	7.12e-029	1.01e-025	1	JASPAR2018_CORE_non-redundant.meme	MA1135.1	http://jaspar2018.genereg.net/matrix/MA1135.1
+13	0	1	JASPAR2018_CORE_non-redundant.meme	MA0489.1	JUN(var.2)	RRRRRRTGASTCAT	14	200	1.21e-028	1.73e-025	1	JASPAR2018_CORE_non-redundant.meme	MA0489.1	http://jaspar2018.genereg.net/matrix/MA0489.1
+14	0	1	JASPAR2018_CORE_non-redundant.meme	MA1141.1	FOS::JUND	NKATGAGTCATNN	13	255	2.65e-028	3.76e-025	1	JASPAR2018_CORE_non-redundant.meme	MA1141.1	http://jaspar2018.genereg.net/matrix/MA1141.1
+15	0	1	JASPAR2018_CORE_non-redundant.meme	MA1128.1	FOSL1::JUN	NKATGACTCATNN	13	245	4.68e-028	6.66e-025	1	JASPAR2018_CORE_non-redundant.meme	MA1128.1	http://jaspar2018.genereg.net/matrix/MA1128.1
+16	0	1	JASPAR2018_CORE_non-redundant.meme	MA1144.1	FOSL2::JUND	KATGACTCAT	10	278	5.14e-027	7.31e-024	1	JASPAR2018_CORE_non-redundant.meme	MA1144.1	http://jaspar2018.genereg.net/matrix/MA1144.1
+17	0	1	JASPAR2018_CORE_non-redundant.meme	MA1138.1	FOSL2::JUNB	KRTGASTCAT	10	255	8.64e-027	1.23e-023	1	JASPAR2018_CORE_non-redundant.meme	MA1138.1	http://jaspar2018.genereg.net/matrix/MA1138.1
+18	0	1	JASPAR2018_CORE_non-redundant.meme	MA1130.1	FOSL2::JUN	NNRTGAGTCAYN	12	197	1.72e-026	2.45e-023	1	JASPAR2018_CORE_non-redundant.meme	MA1130.1	http://jaspar2018.genereg.net/matrix/MA1130.1
+19	0	1	JASPAR2018_CORE_non-redundant.meme	MA0491.1	JUND	DRTGASTCATS	11	131	2.13e-025	3.03e-022	1	JASPAR2018_CORE_non-redundant.meme	MA0491.1	http://jaspar2018.genereg.net/matrix/MA0491.1
+20	0	1	JASPAR2018_CORE_non-redundant.meme	MA0477.1	FOSL1	RRTGASTCAKV	11	114	3.01e-025	4.28e-022	1	JASPAR2018_CORE_non-redundant.meme	MA0477.1	http://jaspar2018.genereg.net/matrix/MA0477.1
+21	0	1	JASPAR2018_CORE_non-redundant.meme	MA0478.1	FOSL2	KRRTGASTCAB	11	266	1.50e-024	2.14e-021	1	JASPAR2018_CORE_non-redundant.meme	MA0478.1	http://jaspar2018.genereg.net/matrix/MA0478.1
+22	1	3	STREME	5-AGATAAGG	STREME-5	AGATAAGG	8	289	1.98e-024	4.99e-002	1	JASPAR2018_CORE_non-redundant.meme	MA0035.3 (Gata1)	http://jaspar2018.genereg.net/matrix/MA0035.3
+23	0	1	JASPAR2018_CORE_non-redundant.meme	MA1132.1	JUN::JUNB	KATGACKCAT	10	255	2.58e-024	3.66e-021	1	JASPAR2018_CORE_non-redundant.meme	MA1132.1	http://jaspar2018.genereg.net/matrix/MA1132.1
+24	0	1	JASPAR2018_CORE_non-redundant.meme	MA1137.1	FOSL1::JUNB	NDRTGACTCATNN	13	222	3.48e-024	4.95e-021	1	JASPAR2018_CORE_non-redundant.meme	MA1137.1	http://jaspar2018.genereg.net/matrix/MA1137.1
+25	0	1	JASPAR2018_CORE_non-redundant.meme	MA0303.1	GCN4	NVHDNKRTGASTCAYHNNHNN	21	175	1.20e-023	1.71e-020	1	JASPAR2018_CORE_non-redundant.meme	MA0303.1	http://jaspar2018.genereg.net/matrix/MA0303.1
+26	0	1	JASPAR2018_CORE_non-redundant.meme	MA1142.1	FOSL1::JUND	NRTGACTCAT	10	164	6.09e-023	8.66e-020	1	JASPAR2018_CORE_non-redundant.meme	MA1142.1	http://jaspar2018.genereg.net/matrix/MA1142.1
+27	0	1	JASPAR2018_CORE_non-redundant.meme	MA0591.1	Bach1::Mafk	RSSATGACTCAGCAB	15	137	5.00e-022	7.11e-019	1	JASPAR2018_CORE_non-redundant.meme	MA0591.1	http://jaspar2018.genereg.net/matrix/MA0591.1
+28	0	1	JASPAR2018_CORE_non-redundant.meme	MA0501.1	MAF::NFE2	ATGACTCAGCANWTY	15	278	5.98e-022	8.50e-019	1	JASPAR2018_CORE_non-redundant.meme	MA0501.1	http://jaspar2018.genereg.net/matrix/MA0501.1
+29	0	3	JASPAR2018_CORE_non-redundant.meme	MA0036.3	GATA2	NBCTTATCTNH	11	215	1.30e-021	1.85e-018	1	JASPAR2018_CORE_non-redundant.meme	MA0036.3	http://jaspar2018.genereg.net/matrix/MA0036.3
+30	0	1	JASPAR2018_CORE_non-redundant.meme	MA0841.1	NFE2	VATGACTCATS	11	130	2.14e-021	3.04e-018	1	JASPAR2018_CORE_non-redundant.meme	MA0841.1	http://jaspar2018.genereg.net/matrix/MA0841.1
+31	0	1	JASPAR2018_CORE_non-redundant.meme	MA0272.1	ARG81	DTGACTCH	8	215	2.90e-021	4.12e-018	1	JASPAR2018_CORE_non-redundant.meme	MA0272.1	http://jaspar2018.genereg.net/matrix/MA0272.1
+32	0	1	JASPAR2018_CORE_non-redundant.meme	MA0530.1	cnc::maf-S	VATGACKCDGCANWW	15	123	3.27e-020	4.65e-017	1	JASPAR2018_CORE_non-redundant.meme	MA0530.1	http://jaspar2018.genereg.net/matrix/MA0530.1
+33	0	1	JASPAR2018_CORE_non-redundant.meme	MA0655.1	JDP2	ATGACTCAT	9	131	1.56e-018	2.22e-015	1	JASPAR2018_CORE_non-redundant.meme	MA0655.1	http://jaspar2018.genereg.net/matrix/MA0655.1
+34	0	3	JASPAR2018_CORE_non-redundant.meme	MA0037.3	GATA3	WGATAASR	8	183	7.21e-018	1.02e-014	1	JASPAR2018_CORE_non-redundant.meme	MA0037.3	http://jaspar2018.genereg.net/matrix/MA0037.3
+35	0	3	JASPAR2018_CORE_non-redundant.meme	MA0482.1	Gata4	YCTTATCTSHB	11	127	1.32e-017	1.88e-014	1	JASPAR2018_CORE_non-redundant.meme	MA0482.1	http://jaspar2018.genereg.net/matrix/MA0482.1
+36	0	3	JASPAR2018_CORE_non-redundant.meme	MA1104.1	GATA6	NDNAGATAAGADD	13	239	2.47e-017	3.51e-014	1	JASPAR2018_CORE_non-redundant.meme	MA1104.1	http://jaspar2018.genereg.net/matrix/MA1104.1
+37	0	3	JASPAR2018_CORE_non-redundant.meme	MA0766.1	GATA5	WGATAASR	8	203	2.14e-016	3.05e-013	1	JASPAR2018_CORE_non-redundant.meme	MA0766.1	http://jaspar2018.genereg.net/matrix/MA0766.1
+38	0	3	JASPAR2018_CORE_non-redundant.meme	MA0035.3	Gata1	TYCTTATCTSY	11	298	4.43e-015	6.29e-012	1	JASPAR2018_CORE_non-redundant.meme	MA0035.3	http://jaspar2018.genereg.net/matrix/MA0035.3
+39	1	4	MEME	SCCCCGCCCCC	MEME-3	SCCCCGCCCCC	11	324	6.22e-015	1.30e-045	1	JASPAR2018_CORE_non-redundant.meme	MA0079.3 (SP1)	http://jaspar2018.genereg.net/matrix/MA0079.3
+40	0	4	JASPAR2018_CORE_non-redundant.meme	MA0516.1	SP2	GYCCCGCCYCYBSSS	15	176	6.30e-015	8.96e-012	1	JASPAR2018_CORE_non-redundant.meme	MA0516.1	http://jaspar2018.genereg.net/matrix/MA0516.1
+41	1	5	STREME	3-GCGCATGCGCAC	STREME-3	GCGCATGCGCAC	12	82	1.17e-014	1.43e-002	1	JASPAR2018_CORE_non-redundant.meme	MA0506.1 (NRF1)	http://jaspar2018.genereg.net/matrix/MA0506.1
+42	0	2	JASPAR2018_CORE_non-redundant.meme	MA1102.1	CTCFL	CRSCAGGGGGCRSB	14	143	1.19e-014	1.69e-011	1	JASPAR2018_CORE_non-redundant.meme	MA1102.1	http://jaspar2018.genereg.net/matrix/MA1102.1
+43	0	1	JASPAR2018_CORE_non-redundant.meme	MA0496.2	MAFK	WWWTGCTGASTCAGCAWWW	19	171	1.35e-014	1.92e-011	1	JASPAR2018_CORE_non-redundant.meme	MA0496.2	http://jaspar2018.genereg.net/matrix/MA0496.2
+44	0	4	JASPAR2018_CORE_non-redundant.meme	MA0685.1	SP4	BWRGCCACGCCCMCTYH	17	172	1.75e-014	2.49e-011	1	JASPAR2018_CORE_non-redundant.meme	MA0685.1	http://jaspar2018.genereg.net/matrix/MA0685.1
+45	0	1	JASPAR2018_CORE_non-redundant.meme	MA0495.2	MAFF	DWWTTGCTGAGTCAGCAAWWW	21	69	1.92e-014	2.73e-011	1	JASPAR2018_CORE_non-redundant.meme	MA0495.2	http://jaspar2018.genereg.net/matrix/MA0495.2
+46	0	14	JASPAR2018_CORE_non-redundant.meme	MA0871.1	TFEC	RTCACRTGAB	10	99	1.97e-014	2.81e-011	1	JASPAR2018_CORE_non-redundant.meme	MA0871.1	http://jaspar2018.genereg.net/matrix/MA0871.1
+47	0	4	JASPAR2018_CORE_non-redundant.meme	MA0443.1	btd	RRGGGGCGKR	10	333	2.36e-014	3.35e-011	1	JASPAR2018_CORE_non-redundant.meme	MA0443.1	http://jaspar2018.genereg.net/matrix/MA0443.1
+48	0	3	JASPAR2018_CORE_non-redundant.meme	MA0140.2	GATA1::TAL1	MTTATCWSNNNNNHVCAG	18	111	1.33e-013	1.89e-010	1	JASPAR2018_CORE_non-redundant.meme	MA0140.2	http://jaspar2018.genereg.net/matrix/MA0140.2
+49	0	3	MEME	CTTATCT	MEME-5	CTTATCT	7	107	1.95e-013	1.10e-014	1	JASPAR2018_CORE_non-redundant.meme	MA0035.3 (Gata1)	http://jaspar2018.genereg.net/matrix/MA0035.3
+50	0	1	JASPAR2018_CORE_non-redundant.meme	MA0462.1	BATF::JUN	RRWATGASTCA	11	90	2.64e-013	3.76e-010	1	JASPAR2018_CORE_non-redundant.meme	MA0462.1	http://jaspar2018.genereg.net/matrix/MA0462.1
+51	0	6	JASPAR2018_CORE_non-redundant.meme	MA0076.2	ELK4	BCRCTTCCGGB	11	232	2.98e-013	4.23e-010	1	JASPAR2018_CORE_non-redundant.meme	MA0076.2	http://jaspar2018.genereg.net/matrix/MA0076.2
+52	0	5	MEME	GCGCMTGCGCG	MEME-9	GCGCMTGCGCG	11	103	3.18e-013	3.10e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0506.1 (NRF1)	http://jaspar2018.genereg.net/matrix/MA0506.1
+53	0	4	STREME	6-CCCCGCCCCCD	STREME-6	CCCCGCCCCCD	11	310	5.76e-013	7.32e-002	1	JASPAR2018_CORE_non-redundant.meme	MA0516.1 (SP2)	http://jaspar2018.genereg.net/matrix/MA0516.1
+54	0	4	JASPAR2018_CORE_non-redundant.meme	MA0599.1	KLF5	GCCCCDCCCH	10	473	1.71e-012	2.43e-009	1	JASPAR2018_CORE_non-redundant.meme	MA0599.1	http://jaspar2018.genereg.net/matrix/MA0599.1
+55	0	3	JASPAR2018_CORE_non-redundant.meme	MA0309.1	GZF3	YGATAASR	8	279	2.50e-012	3.55e-009	1	JASPAR2018_CORE_non-redundant.meme	MA0309.1	http://jaspar2018.genereg.net/matrix/MA0309.1
+56	0	14	JASPAR2018_CORE_non-redundant.meme	MA0965.1	BIM2	NKCACGTGMN	10	96	5.35e-012	7.60e-009	1	JASPAR2018_CORE_non-redundant.meme	MA0965.1	http://jaspar2018.genereg.net/matrix/MA0965.1
+57	0	14	JASPAR2018_CORE_non-redundant.meme	MA0093.2	USF1	VYCAYGTGACC	11	86	6.28e-012	8.93e-009	1	JASPAR2018_CORE_non-redundant.meme	MA0093.2	http://jaspar2018.genereg.net/matrix/MA0093.2
+58	1	6	STREME	4-CACTTCCTGKT	STREME-4	CACTTCCTGKT	11	87	1.16e-011	4.29e-002	1	JASPAR2018_CORE_non-redundant.meme	MA0750.2 (ZBTB7A)	http://jaspar2018.genereg.net/matrix/MA0750.2
+59	0	3	JASPAR2018_CORE_non-redundant.meme	MA1399.1	At5g08520	DWWDWRGATAAGR	13	213	1.22e-011	1.74e-008	1	JASPAR2018_CORE_non-redundant.meme	MA1399.1	http://jaspar2018.genereg.net/matrix/MA1399.1
+60	0	3	JASPAR2018_CORE_non-redundant.meme	MA0289.1	DAL80	CGATAAG	7	353	1.27e-011	1.81e-008	1	JASPAR2018_CORE_non-redundant.meme	MA0289.1	http://jaspar2018.genereg.net/matrix/MA0289.1
+61	0	3	JASPAR2018_CORE_non-redundant.meme	MA0300.1	GAT1	YYGATAAG	8	129	1.29e-011	1.83e-008	1	JASPAR2018_CORE_non-redundant.meme	MA0300.1	http://jaspar2018.genereg.net/matrix/MA0300.1
+62	0	14	JASPAR2018_CORE_non-redundant.meme	MA0603.1	Arntl	NGTCACGTGH	10	58	1.51e-011	2.15e-008	1	JASPAR2018_CORE_non-redundant.meme	MA0603.1	http://jaspar2018.genereg.net/matrix/MA0603.1
+63	0	4	JASPAR2018_CORE_non-redundant.meme	MA0079.3	SP1	GCCCCKCCCCC	11	460	2.69e-011	3.83e-008	1	JASPAR2018_CORE_non-redundant.meme	MA0079.3	http://jaspar2018.genereg.net/matrix/MA0079.3
+64	0	14	JASPAR2018_CORE_non-redundant.meme	MA0956.1	BEE2	NNCACGTGNN	10	90	4.05e-011	5.76e-008	1	JASPAR2018_CORE_non-redundant.meme	MA0956.1	http://jaspar2018.genereg.net/matrix/MA0956.1
+65	0	5	JASPAR2018_CORE_non-redundant.meme	MA0506.1	NRF1	GCGCVTGCGCR	11	95	5.21e-011	7.41e-008	1	JASPAR2018_CORE_non-redundant.meme	MA0506.1	http://jaspar2018.genereg.net/matrix/MA0506.1
+66	0	14	JASPAR2018_CORE_non-redundant.meme	MA0526.2	USF2	NNNGGTCACGTGRYYN	16	186	5.60e-011	7.96e-008	1	JASPAR2018_CORE_non-redundant.meme	MA0526.2	http://jaspar2018.genereg.net/matrix/MA0526.2
+67	0	6	MEME	AAASAGGAAGT	MEME-8	AAASAGGAAGT	11	75	7.48e-011	2.90e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0687.1 (SPIC)	http://jaspar2018.genereg.net/matrix/MA0687.1
+68	1	7	JASPAR2018_CORE_non-redundant.meme	MA0102.3	CEBPA	ATTGCAYAAYH	11	117	1.31e-010	1.87e-007	1	JASPAR2018_CORE_non-redundant.meme	MA0102.3	http://jaspar2018.genereg.net/matrix/MA0102.3
+69	0	6	JASPAR2018_CORE_non-redundant.meme	MA0475.2	FLI1	ACCGGAARTR	10	250	1.53e-010	2.17e-007	1	JASPAR2018_CORE_non-redundant.meme	MA0475.2	http://jaspar2018.genereg.net/matrix/MA0475.2
+70	0	14	JASPAR2018_CORE_non-redundant.meme	MA1021.1	PHYPADRAFT_48267	YCACGTGC	8	106	2.04e-010	2.90e-007	1	JASPAR2018_CORE_non-redundant.meme	MA1021.1	http://jaspar2018.genereg.net/matrix/MA1021.1
+71	0	3	JASPAR2018_CORE_non-redundant.meme	MA1192.1	At5g58900	WDWRGATAAGRTTWD	15	212	2.74e-010	3.90e-007	1	JASPAR2018_CORE_non-redundant.meme	MA1192.1	http://jaspar2018.genereg.net/matrix/MA1192.1
+72	0	14	JASPAR2018_CORE_non-redundant.meme	MA0966.1	BIM3	NKCACGTGMN	10	86	2.80e-010	3.98e-007	1	JASPAR2018_CORE_non-redundant.meme	MA0966.1	http://jaspar2018.genereg.net/matrix/MA0966.1
+73	0	6	JASPAR2018_CORE_non-redundant.meme	MA0641.1	ELF4	AACCCGGAAGTR	12	299	3.17e-010	4.50e-007	1	JASPAR2018_CORE_non-redundant.meme	MA0641.1	http://jaspar2018.genereg.net/matrix/MA0641.1
+74	0	7	JASPAR2018_CORE_non-redundant.meme	MA0838.1	CEBPG	ATTRCGCAAY	10	62	3.21e-010	4.57e-007	1	JASPAR2018_CORE_non-redundant.meme	MA0838.1	http://jaspar2018.genereg.net/matrix/MA0838.1
+75	0	14	JASPAR2018_CORE_non-redundant.meme	MA0988.1	PHYPADRAFT_143875	NVCACGTGBN	10	92	4.88e-010	6.93e-007	1	JASPAR2018_CORE_non-redundant.meme	MA0988.1	http://jaspar2018.genereg.net/matrix/MA0988.1
+76	0	14	JASPAR2018_CORE_non-redundant.meme	MA0004.1	Arnt	CACGTG	6	102	5.63e-010	8.00e-007	1	JASPAR2018_CORE_non-redundant.meme	MA0004.1	http://jaspar2018.genereg.net/matrix/MA0004.1
+77	0	14	JASPAR2018_CORE_non-redundant.meme	MA0692.1	TFEB	RYCACGTGAC	10	106	8.64e-010	1.23e-006	1	JASPAR2018_CORE_non-redundant.meme	MA0692.1	http://jaspar2018.genereg.net/matrix/MA0692.1
+78	0	14	JASPAR2018_CORE_non-redundant.meme	MA0639.1	DBP	NRTTACGTAAYV	12	171	8.81e-010	1.25e-006	1	JASPAR2018_CORE_non-redundant.meme	MA0639.1	http://jaspar2018.genereg.net/matrix/MA0639.1
+79	0	6	JASPAR2018_CORE_non-redundant.meme	MA0026.1	Eip74EF	CCGGAAR	7	235	8.87e-010	1.26e-006	1	JASPAR2018_CORE_non-redundant.meme	MA0026.1	http://jaspar2018.genereg.net/matrix/MA0026.1
+80	0	6	JASPAR2018_CORE_non-redundant.meme	MA0640.1	ELF3	WACCCGGAAGTAR	13	337	1.34e-009	1.91e-006	1	JASPAR2018_CORE_non-redundant.meme	MA0640.1	http://jaspar2018.genereg.net/matrix/MA0640.1
+81	0	3	JASPAR2018_CORE_non-redundant.meme	MA1186.1	At1g49010	HWWAWYCTTATCYWH	15	262	1.39e-009	1.98e-006	1	JASPAR2018_CORE_non-redundant.meme	MA1186.1	http://jaspar2018.genereg.net/matrix/MA1186.1
+82	0	6	JASPAR2018_CORE_non-redundant.meme	MA0750.2	ZBTB7A	NVCCGGAAGTGSV	13	264	1.63e-009	2.32e-006	1	JASPAR2018_CORE_non-redundant.meme	MA0750.2	http://jaspar2018.genereg.net/matrix/MA0750.2
+83	0	6	JASPAR2018_CORE_non-redundant.meme	MA0473.2	ELF1	AACCCGGAAGTR	12	309	1.73e-009	2.46e-006	1	JASPAR2018_CORE_non-redundant.meme	MA0473.2	http://jaspar2018.genereg.net/matrix/MA0473.2
+84	0	1	JASPAR2018_CORE_non-redundant.meme	MA0659.1	MAFG	WWWNTGCTGASTCAGCAHWWW	21	227	2.02e-009	2.87e-006	1	JASPAR2018_CORE_non-redundant.meme	MA0659.1	http://jaspar2018.genereg.net/matrix/MA0659.1
+85	0	14	JASPAR2018_CORE_non-redundant.meme	MA0488.1	JUN	DDRATGATGTCAT	13	90	2.64e-009	3.76e-006	1	JASPAR2018_CORE_non-redundant.meme	MA0488.1	http://jaspar2018.genereg.net/matrix/MA0488.1
+86	0	14	JASPAR2018_CORE_non-redundant.meme	MA0464.2	BHLHE40	VKCACGTGMC	10	128	3.12e-009	4.44e-006	1	JASPAR2018_CORE_non-redundant.meme	MA0464.2	http://jaspar2018.genereg.net/matrix/MA0464.2
+87	0	14	JASPAR2018_CORE_non-redundant.meme	MA0058.3	MAX	AVCACGTGNY	10	94	4.23e-009	6.02e-006	1	JASPAR2018_CORE_non-redundant.meme	MA0058.3	http://jaspar2018.genereg.net/matrix/MA0058.3
+88	0	6	JASPAR2018_CORE_non-redundant.meme	MA0474.2	ERG	ACCGGAARTV	10	232	4.67e-009	6.64e-006	1	JASPAR2018_CORE_non-redundant.meme	MA0474.2	http://jaspar2018.genereg.net/matrix/MA0474.2
+89	0	14	JASPAR2018_CORE_non-redundant.meme	MA1362.1	bHLH77	RWDWNGBCACGTGMK	15	67	4.90e-009	6.97e-006	1	JASPAR2018_CORE_non-redundant.meme	MA1362.1	http://jaspar2018.genereg.net/matrix/MA1362.1
+90	0	14	JASPAR2018_CORE_non-redundant.meme	MA0147.3	MYC	NNCCACGTGCNB	12	95	5.63e-009	8.00e-006	1	JASPAR2018_CORE_non-redundant.meme	MA0147.3	http://jaspar2018.genereg.net/matrix/MA0147.3
+91	1	8	MEME	GACTACAWYTCCCAG	MEME-6	GACTACAWYTCCCAG	15	23	6.84e-009	8.90e-014	1	MEME	GACTACAWYTCCCAG	 
+92	0	7	JASPAR2018_CORE_non-redundant.meme	MA0836.1	CEBPD	RTTRCGCAAY	10	246	1.01e-008	1.44e-005	1	JASPAR2018_CORE_non-redundant.meme	MA0836.1	http://jaspar2018.genereg.net/matrix/MA0836.1
+93	0	14	JASPAR2018_CORE_non-redundant.meme	MA0636.1	BHLHE41	RTCACGTGAC	10	42	1.03e-008	1.46e-005	1	JASPAR2018_CORE_non-redundant.meme	MA0636.1	http://jaspar2018.genereg.net/matrix/MA0636.1
+94	0	4	JASPAR2018_CORE_non-redundant.meme	MA0746.1	SP3	VCCACGCCCMC	11	505	1.17e-008	1.66e-005	1	JASPAR2018_CORE_non-redundant.meme	MA0746.1	http://jaspar2018.genereg.net/matrix/MA0746.1
+95	0	14	JASPAR2018_CORE_non-redundant.meme	MA0605.1	Atf3	GATGACGT	8	309	1.58e-008	2.25e-005	1	JASPAR2018_CORE_non-redundant.meme	MA0605.1	http://jaspar2018.genereg.net/matrix/MA0605.1
+96	0	4	JASPAR2018_CORE_non-redundant.meme	MA0741.1	KLF16	GMCACGCCCCC	11	119	1.68e-008	2.39e-005	1	JASPAR2018_CORE_non-redundant.meme	MA0741.1	http://jaspar2018.genereg.net/matrix/MA0741.1
+97	1	9	MEME	TTTTYTTTTYTTTYW	MEME-1	TTTTYTTTTYTTTYW	15	154	1.90e-008	2.70e-059	1	JASPAR2018_CORE_non-redundant.meme	MA1268.1 (AT1G69570)	http://jaspar2018.genereg.net/matrix/MA1268.1
+98	0	14	JASPAR2018_CORE_non-redundant.meme	MA0622.1	Mlxip	BCACGTGK	8	92	2.00e-008	2.84e-005	1	JASPAR2018_CORE_non-redundant.meme	MA0622.1	http://jaspar2018.genereg.net/matrix/MA0622.1
+99	0	14	JASPAR2018_CORE_non-redundant.meme	MA1074.1	UNE10	CCACGTGM	8	80	2.28e-008	3.25e-005	1	JASPAR2018_CORE_non-redundant.meme	MA1074.1	http://jaspar2018.genereg.net/matrix/MA1074.1
+100	0	14	JASPAR2018_CORE_non-redundant.meme	MA0104.4	MYCN	VVCCACGTGGBB	12	90	2.33e-008	3.31e-005	1	JASPAR2018_CORE_non-redundant.meme	MA0104.4	http://jaspar2018.genereg.net/matrix/MA0104.4
+101	0	7	JASPAR2018_CORE_non-redundant.meme	MA0837.1	CEBPE	VTTRCGCAAY	10	259	2.55e-008	3.63e-005	1	JASPAR2018_CORE_non-redundant.meme	MA0837.1	http://jaspar2018.genereg.net/matrix/MA0837.1
+102	0	6	JASPAR2018_CORE_non-redundant.meme	MA0156.2	FEV	ACCGGAAGTN	10	264	3.53e-008	5.02e-005	1	JASPAR2018_CORE_non-redundant.meme	MA0156.2	http://jaspar2018.genereg.net/matrix/MA0156.2
+103	0	14	JASPAR2018_CORE_non-redundant.meme	MA1025.1	HBI1	NNBGCACGTGCN	12	73	5.15e-008	7.32e-005	1	JASPAR2018_CORE_non-redundant.meme	MA1025.1	http://jaspar2018.genereg.net/matrix/MA1025.1
+104	0	14	JASPAR2018_CORE_non-redundant.meme	MA0957.1	BHLH3	GCACGTGC	8	191	5.22e-008	7.42e-005	1	JASPAR2018_CORE_non-redundant.meme	MA0957.1	http://jaspar2018.genereg.net/matrix/MA0957.1
+105	1	10	JASPAR2018_CORE_non-redundant.meme	MA0502.1	NFYB	VMMYBRRCCAATCAG	15	88	5.36e-008	7.62e-005	1	JASPAR2018_CORE_non-redundant.meme	MA0502.1	http://jaspar2018.genereg.net/matrix/MA0502.1
+106	0	14	JASPAR2018_CORE_non-redundant.meme	MA0568.1	MYC3	VCACGTGB	8	105	6.02e-008	8.57e-005	1	JASPAR2018_CORE_non-redundant.meme	MA0568.1	http://jaspar2018.genereg.net/matrix/MA0568.1
+107	0	14	JASPAR2018_CORE_non-redundant.meme	MA0967.1	BZIP60	TGACGTCA	8	39	6.04e-008	8.59e-005	1	JASPAR2018_CORE_non-redundant.meme	MA0967.1	http://jaspar2018.genereg.net/matrix/MA0967.1
+108	0	14	JASPAR2018_CORE_non-redundant.meme	MA0825.1	MNT	RVCACGTGMH	10	92	7.46e-008	1.06e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0825.1	http://jaspar2018.genereg.net/matrix/MA0825.1
+109	0	14	JASPAR2018_CORE_non-redundant.meme	MA0561.1	PIF4	CACGTGSC	8	98	8.32e-008	1.18e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0561.1	http://jaspar2018.genereg.net/matrix/MA0561.1
+110	0	14	JASPAR2018_CORE_non-redundant.meme	MA1364.1	PIF7	SDKRDWGCCACGTGG	15	63	8.53e-008	1.21e-004	1	JASPAR2018_CORE_non-redundant.meme	MA1364.1	http://jaspar2018.genereg.net/matrix/MA1364.1
+111	0	14	JASPAR2018_CORE_non-redundant.meme	MA0447.1	gt	RTTACGTAAY	10	180	8.70e-008	1.24e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0447.1	http://jaspar2018.genereg.net/matrix/MA0447.1
+112	0	6	JASPAR2018_CORE_non-redundant.meme	MA0136.2	ELF5	AMSMGGAAGTD	11	523	8.78e-008	1.25e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0136.2	http://jaspar2018.genereg.net/matrix/MA0136.2
+113	0	4	JASPAR2018_CORE_non-redundant.meme	MA0740.1	KLF14	KRCCACGCCCMCYT	14	93	9.41e-008	1.34e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0740.1	http://jaspar2018.genereg.net/matrix/MA0740.1
+114	0	7	JASPAR2018_CORE_non-redundant.meme	MA0466.2	CEBPB	RTTRCGCAAY	10	250	1.00e-007	1.43e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0466.2	http://jaspar2018.genereg.net/matrix/MA0466.2
+115	1	11	JASPAR2018_CORE_non-redundant.meme	MA0117.2	Mafb	AWWNTGCTGACD	12	68	1.02e-007	1.44e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0117.2	http://jaspar2018.genereg.net/matrix/MA0117.2
+116	0	3	JASPAR2018_CORE_non-redundant.meme	MA1196.1	At5g05790	AWYCTTATCYTNWTH	15	290	1.14e-007	1.62e-004	1	JASPAR2018_CORE_non-redundant.meme	MA1196.1	http://jaspar2018.genereg.net/matrix/MA1196.1
+117	0	14	JASPAR2018_CORE_non-redundant.meme	MA0492.1	JUND(var.2)	DDDRATGABGTCATN	15	153	1.33e-007	1.90e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0492.1	http://jaspar2018.genereg.net/matrix/MA0492.1
+118	0	6	JASPAR2018_CORE_non-redundant.meme	MA0062.2	Gabpa	CCGGAAGTGVV	11	478	1.47e-007	2.09e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0062.2	http://jaspar2018.genereg.net/matrix/MA0062.2
+119	0	4	JASPAR2018_CORE_non-redundant.meme	MA0493.1	Klf1	RRCCACACCCW	11	395	1.49e-007	2.11e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0493.1	http://jaspar2018.genereg.net/matrix/MA0493.1
+120	0	14	JASPAR2018_CORE_non-redundant.meme	MA0043.2	HLF	NVTTACRTAAYH	12	190	1.49e-007	2.12e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0043.2	http://jaspar2018.genereg.net/matrix/MA0043.2
+121	0	1	JASPAR2018_CORE_non-redundant.meme	MA0419.1	YAP7	ATTAGTAAKCA	11	174	1.58e-007	2.25e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0419.1	http://jaspar2018.genereg.net/matrix/MA0419.1
+122	0	14	JASPAR2018_CORE_non-redundant.meme	MA0620.2	MITF	NNDRGTCACGTGACYHNN	18	199	2.18e-007	3.11e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0620.2	http://jaspar2018.genereg.net/matrix/MA0620.2
+123	1	12	JASPAR2018_CORE_non-redundant.meme	MA0585.1	AGL1	NTTDCCWWWWHDGGWAAN	18	39	2.35e-007	3.34e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0585.1	http://jaspar2018.genereg.net/matrix/MA0585.1
+124	0	1	JASPAR2018_CORE_non-redundant.meme	MA0833.1	ATF4	GKATGAYGCAATM	13	211	2.71e-007	3.85e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0833.1	http://jaspar2018.genereg.net/matrix/MA0833.1
+125	0	14	JASPAR2018_CORE_non-redundant.meme	MA1333.1	AT4G18890	YGCACGTGTGR	11	84	2.74e-007	3.89e-004	1	JASPAR2018_CORE_non-redundant.meme	MA1333.1	http://jaspar2018.genereg.net/matrix/MA1333.1
+125	0	14	JASPAR2018_CORE_non-redundant.meme	MA1336.1	TGA3	DRTGACGTCAKCAW	14	84	2.74e-007	3.89e-004	1	JASPAR2018_CORE_non-redundant.meme	MA1336.1	http://jaspar2018.genereg.net/matrix/MA1336.1
+126	0	14	JASPAR2018_CORE_non-redundant.meme	MA0656.1	JDP2(var.2)	GATGACGTCAYC	12	43	2.92e-007	4.15e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0656.1	http://jaspar2018.genereg.net/matrix/MA0656.1
+127	0	6	JASPAR2018_CORE_non-redundant.meme	MA0762.1	ETV2	AACCGGAAATR	11	400	4.48e-007	6.37e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0762.1	http://jaspar2018.genereg.net/matrix/MA0762.1
+128	0	14	JASPAR2018_CORE_non-redundant.meme	MA0626.1	Npas2	NSCACGTGTN	10	95	4.68e-007	6.65e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0626.1	http://jaspar2018.genereg.net/matrix/MA0626.1
+129	0	12	JASPAR2018_CORE_non-redundant.meme	MA1203.1	AGL63	TKCCAAAAATGGMAA	15	42	5.00e-007	7.10e-004	1	JASPAR2018_CORE_non-redundant.meme	MA1203.1	http://jaspar2018.genereg.net/matrix/MA1203.1
+130	0	14	JASPAR2018_CORE_non-redundant.meme	MA1131.1	FOSL2::JUN(var.2)	GRTGACGTMAT	11	74	6.10e-007	8.67e-004	1	JASPAR2018_CORE_non-redundant.meme	MA1131.1	http://jaspar2018.genereg.net/matrix/MA1131.1
+131	0	3	JASPAR2018_CORE_non-redundant.meme	MA0307.1	GLN3	GATAA	5	430	6.41e-007	9.11e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0307.1	http://jaspar2018.genereg.net/matrix/MA0307.1
+132	0	14	JASPAR2018_CORE_non-redundant.meme	MA0664.1	MLXIPL	RTCACGTGAT	10	195	6.47e-007	9.19e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0664.1	http://jaspar2018.genereg.net/matrix/MA0664.1
+133	0	11	JASPAR2018_CORE_non-redundant.meme	MA0842.1	NRL	DWWNTGCTGAC	11	205	6.75e-007	9.60e-004	1	JASPAR2018_CORE_non-redundant.meme	MA0842.1	http://jaspar2018.genereg.net/matrix/MA0842.1
+134	0	14	JASPAR2018_CORE_non-redundant.meme	MA0608.1	Creb3l2	GCCACGTGD	9	120	7.18e-007	1.02e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0608.1	http://jaspar2018.genereg.net/matrix/MA0608.1
+135	0	14	JASPAR2018_CORE_non-redundant.meme	MA0831.2	TFE3	CACGTGAY	8	83	7.57e-007	1.08e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0831.2	http://jaspar2018.genereg.net/matrix/MA0831.2
+136	0	9	JASPAR2018_CORE_non-redundant.meme	MA0940.1	AP1	MYAAAAAWRGAAA	13	65	8.29e-007	1.18e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0940.1	http://jaspar2018.genereg.net/matrix/MA0940.1
+137	0	6	JASPAR2018_CORE_non-redundant.meme	MA0761.1	ETV1	ACCGGAAGTD	10	330	8.30e-007	1.18e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0761.1	http://jaspar2018.genereg.net/matrix/MA0761.1
+138	0	14	JASPAR2018_CORE_non-redundant.meme	MA0840.1	Creb5	NATGACGTCAYH	12	32	8.77e-007	1.25e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0840.1	http://jaspar2018.genereg.net/matrix/MA0840.1
+139	0	12	JASPAR2018_CORE_non-redundant.meme	MA0001.2	AGL3	VKTWCCAWWWATAGWWMN	18	63	9.48e-007	1.35e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0001.2	http://jaspar2018.genereg.net/matrix/MA0001.2
+140	0	14	JASPAR2018_CORE_non-redundant.meme	MA0962.1	BHLH34	GCACGTGK	8	94	1.17e-006	1.67e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0962.1	http://jaspar2018.genereg.net/matrix/MA0962.1
+141	0	14	JASPAR2018_CORE_non-redundant.meme	MA0960.1	BHLH104	GGCACGTGCC	10	74	1.18e-006	1.67e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0960.1	http://jaspar2018.genereg.net/matrix/MA0960.1
+142	0	6	JASPAR2018_CORE_non-redundant.meme	MA0598.2	EHF	WACCCGGAAGTA	12	447	1.19e-006	1.69e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0598.2	http://jaspar2018.genereg.net/matrix/MA0598.2
+143	0	6	JASPAR2018_CORE_non-redundant.meme	MA0759.1	ELK3	ACCGGAAGTD	10	337	1.35e-006	1.92e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0759.1	http://jaspar2018.genereg.net/matrix/MA0759.1
+144	0	14	JASPAR2018_CORE_non-redundant.meme	MA0562.1	PIF5	TCACGTGS	8	57	1.37e-006	1.95e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0562.1	http://jaspar2018.genereg.net/matrix/MA0562.1
+145	0	14	JASPAR2018_CORE_non-redundant.meme	MA1342.1	bZIP50	TGMTGACGTCAYHHHHY	17	55	1.53e-006	2.18e-003	1	JASPAR2018_CORE_non-redundant.meme	MA1342.1	http://jaspar2018.genereg.net/matrix/MA1342.1
+146	0	14	JASPAR2018_CORE_non-redundant.meme	MA1143.1	FOSL1::JUND(var.2)	RTGACGTMAY	10	203	1.56e-006	2.22e-003	1	JASPAR2018_CORE_non-redundant.meme	MA1143.1	http://jaspar2018.genereg.net/matrix/MA1143.1
+147	0	6	JASPAR2018_CORE_non-redundant.meme	MA0645.1	ETV6	MSCGGAAGTR	10	70	1.62e-006	2.31e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0645.1	http://jaspar2018.genereg.net/matrix/MA0645.1
+148	0	5	JASPAR2018_CORE_non-redundant.meme	MA0472.2	EGR2	MCGCCCACGCA	11	502	1.94e-006	2.75e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0472.2	http://jaspar2018.genereg.net/matrix/MA0472.2
+149	0	10	JASPAR2018_CORE_non-redundant.meme	MA0060.3	NFYA	RRCCAATCAGM	11	74	2.21e-006	3.15e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0060.3	http://jaspar2018.genereg.net/matrix/MA0060.3
+150	0	14	JASPAR2018_CORE_non-redundant.meme	MA1348.1	TGA9	GMTGACGTCAY	11	50	2.97e-006	4.23e-003	1	JASPAR2018_CORE_non-redundant.meme	MA1348.1	http://jaspar2018.genereg.net/matrix/MA1348.1
+151	0	14	JASPAR2018_CORE_non-redundant.meme	MA0560.1	PIF3	DBCCACGTGR	10	68	3.65e-006	5.19e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0560.1	http://jaspar2018.genereg.net/matrix/MA0560.1
+152	0	14	JASPAR2018_CORE_non-redundant.meme	MA1070.1	TGA7	NRTGACGTCA	10	63	3.91e-006	5.56e-003	1	JASPAR2018_CORE_non-redundant.meme	MA1070.1	http://jaspar2018.genereg.net/matrix/MA1070.1
+153	1	13	JASPAR2018_CORE_non-redundant.meme	MA0517.1	STAT1::STAT2	THAGTTTCRKTTTCY	15	102	4.10e-006	5.83e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0517.1	http://jaspar2018.genereg.net/matrix/MA0517.1
+154	0	14	JASPAR2018_CORE_non-redundant.meme	MA1126.1	FOS::JUN(var.2)	DRTGACGTCATHNDTN	16	86	4.20e-006	5.98e-003	1	JASPAR2018_CORE_non-redundant.meme	MA1126.1	http://jaspar2018.genereg.net/matrix/MA1126.1
+155	0	6	JASPAR2018_CORE_non-redundant.meme	MA0080.4	SPI1	AAAAAGCGGAAGTW	14	69	4.60e-006	6.54e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0080.4	http://jaspar2018.genereg.net/matrix/MA0080.4
+156	0	14	JASPAR2018_CORE_non-redundant.meme	MA1129.1	FOSL1::JUN(var.2)	ATGACGTCAT	10	54	5.21e-006	7.41e-003	1	JASPAR2018_CORE_non-redundant.meme	MA1129.1	http://jaspar2018.genereg.net/matrix/MA1129.1
+157	0	14	JASPAR2018_CORE_non-redundant.meme	MA1411.1	TSAR1	NGCACGTGCD	10	67	5.44e-006	7.73e-003	1	JASPAR2018_CORE_non-redundant.meme	MA1411.1	http://jaspar2018.genereg.net/matrix/MA1411.1
+158	0	14	JASPAR2018_CORE_non-redundant.meme	MA1140.1	JUNB(var.2)	RTGACGTCAY	10	94	5.47e-006	7.78e-003	1	JASPAR2018_CORE_non-redundant.meme	MA1140.1	http://jaspar2018.genereg.net/matrix/MA1140.1
+158	0	14	JASPAR2018_CORE_non-redundant.meme	MA1361.1	bHLH18	CRCGTKWWHCACGTGKN	17	94	5.47e-006	7.78e-003	1	JASPAR2018_CORE_non-redundant.meme	MA1361.1	http://jaspar2018.genereg.net/matrix/MA1361.1
+159	0	6	JASPAR2018_CORE_non-redundant.meme	MA0686.1	SPDEF	AMCCGGATGTR	11	231	5.52e-006	7.85e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0686.1	http://jaspar2018.genereg.net/matrix/MA0686.1
+160	0	12	JASPAR2018_CORE_non-redundant.meme	MA1204.1	AGL13	TTWCCAAAAAWRGWAAAW	18	62	5.90e-006	8.40e-003	1	JASPAR2018_CORE_non-redundant.meme	MA1204.1	http://jaspar2018.genereg.net/matrix/MA1204.1
+161	0	6	JASPAR2018_CORE_non-redundant.meme	MA0028.2	ELK1	ACCGGAAGTR	10	319	6.27e-006	8.91e-003	1	JASPAR2018_CORE_non-redundant.meme	MA0028.2	http://jaspar2018.genereg.net/matrix/MA0028.2
+162	0	12	JASPAR2018_CORE_non-redundant.meme	MA0584.1	SEP1	HWTWCCAWAWWTRGWAAK	18	74	7.27e-006	1.03e-002	1	JASPAR2018_CORE_non-redundant.meme	MA0584.1	http://jaspar2018.genereg.net/matrix/MA0584.1
+163	0	14	JASPAR2018_CORE_non-redundant.meme	MA1069.1	TGA6	NATGACGTCA	10	44	9.11e-006	1.30e-002	1	JASPAR2018_CORE_non-redundant.meme	MA1069.1	http://jaspar2018.genereg.net/matrix/MA1069.1
+163	0	14	JASPAR2018_CORE_non-redundant.meme	MA1346.1	TGA10	DWTGMTGACGTCAYH	15	44	9.11e-006	1.30e-002	1	JASPAR2018_CORE_non-redundant.meme	MA1346.1	http://jaspar2018.genereg.net/matrix/MA1346.1
+164	0	12	JASPAR2018_CORE_non-redundant.meme	MA0558.1	FLC	WNWWDCCMAAAATRGAAAGWW	21	64	9.55e-006	1.36e-002	1	JASPAR2018_CORE_non-redundant.meme	MA0558.1	http://jaspar2018.genereg.net/matrix/MA0558.1
+165	0	3	JASPAR2018_CORE_non-redundant.meme	MA1188.1	At3g11280	AWYCTTATCTTHWY	14	475	1.18e-005	1.68e-002	1	JASPAR2018_CORE_non-redundant.meme	MA1188.1	http://jaspar2018.genereg.net/matrix/MA1188.1
+166	0	14	JASPAR2018_CORE_non-redundant.meme	MA1139.1	FOSL2::JUNB(var.2)	DATGACGTCATH	12	80	1.24e-005	1.77e-002	1	JASPAR2018_CORE_non-redundant.meme	MA1139.1	http://jaspar2018.genereg.net/matrix/MA1139.1
+167	0	6	JASPAR2018_CORE_non-redundant.meme	MA0763.1	ETV3	ACCGGAAGTR	10	158	1.33e-005	1.89e-002	1	JASPAR2018_CORE_non-redundant.meme	MA0763.1	http://jaspar2018.genereg.net/matrix/MA0763.1
+168	0	14	JASPAR2018_CORE_non-redundant.meme	MA1207.1	GT3a	RRCACGTGTHWAAWDTD	17	217	1.46e-005	2.08e-002	1	JASPAR2018_CORE_non-redundant.meme	MA1207.1	http://jaspar2018.genereg.net/matrix/MA1207.1
+169	0	14	JASPAR2018_CORE_non-redundant.meme	MA0281.1	CBF1	GCACGTGA	8	133	1.51e-005	2.15e-002	1	JASPAR2018_CORE_non-redundant.meme	MA0281.1	http://jaspar2018.genereg.net/matrix/MA0281.1
+170	1	14	STREME	8-GGTCACGTGABBS	STREME-8	GGTCACGTGABBS	13	59	1.76e-005	2.74e+000	1	JASPAR2018_CORE_non-redundant.meme	MA0526.2 (USF2)	http://jaspar2018.genereg.net/matrix/MA0526.2
+171	0	14	JASPAR2018_CORE_non-redundant.meme	MA0569.1	MYC4	RCACGTGC	8	70	1.83e-005	2.60e-002	1	JASPAR2018_CORE_non-redundant.meme	MA0569.1	http://jaspar2018.genereg.net/matrix/MA0569.1
+172	0	5	JASPAR2018_CORE_non-redundant.meme	MA1412.1	TSAR2	NGCACGTGCN	10	200	1.92e-005	2.74e-002	1	JASPAR2018_CORE_non-redundant.meme	MA1412.1	http://jaspar2018.genereg.net/matrix/MA1412.1
+173	0	14	JASPAR2018_CORE_non-redundant.meme	MA0376.1	RTG3	RDVKKAGCACGTGCYYDNWH	20	190	2.02e-005	2.87e-002	1	JASPAR2018_CORE_non-redundant.meme	MA0376.1	http://jaspar2018.genereg.net/matrix/MA0376.1
+174	0	14	JASPAR2018_CORE_non-redundant.meme	MA0931.1	ABI5	NGMCACGTGK	10	80	2.07e-005	2.94e-002	1	JASPAR2018_CORE_non-redundant.meme	MA0931.1	http://jaspar2018.genereg.net/matrix/MA0931.1
+175	0	14	JASPAR2018_CORE_non-redundant.meme	MA0549.1	BZR2	MRCACGTGKSV	11	74	2.18e-005	3.09e-002	1	JASPAR2018_CORE_non-redundant.meme	MA0549.1	http://jaspar2018.genereg.net/matrix/MA0549.1
+176	1	15	STREME	7-CAAGATGGC	STREME-7	CAAGATGGC	9	58	2.47e-005	1.80e+000	1	JASPAR2018_CORE_non-redundant.meme	MA0095.2 (YY1)	http://jaspar2018.genereg.net/matrix/MA0095.2
+177	0	14	JASPAR2018_CORE_non-redundant.meme	MA0663.1	MLX	RTCACGTGAT	10	154	2.66e-005	3.79e-002	1	JASPAR2018_CORE_non-redundant.meme	MA0663.1	http://jaspar2018.genereg.net/matrix/MA0663.1
+178	1	16	JASPAR2018_CORE_non-redundant.meme	MA0773.1	MEF2D	DCTAWAAATAGM	12	38	2.78e-005	3.96e-002	1	JASPAR2018_CORE_non-redundant.meme	MA0773.1	http://jaspar2018.genereg.net/matrix/MA0773.1
+179	0	15	JASPAR2018_CORE_non-redundant.meme	MA0095.2	YY1	CAARATGGCBGC	12	100	2.93e-005	4.17e-002	1	JASPAR2018_CORE_non-redundant.meme	MA0095.2	http://jaspar2018.genereg.net/matrix/MA0095.2
+180	1	17	MEME	TGCACTCCAGCCTGG	MEME-7	TGCACTCCAGCCTGG	15	15	2.35e-004	2.10e-005	1	MEME	TGCACTCCAGCCTGG	 
+181	1	18	MEME	RGCTCACTGCAGCCT	MEME-10	RGCTCACTGCAGCCT	15	20	5.81e-004	2.80e-002	1	MEME	RGCTCACTGCAGCCT	 
+
+# XSTREME (Motif Discovery and Enrichment Analysis): Version 5.4.0 released on Mon Aug 16 16:18:19 2021 -0700
+# The format of this file is described at https://meme-suite.org/meme/doc/xstreme-output-format.html
+# xstreme -oc xstreme_example_output_files --meme-p 6 --p nrmix.nseqs.100.100bp.seed.1.fa --m JASPAR2018_CORE_non-redundant.meme

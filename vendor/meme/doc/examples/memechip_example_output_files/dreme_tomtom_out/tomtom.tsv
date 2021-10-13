@@ -1,0 +1,15 @@
+Query_ID	Target_ID	Optimal_offset	p-value	E-value	q-value	Overlap	Query_consensus	Target_consensus	Orientation
+MCRCCCW	MA0493.1	4	9.59259e-08	0.00013468	0.00026936	7	ACACCCA	GGCCACACCCA	+
+MCRCCCW	MA0039.3	2	1.08062e-05	0.015172	0.015172	7	ACACCCA	CCACACCCTGC	+
+MCRCCCW	MA1107.1	4	0.00024102	0.338392	0.225595	7	ACACCCA	GGCCACACCCACC	+
+TTATCW	MA0766.1	2	4.57694e-05	0.0642602	0.0813219	6	TTATCT	TCTTATCT	-
+TTATCW	MA0140.2	1	5.79216e-05	0.0813219	0.0813219	6	TTATCT	CTTATCTGTGAGGAGCAG	+
+TTATCW	MA0037.3	2	9.35567e-05	0.131354	0.087569	6	TTATCT	TCTTATCT	-
+TTATCW	MA0482.1	2	0.000135401	0.190102	0.0950512	6	TTATCT	TCTTATCTCCC	+
+TTATCW	MA0036.3	3	0.000187105	0.262695	0.105078	6	TTATCT	TTCTTATCTTT	+
+TTATCW	MA0035.3	3	0.00025028	0.351393	0.117131	6	TTATCT	TTCTTATCTGT	+
+TTATCW	MA1104.1	4	0.000333692	0.468504	0.133858	6	TTATCT	TTTCTTATCTTTT	-
+
+# Tomtom (Motif Comparison Tool): Version 5.1.0 compiled on Oct  9 2019 at 16:32:11
+# The format of this file is described at http://meme-suite.org/doc/tomtom-output-format.html.
+# tomtom -verbosity 1 -oc memechip_example_output_files/dreme_tomtom_out -min-overlap 5 -dist pearson -evalue -thresh 1 -no-ssc memechip_example_output_files/dreme_out/dreme.xml JASPAR2018_CORE_non-redundant.meme

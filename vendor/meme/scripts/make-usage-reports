@@ -1,0 +1,171 @@
+#!/bin/csh
+# AUTHOR: Timothy L. Bailey
+# CREATE DATE: 15-Apr-2015
+
+set pgm = $0; set pgm = $pgm:t
+set args = ($*)
+
+set remote = ":work"
+set archive = "/data/apache-tomcat/instance/meme/work/memesuite-logs"
+set public = "/data/apache-tomcat/instance/meme/work/meme-data/meme-software/usage-reports"
+set suffix = "MAIN"
+set progs = (meme)
+set type = "rumc"
+set years = 2
+set yearly = ""
+set params = ""
+if ($#argv < 0) then
+  usage:
+  more << USAGE
+  USAGE:
+        $pgm [options]
+
+	[-rem <rem>]	remote [<host>]:<root> of MEME Suite installations;
+		default: $remote
+	[-arch <arch>]	local directory containing archived logs;
+		default: $archive
+	[-pub <public>]	web accessible directory for reports;
+		default: $public	
+	[-suf <suffix>]	suffix for report names; 
+		default: $suffix
+	[-progs <progs>] list of programs to make plots for;
+		default: $progs
+	[-type <types>] string on letters [rumc] for
+		r: runs u:users m: max_runs c: cpu_time
+		default: $type
+	[-years <years>] number of previous years to cover
+		default: $years
+	[-yearly]	make yearly plot; 
+		default: monthly
+
+	Appends remote log files to the archived log files
+	for the current year.
+
+	Creates usage report from the archived log files
+	  <suffix>-usage-report.pdf
+        and places it on the public website.
+
+USAGE
+  exit 1
+endif
+
+unlimit cputime
+onintr cleanup
+
+# get input arguments
+while ("$1" != "")
+  switch ($1)
+  case -h:
+    goto usage
+  case -rem:
+    shift
+    set remote = "$1"
+    breaksw
+  case -arch:
+    shift
+    set archive = "$1"
+    breaksw
+  case -pub:
+    shift
+    set public = "$1"
+    breaksw
+  case -suf:
+    shift
+    set suffix = "$1"
+    breaksw
+  case -progs:
+    shift
+    set progs = ($1)
+    breaksw
+  case -type:
+    shift
+    set type = $1
+    breaksw
+  case -years:
+    shift
+    set years = "$1"
+    breaksw
+  case -yearly:
+    set params = ($params '-yearly')
+    set yearly = '-YEARLY'
+    breaksw
+  default:
+    goto usage
+  endsw
+  shift
+end
+
+# Get host and directory.
+set s = `echo $remote | perl -ne '/([^:]*):(\S+)/; print "$1 $2\n"'`
+if ($#s == 2) then
+  set host = $s[1]
+  set root = $s[2]
+else 
+  set host = ""
+  set root = $s[1]
+endif
+
+# Combine logs for all versions of the MEME Suite on the remote site
+if ($root != "/dev/null") then
+  if ($host == "") then
+    echo "Combining logs for all versions on localhost..."
+    /data/apache-tomcat/instance/meme/libexec/meme-5.4.1/combine-meme-logs $root
+  else 
+    echo "Combining logs for all versions on $host..."
+    # FIXME (replace with this line)
+    #ssh $host "/data/apache-tomcat/instance/meme/libexec/meme-5.4.1/combine-meme-logs $root"
+    ssh $host "./combine-meme-logs"
+  endif
+endif
+
+# After combining, logs are now in COMBINED_LOGS.
+if ($host == "") then
+  set remlogs = ~/$root/COMBINED_LOGS
+else
+  set remlogs = ${host}:$root/COMBINED_LOGS
+endif
+
+# get the starting date for the report
+set d = (`date +"%m %Y"`)
+set curr_year = $d[2]
+set month = $d[1]
+@ year = $d[2] - $years 
+set MINDATE = "-min_date $month $year" 
+set MAXDATE = "-max_date $month $curr_year" 
+echo $MINDATE $MAXDATE
+set params = ($params $MINDATE $MAXDATE)
+
+# Create the list of arguments
+foreach prog ($progs)
+  set params = ($params $prog $remlogs/${prog}-log $type)
+end
+echo params $params
+
+# Change to the archived LOGS directory.
+cd $archive/LOGS
+
+# Update the usage plots.
+echo update-plot-usage $archive $params
+/data/apache-tomcat/instance/meme/libexec/meme-5.4.1/update-plot-usage $archive $params
+
+# remove the .ps files
+rm -f plot-usage*.ps usage-report.ps
+
+# Rename the report and copy to the public website.
+echo moving $archive/usage-report.pdf to $public/${suffix}${yearly}-usage-report.pdf
+mv $archive/usage-report.pdf $public/${suffix}${yearly}-usage-report.pdf 
+
+# Remove the unneeded files from the main archive/LOGS directory.
+rm -f usage-report.*
+
+# Remove the unneeded files from the main archive directory.
+rm -f $archive/plot-usage_*.ps $archive/usage-report.ps
+
+# Archive the log files.
+git add *.$curr_year
+git commit -m 'Log files updated' -a
+git push 
+
+cleanup:
+echo Cleaning up tmp.tex
+rm -f tmp.tex

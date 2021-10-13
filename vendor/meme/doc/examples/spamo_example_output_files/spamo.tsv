@@ -1,0 +1,16 @@
+prim_db	prim_id	prim_alt	prim_cons	sec_db	sec_id	sec_alt	sec_cons	trim_left	trim_right	red_db	red_id	red_alt	E-value	gap	orient	count	total	adj_p-value	p-value
+Klf1	MA0493.1	Klf1	RRCCACACCCW	JASPAR2018_CORE_non-redundant	MA0140.2	GATA1::TAL1	MTTATCWSNNNNNHVCAG	1	0	.	.	.	1.30e-01	2	7	8	141	8.51e-09	7.66e-08
+Klf1	MA0493.1	Klf1	RRCCACACCCW	JASPAR2018_CORE_non-redundant	MA0140.2	GATA1::TAL1	MTTATCWSNNNNNHVCAG	1	0	.	.	.	1.30e-01	2	3	5	141	8.79e-07	7.91e-06
+Klf1	MA0493.1	Klf1	RRCCACACCCW	JASPAR2018_CORE_non-redundant	MA0140.2	GATA1::TAL1	MTTATCWSNNNNNHVCAG	1	0	.	.	.	1.30e-01	2	8	8	141	1.40e-06	1.26e-05
+Klf1	MA0493.1	Klf1	RRCCACACCCW	JASPAR2018_CORE_non-redundant	MA0766.1	GATA5	WGATAASR	0	2	.	.	.	1.21e+00	24	1	8	401	7.36e-08	6.62e-07
+Klf1	MA0493.1	Klf1	RRCCACACCCW	JASPAR2018_CORE_non-redundant	MA0766.1	GATA5	WGATAASR	0	2	.	.	.	1.21e+00	24	8	14	401	1.29e-07	1.16e-06
+Klf1	MA0493.1	Klf1	RRCCACACCCW	JASPAR2018_CORE_non-redundant	MA0766.1	GATA5	WGATAASR	0	2	.	.	.	1.21e+00	24	6	10	401	2.06e-07	1.85e-06
+Klf1	MA0493.1	Klf1	RRCCACACCCW	JASPAR2018_CORE_non-redundant	MA0766.1	GATA5	WGATAASR	0	2	.	.	.	1.21e+00	24	4	9	401	1.54e-06	1.39e-05
+Klf1	MA0493.1	Klf1	RRCCACACCCW	JASPAR2018_CORE_non-redundant	MA0766.1	GATA5	WGATAASR	0	2	.	.	.	1.21e+00	26	4	9	401	1.54e-06	1.39e-05
+Klf1	MA0493.1	Klf1	RRCCACACCCW	JASPAR2018_CORE_non-redundant	MA0766.1	GATA5	WGATAASR	0	2	.	.	.	1.21e+00	27	6	9	401	1.54e-06	1.39e-05
+Klf1	MA0493.1	Klf1	RRCCACACCCW	JASPAR2018_CORE_non-redundant	MA1115.1	POU5F1	WHATGCAAATN	2	2	.	.	.	6.34e+00	22	3	5	128	3.88e-07	3.49e-06
+Klf1	MA0493.1	Klf1	RRCCACACCCW	JASPAR2018_CORE_non-redundant	MA1293.1	MYB57	YYTACCTAACTTTW	0	1	.	.	.	9.72e+00	32	4	3	10	6.22e-07	5.60e-06
+
+# SpaMo (Spaced Motif Analysis Tool): Version 5.4.0 compiled on May 20 2021 at 11:57:57
+# The format of this file is described at https://meme-suite.org/meme/doc/spamo-output-format.html.
+# spamo -oc spamo_example_output_files -png Klf1.fna Klf1.meme JASPAR2018_CORE_non-redundant.meme

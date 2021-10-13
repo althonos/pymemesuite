@@ -1,0 +1,43 @@
+# qvalue test is failing on some platforms. Issue with platfrom variation
+# in random number generators? FIXME
+&test(
+  'qvalue1', 
+  '',
+  'qvalue', 
+  '',
+  [
+    '--header', 1, 
+    '--append', 
+    '--column', 2, 
+    '--seed', 7718, 
+    make_test_src_path('qvalue/uniform.txt')
+  ],
+  [
+    {
+      output => '-', 
+      reference => make_test_src_path('qvalue/uniform.out'), 
+      type => 'text'
+    }
+  ],
+  'results/qvalue1'
+);
+
+&test(
+  'qvalue2', 
+  '',
+  'qvalue', 
+  '',
+  [
+    '--null', 
+    make_test_src_path('qvalue/null.txt'), 
+    make_test_src_path('qvalue/observed.txt')
+  ],
+  [
+    {
+      output => '-', 
+      reference => make_test_src_path('qvalue/observed.out'),
+      type => 'text'
+    }
+  ],
+  'results/qvalue2'
+);

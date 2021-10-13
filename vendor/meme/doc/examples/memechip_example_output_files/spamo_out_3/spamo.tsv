@@ -1,0 +1,7 @@
+prim_db	prim_id	prim_alt	prim_cons	sec_db	sec_id	sec_alt	sec_cons	trim_left	trim_right	red_db	red_id	red_alt	E-value	gap	orient	count	total	adj_p-value	p-value
+JASPAR2018_CORE_non-redundant	MA0014.3	PAX5	RRGCGTGACCNN	JASPAR2018_CORE_non-redundant	MA0924.1	pal-1	GTAATWAA	0	0	.	.	.	9.10e+00	95	4	3	10	5.60e-07	5.04e-06
+JASPAR2018_CORE_non-redundant	MA0014.3	PAX5	RRGCGTGACCNN	JASPAR2018_CORE_non-redundant	MA0924.1	pal-1	GTAATWAA	0	0	.	.	.	9.10e+00	95	8	3	10	4.40e-06	3.96e-05
+
+# SpaMo (Spaced Motif Analysis Tool): Version 5.1.0 compiled on Oct  9 2019 at 16:32:08
+# The format of this file is described at http://meme-suite.org/doc/spamo-output-format.html.
+# spamo -verbosity 1 -oc memechip_example_output_files/spamo_out_3 -bgfile memechip_example_output_files/background -keepprimary -primary MA0014.3 memechip_example_output_files/Klf1.fna JASPAR2018_CORE_non-redundant.meme memechip_example_output_files/meme_out/meme.xml memechip_example_output_files/dreme_out/dreme.xml JASPAR2018_CORE_non-redundant.meme

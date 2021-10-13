@@ -1,0 +1,287 @@
+my $motif_pseudo = 1;
+&test('centrimo1', 'centrimo with flip, sequence bg (default)',
+  'centrimo', '',
+  ['--verbosity', 1, '--oc', 'results/centrimo1', '--flip',
+    'common/Klf1.fa', make_test_src_path('centrimo/dreme-Klf1.xml')
+  ],
+  [
+    {
+      output => 'results/centrimo1/site_counts.txt', 
+      reference => make_test_src_path('centrimo/seq_bg_site_counts.txt'), 
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/centrimo1/centrimo.tsv', 
+      reference => make_test_src_path('centrimo/seq_bg_centrimo.tsv'), 
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/centrimo1/centrimo.html', 
+      reference => make_test_src_path('centrimo/seq_bg_centrimo.html'), 
+      type => 'json', 
+      ignore => [
+        'data:(version|revision|release|cmd)',
+        'data:sequence_db:source',
+        'data:motif_dbs@1:source'
+      ]
+    }
+  ],
+  'results/centrimo1'
+);
+
+&test('centrimo2', 'centrimo with flip, motif bg',
+  'centrimo', '',
+  [
+    '--verbosity', 1, '--oc', 'results/centrimo2', '--flip',
+    '--bfile', '--motif--', '--motif-pseudo', $motif_pseudo,
+    'common/Klf1.fa', make_test_src_path('centrimo/dreme-Klf1.xml')
+  ],
+  [
+    {
+      output => 'results/centrimo2/site_counts.txt', 
+      reference => make_test_src_path('centrimo/motif_bg_site_counts.txt'), 
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/centrimo2/centrimo.tsv', 
+      reference => make_test_src_path('centrimo/motif_bg_centrimo.tsv'), 
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/centrimo2/centrimo.html', 
+      reference => make_test_src_path('centrimo/motif_bg_centrimo.html'), 
+      type => 'json', 
+      ignore => [
+        'data:(version|revision|release|cmd)',
+        'data:sequence_db:source',
+        'data:motif_dbs@1:source'
+      ]
+    }
+  ],
+  'results/centrimo2'
+);
+
+&test('centrimo3', 'centrimo with flip, uniform bg',
+  'centrimo', '',
+  ['--verbosity', 1, '--oc', 'results/centrimo3', '--flip',
+    '--bfile', '--uniform--', '--motif-pseudo', $motif_pseudo,
+    'common/Klf1.fa', make_test_src_path('centrimo/dreme-Klf1.xml')],
+  [
+    {
+      output => 'results/centrimo3/site_counts.txt', 
+      reference => make_test_src_path('centrimo/uni_bg_site_counts.txt'), 
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/centrimo3/centrimo.tsv', 
+      reference => make_test_src_path('centrimo/uni_bg_centrimo.tsv'), 
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/centrimo3/centrimo.html', 
+      reference => make_test_src_path('centrimo/uni_bg_centrimo.html'), 
+      type => 'json', ignore => [
+        'data:(version|revision|release|cmd)',
+        'data:sequence_db:source',
+        'data:motif_dbs@1:source'
+      ]
+    }
+  ],
+  'results/centrimo3'
+);
+
+&test('centrimo4', '--cd, --xalph, sequence bg, --inc, --exc, --noseq',
+  'centrimo', '',
+  ['--oc', 'results/centrimo4', '--verbosity', 1,
+    '--cd', '--xalph', 'common/dna_with_covalent.alph', '--noseq',
+    '--inc', 'MA00*', '--inc', 'MA04*', '--exc', 'MA007*', '--inc', 'T*',
+    'common/dna_with_covalent.fa', 'common/Jaspar-subset.meme',
+    'common/Jaspar-subset2.meme', 'common/dna_with_covalent.meme'
+  ],
+  [
+    {
+      output => 'results/centrimo4/site_counts.txt', 
+      reference => make_test_src_path('centrimo/dna_with_covalent_site_counts.txt'),
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/centrimo4/centrimo.tsv',
+      reference => make_test_src_path('centrimo/dna_with_covalent_centrimo.tsv'),
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/centrimo4/centrimo.html',
+      reference => make_test_src_path('centrimo/dna_with_covalent_centrimo.html'),
+      type => 'json', ignore => [
+        'data:(version|revision|release|cmd)',
+        'data:sequence_db:source',
+        'data:motif_dbs@1:source',
+        'data:motif_dbs@2:source',
+        'data:motif_dbs@3:source',
+        'data:options:xalph'
+      ]
+    }
+  ],
+  'results/centrimo4'
+);
+
+&test('centrimo5', 'centrimo with --neg, sequence bg (default)',
+  'centrimo', '',
+  ['--verbosity', 1, '--oc', 'results/centrimo5', 
+    '--neg', 'common/Klf1-200.fa',
+    '--motif-pseudo', $motif_pseudo,
+    'common/Klf1.fa', 'common/Jaspar-subset.meme'
+  ],
+  [
+    {
+      output => 'results/centrimo5/site_counts.txt', 
+      reference => make_test_src_path('centrimo/neg_site_counts.txt'), 
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/centrimo5/centrimo.tsv', 
+      reference => make_test_src_path('centrimo/neg_centrimo.tsv'),
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/centrimo5/centrimo.html', 
+      reference => make_test_src_path('centrimo/neg_centrimo.html'), 
+      type => 'json', ignore => [
+        'data:(version|revision|release|cmd)',
+        'data:sequence_db:source',
+        'data:motif_dbs@1:source',
+        'data:motif_dbs@2:source',
+        'data:negative_sequence_db:source'
+      ]
+    }
+  ],
+  'results/centrimo5'
+);
+
+&test('centrimo6', '--cd, centrimo with flip, sequence bg (default)',
+  'centrimo', '',
+  ['--verbosity', 1, '--oc', 'results/centrimo6', '--cd', '-flip',
+    '--motif-pseudo', $motif_pseudo, '--ethresh', 1e-43,
+    'common/Klf1.fa', make_test_src_path('centrimo/dreme-Klf1.xml')],
+  [
+    {
+      output => 'results/centrimo6/site_counts.txt', 
+      reference => make_test_src_path('centrimo/cd_seq_bg_site_counts.txt'), 
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/centrimo6/centrimo.tsv', 
+      reference => make_test_src_path('centrimo/cd_seq_bg_centrimo.tsv'),
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/centrimo6/centrimo.html', 
+      reference => make_test_src_path('centrimo/cd_seq_bg_centrimo.html'), 
+      type => 'json', ignore => [
+        'data:(version|revision|release|cmd)',
+        'data:sequence_db:source',
+        'data:motif_dbs@1:source'
+      ]
+    }
+  ],
+  'results/centrimo6'
+);
+
+&test('centrimo7', 'centrimo with --local, --sep, --neg, --bfile file',
+  'centrimo', '',
+  ['--verbosity', 1, '--oc', 'results/centrimo7', '--ethresh', 3e-2,
+    '--local', '--sep', '--neg', 'common/Klf1-200.fa',
+    '--motif-pseudo', $motif_pseudo, '--bfile', 'common/non-uniform.bg',
+    'common/Klf1.fa', 'common/Jaspar-subset.meme'],
+  [
+    {
+      output => 'results/centrimo7/site_counts.txt', 
+      reference => make_test_src_path('centrimo/local_neg_site_counts.txt'), 
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/centrimo7/centrimo.tsv', 
+      reference => make_test_src_path('centrimo/local_neg_centrimo.tsv'), 
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/centrimo7/centrimo.html', 
+      reference => make_test_src_path('centrimo/local_neg_centrimo.html'), 
+      type => 'json', ignore => [
+        'data:(version|revision|release|cmd)',
+        'data:sequence_db:source',
+        'data:motif_dbs@1:source',
+        'data:options:bfile',
+        'data:negative_sequence_db:source'
+      ]
+    }
+  ],
+  'results/centrimo7'
+);
+
+&test('centrimo8', 'centrimo with --neg, sequence bg (default), --use-lo-fraction',
+  'centrimo', '',
+  [
+    '--verbosity', 1, '--oc', 'results/centrimo8', 
+    '--neg', 'common/Klf1-200.fa', '--use-lo-fraction',
+    '--motif-pseudo', $motif_pseudo,
+    'common/Klf1.fa', 'common/Jaspar-subset.meme'
+  ],
+  [
+    {
+      output => 'results/centrimo8/site_counts.txt', 
+      reference => make_test_src_path('centrimo/neg_lo_site_counts.txt'), 
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/centrimo8/centrimo.tsv', 
+      reference => make_test_src_path('centrimo/neg_lo_centrimo.tsv'), 
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/centrimo8/centrimo.html', 
+      reference => make_test_src_path('centrimo/neg_lo_centrimo.html'), 
+      type => 'json', ignore => [
+        'data:(version|revision|release|cmd)',
+        'data:sequence_db:source',
+        'data:motif_dbs@1:source',
+        'data:negative_sequence_db:source'
+      ]
+    }
+  ],
+  'results/centrimo8'
+);
+
+&test('centrimo9', 'centrimo with --neg, sequence bg (default), --use-pvalues',
+  'centrimo', '',
+  [
+    '--verbosity', 1, '--oc', 'results/centrimo9', 
+    '--neg', 'common/Klf1-200.fa', '--use-pvalues', '--score', '0.1',
+    '--motif-pseudo', $motif_pseudo,
+    'common/Klf1.fa', 'common/Jaspar-subset.meme'
+  ],
+  [
+    {
+      output => 'results/centrimo9/site_counts.txt', 
+      reference => make_test_src_path('centrimo/neg_pv_site_counts.txt'), 
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/centrimo9/centrimo.tsv', 
+      reference => make_test_src_path('centrimo/neg_pv_centrimo.tsv'), 
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/centrimo9/centrimo.html', 
+      reference => make_test_src_path('centrimo/neg_pv_centrimo.html'), 
+      type => 'json', ignore => [
+        'data:(version|revision|release|cmd)',
+        'data:sequence_db:source',
+        'data:motif_dbs@1:source',
+        'data:negative_sequence_db:source'
+      ]
+    }
+  ],
+  'results/centrimo9'
+);
+

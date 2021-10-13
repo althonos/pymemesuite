@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>XSTREME - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+    <script src="js/shared-doc.js"></script>
+    <script src="js/xstreme_doc.js"></script>
+    <script src="js/citation.js"></script>
+    <style>
+      div.example {
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+    <div class="prog_logo">
+      <img src="images/xstreme_icon.png" alt="XSTREME Logo">
+      <h1>XSTREME</h1>
+      <h3>Motif Discovery and Enrichment Analysis</h3>
+    </div>
+
+    <div style='display:inline' id='man_web_button'>
+      <p> <button onclick="toggle_man_display()">View Web Version</button> </p>
+    </div>
+
+    <div style='display:none' id='man_cmd_button'>
+      <p> <button onclick="toggle_man_display()">View Command-Line Version</button> </p>
+    </div>
+
+    <div style='display:inline' id='man_usage'>
+      <div class="usage">
+        <h3>Usage:</h3>
+        <code>xstreme [options] --p &lt;primary sequences&gt; [--m &lt;motif file&gt;]*</code>
+      </div>
+    </div>
+
+    <h3>Description</h3>
+    <div class="indent">
+      <span class="man blurb" data-id="xstreme"></span>
+    </div>
+
+    <!-- Command Line Version Doc -->
+    <div style='display:inline' id='man_cmd'>
+
+      <h3>Input</h3>
+      <div class="indent">
+        <span class='popt'><b>--p &lt;primary sequences&gt;</b></span>
+        <div class="indent">
+          <p>The name of a file containing the primary (positive) sequences in 
+          <a href="fasta-format.html">FASTA format</a>.  The file must contain
+	  at least two valid sequences or XSTREME will reject it.
+        </div>
+        <span class='popt'><b>--m &lt;motif file&gt;</b></span>
+        <div class="indent">
+          <p>[Optional] The name of a file containing motifs in 
+          <a href="meme-format.html">MEME format</a> that XSTREME will 
+	  test for enrichment in the primary sequence.  This argument
+          may be <b>repeated</b>, allowing you to simultaneously
+	  analyze motifs in several motif files.  Outputs from MEME, STREME and DREME
+	  are supported. You can convert many other motif formats to MEME Motif format
+          using <a href="overview.html#motif_conversion_utilities">conversion scripts</a>
+          available with the MEME Suite.
+      </div>
+
+      <h3>Output</h3>
+      <div class="indent">
+        <p>
+          XSTREME writes its output to files in a directory named
+          <code>xstreme_out</code>, which it creates if necessary. You can change the
+          output directory using the <span class='popt'>--o</span> or <span class='popt'>--oc</span> options.
+          The directory will contain the following files:
+        </p>
+        <ul>
+          <li><a href=examples/xstreme_example_output_files/xstreme.html><code>xstreme.html</code></a> -
+            an HTML file that provides the results in an interactive, human-readable format that contains
+            links to the other files produced by the analyses performed by XSTREME
+          <li><a href=examples/xstreme_example_output_files/xstreme.tsv><code>xstreme.tsv</code></a> -
+            a TSV (tab-separated values) file that provides
+            a summary of the results in a format suitable for parsing by scripts and viewing with Excel
+          <li><a href=examples/xstreme_example_output_files/xstreme.txt><code>xstreme.txt</code></a> -
+             a text file that contains all the non-redundant <i>ab initio</i> motifs discovered by XSTREME
+             in <a href=meme-format.html>MEME Motif Format</a>
+        </ul>
+        <p>
+          In addition, the XSTREME output directory will contain sub-directories
+          with the results of each of the individual analyses it performed. The results
+          in these directories are all linked to from the XSTREME HTML output file.
+        </p>
+        <p>
+          <b>Note:</b> See this detailed description of the
+          <a href=xstreme-output-format.html>XSTREME output formats</a> for more information.
+        </p>
+        <p>
+          <b>Note:</b> All options may be preceded by a single dash (-) instead of a double dash (--) if desired. 
+        </p>
+      </div>
+
+      <h3>Options</h3>
+      <div class="indent">
+        <table class="options">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Parameter</th>
+              <th>Description</th>
+              <th>Default Behavior</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <th colspan="4">Output</th>
+            </tr>
+            <script>
+              wropt("all-o", {"ddash": true, "dir": "xstreme_out"});
+              wropt("all-oc", {"ddash": true, "dir": "xstreme_out"});
+            </script>
+          </tbody>
+
+          <tbody>
+            <tr>
+              <th colspan="4">Control Sequences and Background Model</th>
+            </tr>
+            <tr>
+              <td class="popt">--n</td>
+              <td><span class="pdat">control sequences</span></td>
+              <td>The name of a file containing control (negative) sequences in 
+		  <a href="fasta-format.html">FASTA format</a>.
+		  XSTREME will report motifs that are enriched in the primary sequences
+		  relative to the control sequences.  XSTREME inputs the primary and
+		  control sequences to the STREME motif discovery algorithm, and to the
+		  SEA motif enrichment analysis algorithm.  If you do not provide a background
+		  model (see option <span>--bfile</span>, below), XSTREME also creates a 
+		  Markov background model from the control sequences that it
+		  inputs to the STREME, MEME and SEA algorithms.
+		  The control sequences must be in the same sequence alphabet as the primary sequences.
+              </td>
+              <td>If you do not provide control sequences, XSTREME creates them by shuffling a copy
+                  of each primary sequence, using an <span class="pdat">m</span>-order shuffle
+                  (see next option).  Shuffling also preserves the positions of non-core
+                  (e.g., ambiguous) characters in each sequence to avoid artifacts.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--order</td>
+              <td><span class="pdat">m</span></td>
+              <td>Estimate an <span class="pdat">m</span>-order Markov background model from the
+                  <b>control</b> sequences for input to the STREME, MEME and SEA algorithms.  
+                  If you do not provide control sequences, XSTREME creates them
+                  by shuffling a copy of each primary sequence, using an <span class="pdat">m</span>-order 
+                  shuffle of each primary sequence.  This preserves the frequencies of words of
+                  length <span class="pdat">m</span>+1 in each shuffled sequence.
+                  <span class="pdat">m</span> must be in the range [0,..,4].
+                  <b>Note:</b> If you do not specify control sequences, XSTREME estimates the background
+		  model from the primary sequences instead.  XSTREME uses the 
+                  <a href="fasta-get-markov.html"><code>fasta-get-markov</code></a>
+                  program with a total pseudocount of 1 to create the Markov model.
+		  <b>Note:</b> If you specify a background model using <span class="popt">--bfile</span> 
+                  (see below), XSTREME does not estimate a background model, but passes the 
+	          specified background to STREME, MEME and SEA. XSTREME also passes
+		  <span class="pdat">m</span> to STREME, MEME and SEA.
+              <td>XSTREME uses <span class="pdat">m</span>=2 (DNA and RNA),
+                  and <span class="pdat">m</span>=0 (Protein and Custom alphabets).
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--bfile</td>
+              <td><span class="pdat">file</span></td>
+              <td>Specify the source of a background model
+                  in <a href="bfile-format.html">Markov Background Model Format</a>
+		  to be passed to STREME, MEME and SEA.
+              </td>
+              <td>XSTREME estimates a background model from the control sequences, 
+		  or from the primary sequences if you do not provide control sequences, 
+                  as described above for the <span class="popt">--order</span> option.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--seed</td>
+              <td><span class="pdat">seed</span></td>
+	      <td>Random seed to be passed to STREME, MEME and SEA.</td>
+	      <td>XSTREME uses a random seed of 0.</td>
+            </tr>
+          </tbody>
+
+          <tbody>
+            <tr>
+              <th colspan="4">Alphabet</th>
+            </tr>
+            <script>
+              wropt("all-stdalph", {"ddash": true, "dna": true});
+              wropt("all-stdalph", {"ddash": true, "rna": true});
+              wropt("all-stdalph", {"ddash": true, "protein": true});
+              wropt("all-x_alph", {"ddash": true});
+              wropt("all-dna2rna", {"ddash": true, "xstreme": true});
+            </script>
+          </tbody>
+
+          <tbody>
+            <tr>
+              <th colspan="4">Output Filtering and Number of Motifs</th>
+            </tr>
+            <tr>
+              <td class="popt">--evt</td><td><span class="pdat">evt</span></td>
+              <td><i>E</i>-value threshold for including motifs in the output.
+		This is also used as the <b>default</b> <i>E</i>-value threshold for STREME (<span class="popt">--streme-evt</span>)
+		and for MEME (<span class="popt">--meme-evt</span>).
+              </td>
+              <td>A value of 0.05 is used.</td>
+            </tr>
+            <tr>
+              <td class="popt">--time</td><td><span class="pdat">minutes</span></td>
+              <td>The maximum time (in minutes) that XSTREME is allowed to run before terminating
+                itself gracefully.</td>
+              <td>There is no time limit</td>
+            </tr>
+          </tbody>
+
+          <tbody>
+            <tr>
+              <th colspan="4">Motif Width</th>
+            </tr>
+            <tr>
+              <td class="popt">--minw</td><td><span class="pdat">width</span></td>
+              <td>The minimum width of motifs to find.</td>
+              <td>A minimum width of 6 is used unless the maximum width has been
+                set to be less than 6 in which case the maximum width is used.</td>
+            </tr>
+            <tr>
+              <td class="popt">--maxw</td><td><span class="pdat">width</span></td>
+              <td>The maximum width of motifs to find.</td>
+              <td>A maximum width of 15 is used unless the minimum width has been
+              set to be larger than 15 in which case the minimum width is used.</td>
+            </td>
+            <tr>
+              <td class="popt">--w</td><td><span class="pdat">width</span></td>
+              <td>Search for motifs with an exact width of <span class="pdat">width</span>.
+                Overrides <span class="popt">--minw</span> and <span class="popt">--maxw</span>.
+                </td>
+              <td>See <span class="popt">--minw</span> and <span class="popt">--maxw</span>, above.</td>
+            </tr>
+          </tbody>
+
+          <tbody>
+            <tr>
+              <th colspan="4">Misc</th>
+            </tr>
+            <tr>
+              <td class="popt">--mea-only</td><td>&nbsp;</td>
+              <td>Use XSTREME as a Motif Enrichment Analysis (MEA) tool.  
+		No motif discovery algorithms will be run.  XSTREME will use
+		SEA to analyze the enrichment of the <b>known</b> motifs you provide 
+	        in your input sequences.  XSTREME will cluster the enriched motifs as usual,
+		and will show the distribution of the motif sites in your input
+		sequences for each enriched motif it identifies.  This option sets options
+	        <span class="popt">--streme-nmotifs</span> and
+                <span class="popt">--meme-nmotifs</span> to 0, and sets option <span class="popt">--fimo-skip</span>
+                (see below).
+              <td>Perform motif discovery and motif enrichment analysis.</td>
+            </tr>
+            <tr>
+              <td class="popt">--ctrim</td><td><span class="pdat">size</span></td>
+              <td>For input to STREME, MEME and SEA, XSTREME will trim the primary sequences to their 
+	      <b>central region</b> of <span class="pdat">size</span> characters. 
+              (The full-length sequences will still be used for the postional distribution plots and as input to FIMO.)
+              </td>
+              <td>The input sequences will not be trimmed.</td>
+            </tr>
+            <tr>
+              <td class="popt">--align</td>
+              <td>
+                 <span class="popt">left</span> |
+                 <span class="popt">center</span> |
+                 <span class="popt">right</span>
+              </td>
+              <td>For the site positional distribution diagrams, XSTREME will align the sequences
+                on their left ends (<span class="popt">left</span>),
+                on their centers (<span class="popt">center</span>),
+                or on their right ends (<span class="popt">right</span>).
+                For visualizing motif distributions, center alignment is
+                ideal for ChIP-seq and similar data; right alignment
+                for sequences upstream of transcription start sites; left
+                alignment for many proteins or 3' UTR sequences.
+              </td>
+              <td>Align the sequences on their centers.</td>
+            </tr>
+            <tr>
+              <td class="popt">--group-thresh</td><td><span class="pdat">gthr</span></td>
+              <td>Main threshold for clustering highly similar motifs in XSTREME output.
+              All motifs in a group will have a Tomtom <i>E</i>-value less than or equal to
+              <span class="pdat">gthr</span> when compared to the seed motif for the group,
+              which is the most significant motif in the group.
+              <td>A value of 0.05 is used.</td>
+            </tr>
+            <tr>
+              <td class="popt">--group-weak</td><td><span class="pdat">wthr</span></td>
+              <td>Secondary threshold for clustering highly similar motifs in XSTREME output.
+              If this is specified by the user, groups will be merged into a more significant
+              group if all their motifs are weakly similar to the seed motif of the more significant
+              group. <span class="pdat">wthr</span> specifies the Tomtom <i>E</i>-value threshold
+              for merging groups.
+              <td>Set to be equal to twice the value of the main clustering threshold:
+              2 * <span class="pdat">gthr</span>.</td>
+            </tr>
+            <script>
+              wropt("all-desc", {"ddash": true});
+              wropt("all-dfile", {"ddash": true});
+            </script>
+            <script>
+              wropt("all-help", {"ddash": true});
+              wropt("all-version", {"ddash": true});
+            </script>
+            <tr>
+              <td class="popt">--verbosity</td><td>0|1|2|3|4|5</td>
+              <td>A number that regulates the verbosity level of the output
+                information messages. If set to 0 (very quiet), XSTREME will
+		only output warning and error messages. If set to 1 (quiet),
+	        then XSTREME will also output the start/stop of each pipeline step. 
+                At the other extreme 5 (dump), lots of information intended for debugging
+		will be output by XSTREME and the programs in its pipeline.
+              </td>
+              <td>The verbosity level is set to 1 (quiet).</td>
+            </tr>
+          </tbody>
+
+          <tbody>
+            <tr>
+              <th colspan="4">STREME Specific Options</th>
+            </tr>
+            <tr>
+              <td class="popt">--streme-evt</td><td><span class="pdat"><i>E</i>-value</span></td>
+              <td>Stop searching for more motifs when three successive motifs have
+                <i>E</i>-values larger than this threshold.</td>
+              <td>The value specified for <span class="popt">--evt</span> (or its default) is used.</td>
+            </tr>
+            <tr>
+              <td class="popt">--streme-nmotifs</td><td><span class="pdat">count</span></td>
+              <td>Stop searching for more motifs when <span class="pdat">count</span> motifs have been
+                found.  If <span class="pdat">count</span> is 0, STREME will not be run.</td>
+              <td>Search stops when the <span class="popt">--streme-evt</span> criterion
+              has been satisfied.</td>
+            </tr>
+            <tr>
+              <td class="popt">--streme-totallength</td>
+              <td><span class="pdat">totallength</span></td>
+              <td>The maximum length of each sequence set (in characters) used by STREME.
+		  If the input sequence sets exceed this limit they will be down-sampled.
+                  See the documentation on the STREME
+                  <span class="popt">--totallength</span> option in the
+                  <a href="streme.html?man_type=cmd#totallength">STREME documentation</a> for more details.
+              </td>
+              <td>The total length of the input sequences to STREME is not limited.</td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <th colspan="4">MEME Specific Options</th>
+            </tr>
+            <tr>
+              <td class="popt">--meme-evt</td><td><span class="pdat"><i>E</i>-value</span></td>
+              <td>Stop searching for more motifs if next motif has
+                <i>E</i>-value larger than this threshold.</td>
+              <td>The value specified for <span class="popt">--evt</span> (or its default) is used.</td>
+            </tr>
+            <tr>
+              <td class="popt">--meme-nmotifs</td><td><span class="pdat">num</span></td>
+              <td>The number of motifs that MEME should search for.
+              If <span class="pdat">num</span> is 0, MEME will not be run.</td>
+		<td>Search stops when the <span class="popt">--meme-evt</span> criterion
+		has been satisfied.</td>
+            </tr>
+            <tr>
+              <td class="popt">--meme-searchsize</td>
+              <td><span class="pdat">searchsize</span></td>
+              <td>The maximum portion of the primary sequences (in characters) used by MEME
+                  in searching for motifs.  See the documentation on the MEME
+                  <span class="popt">-searchsize</span> option in the
+                  <a href="meme.html?man_type=cmd#searchsize">MEME documentation</a> for more details.
+              </td>
+              <td>MEME performs sampling if the primary sequences contain more than 100,000 characters.
+            </tr>
+            <tr>
+              <td class="popt">--meme-p</td><td><span class="pdat">np</span></td>
+              <td>Use faster, parallel version of MEME with <span class="pdat">np</span> processors.
+                  The parameter <span class="pdat">np</span> may be a number or it
+                  may be a quoted string <b>starting</b> with a number and followed by arguments
+                  to the particular MPI run command for your installation (e.g., <code>mpirun</code>).</td>
+              <td>Use a single processor.</td>
+            </tr>
+            <tr>
+              <td class="popt">--meme-brief</td>
+              <td><span class="pdat">nbrief</span></td>
+              <td>If there are more than <span class="pdat">nbrief</span> (primary) sequences,
+                the size of MEME's output will be reduced by suppressing
+                the inclusion of the sequence names, motif sites and scanned sites in MEME's HTML and XML outputs,
+                and by suppressing the tables of sequence lengths, sites and block diagrams in MEME's text output.</td>
+              <td>A value of 1000 is used for <span class="pdat">nbrief</span>.</td>
+            </tr>
+            <tr>
+              <td class="popt">--meme-mod</td><td><span class="pdat">oops</span>|<span
+                  class="pdat">zoops</span>|<span class="pdat">anr</span></td>
+              <td>The number of motif sites that MEME will find per sequence.
+              <div style="margin-left:1em;">
+                <span class="pdat">oops</span> - One Occurrence Per Sequence,<br>
+                <span class="pdat">zoops</span> - Zero or One Occurrence Per Sequence,<br>
+                <span class="pdat">anr</span> - Any Number of Repetitions<br>
+              </div>
+              See <span class="popt">-mod</span> in the
+              <a href="meme.html?man_type=cmd#site_distribution">MEME documentation</a> for more information.
+              </td>
+              <td>MEME defaults to using <span class=pdat>zoops</span> mode.</td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <th colspan="4">SEA Specific Options</th>
+            </tr>
+            <tr>
+              <td class="popt">--sea-noseqs</td><td>&nbsp;</td>
+              <td>Do not output the SEA matching sequences TSV file.
+		This option is useful to if the matching sequence
+		information is not needed as the TSV file can be very large.
+              <td>SEA will output the matching sequences TSV file.</td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <th colspan="4">FIMO Specific Options</th>
+            </tr>
+            <tr>
+              <td class="popt">--fimo-skip</td><td>&nbsp;</td>
+              <td>Do not run FIMO.
+		This option is useful for saving disk space if the predicted
+		motif sites in the sequences are not needed.</td>
+              <td>Run FIMO using most significant motif from each cluster to scan
+                the (full-length) input sequences.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br>
+
+    </div>
+
+    <h3 id="citing">Citing</h3>
+    <div class=indent id="citation"><script>print_citation("citation", "XSTREME");</script></div>
+
+    <script src="js/manual.js"></script>
+
+  </body>
+</html>

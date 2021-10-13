@@ -1,0 +1,20 @@
+##gff-version 3
+chr3	fimo	nucleotide_motif	51034187	51034196	41.2	+	.	Name=MA1099.1_chr3+;Alias=Hes1;ID=MA1099.1-Hes1-1-chr3;pvalue=7.59e-05;qvalue=1;sequence=GCCACGTGTT;
+chr3	fimo	nucleotide_motif	101355861	101355870	48.8	+	.	Name=MA1099.1_chr3+;Alias=Hes1;ID=MA1099.1-Hes1-1-chr3;pvalue=1.32e-05;qvalue=1;sequence=GGCACGCGTG;
+chr4	fimo	nucleotide_motif	134486766	134486775	43.7	+	.	Name=MA1099.1_chr4+;Alias=Hes1;ID=MA1099.1-Hes1-1-chr4;pvalue=4.25e-05;qvalue=1;sequence=ACCACGCGTC;
+chr4	fimo	nucleotide_motif	151104386	151104395	44.7	+	.	Name=MA1099.1_chr4+;Alias=Hes1;ID=MA1099.1-Hes1-1-chr4;pvalue=3.41e-05;qvalue=1;sequence=GGCACGTGCA;
+chr4	fimo	nucleotide_motif	151104386	151104395	 42	-	.	Name=MA1099.1_chr4-;Alias=Hes1;ID=MA1099.1-Hes1-2-chr4;pvalue=6.3e-05;qvalue=1;sequence=TGCACGTGCC;
+chr6	fimo	nucleotide_motif	83115698	83115707	 44	-	.	Name=MA1099.1_chr6-;Alias=Hes1;ID=MA1099.1-Hes1-1-chr6;pvalue=4e-05;qvalue=1;sequence=CGCACGCGCA;
+chr7	fimo	nucleotide_motif	128850935	128850944	 43	-	.	Name=MA1099.1_chr7-;Alias=Hes1;ID=MA1099.1-Hes1-1-chr7;pvalue=5.02e-05;qvalue=1;sequence=CGCACGCGCG;
+chr9	fimo	nucleotide_motif	59598629	59598638	42.6	-	.	Name=MA1099.1_chr9-;Alias=Hes1;ID=MA1099.1-Hes1-1-chr9;pvalue=5.53e-05;qvalue=1;sequence=CGCACGTGAC;
+chr10	fimo	nucleotide_motif	57252320	57252329	40.9	-	.	Name=MA1099.1_chr10-;Alias=Hes1;ID=MA1099.1-Hes1-1-chr10;pvalue=8.1e-05;qvalue=1;sequence=CGCACGCGAA;
+chr11	fimo	nucleotide_motif	50038704	50038713	48.3	-	.	Name=MA1099.1_chr11-;Alias=Hes1;ID=MA1099.1-Hes1-1-chr11;pvalue=1.47e-05;qvalue=1;sequence=GGCACGCGCG;
+chr11	fimo	nucleotide_motif	54679887	54679896	 44	+	.	Name=MA1099.1_chr11+;Alias=Hes1;ID=MA1099.1-Hes1-1-chr11;pvalue=4e-05;qvalue=1;sequence=CGCACGCGCA;
+chr11	fimo	nucleotide_motif	96817442	96817451	42.1	-	.	Name=MA1099.1_chr11-;Alias=Hes1;ID=MA1099.1-Hes1-1-chr11;pvalue=6.21e-05;qvalue=1;sequence=TGCACGTGTC;
+chr13	fimo	nucleotide_motif	100518141	100518150	42.2	+	.	Name=MA1099.1_chr13+;Alias=Hes1;ID=MA1099.1-Hes1-1-chr13;pvalue=5.95e-05;qvalue=1;sequence=AGCACGTGTC;
+chr14	fimo	nucleotide_motif	30880497	30880506	47.4	-	.	Name=MA1099.1_chr14-;Alias=Hes1;ID=MA1099.1-Hes1-1-chr14;pvalue=1.82e-05;qvalue=1;sequence=GGCACGTGAC;
+chr15	fimo	nucleotide_motif	80591617	80591626	41.6	+	.	Name=MA1099.1_chr15+;Alias=Hes1;ID=MA1099.1-Hes1-1-chr15;pvalue=6.9e-05;qvalue=1;sequence=GCCACGTGTG;
+chr17	fimo	nucleotide_motif	87913477	87913486	 44	-	.	Name=MA1099.1_chr17-;Alias=Hes1;ID=MA1099.1-Hes1-1-chr17;pvalue=4e-05;qvalue=1;sequence=GGCACGTGTG;
+chr18	fimo	nucleotide_motif	32719479	32719488	44.7	+	.	Name=MA1099.1_chr18+;Alias=Hes1;ID=MA1099.1-Hes1-1-chr18;pvalue=3.41e-05;qvalue=1;sequence=GCCACGCGGC;
+chr18	fimo	nucleotide_motif	62120307	62120316	43.9	+	.	Name=MA1099.1_chr18+;Alias=Hes1;ID=MA1099.1-Hes1-1-chr18;pvalue=4.08e-05;qvalue=1;sequence=CCCACGTGCC;
+chr19	fimo	nucleotide_motif	5964222	5964231	51.3	+	.	Name=MA1099.1_chr19+;Alias=Hes1;ID=MA1099.1-Hes1-1-chr19;pvalue=7.34e-06;qvalue=1;sequence=CGCACGCGCC;

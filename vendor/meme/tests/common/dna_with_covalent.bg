@@ -1,0 +1,15 @@
+# 0-order Markov frequencies from file MACS2_CB9_peaks-mod.100bp.fa
+# seqs: 56142    min: 100    max: 100    avg: 100.0    sum: 5614200    alph: DNA with covalent modifications
+# order 0
+A 2.070e-01
+C 2.713e-01
+G 2.713e-01
+T 2.070e-01
+c 1.116e-09
+f 1.116e-09
+h 2.356e-04
+m 2.146e-02
+1 2.146e-02
+2 2.356e-04
+3 1.116e-09
+4 1.116e-09

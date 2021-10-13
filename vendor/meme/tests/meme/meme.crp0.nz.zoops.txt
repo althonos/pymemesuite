@@ -1,0 +1,407 @@
+********************************************************************************
+MEME - Motif discovery tool
+********************************************************************************
+MEME version 5.4.0 (Release date: Tue Mar 9 17:38:20 2021 -0800)
+
+For further information on how to interpret these results please access https://meme-suite.org/meme.
+To get a copy of the MEME Suite software please access https://meme-suite.org.
+
+********************************************************************************
+
+
+********************************************************************************
+REFERENCE
+********************************************************************************
+If you use this program in your research, please cite:
+
+Timothy L. Bailey and Charles Elkan,
+"Fitting a mixture model by expectation maximization to
+discover motifs in biopolymers",
+Proceedings of the Second International Conference on Intelligent Systems
+for Molecular Biology, pp. 28-36, AAAI Press, Menlo Park, California, 1994.
+********************************************************************************
+
+
+********************************************************************************
+TRAINING SET
+********************************************************************************
+PRIMARY SEQUENCES= common/crp0.s
+CONTROL SEQUENCES= Primary sequences shuffled preserving 2-mers
+ALPHABET= ACGT
+Sequence name            Weight Length  Sequence name            Weight Length  
+-------------            ------ ------  -------------            ------ ------  
+ce1cg                    1.0000    105  ara                      1.0000    105  
+bglr1                    1.0000    105  crp                      1.0000    105  
+cya                      1.0000    105  deop2                    1.0000    105  
+gale                     1.0000    105  ilv                      1.0000    105  
+lac                      1.0000    105  male                     1.0000    105  
+malk                     1.0000    105  malt                     1.0000    105  
+ompa                     1.0000    105  tnaa                     1.0000    105  
+uxu1                     1.0000    105  pbr322                   1.0000    105  
+trn9cat                  1.0000    105  tdc                      1.0000    105  
+********************************************************************************
+
+********************************************************************************
+COMMAND LINE SUMMARY
+********************************************************************************
+This information can also be useful in the event you wish to report a
+problem with the MEME software.
+
+command: meme -minsites 3 -maxsites 17 common/crp0.s -oc results/meme42 -mod zoops -dna -revcomp -nmotifs 2 -objfun nz -w 12 -hsfrac 0.5 -shuf 2 -nostatus -mpi 
+
+model:  mod=         zoops    nmotifs=         2    evt=           inf
+objective function:           em=       Noise-injected mHG
+                              starts=   log likelihood ratio (LLR)
+strands: + -
+width:  minw=           12    maxw=           12
+nsites: minsites=        3    maxsites=       17    wnsites=       0.8
+theta:  spmap=         uni    spfuzz=        0.5
+em:     prior=   dirichlet    b=            0.01    maxiter=        50
+        distance=    1e-05
+data:   n=            1890    N=              18
+sample: seed=            0    hsfrac=        0.5
+        searchsize=   1890    norand=         no    csites=         -1
+Letter frequencies in dataset:
+A 0.307 C 0.193 G 0.193 T 0.307 
+Background letter frequencies (from file dataset with add-one prior applied):
+A 0.304 C 0.196 G 0.196 T 0.304 
+Background model order: 0
+********************************************************************************
+
+
+********************************************************************************
+MOTIF GCWTCKKTGSRG MEME-1	width =  12  sites =  17  llr = 102  p-value = 2.6e-001  E-value = 2.9e-001
+********************************************************************************
+--------------------------------------------------------------------------------
+	Motif GCWTCKKTGSRG MEME-1 Description
+--------------------------------------------------------------------------------
+Simplified        A  21521:111131
+pos.-specific     C  28:19:111411
+probability       G  512::4515448
+matrix            T  11361647222:
+
+         bits    2.4             
+                 2.1             
+                 1.9             
+                 1.6     *       
+Relative         1.4     *       
+Entropy          1.2  *  *      *
+(8.6 bits)       0.9  *  **     *
+                 0.7  *  ***    *
+                 0.5 ********** *
+                 0.2 ************
+                 0.0 ------------
+
+Multilevel           GCATCTGTGGGG
+consensus            A TA GT TCA 
+sequence                         
+                                 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif GCWTCKKTGSRG MEME-1 sites sorted by position p-value
+--------------------------------------------------------------------------------
+Sequence name            Strand  Start   P-value                Site  
+-------------            ------  ----- ---------            ------------
+pbr322                       -     65  6.12e-08 TTCTCCTTAC GCATCTGTGCGG TATTTCACAC
+male                         +     37  1.70e-06 ATCACACAAA GCGACGGTGGGG CGTAGGGGCA
+ilv                          +      1  2.28e-05          . GCTCCGGCGGGG TTTTTTGTTA
+ce1cg                        +     24  3.75e-05 GGTTTTTGTG GCATCGGGCGAG AATAGCGCGT
+uxu1                         -     90  1.37e-04       GCTT GCATCGGATGAG ATGGCGTATA
+malt                         +      6  1.68e-04      GATCA GCGTCGTTTTAG GTGAGTTGTT
+malk                         +     27  3.70e-04 TGAGAACACG GCTTCTGTGAAC TAAACCGAGG
+tnaa                         -     64  4.44e-04 AATCGAATCA CAATCGTTCGGG GAGCAATATT
+gale                         +     67  4.44e-04 CACACTTTTC GCATCTTTGTTA TGCTATGGTT
+ompa                         +     81  4.93e-04 TAAGTTTTCA ACTACGTTGTAG ACTTTACATC
+trn9cat                      +     70  6.96e-04 AAGCCCTGGG CCAACTTTTGGC GAAAATGAGA
+crp                          -     90  1.61e-03       GCTA TCAACTGTACTG CACGGTAATG
+cya                          +     28  2.32e-03 TGTAGCGCAT CTTTCTTTACGG TCAATCAGCA
+deop2                        -     87  3.13e-03    TATTCTA ACATCTACTCCG CAACACACTT
+tdc                          -     90  3.82e-03       AACA GGATATGTGCGA CCACTCACAA
+lac                          -     35  3.82e-03 ATAAAGTGTA AAGCCTGGGGTG CCTAATGAGT
+ara                          -     34  5.00e-03 ATCAATGTGG ACTTTTCTGCCG TGATTATAGA
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif GCWTCKKTGSRG MEME-1 block diagrams
+--------------------------------------------------------------------------------
+SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+pbr322                            6.1e-08  64_[-1]_29
+male                              1.7e-06  36_[+1]_57
+ilv                               2.3e-05  [+1]_93
+ce1cg                             3.8e-05  23_[+1]_70
+uxu1                              0.00014  89_[-1]_4
+malt                              0.00017  5_[+1]_88
+malk                              0.00037  26_[+1]_67
+tnaa                              0.00044  63_[-1]_30
+gale                              0.00044  66_[+1]_27
+ompa                              0.00049  80_[+1]_13
+trn9cat                            0.0007  69_[+1]_24
+crp                                0.0016  89_[-1]_4
+cya                                0.0023  27_[+1]_66
+deop2                              0.0031  86_[-1]_7
+tdc                                0.0038  89_[-1]_4
+lac                                0.0038  34_[-1]_59
+ara                                 0.005  33_[-1]_60
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif GCWTCKKTGSRG MEME-1 in BLOCKS format
+--------------------------------------------------------------------------------
+BL   MOTIF GCWTCKKTGSRG width=12 seqs=17
+pbr322                   (   65) GCATCTGTGCGG  1 
+male                     (   37) GCGACGGTGGGG  1 
+ilv                      (    1) GCTCCGGCGGGG  1 
+ce1cg                    (   24) GCATCGGGCGAG  1 
+uxu1                     (   90) GCATCGGATGAG  1 
+malt                     (    6) GCGTCGTTTTAG  1 
+malk                     (   27) GCTTCTGTGAAC  1 
+tnaa                     (   64) CAATCGTTCGGG  1 
+gale                     (   67) GCATCTTTGTTA  1 
+ompa                     (   81) ACTACGTTGTAG  1 
+trn9cat                  (   70) CCAACTTTTGGC  1 
+crp                      (   90) TCAACTGTACTG  1 
+cya                      (   28) CTTTCTTTACGG  1 
+deop2                    (   87) ACATCTACTCCG  1 
+tdc                      (   90) GGATATGTGCGA  1 
+lac                      (   35) AAGCCTGGGGTG  1 
+ara                      (   34) ACTTTTCTGCCG  1 
+//
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif GCWTCKKTGSRG MEME-1 position-specific scoring matrix
+--------------------------------------------------------------------------------
+log-odds matrix: alength= 4 w= 12 n= 2444 bayes= 8.39832 E= 2.9e-001 
+   -37    -15    143   -237 
+  -137    196   -173   -237 
+    80  -1073    -15     -5 
+   -37    -73  -1073    109 
+  -237    217  -1073   -237 
+ -1073  -1073    107     95 
+  -237   -173    143     21 
+  -237    -73    -73    121 
+  -137    -73    143    -37 
+  -237     85    107    -78 
+    -5    -73    107    -78 
+  -137    -73    196  -1073 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif GCWTCKKTGSRG MEME-1 position-specific probability matrix
+--------------------------------------------------------------------------------
+letter-probability matrix: alength= 4 w= 12 nsites= 17 E= 2.9e-001 
+ 0.235294  0.176471  0.529412  0.058824 
+ 0.117647  0.764706  0.058824  0.058824 
+ 0.529412  0.000000  0.176471  0.294118 
+ 0.235294  0.117647  0.000000  0.647059 
+ 0.058824  0.882353  0.000000  0.058824 
+ 0.000000  0.000000  0.411765  0.588235 
+ 0.058824  0.058824  0.529412  0.352941 
+ 0.058824  0.117647  0.117647  0.705882 
+ 0.117647  0.117647  0.529412  0.235294 
+ 0.058824  0.352941  0.411765  0.176471 
+ 0.294118  0.117647  0.411765  0.176471 
+ 0.117647  0.117647  0.764706  0.000000 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif GCWTCKKTGSRG MEME-1 regular expression
+--------------------------------------------------------------------------------
+[GA]C[AT][TA]C[TG][GT]T[GT][GC][GA]G
+--------------------------------------------------------------------------------
+
+
+
+
+Time  0.21 secs.
+
+********************************************************************************
+
+
+********************************************************************************
+MOTIF RCRBATAAMAAA MEME-2	width =  12  sites =  14  llr = 119  p-value = 2.7e-001  E-value = 3.1e-001
+********************************************************************************
+--------------------------------------------------------------------------------
+	Motif RCRBATAAMAAA MEME-2 Description
+--------------------------------------------------------------------------------
+Simplified        A  51418:9969a7
+pos.-specific     C  18:4:21:4::1
+probability       G  4:621::::1::
+matrix            T  :11318:1:::2
+
+         bits    2.4             
+                 2.1             
+                 1.9             
+                 1.6           * 
+Relative         1.4        * ** 
+Entropy          1.2  *   *** ** 
+(12.3 bits)      0.9  *   ****** 
+                 0.7 *** ********
+                 0.5 *** ********
+                 0.2 ************
+                 0.0 ------------
+
+Multilevel           ACGCATAAAAAA
+consensus            G AT C  C  T
+sequence                G        
+                                 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif RCRBATAAMAAA MEME-2 sites sorted by position p-value
+--------------------------------------------------------------------------------
+Sequence name            Strand  Start   P-value                Site  
+-------------            ------  ----- ---------            ------------
+gale                         +      1  2.85e-07          . GCGCATAAAAAA CGGCTAAATT
+malt                         +     65  2.77e-06 GCAAATTCAG ACACATAAAAAA ACGTCATCGC
+ilv                          -     16  3.56e-06 GTACTGAATT GCAGATAACAAA AAACCCCGCC
+lac                          +     89  6.60e-06 GGAATTGTGA GCGGATAACAAT TTCAC     
+ara                          +      8  8.68e-06    GACAAAA ACGCGTAACAAA AGTGTCTATA
+deop2                        -     61  4.59e-05 ACACTTCGAT ACACATCACAAT TAAGGAAATC
+malk                         -     93  4.95e-05          T GCGCACATAAAA TCGCCACGAT
+bglr1                        -     29  7.12e-05 TTATAAAGTT ATATATAACAAA TCCCAATAAT
+male                         +     79  8.24e-05 AAAGAGGTTG CCGTATAAAGAA ACTAGAGTCC
+ompa                         +      1  8.77e-05          . GCTGACAAAAAA GATTAAACAT
+tnaa                         -      1  1.67e-04 AAGAATTTTA ATGTTTAAAAAA           
+uxu1                         -     18  1.77e-04 ATTGGGTTAA CCACATCACAAC AATTTCACTC
+ce1cg                        -     61  1.77e-04 TTTTGTGAAA ACGATCAAAAAA ACAGTCTTTC
+tdc                          -      2  1.89e-04 CAACAAGTTA AAGTATAAAAAT C         
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif RCRBATAAMAAA MEME-2 block diagrams
+--------------------------------------------------------------------------------
+SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+gale                              2.8e-07  [+2]_93
+malt                              2.8e-06  64_[+2]_29
+ilv                               3.6e-06  15_[-2]_78
+lac                               6.6e-06  88_[+2]_5
+ara                               8.7e-06  7_[+2]_86
+deop2                             4.6e-05  60_[-2]_33
+malk                                5e-05  92_[-2]_1
+bglr1                             7.1e-05  28_[-2]_65
+male                              8.2e-05  78_[+2]_15
+ompa                              8.8e-05  [+2]_93
+tnaa                              0.00017  [-2]_93
+uxu1                              0.00018  17_[-2]_76
+ce1cg                             0.00018  60_[-2]_33
+tdc                               0.00019  1_[-2]_92
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif RCRBATAAMAAA MEME-2 in BLOCKS format
+--------------------------------------------------------------------------------
+BL   MOTIF RCRBATAAMAAA width=12 seqs=14
+gale                     (    1) GCGCATAAAAAA  1 
+malt                     (   65) ACACATAAAAAA  1 
+ilv                      (   16) GCAGATAACAAA  1 
+lac                      (   89) GCGGATAACAAT  1 
+ara                      (    8) ACGCGTAACAAA  1 
+deop2                    (   61) ACACATCACAAT  1 
+malk                     (   93) GCGCACATAAAA  1 
+bglr1                    (   29) ATATATAACAAA  1 
+male                     (   79) CCGTATAAAGAA  1 
+ompa                     (    1) GCTGACAAAAAA  1 
+tnaa                     (    1) ATGTTTAAAAAA  1 
+uxu1                     (   18) CCACATCACAAC  1 
+ce1cg                    (   61) ACGATCAAAAAA  1 
+tdc                      (    2) AAGTATAAAAAT  1 
+//
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif RCRBATAAMAAA MEME-2 position-specific scoring matrix
+--------------------------------------------------------------------------------
+log-odds matrix: alength= 4 w= 12 n= 2444 bayes= 7.08163 E= 3.1e-001 
+    72    -46     87  -1045 
+  -209    200  -1045   -109 
+    23  -1045    154   -209 
+  -209    113     13     -9 
+   137  -1045   -145   -109 
+ -1045     13  -1045    137 
+   149    -46  -1045  -1045 
+   161  -1045  -1045   -209 
+    91    113  -1045  -1045 
+   161  -1045   -145  -1045 
+   172  -1045  -1045  -1045 
+   123   -145  -1045    -50 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif RCRBATAAMAAA MEME-2 position-specific probability matrix
+--------------------------------------------------------------------------------
+letter-probability matrix: alength= 4 w= 12 nsites= 14 E= 3.1e-001 
+ 0.500000  0.142857  0.357143  0.000000 
+ 0.071429  0.785714  0.000000  0.142857 
+ 0.357143  0.000000  0.571429  0.071429 
+ 0.071429  0.428571  0.214286  0.285714 
+ 0.785714  0.000000  0.071429  0.142857 
+ 0.000000  0.214286  0.000000  0.785714 
+ 0.857143  0.142857  0.000000  0.000000 
+ 0.928571  0.000000  0.000000  0.071429 
+ 0.571429  0.428571  0.000000  0.000000 
+ 0.928571  0.000000  0.071429  0.000000 
+ 1.000000  0.000000  0.000000  0.000000 
+ 0.714286  0.071429  0.000000  0.214286 
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+	Motif RCRBATAAMAAA MEME-2 regular expression
+--------------------------------------------------------------------------------
+[AG]C[GA][CTG]A[TC]AA[AC]AA[AT]
+--------------------------------------------------------------------------------
+
+
+
+
+Time  0.41 secs.
+
+********************************************************************************
+
+
+********************************************************************************
+SUMMARY OF MOTIFS
+********************************************************************************
+
+--------------------------------------------------------------------------------
+	Combined block diagrams: non-overlapping sites with p-value < 0.0001
+--------------------------------------------------------------------------------
+SEQUENCE NAME            COMBINED P-VALUE  MOTIF DIAGRAM
+-------------            ----------------  -------------
+ce1cg                            2.16e-03  23_[+1(3.75e-05)]_70
+ara                              7.87e-03  7_[+2(8.68e-06)]_71_[-2(9.37e-05)]_\
+    3
+bglr1                            6.25e-02  28_[-2(7.12e-05)]_65
+crp                              2.43e-01  105
+cya                              4.76e-01  105
+deop2                            2.51e-02  60_[-2(4.59e-05)]_33
+gale                             5.73e-05  [+2(2.85e-07)]_93
+ilv                              3.94e-05  [+1(2.28e-05)]_3_[-2(3.56e-06)]_78
+lac                              5.31e-03  88_[+2(6.60e-06)]_5
+male                             6.49e-05  36_[+1(1.70e-06)]_30_[+2(8.24e-05)]_\
+    15
+malk                             5.22e-03  92_[-2(4.95e-05)]_1
+malt                             1.95e-04  64_[+2(2.77e-06)]_29
+ompa                             1.09e-02  [+2(8.77e-05)]_93
+tnaa                             1.73e-02  105
+uxu1                             6.75e-03  105
+pbr322                           1.37e-04  64_[-1(6.12e-08)]_29
+trn9cat                          3.14e-01  105
+tdc                              8.99e-02  105
+--------------------------------------------------------------------------------
+
+********************************************************************************
+
+
+********************************************************************************
+Stopped because requested number of motifs (2) found.
+********************************************************************************
+
+CPU: Timothys-Mac-Mini.local
+
+********************************************************************************

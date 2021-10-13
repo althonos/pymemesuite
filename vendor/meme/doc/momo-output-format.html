@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>MoMo Output Formats - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/simple-shared-doc.js"></script>
+    <script src="js/momo_doc.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+
+    <h2>MoMo Output Formats</h2>
+
+    <ul>
+      <h3><li><a href="#html_results">MoMo Results HTML Format</a></li></h3>
+      <h3><li><a href="#tsv_results">MoMo Results TSV Format</a></li></h3>
+      <h3><li><a href="#txt_motifs">MoMo Results Text Format</a></li></h3>
+    </ul>
+
+    <div id="html_results">
+      <h3> MoMo Results HTML Format</h3>
+      <p>See this self-documenting <a href="examples/momo_example_output_files/momo.html">sample HTML results file</a>.</p>
+      <p>
+	The MoMo HTML file contains five sections:
+	<ol>
+	  <li><b>Header:</b> documentation on MoMo and citation information
+	  <li><b>Links:</b> links to 1) the discovered motifs, 2) inputs and settings,
+	  3) program information, 4) the results in TSV format, and, 
+          5) the motifs in <a href="meme-format.html">MEME motif format</a></li>
+	  <li><b>Discovered Motifs:</b> the motifs found by MoMo</li>
+	  <li><b>Inputs & Settings:</b> description of the algorithm and used and its input settings; 
+	    description of the post-translationally modified peptides in the input; 
+	    description of the protein database (if any) in the input and of the control
+	      peptides used (if any);
+	    description of other input settings to MoMo.
+	  <li><b>Program Information:</b> the software version and command line summary</li>
+	</ol>
+      </p>
+    </div>
+
+    <div id="tsv_results">
+      <h3>MoMo Results TSV Format</h3>
+      <p>See this <a href="examples/momo_example_output_files/momo.tsv">sample TSV results file</a>.</p>
+      <script>print_doc("tsv_results", "momo", "momo-tsv-description");</script>
+    </div>
+
+    <div id="txt_motifs">
+      <h3>MoMo Results Text Format</h3>
+      <p>See this <a href="examples/momo_example_output_files/momo.txt">sample motifs file</a>.</p>
+      <script>print_doc("txt_motifs", "momo", "momo-meme-output");</script>
+    </div>
+
+  </body>
+</html>

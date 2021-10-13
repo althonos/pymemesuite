@@ -1,0 +1,98 @@
+#
+# xstreme.test
+#
+
+my @datasets = ('crp0', 'adh', 'Puf3p-200', 'dna_with_covalent', 'nrmix.100bp.mea');
+if (&is_comprehensive()) { push(@datasets, 'Klf1-200-100', 'nrmix.100bp', 'Klf1-200') }
+
+my @pargs = ();
+@pargs = ('--meme-p', &num_cores()) if (&num_cores() > 1);
+
+my %params = (
+  'crp0' => ['--minw', '16', '--maxw', '20'],
+  'adh' => ['--protein'],
+  'Puf3p-200' => ['--rna', '--evt', '0.5', '--meme-evt', '0.05', '--streme-evt', '0.2'],
+  'dna_with_covalent' => ['--meme-nmotifs', '3', '--streme-nmotifs', '2',
+    '--meme-searchsize', '10000', '--xalph', 'common/dna_with_covalent.alph', 
+    '--bfile', 'common/dna_with_covalent.bg', '--ctrim', '100'],
+  'nrmix.100bp.mea' => ['--mea-only'],
+  'Klf1-200-100' => ['--dna', '--evt', '0.2', '--n', 'common/Klf1-200-100-shuffled.py2.fa'],
+  'nrmix.100bp' => ['-evt', '0.5', '--meme-nmotifs', '4', '--meme-searchsize', '50000'],
+  'Klf1-200' => ['--dna', '--ctrim', '110', '--minw', '4', '--maxw', '18', '--order', '1', '--n', 'common/Klf1-200-100-shuffled.py2.fa']
+);
+
+my %alph = (
+  'crp0' => 'dna',
+  'adh' => 'protein',
+  'Klf1-200-100' => 'dna',
+  'Puf3p-200' => 'rna',
+  'dna_with_covalent' => 'custom',
+  'nrmix.100bp.mea' => 'dna',
+  'nrmix.100bp' => 'dna',
+  'Klf1-200' => 'dna'
+);
+
+my %motif_db = (
+  'dna' => ['--m', 'meme-chip/JASPAR_CORE_2014_vertebrates.meme'],
+  'rna' => [],
+  'protein' => [],
+  'custom' => ['--m', 'common/Jaspar-subset.meme', '--m', 'common/dna_with_covalent.meme']
+);
+
+my @valgrind = &is_valgrind() ? ("-valgrind") : ();
+
+my %xstreme_ignore = (
+  'text' => [
+   '^#', 'MEME version', 'For further information'
+  ],
+  'json' => [
+    'data:(revision|release|version)', 
+    'data:cmd',
+    'programs@.*:[cmd|time]'
+  ]
+);
+
+my $counter = 1;
+my $i_dset;
+for ($i_dset=0; $i_dset<@datasets; $i_dset++) {
+  my $dset = $datasets[$i_dset];
+  my $reference_root = catfile('xstreme', 'xstreme.'.$dset);
+  my $ext = ($dset =~ /Klf1|nrmix.100bp|dna_with_covalent/) ? '.fa' : '.s';
+  $dset2 = ($dset eq 'nrmix.100bp.mea') ? 'nrmix.100bp' : $dset;
+
+  &test('xstreme'.$counter, '',
+    'xstreme', '',
+    [
+      '--p', catfile('common', $dset2 . $ext),
+      '--oc', 'results/xstreme'.$counter,
+      '--verbosity', '0',
+      @{$motif_db{$alph{$dset}}},
+      @{$params{$dset}},
+      @pargs,
+      (@valgrind)
+    ],
+    [
+      {
+	output => 'results/xstreme' . $counter . '/xstreme.html', 
+	reference => make_test_src_path($reference_root.'.html'), 
+	type => 'json', 
+	ignore => $xstreme_ignore{'json'}
+      },
+      {
+	output => 'results/xstreme' . $counter . '/xstreme.tsv', 
+	reference => make_test_src_path($reference_root.'.tsv'), 
+	type => 'text', 
+      ignore => $xstreme_ignore{'text'}
+      },
+      {
+	output => 'results/xstreme' . $counter . '/xstreme.txt', 
+	reference => make_test_src_path($reference_root.'.txt'), 
+	type => 'text', 
+	ignore => $xstreme_ignore{'text'}
+      }
+    ], 
+    catdir('results', 'xstreme' . $counter), 
+    'scripts'
+  );
+  $counter++;
+}

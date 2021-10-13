@@ -1,0 +1,659 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>MEME Suite Releases</title>
+  <style>
+    body {
+      margin: 0;
+    }
+    h2 {
+      margin-top: 0;
+    }
+    a {
+      text-decoration: none;
+    }
+    ul {
+      padding: 0;
+      margin: 0;
+      margin-left: 1em;
+    }
+    div.hide_files div.hide_btn, div.hide_files *.files {
+      display: none;
+    }
+    div.show_files div.show_btn {
+      display: none;
+    }
+    div.show_btn, div.hide_btn {
+      display: inline-block;
+      cursor: pointer;
+      color: black;
+      border: 1px solid black;
+      padding: 2px;
+      font-size: 80%;
+      margin-left: 1em;
+    }
+    div.hide_btn {
+      margin-top: 10px;
+    }
+    th, td {
+      padding: 5px;
+    }
+    th {
+      font-variant: small-caps;
+    }
+    td {
+      vertical-align: top;
+      text-align: center;
+    }
+    th.left, tr td:nth-child(7) {
+      text-align: left;
+    }
+    tr.highlight td {
+      padding-bottom: 100px;
+      font-weight: bold;
+      background-color: #EEE;
+    }
+    table:hover tr.highlight td {
+      background: transparent;
+    }
+    tr:hover td, table:hover tr.highlight:hover td {
+      background-color: #EEE;
+    }
+  </style>
+  <script>
+    function shrinkwrap(id) {
+      var elem = document.getElementById(id);
+      if (!elem) throw new Error("shrinkwrap called on non-existant id.");
+      var patch_count = elem.getElementsByTagName("li").length;
+      var container = document.createElement('div');
+      container.className = "hide_files";
+      var show = document.createElement('div');
+      show.className = "show_btn";
+      show.appendChild(document.createTextNode("Show "+ patch_count + " Patch" + (patch_count == 1 ? "" : "es")));
+      show.addEventListener("click", function (e) {container.className = "show_files";}, false);
+      var hide = document.createElement('div');
+      hide.className = "hide_btn";
+      hide.appendChild(document.createTextNode("Hide Patch" + (patch_count == 1 ? "" : "es")));
+      hide.addEventListener("click", function (e) {container.className = "hide_files";}, false);
+      elem.className += " files";
+      elem.parentNode.replaceChild(container, elem);
+      container.appendChild(elem);
+      container.appendChild(show);
+      container.appendChild(hide);
+    }
+  </script>
+</head>
+<body>
+
+  <h2>MEME Suite Releases</h2>
+  <p/>
+  The MEME Suite container is available under a limited, 
+  non-commercial use license.
+  See the license details <a href="@SOURCE_URL@/doc/copyright.html">here</a>.
+  Information about commercial licensing is available <a href="https://techtransfer.universityofcalifornia.edu/NCD/20911.html">here.</a>
+  <p>You can dowload and install the MEME Suite software in three different ways:
+    <ol>
+      <li>As a <a href="https://www.docker.com/get-started" target="_blank">containerized Docker app</a>
+  	for macOS or Windows by clicking <a href="https://hub.docker.com/r/memesuite/memesuite" target="_blank">here</a>.
+        The Docker container includes the current Motif and GOMo databases, but not the T-Gene
+        database or sequence databases.</li>
+      <li>On macOS using <a href=https://www.macports.org>MacPorts</a>.
+  If you have MacPorts installed, run 
+  <code>port install memesuite</code> to download and install the
+  MEME Suite command line tools.
+      <li>As source code for macOS, Linux or Cygwin.  The source code releases
+	are listed below, newest to oldest.</li>
+    </ol>
+  </p>
+
+  <h3>Databases</h3>
+  <p>These are the motif databases, GOMo seqence databases and T-Gene 
+  Histone+Expression databases used on the MEME Suite websites.
+  Sequence databases for any program other than GOMo can be bulk downloaded using
+  the update-sequence-db tool provided with the MEME Suite software.</p>
+  <ul>
+    <li><a href="Databases/motifs/motif_databases.12.19.tgz">Motif Databases</a> (updated 28 Oct 2019)</li>
+    <li><a href="Databases/gomo/gomo_databases.3.2.tgz">GOMo Databases</a> (updated 17 Feb 2015)</li>
+    <li><a href="Databases/tgene/tgene_databases.1.0.tgz">T-Gene Databases</a> (updated 12 Oct 2019)</li>
+  </ul>
+  
+  <h3>MEME Suite Software</h3>
+  <p>These releases include the complete source code of the MEME Suite which
+  can be compiled to run on OS X or Linux. They can be compiled on a Windows PC
+  using a virtual machine (running Linux) or a Cygwin install.</p>
+  <p>Whenever possible use the patched version of the newest release otherwise
+  refer to the readme (or patch readme) for patch installation instructions.</p>
+  <table>
+    <tr>
+      <th>Version</th><th>Released</th><th>Patched</th><th>Readme</th>
+      <th>Distribution</th><th>Unpatched Distribution</th>
+      <th class="left">Patches</th>
+    </tr>
+    <tr class="highlight">
+      <td>5.1.1</td><td>February 1 2020</td><td></td>
+      <td></td>
+      <td><a href="5.1.1/meme-5.1.1.tar.gz">meme-5.1.1.tar.gz</a></td>
+      <td></td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td>5.1.0</td><td>October 12 2019</td><td></td>
+      <td></td>
+      <td><a href="5.1.0/meme-5.1.0.tar.gz">meme-5.1.0.tar.gz</a></td>
+      <td></td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td>5.0.5</td><td>March 19 2019</td><td></td>
+      <td></td>
+      <td><a href="5.0.5/meme-5.0.5.tar.gz">meme-5.0.5.tar.gz</a></td>
+      <td></td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td>5.0.4</td><td>January 25 2019</td><td></td>
+      <td></td>
+      <td><a href="5.0.4/meme-5.0.4.tar.gz">meme-5.0.4.tar.gz</a></td>
+      <td></td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td>5.0.3</td><td>December 02 2018</td><td></td>
+      <td></td>
+      <td><a href="5.0.3/meme-5.0.3.tar.gz">meme-5.0.3.tar.gz</a></td>
+      <td></td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td>5.0.2</td><td>August 30 2018</td><td></td>
+      <td></td>
+      <td><a href="5.0.2/meme-5.0.2.tar.gz">meme-5.0.2.tar.gz</a></td>
+      <td></td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td>5.0.1</td><td>June 21 2018</td>
+      <td>July 31 2018</td>
+      <td><a href="5.0.1/readme.html">Readme</a></td>
+      <td><a href="5.0.1/meme_5.0.1_1.tar.gz">meme_5.0.1_1.tar.gz</a></td>
+      <td><a href="5.0.1/meme_5.0.1.tar.gz">meme_5.0.1.tar.gz</a></td>
+      <td>
+        <ul>
+	<li><a href="5.0.1/patch_5.0.1_1">patch_5.0.1_1</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>5.0.0</td><td>June 07 2018</td>
+      <td>June 13 2018</td>
+      <td><a href="5.0.0/readme.html">Readme</a></td>
+      <td><a href="5.0.0/meme_5.0.0_1.tar.gz">meme_5.0.0_1.tar.gz</a></td>
+      <td><a href="5.0.0/meme_5.0.0.tar.gz">meme_5.0.0.tar.gz</a></td>
+      <td>
+        <ul>
+	<li><a href="5.0.0/patch_5.0.0_1">patch_5.0.0_1</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>4.12.0</td><td>June 27 2017</td><td></td>
+      <td></td>
+      <td><a href="4.12.0/meme_4.12.0.tar.gz">meme_4.12.0.tar.gz</a></td>
+      <td></td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td>4.11.4</td><td>Apr 06 2017</td><td>May 18 2017</td>
+      <td><a href="4.11.4/readme.html">Readme</a></td>
+      <td><a href="4.11.4/meme_4.11.4_1.tar.gz">meme_4.11.4_1.tar.gz</a></td>
+      <td><a href="4.11.4/meme_4.11.4.tar.gz">meme_4.11.4.tar.gz</a></td>
+      <td>
+        <ul id="patches_4.11.4">
+          <li><a href="4.11.4/patch_4.11.4_1">patch_4.11.4_1</a></li>
+      </td>
+    </tr>
+    <tr>
+      <td>4.11.3</td><td>Feb 21 2017</td><td>March 11 2017</td>
+      <td><a href="4.11.3/readme.html">Readme</a></td>
+      <td><a href="4.11.3/meme_4.11.3_1.tar.gz">meme_4.11.3_1.tar.gz</a></td>
+      <td><a href="4.11.3/meme_4.11.3.tar.gz">meme_4.11.3.tar.gz</a></td>
+      <td>
+        <ul id="patches_4.11.3">
+          <li><a href="4.11.3/patch_4.11.3_1">patch_4.11.3_1</a></li>
+      </td>
+    </tr>
+    <tr>
+      <td>4.11.2</td><td>May 05 2016</td><td>Oct 24 2016</td>
+      <td><a href="4.11.2/readme.html">Readme</a></td>
+      <td><a href="4.11.2/meme_4.11.2_2.tar.gz">meme_4.11.2_2.tar.gz</a></td>
+      <td><a href="4.11.2/meme_4.11.2.tar.gz">meme_4.11.2.tar.gz</a></td>
+      <td>
+        <ul id="patches_4.11.2">
+          <li><a href="4.11.2/patch_4.11.2_1">patch_4.11.2_1</a></li>
+          <li><a href="4.11.2/patch_4.11.2_2">patch_4.11.2_2</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>4.11.1</td><td>Jan 07 2016</td><td></td>
+      <td></td>
+      <td><a href="4.11.1/meme_4.11.1.tar.gz">meme_4.11.1.tar.gz</a></td>
+      <td></td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td>4.11.0</td><td>Dec 07 2015</td><td></td>
+      <td></td>
+      <td><a href="4.11.0/meme_4.11.0.tar.gz">meme_4.11.0.tar.gz</a></td>
+      <td></td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td>4.10.2</td><td>July 20 2015</td><td></td>
+      <td></td>
+      <td><a href="4.10.2/meme_4.10.2.tar.gz">meme_4.10.2.tar.gz</a></td>
+      <td></td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td>4.10.1</td><td>Mar 19 2015</td><td>Jun 15 2015</td>
+      <td><a href="4.10.1/readme.html">Readme</a></td>
+      <td><a href="4.10.1/meme_4.10.1_4.tar.gz">meme_4.10.1_4.tar.gz</a></td>
+      <td><a href="4.10.1/meme_4.10.1.tar.gz">meme_4.10.1.tar.gz</a></td>
+      <td>
+        <ul id="patches_4.10.1">
+          <li><a href="4.10.1/patch_4.10.1_1">patch_4.10.1_1</a></li>
+          <li><a href="4.10.1/patch_4.10.1_2">patch_4.10.1_2</a></li>
+          <li><a href="4.10.1/patch_4.10.1_3">patch_4.10.1_3</a></li>
+          <li><a href="4.10.1/patch_4.10.1_4">patch_4.10.1_4</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>4.10.0</td><td>May 21 2014</td><td>Feb 2 2015</td>
+      <td><a href="4.10.0/readme.html">Readme</a></td>
+      <td><a href="4.10.0/meme_4.10.0_4.tar.gz">meme_4.10.0_4.tar.gz</a></td>
+      <td><a href="4.10.0/meme_4.10.0.tar.gz">meme_4.10.0.tar.gz</a></td>
+      <td>
+        <ul id="patches_4.10.0">
+          <li><a href="4.10.0/patch_4.10.0_1">patch_4.10.0_1</a></li>
+          <li><a href="4.10.0/patch_4.10.0_2">patch_4.10.0_2</a></li>
+          <li><a href="4.10.0/patch_4.10.0_3">patch_4.10.0_3</a></li>
+          <li><a href="4.10.0/patch_4.10.0_4">patch_4.10.0_4</a></li>
+        </ul>
+        <script>shrinkwrap("patches_4.10.0");</script>
+      </td>
+    </tr>
+    <tr>
+      <td>4.9.1</td><td>Aug 23 2013</td><td>May 8 2014</td>
+      <td><a href="4.9.1/readme.html">Readme</a></td>
+      <td><a href="4.9.1/meme_4.9.1_2.tar.gz">meme_4.9.1_2.tar.gz</a></td>
+      <td><a href="4.9.1/meme_4.9.1.tar.gz">meme_4.9.1.tar.gz</a></td>
+      <td>
+        <ul id="patches_4.9.1">
+          <li><a href="4.9.1/patch_4.9.1_1">patch_4.9.1_1</a></li>
+          <li><a href="4.9.1/patch_4.9.1_2">patch_4.9.1_2</a></li>
+        </ul>
+        <script>shrinkwrap("patches_4.9.1");</script>
+      </td>
+    </tr>
+    <tr>
+      <td>4.9.0</td><td>Oct 3 2012</td><td>Jan 31 2013</td>
+      <td><a href="4.9.0/readme.html">Readme</a></td>
+      <td><a href="4.9.0/meme_4.9.0_4.tar.gz">meme_4.9.0_4.tar.gz</a></td>
+      <td><a href="4.9.0/meme_4.9.0.tar.gz">meme_4.9.0.tar.gz</a></td>
+      <td>
+        <ul id="patches_4.9.0">
+          <li><a href="4.9.0/patch_4.9.0_1">patch_4.9.0_1</a></li>
+          <li><a href="4.9.0/patch_4.9.0_2">patch_4.9.0_2</a></li>
+          <li><a href="4.9.0/patch_4.9.0_3">patch_4.9.0_3</a></li>
+          <li><a href="4.9.0/patch_4.9.0_4">patch_4.9.0_4</a></li>
+        </ul>
+        <script>shrinkwrap("patches_4.9.0");</script>
+      </td>
+    </tr>
+    <tr>
+      <td>4.8.1</td><td>Feb 7 2012</td><td>Sep 17 2012</td>
+      <td><a href="4.8.1/readme.html">Readme</a></td>
+      <td></td>
+      <td><a href="4.8.1/meme_4.8.1.tar.gz">meme_4.8.1.tar.gz</a></td>
+      <td>
+        <ul id="patches_4.8.1">
+          <li><a href="4.8.1/patch_4.8.1_1">patch_4.8.1_1</a></li>
+          <li><a href="4.8.1/patch_4.8.1_2">patch_4.8.1_2</a></li>
+          <li><a href="4.8.1/patch_4.8.1_3">patch_4.8.1_3</a></li>
+          <li><a href="4.8.1/patch_4.8.1_4">patch_4.8.1_4</a></li>
+          <li><a href="4.8.1/patch_4.8.1_5">patch_4.8.1_5</a></li>
+        </ul>
+        <script>shrinkwrap("patches_4.8.1");</script>
+      </td>
+    </tr>
+    <tr>
+      <td>4.8.0</td><td>Jan 27 2012</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="4.8.0/meme_4.8.0.tar.gz">meme_4.8.0.tar.gz</a></td>
+      <td><a href="4.8.0/meme_4.8.0.tar.gz">meme_4.8.0.tar.gz</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>4.7.0</td><td>Sep 29 2011</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="4.7.0/meme_4.7.0.tar.gz">meme_4.7.0.tar.gz</a></td>
+      <td><a href="4.7.0/meme_4.7.0.tar.gz">meme_4.7.0.tar.gz</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>4.6.1</td><td>Mar 30 2011</td><td>May 30 2011</td>
+      <td>-</td>
+      <td></td>
+      <td><a href="4.6.1/meme_4.6.1.tar.gz">meme_4.6.1.tar.gz</a></td>
+      <td>
+        <ul id="patches_4.6.1">
+          <li><a href="4.6.1/meme_4.6.1.patch_1">meme_4.6.1.patch_1</a> 
+            (<a href="4.6.1/meme_4.6.1.patch_1_readme.txt">readme</a>)</li>
+          <li><a href="4.6.1/meme_4.6.1.patch_2">meme_4.6.1.patch_2</a>
+            (<a href="4.6.1/meme_4.6.1.patch_2_readme.txt">readme</a>)</li>
+        </ul>
+        <script>shrinkwrap("patches_4.6.1");</script>
+      </td>
+    </tr>
+    <tr>
+      <td>4.6.0</td><td>Jan 28 2011</td><td>Feb 2 2011</td>
+      <td>-</td>
+      <td></td>
+      <td><a href="4.6.0/meme_4.6.0.tar.gz">meme_4.6.0.tar.gz</a></td>
+      <td>
+        <ul id="patches_4.6.0">
+          <li><a href="4.6.0/meme_4.6.0.patch_1">meme_4.6.0.patch_1</a>
+            (<a href="4.6.0/meme_4.6.0.patch_1_readme.txt">readme</a>)</li>
+        </ul>
+        <script>shrinkwrap("patches_4.6.0");</script>
+      </td>
+    </tr>
+    <tr>
+      <td>4.5.0</td><td>Oct 14 2010</td><td>Dec 9 2010</td>
+      <td>-</td>
+      <td></td>
+      <td><a href="4.5.0/meme_4.5.0.tar.gz">meme_4.5.0.tar.gz</a></td>
+      <td>
+        <ul id="patches_4.5.0">
+          <li><a href="4.5.0/meme_4.5.0.patch_1">meme_4.5.0.patch_1</a>
+            (<a href="4.5.0/meme_4.5.0.patch_1_readme.txt">readme</a>)</li>
+        </ul>
+        <script>shrinkwrap("patches_4.5.0");</script>
+      </td>
+    </tr>
+    <tr>
+      <td>4.4.0</td><td>May 7 2010</td><td>Aug 14 2010</td>
+      <td>-</td>
+      <td></td>
+      <td><a href="4.4.0/meme_4.4.0.tar.gz">meme_4.4.0.tar.gz</a></td>
+      <td>
+        <ul id="patches_4.4.0">
+          <li><a href="4.4.0/meme_4.4.0.patch_1">meme_4.4.0.patch_1</a></li>
+          <li><a href="4.4.0/meme_4.4.0.patch_2">meme_4.4.0.patch_2</a>
+            (<a href="4.4.0/meme_4.4.0.patch_2_readme.txt">readme</a>)</li>
+          <li><a href="4.4.0/meme_4.4.0.patch_3">meme_4.4.0.patch_3</a> 
+            (<a href="4.4.0/meme_4.4.0.patch_3_readme.txt">readme</a>)</li>
+          <li><a href="4.4.0/meme_4.4.0.patch_4">meme_4.4.0.patch_4</a> 
+            (<a href="4.4.0/meme_4.4.0.patch_4_readme.txt">readme</a></li>
+          <li><a href="4.4.0/meme_4.4.0.patch_5">meme_4.4.0.patch_5</a> 
+            (<a href="4.4.0/meme_4.4.0.patch_5_readme.txt">readme</a>)</li>
+          <li><a href="4.4.0/meme_4.4.0.patch_6">meme_4.4.0.patch_6</a> 
+            (<a href="4.4.0/meme_4.4.0.patch_6_readme.txt">readme</a>)</li>
+          <li><a href="4.4.0/meme_4.4.0.patch_7">meme_4.4.0.patch_7</a> 
+            (<a href="4.4.0/meme_4.4.0.patch_7_readme.txt">readme</a>)</li>
+        </ul>
+        <script>shrinkwrap("patches_4.4.0");</script>
+      </td>
+    </tr>
+    <tr>
+      <td>4.3.0</td><td>Oct 7 2009</td><td>Apr 28 2010</td>
+      <td>-</td>
+      <td></td>
+      <td><a href="4.3.0/meme_4.3.0.tar.gz">meme_4.3.0.tar.gz</a></td>
+      <td>
+        <ul id="patches_4.3.0">
+          <li><a href="4.3.0/gendb.4.3.0.patch">gendb.4.3.0.patch</a> 
+            (<a href="4.3.0/snow-leopard.4.3.0.txt">readme</a>)</li>
+          <li><a href="4.3.0/psp.4.3.0.patch">psp.4.3.0.patch</a></li>
+        </ul>
+        <script>shrinkwrap("patches_4.3.0");</script>
+      </td>
+    </tr>
+    <tr>
+      <td>4.2.0</td><td>Jul 22 2009</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="4.2.0/meme_4.2.0.tar.gz">meme_4.2.0.tar.gz</a></td>
+      <td><a href="4.2.0/meme_4.2.0.tar.gz">meme_4.2.0.tar.gz</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>4.1.1</td><td>Jul 14 2009</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="4.1.1/meme_4.1.1.tar.gz">meme_4.1.1.tar.gz</a></td>
+      <td><a href="4.1.1/meme_4.1.1.tar.gz">meme_4.1.1.tar.gz</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>4.1.0</td><td>Mar 4 2009</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="4.1.0/meme_4.1.0.tar.gz">meme_4.1.0.tar.gz</a></td>
+      <td><a href="4.1.0/meme_4.1.0.tar.gz">meme_4.1.0.tar.gz</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>4.0.0</td><td>Oct 21 2008</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="4.0.0/meme_4.0.0.tar.gz">meme_4.0.0.tar.gz</a></td>
+      <td><a href="4.0.0/meme_4.0.0.tar.gz">meme_4.0.0.tar.gz</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>3.5.7</td><td>Dec 19 2007</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="3.5.7/meme_3.5.7.tar.gz">meme_3.5.7.tar.gz</a></td>
+      <td><a href="3.5.7/meme_3.5.7.tar.gz">meme_3.5.7.tar.gz</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>3.5.4</td><td>Sep 22 2006</td><td>Sep 10 2007</td>
+      <td><a href="3.5.4/readme.txt">Readme</a></td>
+      <td></td>
+      <td><a href="3.5.4/meme_3.5.4.tar.gz">meme_3.5.4.tar.gz</a></td>
+      <td>
+        <ul id="patches_3.5.4">
+          <li><a href="3.5.4/meme_3.5.4.patch_1">meme_3.5.4.patch_1</a></li>
+          <li><a href="3.5.4/meme_3.5.4.patch_2">meme_3.5.4.patch_2</a></li>
+        </ul>
+        <script>shrinkwrap("patches_3.5.4");</script>
+      </td>
+    </tr>
+    <tr>
+      <td>3.5.3</td><td>Apr 30 2006</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="3.5.3/meme_3.5.3.tar.gz">meme_3.5.3.tar.gz</a></td>
+      <td><a href="3.5.3/meme_3.5.3.tar.gz">meme_3.5.3.tar.gz</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>3.5.2</td><td>Mar 2 2006</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="3.5.2/meme_3.5.2.tar.gz">meme_3.5.2.tar.gz</a></td>
+      <td><a href="3.5.2/meme_3.5.2.tar.gz">meme_3.5.2.tar.gz</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>3.5.1</td><td>Feb 1 2006</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="3.5.1/meme_3.5.1.tar.gz">meme_3.5.1.tar.gz</a></td>
+      <td><a href="3.5.1/meme_3.5.1.tar.gz">meme_3.5.1.tar.gz</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>3.5.0</td><td>Oct 5 2005</td><td>Jan 20 2006</td>
+      <td>-</td>
+      <td></td>
+      <td><a href="3.5.0/meme_3.5.0.tar.gz">meme_3.5.0.tar.gz</a></td>
+      <td>
+        <ul id="patches_3.5.0">
+          <li><a href="3.5.0/mast-client.txt.3.5.0.patch">mast-client.txt.3.5.0.patch</a>
+           (or replacement <a href="3.5.0/mast-client.txt.3.5.0">mast-client.txt</a>)</li>
+        </ul>
+        <script>shrinkwrap("patches_3.5.0");</script>
+      </td>
+    </tr>
+    <tr>
+      <td>3.0.14</td><td>Jul 19 2005</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="3.0.14/meme-3.0.14.tar.gz">meme-3.0.14.tar.gz</a></td>
+      <td><a href="3.0.14/meme-3.0.14.tar.gz">meme-3.0.14.tar.gz</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>3.0.13</td><td>Nov 1 2004</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="3.0.13/meme.3.0.13.tar.Z">meme.3.0.13.tar.Z</a></td>
+      <td><a href="3.0.13/meme.3.0.13.tar.Z">meme.3.0.13.tar.Z</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>3.0.10</td><td>Aug 24 2004</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="3.0.10/meme.3.0.10.tar.Z">meme.3.0.10.tar.Z</a></td>
+      <td><a href="3.0.10/meme.3.0.10.tar.Z">meme.3.0.10.tar.Z</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>3.0.9</td><td>Aug 19 2004</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="3.0.9/meme.3.0.9.tar.Z">meme.3.0.9.tar.Z</a></td>
+      <td><a href="3.0.9/meme.3.0.9.tar.Z">meme.3.0.9.tar.Z</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>3.0.8</td><td>Jul 27 2004</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="3.0.8/meme.3.0.8.tar.Z">meme.3.0.8.tar.Z</a></td>
+      <td><a href="3.0.8/meme.3.0.8.tar.Z">meme.3.0.8.tar.Z</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>3.0.6</td><td>Jul 21 2004</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="3.0.6/meme.3.0.6.tar.Z">meme.3.0.6.tar.Z</a></td>
+      <td><a href="3.0.6/meme.3.0.6.tar.Z">meme.3.0.6.tar.Z</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>3.0.5</td><td>Jul 16 2004</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="3.0.5/meme.3.0.5.tar.Z">meme.3.0.5.tar.Z</a></td>
+      <td><a href="3.0.5/meme.3.0.5.tar.Z">meme.3.0.5.tar.Z</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>3.0.4</td><td>Apr 2 2002</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="3.0.4/meme.3.0.4.tar.Z">meme.3.0.4.tar.Z</a></td>
+      <td><a href="3.0.4/meme.3.0.4.tar.Z">meme.3.0.4.tar.Z</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>3.0.3</td><td>Mar 5 2001</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="3.0.3/meme.3.0.3.tar.Z">meme.3.0.3.tar.Z</a></td>
+      <td><a href="3.0.3/meme.3.0.3.tar.Z">meme.3.0.3.tar.Z</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>3.0.2</td><td>Feb 21 2001</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="3.0.2/meme.3.0.2.tar.Z">meme.3.0.2.tar.Z</a></td>
+      <td><a href="3.0.2/meme.3.0.2.tar.Z">meme.3.0.2.tar.Z</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>2.3.0</td><td>Nov 9 1998</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="2.3.0/meme.2.3.beta.tar.Z">meme.2.3.beta.tar.Z</a></td>
+      <td><a href="2.3.0/meme.2.3.beta.tar.Z">meme.2.3.beta.tar.Z</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>2.2.2</td><td>Apr 9 1998</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="2.2.2/meme.2.2.2.tar.Z">meme.2.2.2.tar.Z</a></td>
+      <td><a href="2.2.2/meme.2.2.2.tar.Z">meme.2.2.2.tar.Z</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>2.2.1</td><td>?</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="2.2.1/meme.2.2.1.tar.Z">meme.2.2.1.tar.Z</a></td>
+      <td><a href="2.2.1/meme.2.2.1.tar.Z">meme.2.2.1.tar.Z</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>2.2.0</td><td>?</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="2.2.0/meme.2.2.tar.Z">meme.2.2.tar.Z</a></td>
+      <td><a href="2.2.0/meme.2.2.tar.Z">meme.2.2.tar.Z</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>2.1.0</td><td>?</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="2.1.0/meme.2.1.tar.Z">meme.2.1.tar.Z</a></td>
+      <td><a href="2.1.0/meme.2.1.tar.Z">meme.2.1.tar.Z</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>2.0.0</td><td>?</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="2.0.0/meme.2.0.tar.Z">meme.2.0.tar.Z</a></td>
+      <td><a href="2.0.0/meme.2.0.tar.Z">meme.2.0.tar.Z</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>1.4.3</td><td>?</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="1.4.3/meme.1.4.3.tar.Z">meme.1.4.3.tar.Z</a></td>
+      <td><a href="1.4.3/meme.1.4.3.tar.Z">meme.1.4.3.tar.Z</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>1.4.0</td><td>?</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="1.4.0/meme.1.4.tar.Z">meme.1.4.tar.Z</a></td>
+      <td><a href="1.4.0/meme.1.4.tar.Z">meme.1.4.tar.Z</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>1.3.0</td><td>?</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="1.3.0/meme.1.3.tar.Z">meme.1.3.tar.Z</a></td>
+      <td><a href="1.3.0/meme.1.3.tar.Z">meme.1.3.tar.Z</a></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>1.2.0</td><td>?</td><td>n/a</td>
+      <td>-</td>
+      <td><a href="1.2.0/meme.1.2.tar.Z">meme.1.2.tar.Z</a></td>
+      <td><a href="1.2.0/meme.1.2.tar.Z">meme.1.2.tar.Z</a></td>
+      <td></td>
+    </tr>
+  </table>
+</body>
+</html>

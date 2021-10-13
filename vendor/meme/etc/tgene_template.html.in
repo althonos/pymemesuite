@@ -1,0 +1,649 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>T-Gene Results</title>
+    <script src="tgene_data.js"></script>
+    <script src="constants.js"></script>
+    <script src="utilities.js"></script>
+    <script src="tgene_doc.js"></script>
+    <script src="simple-shared-doc.js"></script>
+    <script src="tgene_template.js"></script>
+    <script src="citation.js"></script>
+    <script src="description_section.js"></script>
+    <link rel="stylesheet" type="text/css" href="tgene_template.css">
+    <link rel="stylesheet" type="text/css" href="meme.css">
+  </head>
+  <body onload="page_loaded()" onpageshow="page_shown(event)">
+    <!-- Popups -->
+    <!-- Help popups -->
+    <div class="pop_content_wide" id="pop_links">
+      <script>print_doc("pop_links", "tgene", "links-tsv");</script> 
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_gene_id">
+      <p><script>print_doc_para("pop_gene_id", "tgene", 'gene-id')</script></p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_gene_name">
+      <p><script>print_doc_para("pop_gene_name", "tgene", 'gene-name')</script></p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_tss_id">
+      <p><script>print_doc_para("pop_tss_id", "tgene", 'tss-id')</script></p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_tss_locus">
+      <p><script>print_doc_para("pop_tss_locus", "tgene", 'tss-locus')</script></p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_strand">
+      <p><script>print_doc_para("pop_strand", "tgene", 'strand')</script></p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_max_expr">
+      <p><script>print_doc_para("pop_max_expr", "tgene", 'max-expr')</script></p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_re_locus">
+      <p><script>print_doc_para("pop_re_locus", "tgene", 're-locus')</script></p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_max_hist">
+      <p><script>print_doc_para("pop_max_hist", "tgene", 'max-hist')</script></p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_distance">
+      <p><script>print_doc_para("pop_distance", "tgene", 'distance')</script></p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_closest_locus">
+      <p><script>print_doc_para("pop_closest_locus", "tgene", 'closest-locus')</script></p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_closest_tss">
+      <p><script>print_doc_para("pop_closest_tss", "tgene", 'closest-tss')</script></p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_histone">
+      <p><script>print_doc_para("pop_histone", "tgene", 'histone')</script></p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_correlation">
+      <p><script>print_doc_para("pop_correlation", "tgene", 'correlation')</script></p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_correlation_sign">
+      <p><script>print_doc_para("pop_correlation_sign", "tgene", 'correlation-sign')</script></p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_corr_pvalue">
+      <p><script>print_doc_para("pop_corr_pvalue", "tgene", 'corr-pvalue')</script></p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_dist_pvalue">
+      <p><script>print_doc_para("pop_dist_pvalue", "tgene", 'dist-pvalue')</script></p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_cnd_pvalue">
+      <p><script>print_doc_para("pop_cnd_pvalue", "tgene", 'cnd-pvalue')</script></p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_qvalue">
+      <p><script>print_doc_para("pop_qvalue", "tgene", 'qvalue')</script></p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_download">
+      <p>Download contents of the "Potential Regulatory Links" table as a 
+	tab-separated values (TSV) file suitable for use with programs 
+	such as Excel or for uploading to programs for gene enrichment
+	analysis (e.g., <a href="http://cbl-gorilla.cs.technion.ac.il">GOrilla</a>)
+	First choose the columns of information you wish to download, then
+	choose how you want the links to be filtered and sorted, using the
+	check boxes and sorting menu on the right.  Then click on this
+	button and the links will be downloaded in a file named "tgene_links.tsv"
+	on your computer.
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_filtering">
+      <p>List only potential regulatory links that meet the selected filter criteria below.
+	Select the desired filters below, then click the <b>Update Filter & Sort</b> button located
+	below.</p>
+      <p>The first two filters ("Links/Genes/TSSes/RE Loci" and "Top" are applied <b>after</b>
+	sorting the links.  All other filters are applied <b>before</b> sorting.</p>
+      <p>The first filter affects the overall content of the report as follows:
+        <table border=1>
+          <tr><th>Value</th><th>Resulting Report</th></tr>
+          <tr><td>Links</td><td>Show all links (subject to the other Filters and the Sort).</td></tr>
+          <tr><td>Genes</td><td>Show the top TSS for each Gene (subject to the other Filters and the Sort).</td></tr>
+          <tr><td>TSSes</td><td>Show the top RE Locus for each TSS (subject to the other Filters and the Sort).</td></tr>
+          <tr><td>RE Loci</td><td>Show the top TSS for each RE Locus (subject to the other Filters and the Sort).</td></tr>
+        </table>
+      </p>
+      <p>The second filter ("Top") limits the output to at most 2000 top links.</p>
+      <p>To filter on "Gene_ID", "Gene_Name", "TSS_ID", "TSS_Locus" or "RE_Locus", 
+      you can enter any Javascript regular
+      expression pattern.  See <a href="http://www.w3schools.com/jsref/jsref_obj_regexp.asp">here</a>
+      for documentation on Javascript regular expression patterns.</p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_sorting">
+      <p>Sort the potential regulatory links according to the criterion
+	selected in the drop-down menu below.</p>
+      <p>Sorting is applied after filtering except for the first two filters.</p>
+      <p>
+	 If a tissue panel was provided, ties in the sorting field are resolved
+	 by sorting on the following fields, in order: CnD_P_Value, Correlation_P_Value,
+	 TSS_ID, RE_Locus, Histone.
+      </p>
+      <p>
+	 If no tissue panel was provided, ties in the sorting field are resolved
+	 by sorting on the following fields, in order: Distance_P_Value,
+	 TSS_ID, RE_Locus, Histone.
+      </p>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <!-- Page starts here -->
+    <div id="top" class="pad1">
+      <div class="prog_logo big">
+        <img src="tgene_icon.png" alt="T-Gene Logo">
+        <h1>T-Gene</h1>
+        <h3>Prediction of Target Genes</h3>
+      </div>
+      <p>
+        For further information on how to interpret these results please access
+        <a href="@SITE_URL@/doc/tgene-output-format.html">@SITE_URL@/doc/tgene-output-format.html</a>.</br>
+        To get a copy of the MEME software please access 
+        <a href="@SOURCE_URL@">@SOURCE_URL@</a>. 
+      </p>
+      <p id="citation"> <script>print_citation("citation", "T-Gene");</script></p>
+    </div>
+    <!-- navigation -->
+    <table class="navigation" class="pad2">
+     <tr>
+      <td> <a class="jump" href="#regulatory_links_sec">Potential Regulatory Links</a></td>
+      <td> <a class="jump" href="#info_sec">Program information</a></td>
+      <td>
+      <td> <a class="jump" href="links.tsv">Links in TSV Format</a>&nbsp;<span id="links_help"></span></td>
+    </table>
+    <script>
+      make_help_button($("links_help"), "pop_links");
+    </script>
+
+    <!-- alert the user when their browser is not up to the task -->
+    <noscript><h1 style="color:red">Javascript is required to view these results!</h1></noscript>
+    <h1 id="html5_warning" style="color:red; display:none;">Your browser does not support canvas!</h1>
+    <script>
+      if (!window.HTMLCanvasElement) $("html5_warning").style.display = "block";
+    </script>
+    <!-- description -->
+    <!-- write out the job description -->
+    <span id="ins_desc"></span>
+    <script>make_description($("ins_desc"), data.job_description);</script>
+    <h2 class="mainh pad2">Results</h2>
+    <div class="box">
+      <div>
+        <div style="float:left; width:70%">
+          <h4 id="regulatory_links_sec">Potential Regulatory Links (<span id="ins_pvalue_type"></span> <i>p</i>-value &le; <span id="ins_max_pvalue"></span><span id="ins_inc_ct"></span><span id="ins_inc_cl"></span>)
+            &nbsp; &nbsp; &nbsp; &nbsp;<input type="button" value="Download Displayed Links as TSV file" 
+	       onclick="make_regulatory_links_table(true)"> 
+               &nbsp;<div class="help" onclick="help_popup(this, 'pop_sorting')"></div>
+          </h4>
+          <div>
+          </div>
+          <script>
+            $("ins_pvalue_type").innerHTML = data['options']['tissues'] == "" ? "Distance" : "CnD";
+            $("ins_max_pvalue").innerHTML = data['options']['max_pvalue'];
+            $("ins_inc_ct").innerHTML = data['options']['inc_closest_tss'] ? ", or CT is 'T'" : "";
+            $("ins_inc_cl").innerHTML = data['options']['inc_closest_locus'] ? ", or CL is 'T'" : "";
+          </script>
+          <table class="regulatory_links hide_re_locus" id="regulatory_links">
+            <thead>
+            <tr align="center">
+              <th class="col_gene_id">Gene ID<br><div class="help"
+                  onclick="help_popup(this, 'pop_gene_id')"></div></th>
+              <th class="col_gene_name">Gene Name<br><div class="help"
+                  onclick="help_popup(this, 'pop_gene_name')"></div></th>
+              <th class='col_tss_id'>TSS ID<br><div class="help"
+                  onclick="help_popup(this, 'pop_tss_id')"></div></th>
+              <th class='col_tss_locus'>TSS Locus<br><div class="help"
+                  onclick="help_popup(this, 'pop_tss_locus')"></div></th>
+              <th class='col_strand'>Strand<br><div class="help"
+                  onclick="help_popup(this, 'pop_strand')"></div></th>
+              <th class='col_max_expr tissue_panel'>Maximum<br>Expression<br><div class="help"
+                  onclick="help_popup(this, 'pop_max_expr')"></div></th>
+              <th class='col_re_locus'>RE Locus<br><div class="help"
+                  onclick="help_popup(this, 'pop_re_locus')"></div></th>
+              <th class='col_max_hist tissue_panel'>Maximum<br>Histone<br>Level<br><div class="help"
+                  onclick="help_popup(this, 'pop_max_hist')"></div></th>
+              <th class="col_distance">Distance<br><div class="help"
+                  onclick="help_popup(this, 'pop_distance')"></div></th>
+              <th class="col_closest_locus">CL<br><div class="help"
+                  onclick="help_popup(this, 'pop_closest_locus')"></div></th>
+              <th class="col_closest_tss">CT<br><div class="help"
+                  onclick="help_popup(this, 'pop_closest_tss')"></div></th>
+              <th class="col_histone tissue_panel">Histone<br><div class="help"
+                  onclick="help_popup(this, 'pop_histone')"></div></th>
+              <th class="col_correlation tissue_panel">Correlation<br><div class="help"
+                  onclick="help_popup(this, 'pop_correlation')"></div></th>
+              <th class="col_correlation_sign tissue_panel">Corr.<br>Sign<br><div class="help"
+                  onclick="help_popup(this, 'pop_correlation_sign')"></div></th>
+              <th class="col_corr_pvalue tissue_panel">Corr.<br><i>p</i>-value<br>(unadjusted)<br><div class="help"
+                  onclick="help_popup(this, 'pop_corr_pvalue')"></div></th>
+              <th class="col_dist_pvalue">Distance<br>p-value<br>(unadjusted)<div class="help"
+                  onclick="help_popup(this, 'pop_dist_pvalue')"></div></th>
+              <th class="col_cnd_pvalue tissue_panel">CnD<br><i>p</i>-value<br>(unadjusted)<br><div class="help"
+                  onclick="help_popup(this, 'pop_cnd_pvalue')"></div></th>
+              <th class="col_qvalue">q-value<br><div class="help"
+                  onclick="help_popup(this, 'pop_qvalue')"></div></th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+        <div style="float:right; width:21%">
+          <h4>Filter &amp; Sort</h4>
+
+          <div style="margin: 5px 0;">
+            <h5>Sort&nbsp;<div class="help"
+                onclick="help_popup(this, 'pop_sorting')"></div></h5>
+            <div>
+              <label for="regulatory_link_sort"></label>
+              <select id="regulatory_link_sort"></select>
+            </div>
+            <script>populate_sort_lists();</script>
+          </div>
+          <div>
+            <input type="button" value="Update Filter & Sort" onclick="make_regulatory_links_table(false)">
+          </div>
+
+          <h5>Filters&nbsp;<div style="margin-top:5px;" class="help" 
+              onclick="help_popup(this, 'pop_filtering')" ></div></h5>
+          <div id="filters">
+	    <div >
+	      <input type="radio" name="filter_on_type" id="filter_on_links" value="1"
+		onclick="toggle_filter(this, 'filter_on_links')" >
+		<label for="links">Links</label>
+	      <input type="radio" name="filter_on_type" id="filter_on_genes" value="1" 
+		onclick="toggle_filter(this, 'filter_on_genes')" checked>
+		<label for="genes">Genes</label>
+	      <input type="radio" name="filter_on_type" id="filter_on_tsses" value="1"
+		onclick="toggle_filter(this, 'filter_on_tsses')" >
+		<label for="tsses">TSSes</label>
+	      <input type="radio" name="filter_on_type" id="filter_on_loci" value="1"
+		onclick="toggle_filter(this, 'filter_on_loci')" >
+		<label for="loci">RE Loci</label>
+	    </div>
+            <div >
+              <input type="checkbox" id="filter_on_top" value="1" 
+              onclick="toggle_filter(this, 'filter_top')" checked>
+              <label for="filter_top" 
+                onclick="enable_filter('filter_on_top', 'filter_top')">Top</label>
+              <input type="number" id="filter_top" value="1000" size="5" min="1" max="2000" step="1"
+              onkeypress="num_keys(event); update_filter(event)">
+            </div>
+            <div >
+              <input type="checkbox" id="filter_on_gene_id" value="1" 
+              onclick="toggle_filter(this, 'filter_gene_id')">
+              <label for="filter_gene_id" 
+                onclick="enable_filter('filter_on_gene_id', 'filter_gene_id')"
+                >Gene ID matches</label>
+              <input type="text" id="filter_gene_id" value=".*" size="12" 
+              onkeypress="update_filter(event)" disabled>
+            </div>
+            <div >
+              <input type="checkbox" id="filter_on_gene_name" value="1" 
+              onclick="toggle_filter(this, 'filter_gene_name')">
+              <label for="filter_gene_name" 
+                onclick="enable_filter('filter_on_gene_name', 'filter_gene_id')"
+                >Gene Name matches</label>
+              <input type="text" id="filter_gene_name" value=".*" size="12" 
+              onkeypress="update_filter(event)" disabled>
+            </div>
+            <div id="div_filter_on_tss_id">
+              <input type="checkbox" id="filter_on_tss_id" value="1" 
+              onclick="toggle_filter(this, 'filter_tss_id')">
+              <label for="filter_tss_id" 
+                onclick="enable_filter('filter_on_tss_id', 'filter_tss_id')"
+                >TSS ID matches</label>
+              <input type="text" id="filter_tss_id" value=".*" size="12" 
+              onkeypress="update_filter(event)" disabled>
+            </div>
+            <div >
+              <input type="checkbox" id="filter_on_tss_locus" value="1" 
+              onclick="toggle_filter(this, 'filter_tss_locus')">
+              <label for="filter_tss_locus" 
+                onclick="enable_filter('filter_on_tss_locus', 'filter_tss_locus')"
+                >TSS Locus matches</label>
+              <input type="text" id="filter_tss_locus" value=".*" size="12" 
+              onkeypress="update_filter(event)" disabled>
+            </div>
+            <div >
+              <input type="checkbox" id="filter_on_re_locus" value="1" 
+              onclick="toggle_filter(this, 'filter_re_locus')">
+              <label for="filter_re_locus" 
+                onclick="enable_filter('filter_on_re_locus', 'filter_re_locus')"
+                >RE Locus matches</label>
+              <input type="text" id="filter_re_locus" value=".*" size="12" 
+              onkeypress="update_filter(event)" disabled>
+            </div>
+            <div class="tissue_panel">
+              <input type="checkbox" id="filter_on_max_expr" value="1" 
+              onclick="toggle_filter(this, 'filter_max_expr')" >
+              <label for="filter_max_expr" 
+                onclick="enable_filter('filter_on_max_expr', 'filter_max_expr')">Maximum Expression &ge; </label>
+              <input type="number" id="filter_max_expr" value="0" size="5" min="0" step="1"
+              onkeypress="num_keys(event); update_filter(event)">
+            </div>
+            <div class="tissue_panel">
+              <input type="checkbox" id="filter_on_max_hist" value="1" 
+              onclick="toggle_filter(this, 'filter_max_hist')" >
+              <label for="filter_max_hist" 
+                onclick="enable_filter('filter_on_max_hist', 'filter_max_hist')">Maximum Histone Level &ge; </label>
+              <input type="number" id="filter_max_hist" value="0" size="5" min="0" step="1"
+              onkeypress="num_keys(event); update_filter(event)">
+            </div>
+            <div >
+              <input type="checkbox" id="filter_on_absolute_distance" value="1" 
+              onclick="toggle_filter(this, 'filter_absolute_distance_le'); toggle_filter(this, 'filter_absolute_distance_ge')">
+              <input type="text" id="filter_absolute_distance_ge" value="0" size="7" 
+              onkeypress="update_filter(event)" disabled>
+              <label for="filter_absolute_distance"
+                onclick="enable_filter('filter_on_absolute_distance', 'filter_absolute_distance')"
+                >&le;|Distance|&le;</label>
+              <input type="text" id="filter_absolute_distance_le" value="1000000" size="7" 
+              onkeypress="update_filter(event)" disabled>
+            </div>
+            <div >
+              <input type="checkbox" id="filter_on_distance" value="1" 
+              onclick="toggle_filter(this, 'filter_distance_le'); toggle_filter(this, 'filter_distance_ge')">
+              <input type="text" id="filter_distance_ge" value="-1000000" size="7" 
+              onkeypress="update_filter(event)" disabled>
+              <label for="filter_distance"
+                onclick="enable_filter('filter_on_distance', 'filter_distance')"
+                >&le; Distance &le;</label>
+              <input type="text" id="filter_distance_le" value="1000000" size="7" 
+              onkeypress="update_filter(event)" disabled>
+            </div>
+            <div >
+              <input type="checkbox" id="filter_on_closest_locus" value="1" 
+              onclick="toggle_filter(this, 'filter_closest_locus')">
+              <label for="filter_closest_locus" 
+                onclick="enable_filter('filter_on_closest_locus', 'filter_closest_locus')"
+                >CL (Closest Locus) matches</label>
+              <input type="text" id="filter_closest_locus" value=".*" size="8" 
+              onkeypress="update_filter(event)" disabled>
+            </div>
+            <div >
+              <input type="checkbox" id="filter_on_closest_tss" value="1" 
+              onclick="toggle_filter(this, 'filter_closest_tss')">
+              <label for="filter_closest_tss" 
+                onclick="enable_filter('filter_on_closest_tss', 'filter_closest_tss')"
+                >CT (Closest TSS) matches</label>
+              <input type="text" id="filter_closest_tss" value="T" size="8" 
+              onkeypress="update_filter(event)" disabled>
+            </div>
+            <div class="tissue_panel">
+              <input type="checkbox" id="filter_on_histone" value="1" 
+              onclick="toggle_filter(this, 'filter_histone')">
+              <label for="filter_histone" 
+                onclick="enable_filter('filter_on_histone', 'filter_histone')"
+                >Histone matches</label>
+              <input type="text" id="filter_histone" value=".*" size="12" 
+              onkeypress="update_filter(event)" disabled>
+            </div>
+            <div class="tissue_panel">
+              <input type="checkbox" id="filter_on_correlation_sign" value="1" 
+              onclick="toggle_filter(this, 'filter_correlation_sign')">
+              <label for="filter_on_correlation_sign"
+                onclick="enable_filter('filter_on_correlation_sign', 'filter_correlation_sign')"
+                >Correlation Sign</label>
+              <input type="text" id="filter_correlation_sign" value="+" size="1" 
+              onkeypress="update_filter(event)" disabled>
+            </div>
+            <div class="tissue_panel">
+              <input type="checkbox" id="filter_on_corr_pvalue" value="1" 
+              onclick="toggle_filter(this, 'filter_corr_pvalue')">
+              <label for="filter_corr_pvalue"
+                onclick="enable_filter('filter_on_corr_pvalue', 'filter_corr_pvalue')"
+                >Correlation <i>p</i>-value &le;</label>
+              <input type="text" id="filter_corr_pvalue" value="1" size="7" 
+              onkeypress="update_filter(event)" disabled>
+            </div>
+            <div >
+              <input type="checkbox" id="filter_on_dist_pvalue" value="1" 
+              onclick="toggle_filter(this, 'filter_dist_pvalue')">
+              <label for="filter_dist_pvalue"
+                onclick="enable_filter('filter_on_dist_pvalue', 'filter_dist_pvalue')"
+                >Distance <i>p</i>-value &le;</label>
+              <input type="text" id="filter_dist_pvalue" value="1" size="7" 
+              onkeypress="update_filter(event)" disabled>
+            </div>
+            <div class="tissue_panel">
+              <input type="checkbox" id="filter_on_cnd_pvalue" value="1" 
+              onclick="toggle_filter(this, 'filter_cnd_pvalue')">
+              <label for="filter_cnd_pvalue"
+                onclick="enable_filter('filter_on_cnd_pvalue', 'filter_cnd_pvalue')"
+                >CnD <i>p</i>-value &le;</label>
+              <input type="text" id="filter_cnd_pvalue" value="1" size="7" 
+              onkeypress="update_filter(event)" disabled>
+            </div>
+            <div >
+              <input type="checkbox" id="filter_on_qvalue" value="1" 
+              onclick="toggle_filter(this, 'filter_qvalue')">
+              <label for="filter_qvalue"
+                onclick="enable_filter('filter_on_qvalue', 'filter_qvalue')"
+                >q-value &le;</label>
+              <input type="text" id="filter_qvalue" value="1" size="7" 
+              onkeypress="update_filter(event)" disabled>
+            </div>
+          </div>
+          <div>
+            <input type="button" value="Update Filter & Sort" onclick="make_regulatory_links_table(false)">
+          </div>
+
+          <h4>Columns to display</h4>
+          <div id="display_columns">
+	    <div >
+	      <input type="checkbox" id="show_gene_id" value="1" 
+	      onclick="toggle_column('hide_gene_id')" checked>
+	      <label for="show_gene_id">Show Gene ID</label>
+	    </div>
+	    <div >
+	      <input type="checkbox" id="show_gene_name" value="1" 
+	      onclick="toggle_column('hide_gene_name')" checked>
+	      <label for="show_gene_name">Show Gene Name</label>
+	    </div>
+	    <div id="div_show_tss_id">
+	      <input type="checkbox" id="show_tss_id" value="1" 
+	      onclick="toggle_column('hide_tss_id')" checked>
+	      <label for="show_tss_id">Show TSS ID</label>
+	    </div>
+	    <div >
+	      <input type="checkbox" id="show_tss_locus" value="1" 
+	      onclick="toggle_column('hide_tss_locus')" checked>
+	      <label for="show_tss_locus">Show TSS Locus</label>
+	    </div>
+	    <div >
+	      <input type="checkbox" id="show_strand" value="1" 
+	      onclick="toggle_column('hide_strand')" checked>
+	      <label for="show_strand">Show Strand</label>
+	    </div>
+	    <div class="tissue_panel">
+	      <input type="checkbox" id="show_max_expr" value="1" 
+	      onclick="toggle_column('hide_max_expr')" checked>
+	      <label for="show_max_expr">Show Maximum Expression</label>
+	    </div>
+	    <div class="tissue_panel">
+	      <input type="checkbox" id="show_max_hist" value="1" 
+	      onclick="toggle_column('hide_max_hist')" checked>
+	      <label for="show_max_hist">Show Maximum Histone Level</label>
+	    </div>
+	    <div >
+	      <input type="checkbox" id="show_re_locus" value="1" 
+	      onclick="toggle_column('hide_re_locus')" checked>
+	      <label for="show_re_locus">Show RE Locus</label>
+	    </div>
+	    <div >
+	      <input type="checkbox" id="show_distance" value="1" 
+	      onclick="toggle_column('hide_distance')" checked>
+	      <label for="show_distance">Show Distance</label>
+	    </div>
+	    <div >
+	      <input type="checkbox" id="show_closest_locus" value="1" 
+	      onclick="toggle_column('hide_closest_locus')" checked>
+	      <label for="show_closest_locus">Show CL (Closest Locus)</label>
+	    </div>
+	    <div >
+	      <input type="checkbox" id="show_closest_tss" value="1" 
+	      onclick="toggle_column('hide_closest_tss')" checked>
+	      <label for="show_closest_tss">Show CT (Closest TSS)</label>
+	    </div>
+	    <div class="tissue_panel">
+	      <input type="checkbox" id="show_histone" value="1" 
+	      onclick="toggle_column('hide_histone')" checked>
+	      <label for="show_histone">Show Histone</label>
+	    </div>
+	    <div class="tissue_panel">
+	      <input type="checkbox" id="show_correlation" value="1" 
+	      onclick="toggle_column('hide_correlation')" checked>
+	      <label for="show_correlation">Show Correlation </label>
+	    </div>
+	    <div class="tissue_panel">
+	      <input type="checkbox" id="show_correlation_sign" value="1" 
+	      onclick="toggle_column('hide_correlation_sign')" checked>
+	      <label for="show_correlation_sign">Show Correlation Sign</label>
+	    </div>
+	    <div class="tissue_panel">
+	      <input type="checkbox" id="show_corr_pvalue" value="1" 
+	      onclick="toggle_column('hide_corr_pvalue')" checked>
+	      <label for="show_corr_pvalue">Show Correlation <i>p</i>-value</label>
+	    </div>
+	    <div >
+	      <input type="checkbox" id="show_dist_pvalue" value="1" 
+	      onclick="toggle_column('hide_dist_pvalue')" checked>
+	      <label for="show_dist_pvalue">Show Distance <i>p</i>-value</label>
+	    </div>
+	    <div class="tissue_panel">
+	      <input type="checkbox" id="show_cnd_pvalue" value="1" 
+	      onclick="toggle_column('hide_cnd_pvalue')" checked>
+	      <label for="show_cnd_pvalue">Show CnD <i>p</i>-value</label>
+	    </div>
+	    <div >
+	      <input type="checkbox" id="show_qvalue" value="1" 
+	      onclick="toggle_column('hide_qvalue')" checked>
+	      <label for="show_qvalue">Show q-value</label>
+	    </div>
+          </div>
+        </div>
+        <div style="clear:both"></div>
+      </div>
+    </div>
+    <h2 id="inputs" class="mainh pad2">Input Files</h2>
+    <div class="box">
+      <h4>Locus File</h4>
+      <p> <span id="ins_locus_file"></span> </p>
+      <h4>Annotation File</h4>
+      <p> <span id="ins_annotation_file"></span> </p>
+      <script>
+      {
+        $("ins_locus_file").innerHTML = data['options']['locus_file'];
+        $("ins_annotation_file").innerHTML = data['options']['annotation_file'];
+      }
+      </script>
+
+      <h4>Other Settings</h4>
+      <table id="tbl_settings" class="inputs hide_advanced">
+	<tr>
+	  <th>Transcript Types</th>
+	  <td id="opt_transcript_types"></td>
+	</tr>
+	<tr>
+	  <th>Maximum Link Distances</th>
+	  <td id="opt_max_link_distances"></td>
+	</tr>
+	<tr>
+	  <th>Maximum <i>p</i>-value</th>
+	  <td id="opt_max_pvalue"></td>
+	</tr>
+	<tr class="tissue_panel">
+	  <th>Tissues </th>
+	  <td id="opt_tissues"></td>
+	</tr>
+	<tr class="tissue_panel">
+	  <th>Histone Root</th>
+	  <td id="opt_histone_root"></td>
+	</tr>
+	<tr class="tissue_panel">
+	  <th>Histone</th>
+	  <td id="opt_histones"></td>
+	</tr>
+	<tr class="tissue_panel">
+	  <th>RNA Source</th>
+	  <td id="opt_rna_source"></td>
+	</tr>
+	<tr class="tissue_panel">
+	  <th>Expression Root</th>
+	  <td id="opt_expression_root"></td>
+	</tr>
+	<tr class="tissue_panel">
+	  <th>Use Gene IDs</th>
+	  <td id="opt_use_gene_ids"></td>
+	</tr>
+	<tr class="tissue_panel">
+	  <th>Low Expression Correlation Adjustment Threshold</th>
+	  <td id="opt_lecat"></td>
+	</tr>
+	<tr>
+	  <th>Include CL (Closest Locus)</th>
+	  <td id="opt_inc_closest_locus"></td>
+	</tr>
+	<tr>
+	  <th>Include CT (Closest TSS)</th>
+	  <td id="opt_inc_closest_tss"></td>
+	</tr>
+	<tr class="tissue_panel">
+	  <th>Add noise to zero expression and histone values</th>
+	  <td id="opt_noise"></td>
+	</tr>
+	<tr class="tissue_panel">
+	  <th>Random number seed</th>
+	  <td id="opt_seed"></td>
+	</tr>
+	<tr class="tissue_panel">
+	  <th>Number of Permutations</th>
+	  <td id="opt_n_perms"></td>
+	</tr>
+	<tr class="tissue_panel">
+	  <th>Noise Fraction</th>
+	  <td id="opt_noise_fraction"></td>
+	</tr>
+      </table>
+      <script> make_other_settings(); </script>
+
+    </div>
+
+    <div id="info_sec" class="bar">
+      <div class="subsection">
+        <a name="version"/>
+        <h5>T-Gene version</h5>
+        <span id="ins_version"></span>
+        (Release date: <span id="ins_release"></span>)
+        <script>
+          $("ins_version").innerHTML = data["version"];
+          $("ins_release").innerHTML = data["release"];
+        </script> 
+      </div>
+      <div class="subsection" id="reference"> <script>print_citation("reference", "T-Gene");</script></div>
+      <div class="subsection">
+        <a name="command" />
+        <h5>Command line summary</h5>
+        <textarea id="cmd" rows="5" style="width:100%;" readonly="readonly">
+        </textarea>
+        <script>$("cmd").value = data["cmd"].join(" ");</script>
+      </div>
+    </div>
+  </body>
+</html>

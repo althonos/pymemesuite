@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>BED Format - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+    <h2>BED Genomic Loci Format</h2>
+
+    <h3>Description</h3>
+    <div class="indent">
+      <p>Various MEME Suite programs require as input a file containing
+      genomic loci.  These input files must be in BED format, which must be <b>plain text</b>,
+      not WORD, .doc, .docx, .rtf or any other word-processor format.</p>
+    </div>
+
+    <h3>Format Specification</h3>
+    <div class="indent">
+      <p>
+      BED (Browser Extensible Data) format provides a flexible way to define the loci of genomic regions.
+      Below, we give a brief description of BED format, as used by some of the MEME Suite tools.
+      For a more complete definition, please see the original document at UCSC describing the
+      <a href="https://genome.ucsc.edu/FAQ/FAQformat.html#format1"> BED Format</a>.
+      </p>
+      <p>
+	The first three required BED fields are: 
+      </p>
+      <ol>
+	<li> 
+	<strong>chrom</strong> - The name of the chromosome (e.g. chr3, chrY, chr2_random) or scaffold 
+	(e.g.  scaffold10671).</li>
+	<li>
+	<strong>chromStart</strong> - The starting position of the feature in the chromosome or scaffold. 
+	The first base in a chromosome is numbered 0.</li>
+	<li>
+	<strong>chromEnd</strong> - The ending position of the feature in the chromosome or scaffold. The 
+	<em>chromEnd</em> base is not included in the display of the feature, however,
+	the number in <a href="https://genome.ucsc.edu/FAQ/FAQtracks#tracks1">position format</a> will be represented. For example,
+	the first 100 bases of chromosome 1 are defined as <em>chrom=1, chromStart=0, chromEnd=100</em>,
+	and span the bases numbered 0-99 in our software (not 0-100), but will represent the
+	position notation chr1:1-100. Read more
+	<a href="http://genome.ucsc.edu/blog/the-ucsc-genome-browser-coordinate-counting-systems/">here</a>.</li>
+      </ol>
+      <p>The 9 additional optional BED fields are:</p>
+      <ol start=4>
+	<li>
+	  <strong>name</strong> - Defines the name of the BED line. 
+	  The MEME Suite tools ignore the contents of this field.
+	</li>
+	<li>
+	  <strong>score</strong> - A score between 0 and 1000.
+	<li>
+	  <strong>strand</strong> - Defines the strand. Either "." (=no strand) or "+" or "-".
+	</li>
+	<li>
+	  <strong>thickStart</strong> - The MEME Suite tools ignore the contents of this field.
+	</li>
+	<li>
+	  <strong>thickEnd</strong> - The MEME Suite tools ignore the contents of this field.
+	</li>
+	<li>
+	  <strong>itemRgb</strong> - The MEME Suite tools ignore the contents of this field.
+	</li>
+	<li>
+	  <strong>blockCount</strong> - The MEME Suite tools ignore the contents of this field.
+	</li>
+	<li>
+	  <strong>blockSizes</strong> - The MEME Suite tools ignore the contents of this field.
+	</li>
+	<li>
+	  <strong>blockStarts</strong> - The MEME Suite tools ignore the contents of this field.
+	</li>
+      </ol>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>SEA verification</title>
+<link href="../css/status.css" rel="stylesheet" type="text/css" />
+<script src="../doc/js/utilities.js"></script>
+<script src="../js/status.js"></script>
+<script>
+var verify = 
+<!--{message}-->
+{
+  "items": [
+    {
+      "type": "sequences",
+      "name": "(Primary) Sequences",
+      "key": "posSeq"
+    },
+    {
+      "type": "sequences",
+      "name": "Control Sequences",
+      "key": "negSeq"
+    },
+    {
+      "type": "motifs",
+      "name": "Motifs",
+      "key": "motifs"
+    },
+    {
+      "type": "count",
+      "name": "Markov order",
+      "key": "order",
+      "any": "Using order = !!VALUE!! for shuffling sequences and creating background model (if not provided)."
+    },
+    {
+      "type": "background",
+      "name": "Background Model",
+      "key": "background"
+    },
+    {
+      "type": "number",
+      "name": "Reporting Threshold",
+      "key": "evalue_report_threshold",
+      "any": "Reporting enriched motifs with <i>E</i>-value &le; !!VALUE!!."
+    },
+    {
+      "type" : "choice",
+      "name": "Site Positional Distribution Plots",
+      "key": "align",
+      "options": {
+        "left": "Sequences are aligned on their left ends.",
+        "center": "Sequences are aligned on their centers.",
+        "right": "Sequences are aligned on their right ends.",
+      }
+    }
+  ]
+}<!--{/message}-->;
+
+</script>
+</head>
+<body>
+<!--{title}-->SEA<!--{/title}--> - <!--{subtitle}-->Simple Enrichment Analysis<!--{/subtitle}--><br>
+<!--{logo}-->doc/images/sea_icon.png<!--{/logo}-->: <!--{alt}-->SEA Logo<!--{/alt}--><br>
+<div id="info"></div>
+<script>display_job_information($("info"), verify["items"], data);</script>
+</body>
+</html>
+

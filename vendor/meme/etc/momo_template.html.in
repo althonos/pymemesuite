@@ -1,0 +1,328 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>MoMo results</title>
+    <script src="momo_data.js"></script>
+    <script src="constants.js"></script>
+    <script src="utilities.js"></script>
+    <script src="simple-shared-doc.js"></script>
+    <script src="momo_doc.js"></script>
+    <script src="momo_template.js"></script>
+    <script src="citation.js"></script>
+    <link rel="stylesheet" type="text/css" href="momo_template.css">
+    <link rel="stylesheet" type="text/css" href="meme.css">
+  </head>
+  <body onload="page_loaded()" onpageshow="page_shown(event)" onresize="update_scroll_pad()">
+    <!-- Help popups -->
+    <div class="pop_content_wide" id="pop_tsv">
+      <script>print_doc("pop_tsv", "momo", "momo-tsv-description");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_meme">
+      <script>print_doc("pop_meme", "momo", "momo-meme-output");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_logo">
+      <script>print_doc_para("pop_logo", "momo", "momo-logo");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_mod">
+      <script>print_doc_para("pop_mod", "momo", "momo-mod");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_motif">
+      <script>print_doc_para("pop_motif", "momo", "momo-motif");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_regexp">
+      <script>print_doc_para("pop_regexp", "momo", "momo-regexp");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_score">
+      <script>print_doc_para("pop_score", "momo", "momo-score");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_fg">
+      For the simple algorithm: fg_match <br>
+      For the other algorithms: fg_match / fg_size <br>
+      <p>
+      <script>print_doc_para("pop_fg", "momo", "momo-fg-size");</script>
+      </p>
+      <p>
+      <script>print_doc_para("pop_fg", "momo", "momo-fg");</script>
+      </p>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_bg">
+      For the simple algorithm: bg_match <br>
+      For the other algorithms: bg_match / bg_size <br>
+      <p>
+      <script>print_doc_para("pop_bg", "momo", "momo-bg-size");</script>
+      </p>
+      <p>
+      <script>print_doc_para("pop_bg", "momo", "momo-bg");</script>
+      </p>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_fold">
+      <script>print_doc_para("pop_fold", "momo", "momo-fold");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_unadjusted_p">
+      <script>print_doc_para("pop_unadjusted_p", "momo", "momo-unadjusted-p");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_n_tests">
+      <script>print_doc_para("pop_n_tests", "momo", "momo-n-tests");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_adjusted_p">
+      <script>print_doc_para("pop_adjusted_p", "momo", "momo-adjusted-p");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_occurrences">
+      <script>print_doc_para("pop_occurrences", "momo", "momo-occurrences");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_modl_log">
+      <script>print_doc_para("pop_modl_log", "momo", "momo-modl-log");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <!-- Page start -->
+    <div class="prog_logo big">
+      <img src="momo_icon.png" alt="MoMo Logo">
+      <h1>MoMo</h1>
+      <h2>Modification Motifs</h2>
+    </div>
+    <p>
+      For further information on how to interpret these results please access
+      <a href="@SITE_URL@/doc/momo-output-format.html">@SITE_URL@/doc/momo-output-format.html</a>.<br>
+      To get a copy of the MEME software please access 
+      <a href="@SOURCE_URL@">@SOURCE_URL@</a>. 
+    </p>
+    <p id="citation"> <script>print_citation("citation", "MoMo");</script></p>
+    <!-- navigation -->
+    <div class="pad2">
+      <a class="jump" href="#data_sec">Discovered Motifs</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="#input_sec">Inputs & Settings</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="#info_sec">Program information</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="momo.tsv">Results in TSV Format</a>&nbsp;<span id="tsv_help"></span>
+      <script>
+        make_help_button($("tsv_help"), "pop_tsv");
+      </script>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="momo.txt">Results in MEME Format</a>&nbsp;<span id="meme_help"></span>
+      <script>
+        make_help_button($("meme_help"), "pop_meme");
+      </script>
+    </div>
+    <!-- alert the user when their browser is not up to the task -->
+    <noscript><h1 style="color:red">Javascript is required to view these results!</h1></noscript>
+    <script>
+      if (!window.HTMLCanvasElement)
+        document.write("<h1 style=\"color:red\">Your browser does not support canvas!</h1>\n");
+    </script>
+    <!-- write out the job description -->
+    <script>
+      if (data['job_description']) {
+        document.write('<h2 id="description">Description</h2>\n');
+        document.write('<div class="box">\n');
+        var paragraphs = data['job_description'].split("\n\n");
+        for (var i = 0; i < paragraphs.length; i++) {
+          document.write('<p>');
+          document.write(paragraphs[i].split("\n").join('<br>'));
+          document.write('</p>\n');
+        }
+        document.write('</div>\n');
+      }
+    </script>
+    <h2 class="mainh pad2" id="data_sec">Discovered Motifs</h2>
+    <div class="box">
+      <table class="results" id="results">
+	<thead>
+	  <tr>
+            <th class="col_logo">Motif Logo&nbsp;<div class="help"
+                onclick="help_popup(this, 'pop_logo')"></div></th>
+            <th class="col_mod">Mod&nbsp;<div class="help"
+                onclick="help_popup(this, 'pop_mod')"></div></th>
+            <th class="col_motif">Motif&nbsp;<div class="help"
+                onclick="help_popup(this, 'pop_motif')"></div></th>
+            <th class="col_regexp">Regular Expression&nbsp;<div class="help"
+                onclick="help_popup(this, 'pop_regexp')"></div></th>
+            <th class="col_score">Score&nbsp;<div class="help"
+                onclick="help_popup(this, 'pop_score')"></div></th>
+            <th class="col_fg">FG&nbsp;<div class="help"
+                onclick="help_popup(this, 'pop_fg')"></div></th>
+            <th class="col_bg">BG&nbsp;<div class="help"
+                onclick="help_popup(this, 'pop_bg')"></div></th>
+            <th class="col_fold" center>Fold Enrichment&nbsp;<div class="help"
+                onclick="help_popup(this, 'pop_fold')"></div></th>
+            <th class="col_unadjusted_p">Unadjusted <i>p</i>-value&nbsp;<div class="help"
+                onclick="help_popup(this, 'pop_unadjusted_p')"></div></th>
+            <th class="col_n_tests">Tests&nbsp;<div class="help"
+                onclick="help_popup(this, 'pop_n_tests')"></div></th>
+            <th class="col_adjusted_p">Adjusted <i>p</i>-value&nbsp;<div class="help"
+                onclick="help_popup(this, 'pop_adjusted_p')"></div></th>
+            <th class="col_occurrences">Motif Occurrences&nbsp;<div class="help"
+                onclick="help_popup(this, 'pop_occurrences')"></div></th>
+            <th class="col_modl_log">MoDL Log&nbsp;<div class="help"
+                onclick="help_popup(this, 'pop_modl_log')"></div></th>
+          </tr>
+        <tbody>
+        </tbody>
+        </thead>
+      </table>
+      <script>
+        make_results_table();
+      </script>
+    </div>
+
+    <h2 id="input_sec" class="mainh pad2">Inputs & Settings</h2>
+    <div class="box">
+
+	<script>
+          {
+            document.write("<h4>Algorithm</h4>\n");
+            document.write("<ul>\n");
+            document.write("<li><b>Name:</b> " + data['options']['algorithm'] + "</li>\n");
+            document.write("<li><b>Motif Width:</b> " + data['options']['width'] + "</li>\n");
+            if (data['options']['algorithm'] != "motif-x") {
+              document.write("<li><b>Minimum Occurrences for Motifs:</b> " + data['options']['min_occurrences'] + "</li>\n");
+            } else {
+              document.write("<li><b>Minimum Occurrences for Residue/Position pair:</b> " + data['options']['min_occurrences'] + "</li>\n");
+            }
+            if (data['options']['algorithm'] == "motif-x") {
+              document.write("<li><b>Binomial probability threshold for Residue/Position pair:</b> " + data['options']['score_threshold'] + "</li>\n");
+              document.write("<li><b>Binomial <i>p</i>-value calculations:</b> " + 
+                (data['options']['harvard'] ? "inaccurate (emulating original motif-x)" : "accurate") + 
+                "</li>\n"
+              );
+            }
+            if (data['options']['algorithm'] == "MoDL") {
+              document.write("<li><b>MoDL stops after no decrease in MDL for</b> " + data['options']['max_no_decrease'] + " <b>iterations.</b></li>\n");
+              document.write("<li><b>MoDL stops after</b> " + data['options']['max_iterations'] + " <b>iterations.</b></li>\n");
+              document.write("<li><b>MoDL stops after</b> " + data['options']['max_motifs'] + " <b>motifs.</b></li>\n");
+            }
+ 
+            document.write("</ul>\n");
+
+            document.write("<h4>Post-translationally modified peptides</h4>\n");
+            document.write("<table class=\"inputs\">\n");
+            if (data['options']['filetype'] == "PSM") {
+              document.write("<tr><th><b>File Name</th><th>File Type</th><th>PSM Format</th><th>modified peptide column</th></tr>\n");
+            } else {
+              document.write("<tr><th><b>File Name</th><th>File Type</th></tr>\n");
+            }
+	    var ptm_files = data['ptm_files'];
+	    for (var i = 0; i < ptm_files.length; i++) {
+              document.write("<tr><td>" + ptm_files[i] + "</td><td>" + data['options']['filetype'] + "</td>\n");
+	      if (data['options']['filetype'] == "PSM") {
+		document.write("<td>" + 
+                  (data['options']['psm_type'] ? data['options']['psm_type'] : "not specified") + 
+		  "<td>'" + data['options']['sequence_column'] + "'" +
+                  "</td></tr>\n");
+	      }
+            }
+            document.write("</table>\n");
+
+            document.write("<ul>\n");
+	    document.write("<li><b>Number of Mods:</b> " + 
+	      data['summary']['num_mod'] + "</li>\n");
+	    document.write("<li><b>Number of Mod Types:</b> " + 
+	      data['summary']['num_modtype'] + "</li>\n");
+	    document.write("<li><b>Number of Mods Passing Filters:</b> " + 
+	      data['summary']['num_mod_passing'] + "</li>\n");
+	    document.write("<li><b>Number of Mod Types Passing Filters:</b> " + 
+	      data['summary']['num_modtype_passing'] + "</li>\n");
+            document.write("</ul>\n");
+
+            document.write("<h4>Protein Database and Control Peptides</h4>\n");
+            document.write("<ul>\n");
+            document.write("<li><b>Protein Database:</b> " + 
+	      (data['options']['protein_database'] ? data['options']['protein_database'] : "none provided") + 
+              "</li>\n");
+	    if (data['options']['protein_database_format']) {
+              document.write("<li><b>Protein Database Format:</b> " + 
+                data['options']['protein_database_format'] + "</li>\n");
+            }
+	    if (data['options']['hash_fasta_width'] != 0) {
+              document.write("<li><b>Hash size used to search protein database for peptides:</b> " + data['options']['hash_fasta_width'] + "-mers</li>\n");
+            }
+            if (data['options']['algorithm'] != "simple") {
+	      if (data['options']['db_background']) {
+		document.write("<li><b>Control peptides extracted from protein database:</b> " + data['summary']['num_bg_mod'] + "</li>\n");
+	      } else {
+		document.write("<li><b>Control peptides from shuffled input peptides:</b> " + data['summary']['num_bg_mod'] + "</li>\n");
+	      }
+            }
+            document.write("</ul>\n");
+          }
+	</script>
+
+      <h4>Other Settings</h4>
+      <table id="tbl_settings" class="inputs hide_advanced">
+        <tr>
+          <th>filter foreground peptides?</th>
+          <td id="opt_filter"></td>
+        </tr>
+        <tr>
+          <th>remove peptides if they contain 'X'?</th>
+          <td id="opt_remove_unknowns"></td>
+        </tr>
+        <tr>
+          <th>eliminate duplicate peptides?</th>
+          <td id="opt_eliminate_repeats"></td>
+        </tr>
+        <tr>
+          <th>generate single motif per mass?</th>
+          <td id="opt_single_motif_per_mass"></td>
+        </tr>
+        <tr>
+          <th>random number seed</th>
+          <td id="opt_seed"></td>
+        </tr>
+      </table>
+      <script> make_other_settings(); </script>
+    </div>
+
+    <div id="info_sec" class="bar">
+      <div class="subsection">
+        <h5 id="version">MoMo version</h5>
+        <span id="ins_version"></span>
+        (Release date: <span id="ins_release"></span>)
+        <script>
+          $("ins_version").innerHTML = data["version"];
+          $("ins_release").innerHTML = data["release"];
+        </script>
+      </div>
+      <div class="subsection" id="reference"> <script>print_citation("reference", "MoMo");</script></div>
+      <div class="subsection">
+	<h5 id="command">Command line summary</h5>
+	<textarea id="cmd" rows="5" style="width:100%;" readonly="readonly">
+	</textarea>
+	<script>$("cmd").value = data["cmd"].join(" ");</script>
+      </div>
+    </div>
+    <div id="scrollpad"></div>
+  </body>
+</html>

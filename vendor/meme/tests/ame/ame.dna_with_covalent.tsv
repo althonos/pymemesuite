@@ -1,0 +1,14 @@
+rank	motif_DB	motif_ID	motif_alt_ID	consensus	p-value	adj_p-value	E-value	tests	FASTA_max	pos	neg	PWM_min	TP	%TP	FP	%FP
+1	common/dna_with_covalent.meme	TGCm1C	Gm1GCA	TGCm1C	1.10e-300	1.21e-297	1.09e-296	1104	2499	2499	2499	4.33	973	38.94	25	1.00
+2	common/Jaspar-subset2.meme	MA0039.1	Klf4	WARRGRAAGG	1.13e-273	3.72e-270	3.35e-269	3294	2499	2499	2499	1.69	1577	63.11	388	15.53
+3	common/Jaspar-subset.meme	MA0039.2	Klf4	DGGGYGKGGC	1.75e-27	1.42e-24	1.28e-23	814	2499	2499	2499	2.31	285	11.40	88	3.52
+4	common/Jaspar-subset.meme	MA0091.1	TAL1::TCF3	NSAMCATCTGKT	1.28e-23	1.41e-20	1.27e-19	1099	2499	2499	2499	2.56	254	10.16	81	3.24
+5	common/Jaspar-subset.meme	MA0035.2	Gata1	DSAGATAAGVV	3.79e-14	5.93e-11	5.34e-10	1566	2499	2499	2499	1.29	587	23.49	378	15.13
+6	common/dna_with_covalent.meme	TGCmGC	GC1GCA	TGCmGC	6.94e-4	1.52e-1	1.37e0	237	2499	2499	2499	33.5	31	1.24	10	0.40
+7	common/dna_with_covalent.meme	Tm1m1m1m1m1m1m1m1m1m1m1m1	m1m1m1m1m1m1m1m1m1m1m1m1A	Tm1m1m1m1m1m1m1m1m1m1m1m1	5.00e-1	5.00e-1	4.50e0	1	2499	2499	2499	3.83e+06	1	0.04	0	0.00
+8	common/Jaspar-subset.meme	MA0443.1	btd	RRGGGGCGKR	8.75e-1	1.00e0	9.00e0	819	2499	2499	2499	26	1	0.04	2	0.08
+9	common/Jaspar-subset2.meme	MA0443.1	btd	RRGGGGCGKR	8.75e-1	1.00e0	9.00e0	819	2499	2499	2499	26	1	0.04	2	0.08
+
+# AME (Analysis of Motif Enrichment): Version 5.4.0 compiled on May 20 2021 at 11:57:07
+# The format of this file is described at https://meme-suite.org/meme/doc/ame-output-format.html.
+# ame --oc results/ame41 --verbose 1 --xalph common/dna_with_covalent.alph --inc MA00* --inc MA04* --exc MA007* --inc T* --bgfile common/dna_with_covalent.bg --kmer 1 --control --shuffle-- --motif-pseudo 1 common/dna_with_covalent.fa common/Jaspar-subset.meme common/Jaspar-subset2.meme common/dna_with_covalent.meme

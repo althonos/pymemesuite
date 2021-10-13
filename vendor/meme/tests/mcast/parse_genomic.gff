@@ -1,0 +1,12 @@
+##gff-version 3
+iYHR018C	MCAST	transcriptional_cis_regulatory_region	281	301	12.7	.	.	ID=cluster-14;pvalue=0.0542;evalue=1.84;qvalue=0.63
+iYNL005C	MCAST	transcriptional_cis_regulatory_region	710	730	 11	.	.	ID=cluster-23;pvalue=0.0797;evalue=2.71;qvalue=0.63
+iYOL059W	MCAST	transcriptional_cis_regulatory_region	475	638	10.8	.	.	ID=cluster-26;pvalue=0.0828;evalue=2.81;qvalue=0.63
+iYER052C	MCAST	transcriptional_cis_regulatory_region	387	407	9.32	.	.	ID=cluster-8;pvalue=0.117;evalue=3.98;qvalue=0.63
+iYJL089W	MCAST	transcriptional_cis_regulatory_region	128	200	8.96	.	.	ID=cluster-18;pvalue=0.127;evalue=4.32;qvalue=0.63
+iYDR126W	MCAST	transcriptional_cis_regulatory_region	103	123	8.23	.	.	ID=cluster-6;pvalue=0.15;evalue=5.1;qvalue=0.63
+iYMR062C	MCAST	transcriptional_cis_regulatory_region	246	266	8.19	.	.	ID=cluster-22;pvalue=0.152;evalue=5.16;qvalue=0.63
+iYOR107W	MCAST	transcriptional_cis_regulatory_region	587	607	8.02	.	.	ID=cluster-29;pvalue=0.158;evalue=5.37;qvalue=0.63
+iYJR109C	MCAST	transcriptional_cis_regulatory_region	443	463	7.78	.	.	ID=cluster-19;pvalue=0.167;evalue=5.67;qvalue=0.63
+iYGR267C	MCAST	transcriptional_cis_regulatory_region	143	163	6.3	.	.	ID=cluster-13;pvalue=0.234;evalue=7.97;qvalue=0.773
+iYEL063C	MCAST	transcriptional_cis_regulatory_region	459	479	5.77	.	.	ID=cluster-7;pvalue=0.264;evalue=8.99;qvalue=0.773

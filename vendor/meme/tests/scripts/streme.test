@@ -1,0 +1,106 @@
+my @objfuns = ('de', 'cd');
+my @datasets = ('crp0', 'adh', 'Klf1-200-100', 'Klf1-200');
+my $n_basic_dsets = @datasets;
+if (&is_comprehensive()) {
+  push(@datasets, 'INO_up800', 'farntrans5', 'lipocalin', 'Puf3p', 'dna_with_covalent');
+}
+my %params = (
+  'crp0' => ['-dna', '-usepv', '-minw', 16, '-maxw', 20, '-hofract', 0.1],
+  'INO_up800' => ['-dna', '-hofract', 0.2],
+  'farntrans5' => ['-protein', '-maxw', 25, '-hofract', 0.2], 
+  'lipocalin' => ['-protein', '-maxw', 20, '-hofract', 0.2], 
+  'adh' => ['-protein', '-niter', 10, '-hofract', 0.2],
+  'Klf1-200-100' => ['-dna', '-neval', 20, '-useer', '-hofract', 0.2],
+  'Klf1-200' => ['-dna', '-nref', 5, '-hofract', 0.2],
+  'Puf3p' => ['-rna', '-pvt', '1e-10', '-hofract', 0.2],
+  'dna_with_covalent' => ['-alph', 'common/dna_with_covalent.alph', '-nmotifs', 2, '-hofract', 0.2]
+);
+my %obj_params = (
+  'de' => ['-objfun', 'de', '-order', 1, '-nmotifs', 2],
+  'cd' => ['-objfun', 'cd', '-minw', 6, '-maxw', 10, '-pvt', 0.001, '-patience', 2]
+);
+
+# extensions for each type of data
+my %extensions= (
+  'text' => 'txt', 
+  'xml' => 'xml',
+  'json' => 'html'  
+);
+# type of data for each extension
+my %types= (
+  'txt' => 'text', 
+  'xml' => 'xml',
+  'html' => 'json' 
+);
+# parts to ignore in STREME text, HTML or XML output
+my %streme_ignore = (
+  'text' => [
+    'bioRxiv', 'Release date', 'http:', 'https:', 'MOTIFS', 'FINALTIME:', 'CPU:',
+    'COMMAND:', 'Background letter frequencies'
+  ], 
+  'json' => [
+    '^data:(version|release|cmd)', 
+    '^data:runtime',
+    'elapsed_time'
+  ], 
+  'xml' => [
+    'STREME@(version|release)', 'STREME:model:command_line#value$',
+    'STREME:motifs:motif@elapsed_time',
+    'STREME:model:host',
+    'STREME:run_time'
+  ]
+);
+
+my $streme = 'streme';
+my $bin = 'src';
+
+my $counter = 1;
+
+foreach my $obj (@objfuns) {
+  my $i_dset;
+  for ($i_dset=0; $i_dset<@datasets; $i_dset++) {
+    my $dset = $datasets[$i_dset];
+    next if ($dset eq 'Klf1-200' && !($obj eq 'cd')); 		# only CD on Klf1-200
+    next if (($obj eq 'cd') && !($dset eq 'Klf1-200'));		# CD only on Klf1-200
+    next if (($obj ne 'de') && ($dset eq 'dna_with_covalent'));	# DE only on dna_with_covalent
+    my $reference_root = catfile('streme', 'streme.'.$dset.'.'.$obj);
+    my $ext = ($dset =~ /Klf1|dna_with_covalent/) ? '.fa' : '.s';
+    &test('streme'.$counter, '',
+      $streme, '',
+      [
+	'-p', catfile('common', $dset . $ext), 
+	'-oc', 'results/streme'.$counter,
+	@{$obj_params{$obj}},
+	@{$params{$dset}}, 
+	'-verbosity', 1
+      ],
+      [
+	{
+	  output => 'results/streme'.$counter.'/streme.txt', 
+	  reference => make_test_src_path($reference_root.'.txt'),
+	  type => 'text',
+	  ignore => $streme_ignore{'text'}
+	},
+	{
+	  output => 'results/streme'.$counter.'/streme.xml', 
+	  reference => make_test_src_path($reference_root.'.xml'),
+	  type => 'xml',
+	  ignore => $streme_ignore{'xml'}
+	},
+	{
+	  output => 'results/streme'.$counter.'/streme.html', 
+	  reference => make_test_src_path($reference_root.'.html'),
+	  type => 'json',
+	  ignore => $streme_ignore{'json'}
+	},
+	{
+	  output => 'results/streme'.$counter.'/sequences.tsv',
+	  reference => make_test_src_path($reference_root.'.sequences.tsv'),
+	  type => 'text', ignore => ['^#']
+	}
+      ],
+      catdir('results', 'streme' . $counter), $bin
+    );
+    $counter++;
+  } # dset
+} # obj

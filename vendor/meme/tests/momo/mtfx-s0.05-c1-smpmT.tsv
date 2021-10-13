@@ -1,0 +1,6 @@
+mod	motif	regexp	score	fg_match	fg_size	bg_match	bg_size	fg/bg	unadjusted_p-value
+79.9	xRx_X79.9_xxx	.R.....	2.20	21	249	214	4629	1.8	8.1e-003
+
+# MoMo (Modification Motifs): Version 5.4.0 compiled on May 20 2021 at 11:57:28
+# The format of this file is described at https://meme-suite.org/meme/doc/momo-output-format.html.
+# momo motifx --oc results/momo12 --psm-type tide --db-background --protein-database /Users/t.bailey/meme_git/meme-xstreme/tests/momo/small-yeast.fasta --score-threshold 0.05 --min-occurrences 1 --single-motif-per-mass --harvard /Users/t.bailey/meme_git/meme-xstreme/tests/momo/small-tide-mod.txt

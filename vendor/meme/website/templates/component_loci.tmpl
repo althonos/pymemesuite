@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Loci Input Template</title>
+    <link href="../doc/css/style.css" rel="stylesheet" type="text/css">
+    <script src="../doc/js/utilities.js"></script>
+    <script src="../js/site.js"></script>
+    <script src="../js/component_loci.js"></script>
+  </head>
+  <body>
+    <div class="pop_content" id="pop_${prefix}">
+      <p>Information about the loci field would be displayed here.</p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <!--{help}-->
+    <div class="pop_content" id="pop_input_loci">
+      <b>Click on the menu at the left to see which of the following loci input methods are available.</b>
+      <dl>
+        <dt><b>Upload loci</b></dt>
+        <dd>When this option is available you may upload a file containing
+        loci in <a href="bed-format.html">BED Format</a>.</dd>
+      </dl>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <!--{/help}-->
+    <!--{component}-->
+    <h2 class="meme"><!--{title}-->Input the loci<!--{/title}--></h2>
+    <div class="subcontent">
+      <h4 class="meme"><!--{subtitle}-->Upload a BED file of genomic locations (loci).<!--{/subtitle}-->
+      <div class="help" data-topic="pop_${prefix}"></div></h4>
+      <div class="loci_input" id="${prefix}">
+        <span class="loci_file">
+          <input type="file" class="meme" name="${prefix}_file"/>
+          <div class="popup"></div>
+        </span>
+	   <script>
+	  (function() {
+	    "use strict";
+	    var element = document.getElementById("${prefix}");
+	    var controler = new LociInput(element);
+	    XXXXregister_componentXXXX("${prefix}", element, controler);
+	  })();
+    </script>
+      </div>
+    </div>
+    <!--{/component}-->
+  </body>
+</html>

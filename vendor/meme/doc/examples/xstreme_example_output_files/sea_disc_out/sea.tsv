@@ -1,0 +1,23 @@
+RANK	DB	ID	ALT_ID	CONSENSUS	TP	TP%	FP	FP%	ENR_RATIO	SCORE_THR	PVALUE	LOG_PVALUE	EVALUE	LOG_EVALUE	QVALUE	LOG_QVALUE
+1	xstreme_example_output_files/streme_out/streme.xml	2-GCTGAGTCATN	STREME-2	GCTGAGTCATN	160	8.47	7	0.37	20.1	11	1.41e-40	-91.76	2.54e-39	-88.87	2.54e-39	-88.87
+2	xstreme_example_output_files/meme_out/meme.xml	CCASYAGRKGGCRSY	MEME-4	CCASYAGRKGGCRSY	169	8.94	12	0.63	13.1	12	2.07e-38	-86.77	3.72e-37	-83.88	1.86e-37	-84.57
+3	xstreme_example_output_files/streme_out/streme.xml	1-CCASYAGRGGGCGCY	STREME-1	CCASYAGRGGGCGCY	151	7.99	8	0.42	16.9	12	7.39e-37	-83.20	1.33e-35	-80.30	4.43e-36	-81.40
+4	xstreme_example_output_files/meme_out/meme.xml	VATGACTCAG	MEME-2	VATGACTCAG	149	7.88	15	0.79	9.38	13	2.65e-30	-68.10	4.78e-29	-65.21	1.19e-29	-66.60
+5	xstreme_example_output_files/streme_out/streme.xml	5-AGATAAGG	STREME-5	AGATAAGG	192	10.16	45	2.38	4.2	9.5	1.98e-24	-54.58	3.56e-23	-51.69	7.11e-24	-53.30
+6	xstreme_example_output_files/meme_out/meme.xml	SCCCCGCCCCC	MEME-3	SCCCCGCCCCC	198	10.48	76	4.02	2.58	11	6.22e-15	-32.71	1.12e-13	-29.82	1.87e-14	-31.61
+7	xstreme_example_output_files/streme_out/streme.xml	3-GCGCATGCGCAC	STREME-3	GCGCATGCGCAC	87	4.60	14	0.74	5.87	12	1.17e-14	-32.08	2.11e-13	-29.19	3.01e-14	-31.13
+8	xstreme_example_output_files/meme_out/meme.xml	CTTATCT	MEME-5	CTTATCT	130	6.88	39	2.06	3.27	8.6	1.95e-13	-29.27	3.51e-12	-26.37	4.39e-13	-28.45
+9	xstreme_example_output_files/meme_out/meme.xml	GCGCMTGCGCG	MEME-9	GCGCMTGCGCG	67	3.54	8	0.42	7.56	14	3.18e-13	-28.78	5.72e-12	-25.89	6.35e-13	-28.08
+10	xstreme_example_output_files/streme_out/streme.xml	6-CCCCGCCCCCD	STREME-6	CCCCGCCCCCD	724	38.31	518	27.41	1.4	4.6	5.76e-13	-28.18	1.04e-11	-25.29	1.04e-12	-27.59
+11	xstreme_example_output_files/streme_out/streme.xml	4-CACTTCCTGKT	STREME-4	CACTTCCTGKT	199	10.53	90	4.76	2.2	4.6	1.16e-11	-25.18	2.09e-10	-22.29	1.90e-11	-24.68
+12	xstreme_example_output_files/meme_out/meme.xml	AAASAGGAAGT	MEME-8	AAASAGGAAGT	178	9.42	79	4.18	2.24	7.7	7.48e-11	-23.32	1.35e-9	-20.43	1.12e-10	-22.91
+13	xstreme_example_output_files/meme_out/meme.xml	GACTACAWYTCCCAG	MEME-6	GACTACAWYTCCCAG	31	1.64	1	0.05	16	5.2	6.84e-9	-18.80	1.23e-7	-15.91	9.47e-9	-18.48
+14	xstreme_example_output_files/meme_out/meme.xml	TTTTYTTTTYTTTYW	MEME-1	TTTTYTTTTYTTTYW	48	2.54	8	0.42	5.44	14	1.90e-8	-17.78	3.42e-7	-14.89	2.44e-8	-17.53
+15	xstreme_example_output_files/streme_out/streme.xml	8-GGTCACGTGABBS	STREME-8	GGTCACGTGABBS	172	9.10	105	5.56	1.63	5.7	1.76e-5	-10.95	3.17e-4	-8.06	2.11e-5	-10.76
+16	xstreme_example_output_files/streme_out/streme.xml	7-CAAGATGGC	STREME-7	CAAGATGGC	183	9.68	115	6.08	1.59	5.7	2.47e-5	-10.61	4.44e-4	-7.72	2.77e-5	-10.49
+17	xstreme_example_output_files/meme_out/meme.xml	TGCACTCCAGCCTGG	MEME-7	TGCACTCCAGCCTGG	20	1.06	3	0.16	5.25	2.4	2.35e-4	-8.35	4.24e-3	-5.46	2.49e-4	-8.30
+18	xstreme_example_output_files/meme_out/meme.xml	RGCTCACTGCAGCCT	MEME-10	RGCTCACTGCAGCCT	41	2.17	16	0.85	2.47	0.67	5.81e-4	-7.45	1.05e-2	-4.56	5.81e-4	-7.45
+
+# SEA (Simple Enrichment Analysis): Version 5.4.0 compiled on Aug 22 2021 at 08:32:52
+# The format of this file is described at https://meme-suite.org/meme/doc/sea-output-format.html.
+# sea --verbosity 1 --oc xstreme_example_output_files/sea_disc_out --qvalue --thresh 1 --order 2 --bfile xstreme_example_output_files/background --seed 0 --align center --motif-pseudo 0.01 --noseqs --m xstreme_example_output_files/meme_out/meme.xml --m xstreme_example_output_files/streme_out/streme.xml --p nrmix.nseqs.100.100bp.seed.1.fa

@@ -1,0 +1,10 @@
+prim_db	prim_id	prim_alt	prim_cons	sec_db	sec_id	sec_alt	sec_cons	trim_left	trim_right	red_db	red_id	red_alt	E-value	gap	orient	count	total	adj_p-value	p-value
+dna_with_covalent	TGCm1C	Gm1GCA	TGCm1C	dna_with_covalent	TGCm1C	Gm1GCA	TGCm1C	0	0	.	.	.	6.48e-02	6	1	7	64	1.07e-05	9.66e-05
+dna_with_covalent	TGCm1C	Gm1GCA	TGCm1C	Jaspar-subset	MA0091.1	TAL1::TCF3	NSAMCATCTGKT	0	0	.	.	.	2.30e+00	2	3	3	15	6.63e-02	4.61e-01
+dna_with_covalent	TGCm1C	Gm1GCA	TGCm1C	Jaspar-subset	MA0035.2	Gata1	DSAGATAAGVV	0	0	.	.	.	3.70e+00	4	0	3	21	1.39e-01	7.40e-01
+dna_with_covalent	TGCm1C	Gm1GCA	TGCm1C	Jaspar-subset	MA0039.2	Klf4	DGGGYGKGGC	0	0	.	.	.	4.35e+00	0	0	4	46	2.03e-01	8.70e-01
+dna_with_covalent	TGCm1C	Gm1GCA	TGCm1C	dna_with_covalent	TGCmGC	GC1GCA	TGCmGC	0	0	.	.	.	4.47e+00	5	2	1	1	2.21e-01	8.95e-01
+
+# SpaMo (Spaced Motif Analysis Tool): Version 5.4.0 compiled on May 20 2021 at 11:57:57
+# The format of this file is described at https://meme-suite.org/meme/doc/spamo-output-format.html.
+# spamo -oc results/spamo3 -verbosity 3 -xalph -primary TGCm1C -keepprimary -margin 20 -shared 1 -inc MA00* -inc T* -exc MA007* common/dna_with_covalent.fa common/dna_with_covalent.meme common/Jaspar-subset.meme common/dna_with_covalent.meme common/dna_with_covalent.meme

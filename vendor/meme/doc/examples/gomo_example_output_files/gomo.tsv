@@ -1,0 +1,41 @@
+Motif_Identifier	GO_Term_Identifier	GOMo_Score	p-value	q-value
+crp	GO:0044248	1.341e-06	5.615e-07	4.550e-04
+crp	GO:0009056	8.869e-07	5.615e-07	4.550e-04
+crp	GO:0008643	1.075e-04	7.299e-06	3.943e-03
+crp	GO:0051119	2.285e-04	2.639e-05	8.038e-03
+crp	GO:0044275	2.652e-04	2.976e-05	8.038e-03
+crp	GO:0015144	2.665e-04	2.976e-05	8.038e-03
+crp	GO:0016861	3.954e-04	4.604e-05	1.066e-02
+crp	GO:0016860	4.737e-04	6.569e-05	1.331e-02
+crp	GO:0016052	5.421e-04	8.085e-05	1.456e-02
+crp	GO:0009057	5.850e-04	9.096e-05	1.474e-02
+crp	GO:0016853	7.322e-04	1.190e-04	1.754e-02
+crp	GO:0044265	8.893e-04	1.404e-04	1.896e-02
+crp	GO:0019321	1.272e-03	1.976e-04	2.464e-02
+nagC	GO:0051704	1.801e-04	2.302e-05	2.681e-02
+nagC	GO:0042710	4.020e-04	5.503e-05	2.681e-02
+nagC	GO:0009252	8.308e-04	1.202e-04	2.681e-02
+nagC	GO:0007047	8.308e-04	1.202e-04	2.681e-02
+nagC	GO:0031504	8.308e-04	1.202e-04	2.681e-02
+nagC	GO:0009273	8.308e-04	1.202e-04	2.681e-02
+nagC	GO:0042546	8.308e-04	1.202e-04	2.681e-02
+nagC	GO:0016798	1.101e-03	1.595e-04	2.767e-02
+nagC	GO:0004553	1.101e-03	1.595e-04	2.767e-02
+narP	GO:0009061	3.737e-04	5.109e-05	4.327e-02
+narP	GO:0045333	5.182e-04	7.692e-05	4.327e-02
+narP	GO:0030151	6.633e-04	1.028e-04	4.327e-02
+narP	GO:0015980	9.717e-04	1.718e-04	4.327e-02
+narP	GO:0006091	9.717e-04	1.718e-04	4.327e-02
+narP	GO:0017004	1.063e-03	1.903e-04	4.327e-02
+narP	GO:0043623	1.063e-03	1.903e-04	4.327e-02
+narP	GO:0042592	1.382e-03	2.482e-04	4.327e-02
+narP	GO:0048878	1.382e-03	2.482e-04	4.327e-02
+narP	GO:0019725	1.382e-03	2.482e-04	4.327e-02
+narP	GO:0009055	1.539e-03	2.802e-04	4.441e-02
+narP	GO:0065007	1.695e-03	3.094e-04	4.495e-02
+narP	GO:0065008	1.839e-03	3.408e-04	4.571e-02
+narP	GO:0043169	2.049e-03	3.953e-04	4.923e-02
+
+# GOMo (Gene Ontology for Motifs): Version 5.4.0 compiled on May 20 2021 at 11:57:53
+# The format of this file is described at https://meme-suite.org/meme/doc/gomo-output-format.html.
+# gomo --oc gomo_example_output_files --dag go.dag --motifs dpinteract_subset.meme bacteria_escherichia_coli_k12_1000_199.na.csv ama.xml

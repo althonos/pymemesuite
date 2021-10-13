@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Begin document body -->
+<fimo version="5.4.0" release="Mon Aug 16 16:18:19 2021 -0700">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation=  xmlns:fimo="http://noble.gs.washington.edu/schema/fimo"
+>
+<command-line>fimo --parse-genomic-coord --verbosity 1 --oc xstreme_example_output_files/fimo_out_8 --bgfile xstreme_example_output_files/background --motif TTTTYTTTTYTTTYW xstreme_example_output_files/meme_out/meme.xml nrmix.nseqs.100.100bp.seed.1.fa</command-line>
+<settings>
+<setting name="output directory">xstreme_example_output_files/fimo_out_8</setting>
+<setting name="MEME file name">xstreme_example_output_files/meme_out/meme.xml</setting>
+<setting name="sequence file name">nrmix.nseqs.100.100bp.seed.1.fa</setting>
+<setting name="background file name">xstreme_example_output_files/background</setting>
+<setting name="allow clobber">true</setting>
+<setting name="compute q-values">true</setting>
+<setting name="parse genomic coord.">true</setting>
+<setting name="text only">false</setting>
+<setting name="scan both strands">true</setting>
+<setting name="output threshold">0.0001</setting>
+<setting name="threshold type">p-value</setting>
+<setting name="max stored scores">100000</setting>
+<setting name="pseudocount">0.1</setting>
+<setting name="verbosity">1</setting>
+<setting name="selected motif">TTTTYTTTTYTTTYW</setting>
+</settings>
+<sequence-data num-sequences="2100" num-residues="210000" />
+<alphabet name="DNA" like="dna">
+<letter id="A" symbol="A" complement="T" name="Adenine" colour="CC0000"/>
+<letter id="C" symbol="C" complement="G" name="Cytosine" colour="0000CC"/>
+<letter id="G" symbol="G" complement="C" name="Guanine" colour="FFB300"/>
+<letter id="T" symbol="T" aliases="U" complement="A" name="Thymine" colour="008000"/>
+<letter id="N" symbol="N" aliases="X." equals="ACGT" name="Any base"/>
+<letter id="V" symbol="V" equals="ACG" name="Not T"/>
+<letter id="H" symbol="H" equals="ACT" name="Not G"/>
+<letter id="D" symbol="D" equals="AGT" name="Not C"/>
+<letter id="B" symbol="B" equals="CGT" name="Not A"/>
+<letter id="M" symbol="M" equals="AC" name="Amino"/>
+<letter id="R" symbol="R" equals="AG" name="Purine"/>
+<letter id="W" symbol="W" equals="AT" name="Weak"/>
+<letter id="S" symbol="S" equals="CG" name="Strong"/>
+<letter id="Y" symbol="Y" equals="CT" name="Pyrimidine"/>
+<letter id="K" symbol="K" equals="GT" name="Keto"/>
+</alphabet>
+<motif name="TTTTYTTTTYTTTYW" alt="MEME-1" width="15" best-possible-match="TTTTTTTTTTTTTCT"/>
+<motif name="VATGACTCAG" alt="MEME-2" width="10" best-possible-match="GATGACTCAG"/>
+<motif name="SCCCCGCCCCC" alt="MEME-3" width="11" best-possible-match="GCCCCGCCCCC"/>
+<motif name="CCASYAGRKGGCRSY" alt="MEME-4" width="15" best-possible-match="CCACCAGGGGGCGCT"/>
+<motif name="CTTATCT" alt="MEME-5" width="7" best-possible-match="CTTATCT"/>
+<motif name="GACTACAWYTCCCAG" alt="MEME-6" width="15" best-possible-match="GACTACATCTCCCAG"/>
+<motif name="TGCACTCCAGCCTGG" alt="MEME-7" width="15" best-possible-match="TGCACTCCAGCCTGG"/>
+<motif name="AAASAGGAAGT" alt="MEME-8" width="11" best-possible-match="AAACAGGAAGT"/>
+<motif name="GCGCMTGCGCG" alt="MEME-9" width="11" best-possible-match="GCGCCTGCGCG"/>
+<motif name="RGCTCACTGCAGCCT" alt="MEME-10" width="15" best-possible-match="AGCTCACTGCAGCCT"/>
+<background source="xstreme_example_output_files/background">
+<value letter="A">0.222</value>
+<value letter="C">0.278</value>
+<value letter="G">0.278</value>
+<value letter="T">0.222</value>
+</background>
+<cisml-file>cisml.xml</cisml-file>
+</fimo>

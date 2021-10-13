@@ -1,0 +1,148 @@
+#
+# mast.test 
+#
+my @datasets = ('crp0', 'INO_up800', 'farntrans5', 'lipocalin', 'adh');
+my @objfuns = ('classic');
+my @models = ('oops', 'zoops', 'anr');
+my @extensions = ('html', 'txt', 'xml');
+my %mast_ignore = (
+  'text' => [
+    '^#', 'mast', 'Time', 'MOTIF', 'motif_db source=', 'MAST version', 'Last updated', '^CPU:', 'please access'
+  ],
+  'json' => [ 
+    '^data:(version|release|cmd|runtime)', ':time', 'data:motif_dbs@1:(source|last_mod_date)', 
+    'data:sequence_dbs@1:(last_mod_date)',
+    'data:sequence_dbs@1:(source)'
+  ],
+  'xml' => [
+    '^mast@(release|version)$',
+    '^mast:command_line:',
+    '^mast:runtime@(host|when|cycles|seconds)$',
+    '^mast:db_source:',
+    '^mast:sequence_dbs:sequence_db@source',
+    '^mast:motif_dbs:motif_db@source',
+    '@last_mod_date$'
+  ]
+);
+
+if (&is_comprehensive()) {
+  push @objfuns, ('de', 'cd');
+  push @datasets, ('Klf1-200');
+}
+
+my $counter = 1;
+
+foreach my $dset (@datasets) {
+  my $ext = ($dset =~ /Klf1/) ? '.fa' : '.s';
+  my $database = catfile('common', $dset . $ext);
+  foreach my $objfun (@objfuns) {
+    next if ($objfun eq 'cd' && $dset ne 'Klf1-200');		# don't bother with CD and protein
+    next if ($dset eq 'Klf1-200' && $objfun ne 'cd');		# only use CD on Klf1-200
+    next if ($objfun ne 'classic' && ! ($dset eq 'crp0' || $dset eq 'Klf1-200' || $dset eq 'adh'));	# limit time for tests
+    foreach my $mod (@models) {
+      next if ($mod eq 'anr' && $objfun ne 'classic');	# anr not supported
+      my $file = catfile('meme', 'meme.'.$dset.'.'.$objfun.'.'.$mod);
+      my $base = $dset.'.'.$objfun.'.'.$mod;
+
+      $meme_ext = $extensions[$counter % 3];			# try each MEME extension at some point
+
+      my $meme_file = catfile('meme', 'meme.'.$base.'.'.$meme_ext);
+      my $mast_file = catfile('mast', 'mast.'.$base.'.'.$meme_ext);
+      my $out_dir = catdir('results', 'mast'.$counter);
+      my $xml_test = {
+	      output => catfile($out_dir, 'mast.xml'),
+	      reference => make_test_src_path($mast_file.'.xml'),
+	      type => 'xml', 
+        ignore => $mast_ignore{'xml'}
+      };
+      my $html_test = {
+	      output => catfile($out_dir, 'mast.html'),
+	      reference => make_test_src_path($mast_file.'.html'),
+	      type => 'json', 
+        ignore => $mast_ignore{'json'}
+      };
+      my $text_test = {
+	      output => catfile($out_dir, 'mast.txt'),
+	      reference => make_test_src_path($mast_file.'.txt'),
+	      type => 'text', 
+        ignore => $mast_ignore{'text'}
+      };
+      my $tests = ($objfun eq 'de' || $objfun eq 'cd') ?
+	      [$xml_test, $html_test, $text_test] : 
+	      [$xml_test]
+      ;
+      &test('mast'.$counter, '',
+        'mast', '',
+        [
+          make_test_src_path($meme_file), 
+          $database,
+          '-oc', $out_dir, 
+          '-nostatus'
+        ],
+        $tests,
+        $out_dir
+      );
+      $counter++;
+
+      if ($dset eq 'adh' && $objfun eq 'classic' ) {
+	my $seq = 'mini-drosoph';
+	my $mast_file = catfile('mast', 'mast.'.$base.'.'.$seq.'.'.$meme_ext);
+	my $out_dir = catdir('results', 'mast'.$counter);
+	my $xml_test = {
+	  output => catfile($out_dir, 'mast.xml'),
+	  reference => make_test_src_path($mast_file.'.xml'),
+	  type => 'xml', 
+    ignore => $mast_ignore{'xml'}
+	};
+	&test('mast'.$counter, '',
+	  'mast', 
+    catfile('common', $seq . $ext),
+	  [
+      make_test_src_path($meme_file), 
+      '-', 
+      '-oc', $out_dir, 
+      '-nostatus', 
+	    '-df', 'stdin', 
+      '-dna', 
+      '-seqp'
+    ],
+	  [ $xml_test ],
+	  $out_dir
+	);
+	$counter++;
+      }
+    } # mod
+  } # objfun
+} # dset
+
+# Test that .txt, .xml and .html MEME outputs from the same run
+# give the same result with MAST.
+my $dset = $datasets[1];
+my $objfun = 'classic';
+my $mod = 'anr';
+my $database = catfile('common', $dset . '.s');
+my $base = $dset.'.'.$objfun.'.'.$mod;
+foreach $meme_ext ("txt", "xml", "html") {
+  my $meme_file = catfile('meme', 'meme.'.$base.'.'.$meme_ext);
+  my $mast_file = catfile('mast', 'mast.'.$base.'.'.'html');
+  my $out_dir = catdir('results', 'mast'.$counter);
+  &test('mast'.$counter, '',
+    'mast', '',
+    [
+      make_test_src_path($meme_file), 
+      $database,
+      '-oc', $out_dir, 
+      '-nostatus'
+    ],
+    [
+      {
+	      output => catfile($out_dir, 'mast.html'),
+	      reference => make_test_src_path($mast_file.'.html'),
+	      type => 'json', 
+        ignore => $mast_ignore{'json'}
+      },
+    ],
+    $out_dir
+  );
+  $counter++;
+}

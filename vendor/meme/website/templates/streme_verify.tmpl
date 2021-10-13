@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>STREME verification</title>
+<link href="../css/status.css" rel="stylesheet" type="text/css" />
+<script src="../doc/js/utilities.js"></script>
+<script src="../js/status.js"></script>
+<script>
+var verify = 
+<!--{message}-->
+{
+  "items": [
+    {
+      "type": "sequences",
+      "name": "(Primary) Sequences",
+      "key": "posSeq"
+    },
+    {
+      "type": "sequences",
+      "name": "Control Sequences",
+      "key": "negSeq"
+    },
+    {
+      "type": "flag",
+      "name": "RNA",
+      "key": "dna2rna",
+      "on": "STREME will treat the sequences as single-stranded RNA."
+    },
+    {
+      "type": "range",
+      "name": "Motif Width",
+      "keyLow": "minw",
+      "keyHigh": "maxw",
+      "same": "Exactly !!LOW!! wide.",
+      "low": "At least !!LOW!! wide.",
+      "high": "At most !!HIGH!! wide.",
+      "both": "Between !!LOW!! wide and !!HIGH!! wide (inclusive)."
+    },
+    {
+      "type": "number",
+      "name": "<i>p</i>-value Threshold",
+      "key": "thresh",
+      "any": "Searching for motifs with a <i>p</i>-value &lt; !!VALUE!!."
+    },
+    {
+      "type": "count",
+      "name": "Motif Count",
+      "key": "nMotifs",
+      "one": "Searching for one motif.",
+      "any": "Searching for !!VALUE!! motifs."
+    },
+    {
+      "type": "count",
+      "name": "Markov order",
+      "key": "order",
+      "any": "Using order = !!VALUE!! for shuffling sequences and background model."
+    },
+    {
+      "type" : "choice",
+      "name": "Site Positional Distribution Plots",
+      "key": "align",
+      "options": {
+        "left": "Sequences are aligned on their left ends.",
+        "center": "Sequences are aligned on their centers.",
+        "right": "Sequences are aligned on their right ends.",
+      }
+    }
+  ]
+}<!--{/message}-->;
+
+</script>
+</head>
+<body>
+<!--{title}-->STREME<!--{/title}--> - <!--{subtitle}-->Sensitive, Thorough, Rapid, Enriched Motif Elicitation<!--{/subtitle}--><br>
+<!--{logo}-->doc/images/streme_icon.png<!--{/logo}-->: <!--{alt}-->STREME Logo<!--{/alt}--><br>
+<div id="info"></div>
+<script>display_job_information($("info"), verify["items"], data);</script>
+</body>
+</html>
+

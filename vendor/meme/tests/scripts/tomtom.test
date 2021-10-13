@@ -1,0 +1,89 @@
+# parts to ignore in Tomtom output
+my $tomtom_json_ignore = [
+    '^data:(version|release|host|when|cmd|runtime)',
+    ':last_modified'
+];
+
+my @mode = ("allr", "ed", "kullback",
+  "pearson", "sandelin", "blic1", "blic5");
+my $tomtom_dir = 'src';
+
+my $verbosity = 1;
+
+&test(
+  'tomtom1', 
+  '-m, -mi, -xalph, -bfile, -evalue, -thresh, -dist allr',
+  'tomtom', 
+  '',
+  [
+    '-oc', 'results/tomtom1', 
+    '-verbosity', $verbosity, 
+    '-evalue', 
+    '-thresh', 10,
+    '-m', 'TGCm1C', 
+    '-mi', 3, 
+    '-xalph', 
+    '-bfile', 'common/dna_with_covalent.bg',
+    '-dist', 'allr',
+    'common/dna_with_covalent.meme', 
+    'common/dna_with_covalent.meme', 
+    'common/Jaspar-subset.meme'
+  ],
+  [
+    {
+      output => 'results/tomtom1/tomtom.tsv',
+      reference => make_test_src_path('tomtom/tomtom.dna_with_covalent.tsv'),
+      type => 'text',
+      ignore => ['^#']
+    },
+    {
+      output => 'results/tomtom1/tomtom.html',
+      reference => make_test_src_path('tomtom/tomtom.dna_with_covalent.html'),
+      type => 'json',
+      ignore => $tomtom_json_ignore
+    }
+  ],
+  'results/tomtom1'
+);
+
+# Test tomtom (7 distance measures, 2 scoring modes)
+my $counter = 2;
+for (my $complete = 0; $complete <= 1; $complete++) {
+  my $com = ($complete ? 'complete.' : '');
+  my @incom = ($complete ? () : ('-incomplete-scores'));
+  foreach my $score (@mode) {
+    my $tsv = 'tomtom.'. $com . 'out.' . $score . '.tsv';
+    my $html = 'tomtom.'. $com . 'out.' . $score . '.html';
+    my $out_dir = catdir('results', 'tomtom'.$counter);
+    my @args = ('-verbosity', $verbosity,
+      #'-dist', $score, '-text', @incom, 
+      '-dist', $score, '-oc', $out_dir, @incom, 
+      'common/sample.meme', 'common/sample.meme');
+    # test this combination of score and complete scoring
+    &test(
+      'tomtom_'.$score.($complete ? '_cs' : ''), 
+      '',
+      'tomtom', 
+      '', 
+      \@args, 
+      [
+        {
+          output => catfile($out_dir, 'tomtom.tsv'),
+          reference => make_test_src_path('tomtom/' . $tsv), 
+          type => 'text',
+          ignore => ['^#']
+        },
+        {
+          output => catfile($out_dir, 'tomtom.html'),
+          reference => make_test_src_path('tomtom/' . $html), 
+          type => 'json',
+	        ignore => $tomtom_json_ignore
+        }
+      ],
+      #'results/' . $dir
+      $out_dir,
+      $tomtom_dir
+    );
+    $counter++;
+  }
+}

@@ -1,0 +1,91 @@
+#
+# meme-chip.test
+#
+#use File::Which;
+#my %paths;
+
+my @pargs = ();
+@pargs = ('--meme-p', &num_cores()) if (&num_cores() > 1);
+
+my @valgrind = &is_valgrind() ? ("-valgrind") : ();
+
+my %memechip_ignore = (
+  'text' => [
+   '^MEME version', '^#'
+  ],
+  'json' => [
+    'data:(revision|release|version|cmd)',
+    'programs@.*:[cmd|time]' 
+  ]
+);
+
+&test('meme-chip1', 'DNA meme-chip',
+  'meme-chip', '',
+  [
+    '-oc', 'results/meme-chip1', 
+    '-db', 'meme-chip/JASPAR_CORE_2014_vertebrates.meme',
+    'meme-chip/Klf1.100.fa', 
+    @pargs,
+    (@valgrind)
+  ],
+  [
+    {
+      output => 'results/meme-chip1/meme-chip.html', 
+      reference => make_test_src_path('meme-chip/meme-chip.html'), 
+      type => 'json', 
+      ignore => $memechip_ignore{'json'}
+    },
+    {
+      output => 'results/meme-chip1/summary.tsv', 
+      reference => make_test_src_path('meme-chip/summary.tsv'), 
+      type => 'text', 
+      ignore => $memechip_ignore{'text'}
+    },
+    {
+      output => 'results/meme-chip1/combined.meme', 
+      reference => make_test_src_path('meme-chip/combined.meme'), 
+      type => 'text', 
+      ignore => $memechip_ignore{'text'}
+    }
+  ], 
+  'results/meme-chip1', 'scripts'
+);
+
+if (&is_comprehensive()) {
+  &test('meme-chip2', 'DNA meme-chip -xalph -db -bfile -meme-nmotifs',
+    'meme-chip', '',
+    [
+      '-oc', 'results/meme-chip2',
+      '-meme-nmotifs', '1', 
+      '-xalph', 
+      'common/dna_with_covalent.alph',
+      '-bfile', 'common/dna_with_covalent.bg',
+      '-db', 'common/Jaspar-subset.meme', 
+      '-db', 'common/dna_with_covalent.meme',
+      'common/dna_with_covalent.fa', 
+      @pargs,
+      (@valgrind)
+    ],
+    [
+      {
+	      output => 'results/meme-chip2/meme-chip.html', 
+	      reference => make_test_src_path('meme-chip/meme-chip_dna_with_covalent.html'), 
+	      type => 'json', 
+        ignore => $memechip_ignore{'json'}
+      },
+      {
+        output => 'results/meme-chip2/summary.tsv', 
+        reference => make_test_src_path('meme-chip/meme-chip_dna_with_covalent_summary.tsv'), 
+        type => 'text', 
+        ignore => $memechip_ignore{'text'}
+      },
+      {
+        output => 'results/meme-chip2/combined.meme', 
+        reference => make_test_src_path('meme-chip/meme-chip_dna_with_covalent_combined.meme'), 
+        type => 'text', 
+        ignore => $memechip_ignore{'text'}
+    }
+    ], 
+      'results/meme-chip2', 'scripts'
+  );
+}

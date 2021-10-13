@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>rna2meme - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+    <script src="js/shared-doc.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+    <h2>rna2meme</h2>
+    
+    <div class="usage">
+      <h3>Usage:</h3>
+      <code>rna2meme [options] &lt;sequence file&gt;</code>
+    </div>
+
+    <h3>Description</h3>
+    <div class="indent">
+      <p>Convert each (micro-)RNA sequence in the (<a href="fasta-format.html">FASTA</a>) 
+      input to the <i>complementary</i> RNA motif in <a href="meme-format.html">MEME motif</a> format.  
+      The motif is intended to represent the mRNA target of a micro-RNA.
+      </p>
+    </div>
+
+    <h3>Input</h3>
+    <div class="indent">
+      <h4><span class='popt'>&lt;sequence file&gt;</h4>
+      <div class="indent">
+        <p>The name of a file containing short <a href="fasta-format.html">FASTA formatted</a>
+        RNA sequences.  If the file name is '<code>-</code>' then the file is read from standard input.
+	The FASTA ID will be used as the ID of its target motif,
+	and the first word after the FASTA ID (if any) will be used as the alternate ID of the motif.
+	If no words follow the FASTA ID, the sequence itself will be used as the 
+	motif alternate ID.
+        </p>
+      </div>
+    </div>
+
+    <h3>Output</h3>
+    <div class="indent">
+      <script>wrdoc("2meme-output", {"sequence": true});</script>
+      The seed region will be upweighted, and 'wobble' (U:G, G:U) matches 
+      will be allowed, as described below under the options 
+      <span class="popt">-seed_start</span>,
+      <span class="popt">-seed_end</span>,
+      <span class="popt">-match</span>,
+      <span class="popt">-wobble</span>,
+      <span class="popt">-miss</span>, and
+      <span class="popt">-other_count</span>.
+    </div>
+
+    <h3>Options</h3>
+    <div class="indent">
+      <table class="options">
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Parameter</th>
+            <th>Description</th>
+            <th>Default Behavior</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th colspan="4">General Options</th>
+          </tr>
+          <tr>
+            <td class="popt">-dna</td><td>&nbsp;</td>
+            <td>Output motifs using the DNA alphabet instead of the RNA alphabet.</td>
+            <td>Output motifs using the RNA alphabet.</td> 
+          </tr>
+          <tr>
+            <td class="popt">-seed_start</td><td><span class="pdat">offset</span></td>
+            <td>The starting offset of the seed in the (micro-)RNA sequence. If this
+              value is 0, the entire sequence is treated as the seed
+              (see <span class="popt">-other_count</span> below). </td>
+            <td>0: the entire RNA sequence is treated as the seed.</td>
+          </tr>
+          <tr>
+            <td class="popt">-seed_end</td><td><span class="pdat">offset</span></td>
+            <td>The ending offset of the seed in the (micro-)RNA sequence. 
+            This option is ignored if <span class="popt">-seed_start</span> is 0.
+            <td>0</td>
+          </tr>
+          <tr>
+            <td class="popt">-start</td><td><span class="pdat">offset</span></td>
+            <td>The starting offset in the RNA sequence (inclusive). Use
+              negative numbers to count from the end.
+              Do not use this option in conjunction with <span class="popt">-seed_start</span>.</td>
+            <td>No starting offset is used.</td>
+          </tr>
+          <tr>
+            <td class="popt">-end</td><td><span class="pdat">offset</span></td>
+            <td>The ending offset in RNA sequence (inclusive). Use negative
+              numbers to count from end.
+              Do not use this option in conjunction with <span class="popt">-seed_start</span>.</td>
+            <td>No ending offset is used.</td>
+          </tr>
+          <tr>
+            <td class="popt">-match</td><td><span class="pdat">count</span></td>
+            <td>The count to assign to a (Watson-Crick) match.</td>
+            <td>A count of 1 is used.</td>
+          </tr>
+          <tr>
+            <td class="popt">-wobble</td><td><span class="pdat">count</span></td>
+            <td>The count to assign to a U in the micro-RNA matching a G in the target mRNA, 
+              or for a G in the micro-RNA matching a U in the target mRNA.</td>
+            <td>A count of 0.1 is used.</td>
+          </tr>
+          <tr>
+            <td class="popt">-miss</td><td><span class="pdat">count</span></td>
+            <td>The count to assign to a non-match, non-wobble pair.</td>
+            <td>A count of 0.01 is used.</td>
+          </tr>
+          <tr>
+            <td class="popt">-other_count</td><td><span class="pdat">count</span></td>
+            <td>Extra count to add to match, wobble and misses in the non-seed regions.
+            Setting this to a large value reduces the effect of poor matching
+	    in the non-seed regions; setting this to zero causes seed and non-seed
+	    regions to be weighted equally.
+            <td>0.5</td>
+          </tr>
+          <script>
+            wropt("2meme-bg");
+            wropt("2meme-pseudo");
+            wropt("2meme-logodds");
+            wropt("2meme-url", {"type": "FASTA ID", "example": "fasta_id"});
+          </script>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
+

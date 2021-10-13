@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>STREME - Submission form</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../doc/images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="../doc/images/memesuite_icon.png">
+    <link href="../doc/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="../css/component_sequences.css" rel="stylesheet" type="text/css">
+    <script src="../doc/js/menu-path.js"></script>
+    <script src="../doc/js/menu.js"></script>
+    <script src="../doc/js/utilities.js"></script>
+    <script src="../doc/js/motif_logo.js"></script>
+    <script src="../js/site.js"></script>
+    <script src="../js/alphabet_parser.js"></script>
+    <script src="../js/fasta-debug.js"></script>
+    <script src="../js/component_sequences.js"></script>
+    <script src="../js/streme.js"></script>
+    <style>
+      span.pad {
+        display: inline-block;
+        min-width: 12em;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Help Popups -->
+
+    <!--{help/}-->
+
+    <div class="pop_content" style="display:none" id="pop_discr">
+      <p>STREME looks for motifs that are enriched in your sequences relative
+      to a control set of sequences.
+      </p>
+      <p>By default STREME creates the control
+      set by shuffling each of your sequences, conserving k-mer
+      frequencies ("Shuffled input sequences"), where k=3 for
+      DNA and RNA sequences, and k=1 for protein or custom
+      alphabet sequences.
+      </p>
+      <p>Alternatively, you may
+      may provide a set of control sequences ("User-provided sequences").
+      </p>
+      <p><b>IMPORTANT NOTE:</b> If you provide control sequences,
+      they should have the same length distribution as your
+      the primary sequences.  For example, all sequences
+      in both sets could have the same length, or, for each sequence in
+      the primary set there could be exactly <i>N</i> sequences with the 
+      same length as it in in the control set.
+      Failure to ensure this may cause STREME to report inaccurate 
+      estimates of the statistical significance (<i>p</i>-value)
+      of the motifs it finds.
+      </p>
+
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" style="display:none" id="pop_sequences" >
+      <p>Select a file of <a href="../doc/fasta-format.html">FASTA formatted</a>
+      biological sequences or paste in <a href="../doc/fasta-format.html"
+      >FASTA formatted</a> biological sequences to search sequence motifs.</p>
+      <p>The more sequences that you can give STREME the 
+      more subtle the motifs it can find.
+      For ChIP-seq we recommend using sequences of length 100bp centered on
+      the summit or center of the peak.  For CLIP-seq we recommend using
+      the actual peak regions.  
+      </p>
+      <p>The STREME webserver limits the total
+      length of the sequences to 10,000,000 (DNA and RNA) and 1,000,000
+      (protein and custom alphabets).
+      </p>
+      <p>See the <a href="@SITE_URL@/doc/examples/example-datasets/Klf1.fna"
+      >example DNA sequences</a> that were used to create the <a
+      href="../doc/examples/streme_example_output_files/streme.html">sample output</a>
+      to get an idea of input that works well for STREME.</p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" style="display:none" id="pop_control_sequences" >
+      <p>Select a file of <a href="../doc/fasta-format.html">FASTA formatted</a>
+      biological sequences or paste in <a href="../doc/fasta-format.html"
+      >FASTA formatted</a> biological sequences to use as controls in the 
+      search for motifs.  
+      </p>
+      <p>Your control sequences should have approximately the same length 
+      distribution and background frequencies as your primary sequences
+      the motifs that you are attempting to find.
+      The more control sequences that you can give STREME, the 
+      more subtle the motifs it can find.
+      </p>
+      <p>The STREME webserver limits the total
+      length of the control sequences to 10,000,000 (DNA and RNA) and 1,000,000
+      (protein and custom alphabets).
+      </p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" style="display:none" id="pop_email">
+      <p>Enter the email address where you want the job notification email to
+      be sent. Please check that this is a valid email address!</p>
+      <p>The notification email will include a link to your job results.</p>
+      <p><b>Note:</b> You can also access your jobs via the <b>Recent Jobs</b>
+        menu on the left of all MEME Suite input pages.  That menu only
+        keeps track of jobs submitted during the current session of your internet browser.</p>
+      <p><b>Note:</b> Most MEME Suite servers only store results for a couple of days.
+      So be sure to download any results you wish to keep.</p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" style="display:none" id="pop_job_description">
+      <p>The job description will be included in the notification email you 
+      receive and in the STREME output.</p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_width">
+      <p>This is the width (number of characters in the sequence pattern) of a
+      single motif. STREME chooses the optimal width of each motif individually
+      using a heuristic function. You can choose limits
+      for the minimum and maximum motif widths that STREME will consider. The
+      width of each motif that STREME reports will lie within the limits you
+      choose.</p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_order">
+      <p>If you do not specify a set of control sequences, STREME will 
+	create one by shuffling each primary sequences while preserving
+	the frequencies of all words of length <i>order</i>+1 that it contains.
+	STREME also creates a Markov model of the given <i>order</i> from the control sequences
+	that you provide, or from the shuffled primary sequences.
+	Check this box and set the value of <i>order</i> if you want to override
+	the default value that STREME uses.</p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" style="display:none" id="pop_srch_limit">
+      <p>STREME stops looking for motifs when one of these limits is met. There
+      is an additional time limit which is set by the server operator.</p>
+      <dl>
+        <dt><i>p</i>-value threshold</dt>
+        <dd>The probability of a motif being found that would discriminate
+	the primary sequences from the control sequences at least as well,
+	assuming that the letters in the primary sequences were randomly shuffled.
+        STREME stops when 3 motifs have been found whose <i>p</i>-values exceed
+        this threshold.</dd>
+        <dt>Number of motifs</dt>
+        <dd>Check this box and set the (maximum) number of motifs 
+	you want STREME to find before it stops.  STREME will ignore
+	the <i>p</i>-value threshold if this box is checked.
+        By default STREME does not limit the number of motifs to be found, 
+	but uses the <i>p</i>-value threshold as its stopping criterion.</dd>
+      </dl>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_dna2rna">
+      <p>When your sequences are in the DNA alphabet but you want
+      them to be treated as single-stranded RNA, check this box.</p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" style="display:none" id="pop_align">
+      <p>For the site positional distribution diagrams, align the sequences
+         on their left ends, on their centers, or on their right ends.
+         For visualizing motif distributions, center alignment is
+         ideal for ChIP-seq and similar data; right alignment
+         for sequences upstream of transcription start sites; left
+         alignment for many proteins or 3' UTR sequences.
+      </p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <!-- Content Starts -->
+    <div class="content_box">
+      <!--{header}-->
+      <p>
+      <!--{title}-->STREME<!--{/title}--> - <!--{subtitle}-->Sensitive, Thorough, Rapid, Enriched Motif Elicitation<!--{/subtitle}--><br>
+      <!--{logo}-->../doc/images/streme_icon.png<!--{/logo}-->: <!--{alt}-->STREME Logo<!--{/alt}--><br>
+      <!--{blurb}--><span class="blurb" data-id="streme"></span><!--{/blurb}-->
+      </p>
+      <!--{/header}-->
+      <form enctype="multipart/form-data" accept-charset="utf-8"
+      method="POST" action="streme" id="streme_form">
+        <fieldset>
+          <legend>Data Submission Form</legend>
+          <p class="meme">Perform discriminative motif discovery in sequence datasets (including in very <b>large</b> datasets).
+          The sequences may be in the DNA, RNA or protein alphabet, or in a custom alphabet.</p>
+
+          <!-- mode -->
+          <h2 class="meme">Select the type of control sequences to use</h2>
+          <div class="subcontent">
+            <input type="radio" name="discr" id="discr_off" value="0" checked>
+            <label for="discr_off">Shuffled input sequences</label>
+            <input type="radio" name="discr" id="discr_on" value="1">
+            <label for="discr_on">User-provided sequences</label>
+            <div class="help" data-topic="pop_discr"></div>
+          </div>
+          <!-- /mode -->
+
+          <!--{alphabet}-->
+          <p style="border: 1px solid black">
+          <!--{prefix}-->alphabet<!--{/prefix}--><br>
+          <!--{description}-->sequence alphabet<!--{/description}-->
+          <!--{register}-->register_component<!--{/register}-->
+          </p>
+          <!--{/alphabet}-->
+
+          <!--{sequences}-->
+          <p style="border: 1px solid black">
+          <!--{prefix}-->sequences<!--{/prefix}--><br>
+          <!--{description}-->primary sequences<!--{/description}-->
+          <!--{title}-->Input the sequences<!--{/title}--><br>
+          <!--{subtitle}-->Enter the sequences in which you want to find motifs.<!--{/subtitle}--><br>
+          <!--{default}-->FILE<!--{/default}-->
+          <!--{alphabets}-->DNA RNA Protein<!--{/alphabets}-->
+          <!--{min_seq_len}-->3<!--{/min_seq_len}-->
+          <!--{min_seq_count}-->2<!--{/min_seq_count}-->
+	  <!--{max_seq_count}-->2500000<!--{/max_seq_count}-->
+          <!--{max_seq_total}-->80000000<!--{/max_seq_total}-->
+          <!--{register}-->register_component<!--{/register}-->
+          </p>
+          <!--{/sequences}-->
+
+          <div id="discr_sequences_area" style="display:none">
+            <!--{control}-->
+            <p style="border: 1px solid black">
+            <!--{prefix}-->control_sequences<!--{/prefix}--><br>
+            <!--{description}-->control sequences<!--{/description}-->
+            <!--{title}-->Input the control sequences<!--{/title}--><br>
+            <!--{subtitle}-->STREME will find motifs that are enriched relative to these sequences.<!--{/subtitle}--><br>
+            <!--{default}-->FILE<!--{/default}-->
+            <!--{min_seq_len}-->3<!--{/min_seq_len}-->
+            <!--{min_seq_count}-->2<!--{/min_seq_count}--> 
+	    <!--{max_seq_count}-->2500000<!--{/max_seq_count}-->
+	    <!--{max_seq_total}-->80000000<!--{/max_seq_total}-->
+            <!--{register}-->register_component<!--{/register}-->
+            </p>
+            <!--{/control}-->
+          </div>
+
+          <div id="dna2rna_area" style="display:none">
+            <p>
+              <h3 class="meme top">Convert DNA sequences to RNA?</h3>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" value="1" id="dna2rna" name="dna2rna">
+              <label for="dna2rna">Convert DNA to RNA</label>
+              <div class="help" data-topic="pop_dna2rna"></div>
+            </p>
+          </div>
+
+          <!--{job_details/}-->
+
+          <!-- Advanced Options -->
+          <div style="margin-top:5px; margin-bottom: 5px; width:90%;">
+          <!--{advanced_options/}-->
+          <div>
+            <!-- motif width -->
+            <h3 class="meme">How wide can motifs be?</h3>
+            <span class="pad">
+            <label for="minw">&nbsp;&nbsp;Minimum width:</label>
+            <input class="meme intonly sz2" type="number" name="minw" value="8"
+            step="1" min="3" max="30" size="2" id="minw">
+            </span>
+            <label for="maxw">Maximum width:</label>
+            <input class="meme intonly sz2" type="number" name="maxw" value="15"
+            step="1" min="3" max="30"  size="2" id="maxw">
+            <div class="help" data-topic="pop_width"></div>
+            <!-- /motif width -->
+            <!-- limits -->
+            <h3 class="meme top">How should the search be limited?</h3>
+	    <span class="selectopt pad">
+	      <input type="radio" name="srch_limit" id="enable_thresh" value="enable_thresh" checked>
+	      <label for="thresh"><i>p</i>-value threshold:</label>
+	      <input class="meme numonly sz4" type="text" name="thresh" id="thresh" value="0.05" step="any" min="0" size="4">
+	      <input type="radio" name="srch_limit" id="enable_nmotifs" value="enable_nmotifs">
+	      <label for="nmotifs">Number of motifs:</label>
+	      <input class="meme intonly sz2" type="number" name="nmotifs" id="nmotifs" value="10" step="1" min="1" size="2">
+	    </span>
+            <div class="help" data-topic="pop_srch_limit"></div>
+            <!-- /limits -->
+            <!-- order -->
+            <h3 class="meme">What Markov order should be used for shuffling sequences and background model creation?</h3>
+            <span class="enabopt">
+            <input type="checkbox" value="1" name="order_enable" id="order_enable">
+            <label for="order">order: </label>
+            <input class="meme intonly sz2" type="number" name="order" value="0"
+            step="1" min="0" max="4" size="2" id="order">
+            </span>
+            <div class="help" data-topic="pop_order"></div>
+            <!-- /order -->
+            <h3 class="meme">How should sequences be aligned for site positional diagrams?</h3>
+              <label for="align">&nbsp;&nbsp;Align sequences on their:</label>
+              <input type="radio" name="align" id="align_left" value="left">
+              <label for="left"><b>Left Ends</b></label>
+              <input type="radio" name="align" id="align_center" value="center" checked>
+              <label for="left"><b>Centers</b></label>
+              <input type="radio" name="align" id="align_right" value="right">
+              <label for="right"><b>Right Ends</b></label>
+              <div class="help" data-topic="pop_align"></div>
+            </div>
+          </div>
+
+          <!-- Search and clear buttons -->
+          <!--{submit_reset/}-->
+        </fieldset>
+      </form>
+      <!--{footer/}-->
+    </div>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+#
+# dreme.test
+#
+use File::Which;
+my %paths;
+
+# xml parts to ignore in DREME output
+my $dreme_xml_ignore = [
+    '^dreme@(release|version)$', '^dreme:model:command_line#value$', 
+    '^dreme:model:(positives|negatives)@(file|last_mod_date)$',
+    '^dreme:model:host#value$', '^dreme:model:when#value$',
+    '^dreme:run_time@.*$'
+  ];  
+
+&test('dreme1', 'testing both strands',
+  'dreme', '',
+  [
+    '-oc', 'results/dreme1', 
+    '-verbosity', 1, 
+    '-p', 
+    'common/Klf1-200-100.fa', 
+    '-n', 
+    'common/Klf1-200-100-shuffled.py2.fa'
+  ],
+  [
+    {
+      output => 'results/dreme1/dreme.xml', 
+      reference => make_test_src_path('dreme/basic.xml'), 
+      type => 'xml', ignore => $dreme_xml_ignore
+    }
+  ], 
+  'results/dreme1', 'scripts'
+);
+
+# test DREME with a single strand
+&test('dreme2', 'testing single strand',
+  'dreme', '',
+  [
+    '-norc', 
+    '-oc', 'results/dreme2', 
+    '-verbosity', 1, 
+    '-p', 
+    'common/Klf1-200-100.fa',
+    '-n', 
+    'common/Klf1-200-100-shuffled.py2.fa'
+  ],
+  [
+    {
+      output => 'results/dreme2/dreme.xml', 
+      reference => make_test_src_path('dreme/norc.xml'), 
+      type => 'xml', ignore => $dreme_xml_ignore
+    }
+  ],
+  'results/dreme2', 'scripts'
+);

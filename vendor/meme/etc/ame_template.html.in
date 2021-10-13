@@ -1,0 +1,447 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>AME Results</title>
+    <script src="ame_data.js"></script>
+    <script src="constants.js"></script>
+    <script src="utilities.js"></script>
+    <script src="motif_logo.js"></script>
+    <script src="simple-shared-doc.js"></script>
+    <script src="ame_doc.js"></script>
+    <script src="alphabet_utilities.js"></script>
+    <script src="ame_template.js"></script>
+    <script src="citation.js"></script>
+    <link rel="stylesheet" type="text/css" href="ame_template.css">
+    <link rel="stylesheet" type="text/css" href="meme.css">
+  </head>
+  <body onload="page_loaded()" onpageshow="page_shown(event)" onresize="update_scroll_pad()">
+    <!-- Help popups -->
+    <div class="pop_content" id="pop_alph_name">
+      <script>print_doc_para('pop_alph_name', 'shared', 'alph-name', 'The ');</script>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_alph_bg">
+      <script>print_doc_para('pop_alph_bg', 'shared', 'alph-bg', 'The ');</script>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content_wide" id="pop_results">
+      <script>print_doc("pop_results", "ame", "ame-tsv-description");</script>
+      <script>print_doc("pop_results", "shared", "motif-consensus");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_sequences">
+      <script>print_doc("pop_sequences", "ame", "ame-sequences-tsv");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_db">
+      <script>print_doc_para("pop_db", 'shared', "motif-db", "motif.");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_id">
+      <script>print_doc_para("pop_id", 'shared', "motif-id");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_name">
+      <script>print_doc_para("pop_name", 'shared', "motif-alt-id");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_pos">
+      <p>Labeling this number of sequences as 'positive' was found by AME
+	 to be optimal (or your primary sequence file contains
+	 this number of sequences and you also provided a control sequence file).  
+	 The sequences were chosen as described above under "Labeling positives".
+      </p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_neg">
+      <p>Labeling this number of sequences as 'negative' was found by AME
+	 to be optimal (or you provided a control sequence file containing
+	 this number of sequences).  The sequences are those remaining after the
+	 'positive' sequences were chosen as described above under "Labeling positives".
+      </p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_tp">
+      <p>The number (percentage) of sequences labeled as 'positive' (Pos) and classified as 'positive' (TP), 
+	</br />&nbsp;&nbsp;&nbsp;&nbsp; %TP = 100 * TP/Pos.<br />
+	Labeling of sequences as 'positive' is described in the help bubble for "Pos".
+        Classification is described above under "Classifying positives".
+      </p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_fp">
+      <p>The number (percentage) of sequences labeled as 'negative' (Neg) but classified as 'positive' (FP), 
+	<br />&nbsp;&nbsp;&nbsp;&nbsp; %FP = 100 * FP/Neg.<br />
+	Labeling of sequences as 'negative' is described in the help bubble for "Neg".
+        Classification is described above under "Classifying positives".
+      </p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_p_thresh">
+      <p>The (optimal) score threshold for <b>labeling</b> sequences as 'positive' determined by AME.
+      (See the note about "Labeling positives" in the section above.)
+      </p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_tp_thresh">
+      <p>The (optimal) score threshold for <b>classifying</b> sequences as 'positive' determined by AME (or provided by
+	you using <code>--hit-odds-fraction</code> or <code>--fasta-threshold</code>).
+        <br>
+        By default, the true positive and false positive sequences are those with sequence motif scores &ge; the value shown.
+        <br>
+        If you specified <code>--poslist pwm</code>, then the true positive and false positive sequences are those with
+	FASTA scores &le; the value shown.
+      </p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_adj_pvalue">
+      <script>print_doc_para('pop_adj_pvalue', 'ame', 'ame-adj-pvalue', 
+         '(The number of multiple tests is given above.)') 
+      </script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_evalue">
+      <script>print_doc_para('pop_evalue', 'ame', 'ame-evalue');</script> 
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_pearsons_rho">
+      <p>The value of Pearson's correlation coefficient (&rho;).  
+      It varies between -1 and +1.
+      High values of &rho; indicate strong correlation between the 
+      sequence motif scores and the sequence FASTA scores.
+      Note that positive &rho; means that sequence motif scores go <b>up</b>
+      when sequence FASTA scores go <b>down</b>.  
+      The <i>p</i>-value of this method is the probability that &rho; is at least as
+      large as the observed value assuming there is no relation between the scores.
+      </p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_spearmans_rho">
+      <p>The value of Spearman's rank correlation coefficient (&rho;).  
+      It varies between -1 and +1.
+      High values of &rho; indicate strong correlation between the 
+      sequence motif score ranks and the sequence FASTA score ranks.
+      Note that positive &rho; means that sequence motif scores go <b>up</b>
+      when sequence FASTA scores go <b>down</b>.
+      The <i>p</i>-value of this method is the probability that &rho; is at least as
+      large as the observed value assuming there is no relation between the scores.
+      </p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_mse">
+      <p>The value of the mean squared error of the linear regression of X vs Y.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_m">
+      <p>The slope of the regression line: Y = mX + b.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_b">
+      <p>The Y-intercept of the regression line: Y = mX + b.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <!-- Page start -->
+      <div class="prog_logo big">
+        <img src="ame_icon.png" alt="AME Logo">
+        <h1>AME</h1>
+        <h2>Analysis of Motif Enrichment</h2>
+      </div>
+      <p>
+        For further information on how to interpret these results please access
+        <a href="@SITE_URL@/doc/ame-output-format.html">@SITE_URL@/doc/ame-output-format.html</a>.<br>
+	To get a copy of the MEME software please access 
+        <a href="@SOURCE_URL@">@SOURCE_URL@</a>. 
+      </p>
+      <p id="citation">
+	<script>print_citation("citation", "AME");</script>
+      </p>
+    <!-- navigation -->
+    <div class="pad2">
+      <a class="jump" href="#data_sec">Enriched Motifs</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="#input_sec">Input Files</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="#info_sec">Program information</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="ame.tsv">Results in TSV Format</a>&nbsp;<span id="results_help"></span>
+      <script>
+        make_help_button($("results_help"), "pop_results");
+      </script>
+      <script>
+        if (data['options']['noseq'] == false) {
+          document.write("&nbsp;&nbsp;|&nbsp;&nbsp;\n");
+          document.write('<a class="jump" href="sequences.tsv">Positive sequences for each motif</a>&nbsp;<span id="sequences_help"></span>\n');
+          make_help_button($("sequences_help"), "pop_sequences");
+        }
+      </script>
+    </div>
+    <!-- alert the user when their browser is not up to the task -->
+    <noscript><h1 style="color:red">Javascript is required to view these results!</h1></noscript>
+    <script>
+      if (!window.HTMLCanvasElement)
+        document.write("<h1 style=\"color:red\">Your browser does not support canvas!</h1>\n");
+    </script>
+    <!-- write out the job description -->
+    <script>
+      if (data['job_description']) {
+        document.write('<h2 id="description">Description</h2>\n');
+        document.write('<div class="box">\n');
+        var paragraphs = data['job_description'].split("\n\n");
+        for (var i = 0; i < paragraphs.length; i++) {
+          document.write('<p>');
+          document.write(paragraphs[i].split("\n").join('<br>'));
+          document.write('</p>\n');
+        }
+        document.write('</div>\n');
+      }
+    </script>
+    <h2 class="mainh pad2" id="data_sec">Enriched Motifs</h2>
+    <div class="box">
+      <!-- messages -->
+      <p>
+      <script>
+        // Motif scoring stuff.
+        document.write('Sequence motif score: ' + data['options']['scoring'] + '<br>');
+        if (data['background']['source'] == '--sequences--') {
+	  document.write('Background model source: letter frequencies in (primary) sequences file (' + data['sequence_db']['source'] + ')<br>');
+        } else if (data['background']['source'] == '--motif--') {
+	  document.write('Background model source: frequencies given in the (first) motif input file (' + data['motif_dbs']['0']['source'] + ')<br>');
+        } else if (data['background']['source'] == '--uniform--') {
+	  document.write('Background model source: uniform frequencies<br>');
+        } else {
+	  document.write("Background model source: background file '" + data['background']['source'] + "'<br>");
+        }
+	document.write('Background model frequencies: ' + data['background']['frequencies'] + '<br>');
+	document.write('Total pseudocount added to a motif column: ' + data['options']['pseudocount'] + '<br>');
+        if (!data['control_db'] && !data['options']['fix_partition']) {
+          document.write('FASTA scores provided: ' +  (data['sequence_db']['fasta_scores'] ? 'yes' : 'no') + '<br>');
+        }
+       
+        // Statistical test stuff.
+	var fisher_method = data['options']['pvalue_method'] == "Fisher's exact test";
+	var fisher_partition = fisher_method && ! data['options']['fix_partition'];
+	var fisher_motif = fisher_method && data['options']['fix_partition'];
+        if (data['options']['pvalue_method'] == "Pearson's correlation coefficient" 
+          || data['options']['pvalue_method'] == "Spearman's correlation coefficient") {
+          document.write('<br>Statistical test: the <i>p</i>-value of ' + data['options']['pvalue_method'] + '<br>');
+        } else {
+          var extra = fisher_partition ? " (optimized over partitions)" : fisher_motif ? " (optimized over motif scores)" : "";
+          document.write('<br>Statistical test: ' + data['options']['pvalue_method'] + extra + '<br>');
+        }
+
+	// Labeling positives
+        var fasta_scores = data['sequence_db']['fasta_scores'];
+        if (data['control_db']) {
+          document.write("Labeling positives: all " + data['sequence_db']['count'] + " primary sequences are labeled as 'positive';" 
+            + " all " + data['control_db']['count'] + " control sequences are labeled as 'negative'<br>");
+        } else if (data['options']['fix_partition']) {
+          if (data['options']['positive_list'] == 'FASTA') {
+            var extra1 = fasta_scores ? " sequences with the lowest FASTA scores" : " sequences";
+            if (fasta_scores) {
+              document.write("Labeling positives: the " + data['options']['partition'] + " sequences with the lowest FASTA scores are labeled as 'positive' (fixed partition)<br>");
+            } else {
+              document.write("Labeling positives: the first " + data['options']['partition'] + " sequences are labeled as 'positive' (fixed partition)<br>");
+            }
+          } else {
+            document.write("Labeling positives: the " + data['options']['partition'] + " sequences with the highest motif scores are labeled as 'positive (fixed partition)'<br>");
+          }
+        } else {
+          if (data['options']['positive_list'] == 'FASTA') {
+            if (fasta_scores) {
+              document.write("Labeling positives: sequences with FASTA scores &le; 'Pos Thresh' are labeled as 'positive'</br>");
+            } else {
+              document.write("Labeling positives: sequences with input ranks &le; 'Pos Thresh' are labeled as 'positive'</br>");
+            }
+          } else {
+            document.write("Labeling positives: sequences with the sequence motif scores &ge; 'Pos Thresh' are labeled as 'positive'<br>");
+          }
+        }
+
+        // Classifying positives
+        if (fisher_method) {
+          if (data['options']['fix_partition']) {
+            document.write("Classifying positives: sequences with the motif scores &ge; 'TP Thresh' are classified as positive<br>");
+          } else {
+            if (data['options']['positive_list'] == "FASTA") {
+              document.write("Classifying positives: sequences with motif score &ge; " + 100*data['options']['hit_lo_fraction'] + "% of the maximum possible score are classified as 'positive'<br>");
+            } else {
+              document.write("Classifying positives: sequences with FASTA score &le; " + data['options']['fisher_fasta_threshold'] + " are classified as 'positive'<br>");
+            }
+          }
+        } else {
+          document.write("Classifying positives: not applicable; the test is based on only the 'positive' sequences and the remaining sequences are ignored <br>");
+        }
+
+        // Special for no-threshold methods
+        if (data['options']['pvalue_method'] == "Pearson's correlation coefficient" 
+          || data['options']['pvalue_method'] == "Spearman's correlation coefficient") {
+          var f = data['options']['log_fscores'] ? 'log(FASTA ID value)' : 'FASTA ID value';
+          var m = data['options']['log_pwmscores'] ? 'log(sequence motif score)' : 'sequence motif score';
+          if (data['options']['linreg_switchxy']) {
+            document.write('X: ' + m + '<br>');
+            document.write('Y: ' + f + '<br>');
+          } else {
+            document.write('X: ' + f + '<br>');
+            document.write('Y: ' + m + '<br>');
+          }
+        }
+
+	// General stuff.
+        if (fisher_partition) {
+          document.write('Observed sequence motif scores (maximum median of all motifs): ' + data['max_median_sequence_score'] + '</br>');
+        }
+        if (data['motifs'].length != 0) {
+          // document.write('Number of multiple tests for Bonferroni correction of <i>p</i>-value: ' + data['motifs'][0]['number_of_tests']);
+	  document.write('<br><i>E</i>-value threshold for reporting results: ' + 
+	    data['options']['evalue_report_threshold'] + '<br>');
+        }
+      </script>
+
+      </p>
+      <table class="results" id="results">
+        <thead>
+          <tr>
+            <th class="col_logo">Logo</th>
+            <th class="col_db">Database&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_db')"></div></th>
+            <th>ID&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_id')"></div></th>
+            <th class="col_name">Alt ID&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_name')"></div></th>
+            <!-- Used by: all methods -->
+            <th class="col_corrected_pvalue"><i>p</i>-value&nbsp;<div 
+                class="help" onclick="help_popup(this, 'pop_adj_pvalue')"></div></th>
+            <th class="col_evalue"><i>E</i>-value&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_evalue')"></div></th>
+            <th class="col_p_thresh">Pos Thresh &nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_p_thresh')"></div></th>
+            <th class="col_pos">Pos&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_pos')"></div></th>
+            <th class="col_neg">Neg&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_neg')"></div></th>
+            <th class="col_tp_thresh">TP Thresh &nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_tp_thresh')"></div></th>
+            <th class="col_tp">TP (%)&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_tp')"></div></th>
+            <th class="col_fp">FP (%)&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_fp')"></div></th>
+            <!-- Used by: LINREG_METHOD -->
+            <th class="col_pearsons_rho">Pearsons's CC (&rho;) &nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_pearsons_rho')"></div></th>
+            <!-- Used by: SPEARMAN_METHOD -->
+            <th class="col_spearmans_rho">Spearman's Rank CC (&rho;) &nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_spearmans_rho')"></div></th>
+            <!-- Used by: LINREG_METHOD -->
+            <th class="col_mean_square_error">Mean squared error&nbsp;<div 
+                class="help" onclick="help_popup(this, 'pop_mse')"></div></th>
+            <th class="col_m">m&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_m')"></div></th>
+            <th class="col_b">b&nbsp;<div class="help" 
+                onclick="help_popup(this, 'pop_b')"></div></th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+      <script>
+        if (data['motifs'].length > 0) {
+          make_results_table();
+        } else {
+          document.write("<br><b>No motifs passed the <i>E</i>-value threshold (" + data['options']['evalue_report_threshold'] + ").</b>");
+        }
+      </script>
+    </div>
+    <h2 id="input_sec" class="mainh pad2">Input Files</h2>
+    <div class="box">
+      <h4>Alphabet</h4>
+      <span id="bg_source"></span>
+      <div class="pad" id="alpha_bg"></div>
+      <script>
+      {
+        $("bg_source").appendChild(make_background_source("Background source", data.background['source']));
+        $("alpha_bg").appendChild(make_alpha_bg_table(ame_alphabet));
+      }
+      </script>
+      <h4>Sequences</h4>
+        <!-- This script prints the whole table so things will be "balanced". -->
+	<script>
+          {
+            var db = data['sequence_db'];
+            document.write("<table class=\"inputs\">\n");
+            if (data['control_db']) {
+              document.write("<tr><th>Primary Sequences</th><th>Number</th><th>Control Sequences</th><th>Number</th></tr>");
+            } else {
+              document.write("<tr><th>Primary Sequences</th><th>Number</th></tr>");
+            }
+            document.write("<tr><td>" + db['source'] + "</td>");
+            document.write("<td>" + db['count'] + "</td>");
+            if (data['control_db']) {
+              var db = data['control_db'];
+              if (db['source'] == '--shuffle--') {
+		document.write("<td>primary sequences shuffled conserving " + data['options']['kmer'] + "-mer frequencies</td>");
+              } else {
+		document.write("<td>" + db['source'] + "</td>");
+              }
+              document.write("<td>" + db['count'] + "</td>");
+            }
+            document.write("</tr></table>");
+          }
+	</script>
+      <h4>Motifs</h4>
+      <table class="inputs">
+        <tr><th>Database</th><th>Source</th><th>Motif Count</th></tr>
+        <script>
+        {
+          var motif_dbs = data['motif_dbs'];
+          for (var i = 0; i < motif_dbs.length; i++) {
+            var db = motif_dbs[i];
+            document.write("<tr>");
+            document.write("<td>"  + db['name'] + "</td>");
+            document.write("<td>" + db['source'] + "</td>");
+            document.write("<td>" + db['count'] + "</td>");
+            document.write("</tr>");
+          }
+        }
+        </script>
+      </table>
+    </div>
+    <div id="info_sec" class="bar">
+      <div class="subsection">
+        <h5 id="version">AME version</h5>
+        <script>document.write(data["version"]);</script> 
+        (Release date: <script>document.write(data["release"]);</script>)<br>
+        Copyright &copy; Robert McLeay &amp; Timothy Bailey 
+        <a href="mailto:@DEV_CONTACT@">@DEV_CONTACT@</a>, 2009.
+      </div>
+      <div class="subsection" id="reference">
+        <script>print_citation("reference", "AME");</script>
+      </div>
+      <div class="subsection">
+	<h5 id="command">Command line</h5>
+	<textarea id="cmd" rows="5" style="width:100%;" readonly="readonly">
+	</textarea>
+	<script>$("cmd").value = data["cmd"].join(" ");</script>
+      </div>
+    </div>
+    <div id="scrollpad"></div>
+  </body>
+</html>

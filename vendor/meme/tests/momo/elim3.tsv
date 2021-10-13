@@ -1,0 +1,8 @@
+mod	motif	regexp	fg_matches
+S79.9	xxx_S79.9_xxx	[ACDEFGHIKLMNPRSTVWY].[ADEFGHIKLMNPQRSTVWY]S[ACDEFGHIKLMNPQRSTVY][ADEFGHIKLMNPQRSTVWY].	104
+T79.9	xxx_T79.9_xxx	[ADEFGIKLMNPQRSTVWY][ADEFGIKLMNPQRSTVW][ACDEFGIKLMNPQRSTVWY]T[ACDEFGHIKLNPQRSTVY][ADEFGIKLNPQRSTVW][ADEFGHIKLMPQRSTVY]	75
+Y79.9	xxx_Y79.9_xxx	[ADEFGHIKLMNPQSTVY][ADEFGIKLMNRSTV][ACDEFGIKLNPQRSTVW]Y[AEFGHIKLNPRSTVWY][ADEFGHIKLPQRSVWY][ADEFGIKLNPRSVW]	39
+
+# MoMo (Modification Motifs): Version 5.4.0 compiled on May 20 2021 at 11:57:28
+# The format of this file is described at https://meme-suite.org/meme/doc/momo-output-format.html.
+# momo simple --oc results/momo5 --psm-type tide --eliminate-repeats 3 --protein-database /Users/t.bailey/meme_git/meme-xstreme/tests/momo/small-yeast.fasta /Users/t.bailey/meme_git/meme-xstreme/tests/momo/small-tide-mod.txt

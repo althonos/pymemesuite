@@ -1,0 +1,8 @@
+Motif_Identifier	GO_Term_Identifier	GOMo_Score	p-value	q-value
+HSF1	GO:0006598	9.960e-04	4.998e-04	9.995e-04
+RPN4	GO:0000280	9.960e-04	4.998e-04	9.995e-04
+RPN4	GO:0006598	5.820e-03	3.498e-03	3.498e-03
+
+# GOMo (Gene Ontology for Motifs): Version 5.4.0 compiled on May 20 2021 at 11:57:53
+# The format of this file is described at https://meme-suite.org/meme/doc/gomo-output-format.html.
+# gomo --seed 1 --nostatus --verbosity 1 --oc results/gomo1 --motifs /Users/t.bailey/meme_git/meme-xstreme/tests/gomo/motif.meme.txt /Users/t.bailey/meme_git/meme-xstreme/tests/gomo/GO2Gene.map.csv /Users/t.bailey/meme_git/meme-xstreme/tests/gomo/ama.nozscoring.xml

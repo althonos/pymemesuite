@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>SEA - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+    <script src="js/shared-doc.js"></script>
+    <script src="js/simple-shared-doc.js"></script>
+    <script src="js/citation.js"></script>
+    <style>
+      div.example {
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+    <div class="prog_logo">
+      <img src="images/sea_icon.png" alt="SEA Logo">
+      <h1>SEA</h1>
+      <h3>Simple Enrichment Analysis</h3>
+    </div>
+
+    <div style='display:inline' id='man_web_button'>
+      <p> <button onclick="toggle_man_display()">View Web Version</button> </p>
+    </div>
+
+    <div style='display:none' id='man_cmd_button'>
+      <p> <button onclick="toggle_man_display()">View Command-Line Version</button> </p>
+    </div>
+
+    <div style='display:inline' id='man_usage'>
+      <div class="usage">
+        <h3>Usage:</h3>
+        <code>sea [options] --p &lt;primary sequences&gt; [--m &lt;motifs&gt;]+</code>
+      </div>
+    </div>
+
+    <h3>Description</h3>
+    <div class="indent">
+      <span class="man blurb" data-id="sea"></span>
+    </div>
+
+    <!-- Command Line Version Doc -->
+    <div style='display:inline' id='man_cmd'>
+
+      <h3>Input</h3>
+      <div class="indent">
+        <span class='popt'><b>&lt;primary sequences&gt;</b></span>
+        <div class="indent">
+          <p>The name of a file containing the primary (positive) sequences in 
+          <a href="fasta-format.html">FASTA format</a>.  The file must contain
+	  at least 2 valid sequences or SEA will reject it.
+        </div>
+        <span class='popt'><b>&lt;motifs&gt;</b></span>
+        <div class="indent">
+          <p>The name of a file containing motifs in 
+          <a href="meme-format.html">MEME format</a> that SEA will 
+	  test for enrichment in the primary sequence.  This argument
+          may be present more than once, allowing you to simultaneously
+	  analyze motifs in several motif files.
+      </div>
+
+      <h3>Output</h3>
+      <div class="indent">
+        <p>
+          SEA writes its output to files in a directory named
+          <code>sea_out</code>, which it creates if necessary. You can change the
+          output directory using the <span class='popt'>--o</span> or <span class='popt'>--oc</span> options.
+          The directory will contain:
+        </p>
+        <ul>
+          <li><a href=examples/sea_example_output_files/sea.html><code>sea.html</code></a> -
+            an HTML file that provides the results in an interactive, human-readable format
+          <li><a href=examples/sea_example_output_files/sea.tsv><code>sea.tsv</code></a> -
+            a <a href=sea-output-format.html#tsv_results>TSV (tab-separated values)</a> 
+            file that provides the results in a format suitable for parsing by 
+	    scripts and viewing with Excel 
+          <li><a href=examples/sea_example_output_files/sequences.tsv><code>sequences.tsv</code></a> -
+            (optional) a <a href=sea-output-format.html#tsv_sequences>TSV (tab-separated values)</a> 
+            file that lists the true- and false-positive sequences identified by SEA
+        </ul>
+
+        <p><b>Note: </b> All options may be preceded by a single dash (<span class="popt">-</span>)
+          instead of a double dash (<span class="popt">--</span>) if desired.
+        </p>
+      </div>
+      <br>
+
+      <h3>Options</h3>
+      <div class="indent">
+        <table class="options">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Parameter</th>
+              <th>Description</th>
+              <th>Default Behavior</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <th colspan="4">Output</th>
+            </tr>
+            <script>
+              wropt("all-o", {"ddash": true, "dir": "sea_out"});
+              wropt("all-oc", {"ddash": true, "dir": "sea_out"});
+            </script>
+            <tr>
+              <td class="popt">--text</td><td></td>
+              <td>Output TSV format only to standard output.</td>
+              <td>SEA behaves as if <code>--oc&nbsp;sea_out</code> had
+              been specified.</td>
+            </tr>
+          </tbody>
+
+<!--
+	  <tbody>
+            <tr>
+              <th colspan="4">Objective Function</th>
+            </tr>
+            <tr>
+              <td class="popt">--objfun</td>
+              <td>
+                 <span class="popt">de</span>|&#8203;
+                 <span class="popt">cd</span>
+              </td>
+              <td>This option is used to select the objective function that
+                  SEA optimizes in searching for motifs.
+                <table class="dark">
+                  <tr>
+                    <th>Value</th><th>Name</th><th>Description</th>
+                  </tr>
+                  <tr>
+                    <td><span class="popt">de</span></td><td>Differential Enrichment</td>
+                    <td>This objective function scores motifs based on the
+                        enrichment of their sites in the primary sequences
+                        compared with the control sequences.
+                        SEA estimates motif enrichment using Fisher's
+			exact test if the primary and control sequences have the
+			same average length (within 0.01%), otherwise it uses the Binomial test.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="popt">cd</span></td><td>Central Distance</td>
+                    <td>This objective function scores motifs based on their
+                        tendency to occur near the center of the primary
+                        sequences, which must all be of the same length.
+			No set of control sequences is allowed, and
+                        the primary sequences should include adequate flanking
+                        region around the expected motif sites&mdash;e.g., use sequences
+                        of 500bp for ChIP-seq.  SEA estimates the tendency of a motif
+			to occur near the centers of primary sequences
+                        using the cumulative Bates distribution applied to the 
+			mean distance of the best site from the sequence center.
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td>SEA uses the Differential Enrichment (de) function.</td>
+	  </tbody>
+-->
+
+          <tbody>
+            <tr>
+              <th colspan="4">Control Sequences and Background Model</th>
+            </tr>
+            <tr>
+              <td class="popt">--n</td>
+              <td><span class="pdat">control sequences</span></td>
+              <td>The name of a file containing control (negative) sequences in 
+		  <a href="fasta-format.html">FASTA format</a>.
+		  The control sequences must be in the same sequence alphabet as the primary sequences.
+		  If the average length of the control sequences is longer than that of
+		  the primary sequences, SEA trims the control sequences so that both
+		  sets have the same average length.
+              </td>
+              <td>If you do not provide control sequences, SEA creates them by shuffling a copy
+                  of each primary sequence, using an <span class="pdat">m</span>-order shuffle
+                  (see next option).  Shuffling also preserves the positions of non-core
+                  (e.g., ambiguous) characters in each sequence to avoid artifacts.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--order</td>
+              <td><span class="pdat">m</span></td>
+              <td>If you do not provide control sequences, SEA creates them
+                  by shuffling a copy of each primary sequence, using an <span class="pdat">m</span>-order 
+                  shuffle of each primary sequence.  This preserves the frequencies of words of
+                  length <span class="pdat">m</span>+1 in each shuffled sequence.
+                  Unless you specify a background model file (see <span class="popt">--bfile</span>, below),
+                  SEA will also estimate an <span class="pdat">m</span>-order background model
+                  from the control sequences (or the primary sequences if you do not provide
+                  control sequences).
+                  <span class="pdat">m</span> must be in the range [0,..,5].
+              <td>SEA uses <span class="pdat">m</span>=2 (DNA and RNA),
+                  and <span class="pdat">m</span>=0 (Protein and Custom alphabets).
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--bfile</td>
+              <td><span class="pdat">file</span></td>
+              <td>Specify the source of a background model
+                  in <a href="bfile-format.html">Markov Background Model Format</a>,
+		  or one of the keywords <code>--motif--</code>, <code>motif-file</code> or <code>--uniform--</code>.
+		  The first two keywords cause the 0-order letter frequencies contained in the 
+                  <b>first</b> motif file to be used, and <code>--uniform--</code> causes 
+		  uniform letter frequencies to be used.
+		  SEA uses the <b><span class="pdat">m</span>-order portion</b> of the background model for
+		  log-likelihood scoring of motif sites.  <b>Note:</b> SEA will set the
+		  value of <span class="pdat">m</span> to 0 if you specify one of the three keywords
+		  instead of the name of a file.
+              </td>
+              <td>SEA estimates a 0-order background model from the control sequences.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--hofract</td>
+              <td><span class="pdat">hofract</span></td>
+              <td>The fraction of the primary and control sequences that SEA will randomly select
+		  for computing the best score threshold for each motif.
+		  SEA uses this threshold when computing the <i>p</i>-value of the
+		  motif in the remaining (non-holdout) sequences.
+                  <br><b>Note:</b> If the hold-out set would contain fewer than 5 sequences,
+                  SEA does not create it, and the motif <i>p</i>-values and <i>E</i>-values 
+		  will be less accurate.
+              </td>
+              <td>SEA sets <span class="pdat">hofract</span> to 0.1 (10%) of the primary 
+		  and control sequences.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--seed</td>
+              <td><span class="pdat">seed</span></td>
+	      <td>Random seed for shuffling and sampling the hold-out set sequences.</td>
+	      <td>SEA uses a random seed of 0.</td>
+            </tr>
+          </tbody>
+
+          <tbody>
+            <tr>
+              <th colspan="4">Alphabet</th>
+            </tr>
+            <script>
+              wropt("all-xalph", {"ddash": true});
+            </script>
+          </tbody>
+
+          <tbody>
+            <tr>
+              <th colspan="4">Motif Scoring and Selection</th>
+            </tr>
+            <script>
+              wropt("all-pseudo", {"ddash": true, "legacy": false});
+              wropt("all-inc", {"inc": true, "ddash": true, "centrimo": true});
+              wropt("all-inc", {"inc": false, "ddash": true, "centrimo": true});
+            </script>
+          </tbody>
+
+          <tbody>
+            <tr>
+              <th colspan="4">Output filtering</th>
+            </tr>
+            <tr>
+              <td class="popt">--thresh</td>
+              <td><span class="pdat">thresh</span></td>
+              <td>Limit the results to motifs whose significance is no greater than 
+              <span class="pdat">thresh</span>.  By default, SEA filters motifs
+              on their enrichment <i>E</i>-value, which is computed by
+              multiplying the <i>p</i>-value by the number of motifs in the input to SEA.
+              You can use the <span class="popt">--qvalue</span> or <span class="popt">--pvalue</span> 
+              option (below) if you want to filter motifs on their enrichment q-value or <i>p</i>-value instead.
+              </td>
+              <td>SEA will report motifs with enrichment <i>E</i>-values up to 10 (or with q-values up to 0.05 if <span class="popt">--qvalue</span> or <span class="popt">--pvalue</span> given).</td>
+            </tr>
+            <tr>
+              <td class="popt">--qvalue</td>
+              <td></td>
+              <td>Filter motifs on their enrichment q-value.
+              The q-value is the minimum False Discovery Rate (FDR) required 
+              to consider the motif significant.
+              </td>
+              <td>Filter motifs on the enrichment <i>E</i>-value.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--pvalue</td>
+              <td></td>
+              <td>Filter motifs on their enrichment <i>p</i>-value.
+              </td>
+              <td>Filter motifs on the enrichment <i>E</i>-value.
+              </td>
+            </tr>
+          </tbody>
+
+          <tbody>
+            <tr>
+              <th colspan="4">Misc</th>
+            </tr>
+            <tr>
+              <td class="popt">--align</td>
+              <td>
+                 <span class="popt">left</span> |
+                 <span class="popt">center</span> |
+                 <span class="popt">right</span>
+              </td>
+              <td>For the site positional distribution diagrams, align the sequences
+		on their left ends (<span class="popt">left</span>),
+		on their centers (<span class="popt">center</span>),
+		or on their right ends (<span class="popt">right</span>).
+		For visualizing motif distributions, center alignment is 
+		ideal for ChIP-seq and similar data; right alignment
+		for sequences upstream of transcription start sites; left
+		alignment for many proteins or 3' UTR sequences.
+              </td>
+              <td>Align the sequences on their centers.</td>
+            </tr>
+            <tr>
+              <td class="popt">--noseqs</td>
+              <td></td>
+              <td>Do not output a TSV file (<code>sequences.tsv</code>) containing the matching sequences
+		for each significant motif.  This file can be quite large,
+		so suppressing its output can be useful if it is not needed.
+              </td>
+              <td>Output a TSV file containing the matching sequences.
+              </td>
+            </tr>
+	    <script>
+              wropt("all-desc", {"ddash": true});
+              wropt("all-dfile", {"ddash": true});
+	      wropt("all-help", {"ddash": true});
+	      wropt("all-version", {"ddash": true});
+	    </script>
+            <tr>
+              <td class="popt">--verbosity</td><td>1|2|3|4|5</td>
+              <td>A number that regulates the verbosity level of the output
+		information messages. If set to 1 (quiet) then SEA will only
+		output warning and error messages, whereas the other extreme 5 (dump)
+		outputs lots of information intended for debugging.
+              </td>
+              <td>The verbosity level is set to 2 (normal).</td>
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+      <br>
+
+      <h3>SEA algorithm overview</h3>
+      <div class="indent">
+        <p>SEA evaluates each motif in the motif file(s) for enrichment in
+	  the primary sequences.
+        </p>
+	<ol>
+	  <li><b>Suffix Tree Creation.</b>
+	    <p>
+	      SEA builds a single suffix tree that includes both
+	      the primary and control sequences (but not the hold-out set
+	      sequences).
+	    </p>
+	  </li>
+	  <li><b>Motif Conversion.</b>
+	    <p>
+	      SEA converts each motif from a frequency matrix to a log-odds
+	      score matrix.  By default, SEA creates a background
+	      model from the control sequences, but you can provide
+	      a different background model if you wish.
+	    </p>
+	  </li>
+	  <li id="significance"><b>Motif Significance Computation.</b>
+	    <p>
+	      SEA estimates motif enrichment using Fisher's exact test if the 
+	      primary and control sequences have the same average length (within 0.01%), 
+	      otherwise it uses the Binomial test.
+	      SEA first uses the motif to classify the sequences in the hold-out set.  
+	      Classification is based on the best match to the motif in each
+	      sequence (on either strand when the alphabet is complementable).
+              SEA chooses the score threshold that gives the most significant <i>p</i>-value
+	      on the hold-out set.
+	      Using that score threshold, SEA then classifies the remaining (non-hold-out)
+	      sequences and computes the statistical significance of the 
+	      classification.  
+            </p>
+            <p id="qvalues">
+              If there are not enough input sequences to construct a hold-out set with
+	      at least 5 primary and 5 control sequences, SEA optimizes the score threshold
+	      over all the input sequences.  It adjusts the optimal <i>p</i>-value for
+	      <i>N</i> multiple tests using the formula<br>
+		&nbsp;&nbsp;&nbsp; <i>p</i>' = 1 - (1 - <i>p</i>)<sup><i>N</i></sup>,<br>
+	      where <i>N</i> is the number of score thresholds tested during the 
+	      optimization of <i>p</i>. <br>
+              <script>print_doc("qvalues", "shared", "bh-q-value-method", 
+              `SEA converts each <i>p</i>-value to an <i>E</i>-value by multiplying by it 
+              by the number of motifs in its input.  SEA`);</script>
+            </p>
+	  </li> 
+	</ol>
+      </div>
+
+    </div>
+
+    <h3 id="citing">Citing</h3>
+    <div class=indent id="citation"><script>print_citation("citation", "SEA");</script></div>
+
+    <script src="js/manual.js"></script>
+
+  </body>
+</html>

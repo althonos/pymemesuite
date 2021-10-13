@@ -1,0 +1,62 @@
+Invoking:
+  getsize memechip_example_output_files/Klf1.fna 1> $metrics
+Finished invoke:
+  name: count_seqs  status: 0  time: 0.032194
+Invoking:
+  fasta-most -min 50 < memechip_example_output_files/Klf1.fna 1> $metrics
+Finished invoke:
+  name: most_seqs  status: 0  time: 0.058922
+Invoking:
+  fasta-center -dna -len 100 < memechip_example_output_files/Klf1.fna 1> memechip_example_output_files/seqs-centered
+Finished invoke:
+  name: center_seqs  status: 0  time: 0.067614
+Invoking:
+  fasta-get-markov -nostatus -nosummary -dna -m 2 memechip_example_output_files/Klf1.fna memechip_example_output_files/background
+Finished invoke:
+  name: bg  status: 0  time: 0.010133
+Invoking:
+  meme memechip_example_output_files/seqs-centered -oc memechip_example_output_files/meme_out -mod zoops -nmotifs 3 -minw 6 -maxw 15 -bfile memechip_example_output_files/background -dna -p 1 -revcomp -nostatus
+Finished invoke:
+  name: meme  status: 0  time: 437.233411
+Invoking:
+  streme --verbosity 1 --oc memechip_example_output_files/streme_out -dna --p memechip_example_output_files/seqs-centered --minw 6 --maxw 15 --order 2
+Finished invoke:
+  name: streme  status: 0  time: 7.215576
+Invoking:
+  centrimo -seqlen 500 -verbosity 1 -oc memechip_example_output_files/centrimo_out -bfile memechip_example_output_files/background memechip_example_output_files/Klf1.fna memechip_example_output_files/meme_out/meme.xml memechip_example_output_files/streme_out/streme.xml JASPAR2018_CORE_non-redundant.meme
+Finished invoke:
+  name: centrimo  status: 0  time: 16.203644
+Invoking:
+  tomtom -verbosity 1 -oc memechip_example_output_files/meme_tomtom_out -min-overlap 5 -dist pearson -evalue -thresh 1 -no-ssc memechip_example_output_files/meme_out/meme.xml JASPAR2018_CORE_non-redundant.meme
+Finished invoke:
+  name: meme_tomtom  status: 0  time: 3.231191
+Invoking:
+  tomtom -verbosity 1 -oc memechip_example_output_files/streme_tomtom_out -min-overlap 5 -dist pearson -evalue -thresh 1 -no-ssc memechip_example_output_files/streme_out/streme.xml JASPAR2018_CORE_non-redundant.meme
+Finished invoke:
+  name: streme_tomtom  status: 0  time: 3.284931
+Invoking:
+  tomtom -verbosity 1 -text -thresh 0.1 memechip_example_output_files/combined.meme memechip_example_output_files/combined.meme 1> memechip_example_output_files/motif_alignment.txt
+Finished invoke:
+  name: align  status: 0  time: 2.451886
+Invoking:
+  spamo -verbosity 1 -oc memechip_example_output_files/spamo_out_1 -bgfile memechip_example_output_files/background -keepprimary -primary WGGGTGTGGYYS memechip_example_output_files/Klf1.fna memechip_example_output_files/meme_out/meme.xml memechip_example_output_files/meme_out/meme.xml memechip_example_output_files/streme_out/streme.xml
+Finished invoke:
+  name: spamo1  status: 0  time: 0.639876
+Invoking:
+  spamo -verbosity 1 -oc memechip_example_output_files/spamo_out_2 -bgfile memechip_example_output_files/background -keepprimary -primary NWGATAAG memechip_example_output_files/Klf1.fna memechip_example_output_files/meme_out/meme.xml memechip_example_output_files/meme_out/meme.xml memechip_example_output_files/streme_out/streme.xml
+Finished invoke:
+  name: spamo2  status: 0  time: 0.56744
+Invoking:
+  fimo --parse-genomic-coord --verbosity 1 --oc memechip_example_output_files/fimo_out_1 --bgfile memechip_example_output_files/background --motif WGGGTGTGGYYS memechip_example_output_files/meme_out/meme.xml memechip_example_output_files/Klf1.fna
+Finished invoke:
+  name: fimo1  status: 0  time: 0.482632
+Invoking:
+  fimo --parse-genomic-coord --verbosity 1 --oc memechip_example_output_files/fimo_out_2 --bgfile memechip_example_output_files/background --motif NWGATAAG memechip_example_output_files/meme_out/meme.xml memechip_example_output_files/Klf1.fna
+Finished invoke:
+  name: fimo2  status: 0  time: 0.476959
+Writing output
+Invoking:
+  meme-chip_html_to_tsv memechip_example_output_files/meme-chip.html memechip_example_output_files/summary.tsv "meme-chip -meme-p 1 -oc memechip_example_output_files -db JASPAR2018_CORE_non-redundant.meme Klf1.fna" 5.4.0 "Mon Aug 16 16\:18\:19 2021 -0700"
+Finished invoke:
+  name: summary  status: 0  time: 0.290328
+Done

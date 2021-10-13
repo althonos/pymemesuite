@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>STREME - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+    <script src="js/shared-doc.js"></script>
+    <script src="js/citation.js"></script>
+    <style>
+      div.example {
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+    <div class="prog_logo">
+      <img src="images/streme_icon.png" alt="STREME Logo">
+      <h1>STREME</h1>
+      <h3>Sensitive, Thorough, Rapid, Enriched Motif Elicitation</h3>
+    </div>
+
+    <div style='display:inline' id='man_web_button'>
+      <p> <button onclick="toggle_man_display()">View Web Version</button> </p>
+    </div>
+
+    <div style='display:none' id='man_cmd_button'>
+      <p> <button onclick="toggle_man_display()">View Command-Line Version</button> </p>
+    </div>
+
+    <div style='display:inline' id='man_usage'>
+      <div class="usage">
+        <h3>Usage:</h3>
+        <code>streme [options] --p &lt;primary sequences&gt; </code>
+      </div>
+    </div>
+
+    <h3>Description</h3>
+    <div class="indent">
+      <span class="man blurb" data-id="streme"></span>
+    </div>
+
+    <!-- Command Line Version Doc -->
+    <div style='display:inline' id='man_cmd'>
+
+      <h3>Input</h3>
+      <div class="indent">
+        <span class='popt'><b>&lt;primary sequences&gt;</b></span>
+        <div class="indent">
+          <p>The name of a file containing the primary (positive) sequences in 
+          <a href="fasta-format.html">FASTA format</a>.  The file must contain
+	  at least two valid sequences or STREME will reject it.
+          Note that the command-line version of STREME does not attempt to detect the alphabet
+          from the primary sequences, so you should specify it with the
+          <span class="popt">--dna</span>, <span class="popt">--rna</span>,
+          <span class="popt">--protein</span> or <span class="popt">--alph</span>
+          options.
+        </div>
+      </div>
+
+      <h3>Output</h3>
+      <div class="indent">
+        <p>
+          STREME writes its output to files in a directory named
+          <code>streme_out</code>, which it creates if necessary. You can change the
+          output directory using the <span class='popt'>--o</span> or <span class='popt'>--oc</span> options.
+          The directory will contain:
+        </p>
+        <ul>
+          <li><a href=examples/streme_example_output_files/streme.html><code>streme.html</code></a> -
+	    an HTML file that provides the results in an interactive, human-readable format
+          <li><a href=examples/streme_example_output_files/streme.txt><code>streme.txt</code></a> -
+	    a text file containing the motifs discovered by STREME in <a href="meme-format.html">MEME format</a>
+          <li><a href=examples/streme_example_output_files/sequences.tsv><code>sequences.tsv</code></a> -
+            a <a href=streme-output-format.html#tsv_sequences>TSV (tab-separated values)</a>
+            file that lists the true- and false-positive sequences identified by STREME for each motif
+          <li><a href=examples/streme_example_output_files/streme.xml><code>streme.xml</code></a> -
+	    an XML file that provides the results in a format designed for machine processing
+        </ul>
+        
+        <p>STREME gives each motif it discovers a <b>name</b>, which is a 
+	  <a href=motif-consensus.html>consensus sequence</a>
+	  that <i>approximately</i> describes the motif, prefixed by 
+          a number from 1 to the number of motifs found, e.g., "1-CCACYAGT".  
+          Motif names are intended to be mnemonic only, and are not 
+	  intended to be used for searching sequences for matches; to
+	  search for matches to STREME motifs, use a STREME output file
+          as input to a motif scanning program such as FIMO and MAST.  
+        </p>
+
+        <p><b>Note: </b> All options may be preceded by a single dash (<span class="popt">-</span>)
+          instead of a double dash (<span class="popt">--</span>) if desired.
+        </p>
+        </p>
+
+      </div>
+
+      <h3>Options</h3>
+      <div class="indent">
+        <table class="options">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Parameter</th>
+              <th>Description</th>
+              <th>Default Behavior</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <th colspan="4">Output</th>
+            </tr>
+            <script>
+              wropt("all-o", {"ddash": true, "dir": "streme_out"});
+              wropt("all-oc", {"ddash": true, "dir": "streme_out"});
+            </script>
+            <tr>
+              <td class="popt">--text</td><td></td>
+              <td>Output the motifs discovered by STREME in MEME text format only to standard output.</td>
+              <td>The program behaves as if <code>--oc&nbsp;streme_out</code> had
+              been specified.</td>
+            </tr>
+          </tbody>
+
+	  <tbody>
+            <tr>
+              <th colspan="4">Objective Function</th>
+            </tr>
+            <tr>
+              <td class="popt">--objfun</td>
+              <td>
+                 <span class="popt">de</span>|&#8203;
+                 <span class="popt">cd</span>
+              </td>
+              <td>This option is used to select the objective function that
+                  STREME optimizes in searching for motifs.
+                <table class="dark">
+                  <tr>
+                    <th>Value</th><th>Name</th><th>Description</th>
+                  </tr>
+                  <tr>
+                    <td><span class="popt">de</span></td><td>Differential Enrichment</td>
+                    <td>This objective function scores motifs based on the
+                        enrichment of their sites in the primary sequences
+                        compared with the control sequences.
+                        STREME estimates motif enrichment using Fisher's
+			exact test if the primary and control sequences have the
+			same average length (within 0.01%), otherwise it uses the Binomial test.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span class="popt">cd</span></td><td>Central Distance</td>
+                    <td>This objective function scores motifs based on their
+                        tendency to occur near the center of the primary
+                        sequences, which must all be of the same length.
+			No set of control sequences is allowed, and
+                        the primary sequences should include adequate flanking
+                        region around the expected motif sites&mdash;e.g., use sequences
+                        of 500bp for ChIP-seq.  STREME estimates the tendency of a motif
+			to occur near the centers of primary sequences
+                        using the cumulative Bates distribution applied to the 
+			mean distance of the best site from the sequence center.
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td>STREME uses the Differential Enrichment (de) function.</td>
+	  </tbody>
+
+          <tbody>
+            <tr>
+              <th colspan="4">Control Sequences, Background Model and Hold-out Set</th>
+            </tr>
+            <tr>
+              <td class="popt">--n</td>
+              <td><span class="pdat">control sequences</span></td>
+              <td>The name of a file containing control (negative) sequences in 
+		  <a href="fasta-format.html">FASTA format</a>.
+		  The control sequences must be in the same sequence alphabet as the primary sequences.
+		  If the average length of the control sequences is longer than that of
+		  the primary sequences, STREME trims the control sequences so that both
+		  sets have the same average length.
+              </td>
+              <td>If you do not provide control sequences, STREME creates them by shuffling a copy
+		  of each primary sequence, using a <span class="pdat">m</span>-order shuffle
+		  (see next option).  Shuffling also preserves the positions of non-core
+		  (e.g., ambiguous) characters in each sequence to avoid artifacts.
+              <td>
+            </tr>
+            <tr>
+              <td class="popt">--order</td>
+	      <td><span class="pdat">m</span></td>
+              <td>If you do not provide control sequences, STREME will do an
+                  an <span class="pdat">m</span>-order shuffle of each primary sequence to
+		  to create control sequences. This preserves the frequencies of words of
+                  length <span class="pdat">m</span>+1 in each shuffled sequence.
+                  Unless you specify a background model file (see <span class="popt">--bfile</span>, below),
+		  STREME will also estimate an <span class="pdat">m</span>-order Markov background model
+                  from the control sequences (or the primary sequences if you do not provide
+		  control sequences).  STREME uses the <a href="fasta-get-markov.html"><code>fasta-get-markov</code></a> 
+		  program with a total pseudocount of 1 to create the Markov model.
+                  <span class="pdat">m</span> must be in the range [0,..,5].  
+              <td>STREME uses <span class="pdat">m</span>=2 (DNA and RNA),
+		  and <span class="pdat">m</span>=0 (Protein and Custom alphabets).
+              <td>
+            </tr>
+              <td class="popt">--bfile</td>
+              <td><span class="pdat">file</span></td>
+              <td>Specify the source of a background model
+                  in <a href="bfile-format.html">Markov Background Model Format</a>.
+                  STREME uses the <b><span class="pdat">m</span>-order portion</b> 
+		  of the background model for log-likelihood scoring of motif sites, 
+		  where <span class="pdat">m</span> is as described for the
+		  <span class="popt">--order</span> option, above.
+              </td>
+              <td>STREME estimates an <span class="pdat">m</span>-order background model 
+		  from the control sequences, or from the primary sequences if you do not 
+		  provide control sequences.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--kmer</td>
+	      <td><span class="pdat">k</span></td>
+              <td><span class="deprecated">[Deprecated: Use <span class="popt">--order</span> instead]</span>
+                  Preserve the frequencies of words (k-mers) of this size when shuffling primary sequences
+		  to create control sequences. <span class="pdat">k</span> 
+		  must be in the range [1,..,6].  STREME also estimates a background
+		  model of order <span class="pdat">k</span>-1 from the primary
+	          sequences for use in log-likelihood scoring of motif sites.
+              <td>STREME preserves the frequencies of words of length 3 (DNA and RNA),
+		  and 1 (Protein and Custom alphabets), and constructs background models 
+                  of order 2 (DNA and RNA), and order 0 (Protein and Custom).
+              <td>
+            </tr>
+            <tr>
+              <td class="popt">--hofract</td>
+              <td><span class="pdat">hofract</span></td>
+              <td>The fraction of the primary and control sequences that STREME will randomly select
+		  and hold out for accurately estimating the significance of motifs.
+		  <br><b>Note:</b> If the hold-out set would contain fewer than 5 sequences,
+		  STREME does not create it, and the motif <i>p</i>-values will be inaccurate.
+		  <br><b>Note:</b> The letter frequencies in the final motifs reported by STREME are based 
+		  on <b>all</b> primary sequences, including those in the hold-out set.
+              </td>
+              <td>STREME reserves 0.1 (10%) of the primary and control sequences for 
+		  estimating the significance of motifs.
+              </td>
+            </tr>
+            <tr id="totallength">
+              <td class="popt">--totallength</td>
+              <td><span class="pdat">len</span></td>
+              <td>Restrict the maximum total length of the sequences used by STREME
+		  from the sequence file(s) to a total of at most <span class="pdat">len</span>.
+		  The input sequences are first sorted alphabetically by sequence content,
+		  and then their order is randomized.  (Potential) sequences are then assigned
+		  to the primary and hold-out sets.  Then sequences are added in to the
+		  primary set in a the random order, skipping any potential sequence that would cause
+		  the total length of the primary set to exceed 
+		  <span class="pdat">len</span> times (1 - <span class="pdat">hofract</span>).
+		  This is repeated for the hold-out set, not adding a sequence if the total
+		  length of the hold-out set would exceed
+		  <span class="pdat">len</span> times <span class="pdat">hofract</span>.
+              </td>
+              <td>The total length of the input sequences is not limited.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--seed</td>
+              <td><span class="pdat">seed</span></td>
+	      <td>Random seed for shuffling and sampling the hold-out set sequences (see above).</td>
+	      <td>STREME uses a random seed of 0.</td>
+            </tr>
+          </tbody>
+
+          <tbody>
+            <tr>
+              <th colspan="4">Alphabet</th>
+            </tr>
+            <script>
+              wropt("all-stdalph", {"ddash": true, "streme": true, "dna": true});
+              wropt("all-stdalph", {"ddash": true, "streme": true, "rna": true});
+              wropt("all-stdalph", {"ddash": true, "streme": true, "protein": true});
+              wropt("all-alph", {"ddash": true, "getsize": false, "ambig-unknown": true});
+            </script>
+          </tbody>
+
+          <tbody>
+            <tr>
+              <th colspan="4">Number of Motifs</th>
+            </tr>
+            <tr>
+              <td class="popt">--thresh</td><td><span class="pdat">thresh</span></td>
+              <td>STREME will stop searching for motifs when too many consecutive
+		motifs have <i>p</i>-values greater than <span class="pdat">thresh</span>
+                (or <i>E</i>-values greater than <span class="pdat">thresh</span> if you 
+		specify option <span class="popt">--evalue</span>, below). 
+                For the definition of "too many", see option <span class="popt">--patience</span>, 
+		below.
+              </td>
+              <td>0.05</td>
+            </tr>
+            <tr>
+              <td class="popt">--evalue</td>
+              <td></td>
+              <td>Stop searching for motifs based on their <i>E</i>-values.
+              </td>
+              <td>Stop searching for motifs based on their <i>p</i>-values.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--patience</td><td><span class="pdat">patience</span></td>
+              <td>Stop searching for motifs when <span class="pdat">patience</span>
+		consecutive non-significant motifs have been found.  (Can be
+		overridden by the <span class="popt">--nmotifs</span> or 
+                <span class="popt">--time</span> options; see below.)
+              </td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <td class="popt">--nmotifs</td><td><span class="pdat">nmotifs</span></td>
+              <td>STREME will stop searching for motifs after finding
+                <span class="pdat">nmotifs</span> motifs.
+              </td>
+              <td>STREME stops when too many consecutive, non-significant motifs have been found.</td>
+            </tr>
+            <tr>
+              <td class="popt">--time</td><td><span class="pdat">secs</span></td>
+              <td>STREME will stop searching for motifs if it has found at least
+                one motif and it estimates that finding any more will cause the
+                total running time to exceed <span class="pdat">secs</span> seconds.
+              </td>
+              <td>STREME stops when too many consecutive, non-significant motifs have been found.</td>
+            </tr>
+          </tbody>
+
+          <tbody>
+            <tr>
+              <th colspan="4">Motif Width</th>
+            </tr>
+            <tr>
+              <td class="popt">--minw</td><td><span class="pdat">minw</span></td>
+              <td>Search for motifs with a width &ge; <span class="pdat">minw</span>.
+                </td>
+              <td>Searches for motifs with a minimum width of 8.</td>
+            </tr>
+            <tr>
+              <td class="popt">--maxw</td><td><span class="pdat">maxw</span></td>
+              <td>Search for motifs with a width &le; <span class="pdat">maxw</span>.
+                </td>
+              <td>Searches for motifs with a maximum width of 15.</td>
+            </tr>
+            <tr>
+              <td class="popt">--w</td><td><span class="pdat">w</span></td>
+              <td>Search for motifs with a width of <span class="pdat">w</span>.
+                Overrides <span class="popt">--minw</span> and <span class="popt">--maxw</span>.
+                </td>
+              <td>See <span class="popt">--minw</span> and <span class="popt">--maxw</span>, above.</td>
+            </tr>
+          </tbody>
+
+          <tbody>
+            <tr>
+              <th colspan="4">Seed Evaluation and Refinement</th>
+            </tr>
+            <tr>
+              <td class="popt">--neval</td><td><span class="pdat">neval</span></td>
+              <td>The number of seed words of each width from 3 to <span class="pdat">maxw</span>
+                to evaluate for enrichment of approximate matches.</td>
+              <td>25</td>
+            <tr>
+              <td class="popt">--nref</td><td><span class="pdat">nref</span></td>
+              <td>The number of seed words of each width
+                from <span class="pdat">minw</span> to <span class="pdat">maxw</span> 
+                to convert to motifs and optimize using an iterative refinement algorithm.</td>
+              <td>4</td>
+            </tr>
+            <tr>
+              <td class="popt">--niter</td><td><span class="pdat">niter</span></td>
+              <td>The iterative refinement algorithm is run for <span class="pdat">niter</span> 
+                iterations, or until convergence, which ever comes first.
+              </td>
+              <td>20</td>
+            </tr>
+          </tbody>
+
+          <tbody>
+            <tr>
+              <th colspan="4">Misc</th>
+            </tr>
+            <tr>
+              <td class="popt">--align</td>
+              <td>
+                 <span class="popt">left</span> |
+                 <span class="popt">center</span> |
+                 <span class="popt">right</span>
+              </td>
+              <td>For the site positional distribution diagrams, align the sequences
+                on their left ends (<span class="popt">left</span>),
+                on their centers (<span class="popt">center</span>),
+                or on their right ends (<span class="popt">right</span>).
+                For visualizing motif distributions, center alignment is
+                ideal for ChIP-seq and similar data; right alignment
+                for sequences upstream of transcription start sites; left
+                alignment for many proteins or 3' UTR sequences.
+              </td>
+              <td>Align the sequences on their centers.</td>
+            </tr>
+	    <script>
+	      wropt("all-desc", {"ddash": true});
+	      wropt("all-dfile", {"ddash": true});
+	      wropt("all-help", {"ddash": true});
+	      wropt("all-version", {"ddash": true});
+	    </script>
+            <tr>
+              <td class="popt">--verbosity</td><td>1|2|3|4|5</td>
+              <td>A number that regulates the verbosity level of the output
+		information messages. If set to 1 (quiet) then STREME will only
+		output warning and error messages, whereas the other extreme 5 (dump)
+		outputs lots of information intended for debugging.
+              </td>
+              <td>The verbosity level is set to 2 (normal).</td>
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+
+      <h3>STREME algorithm overview</h3>
+      <div class="indent">
+        <p>STREME searches for motifs by iterating the following five
+	  steps to until the selected stopping criterion is met. The
+	  stopping criteria are described in the "Number of Motifs" section, above.
+        </p>
+	<ol>
+	  <li><b>Suffix Tree Creation.</b>
+	    <p>
+	      STREME builds a generalized suffix tree that includes both the primary and control sequences
+	      (but not the hold-out set sequences).  If the alphabet is complementable, STREME adds
+	      the reverse complement of each primary and control sequence to the tree as well.
+	      For the first round of STREME, the input sequences are used to build the tree.
+	      For subsequent rounds, the sequences from the last step (Step 5, below),
+	      with previous motifs erased, are used.
+	    </p>
+	  </li>
+	  <li><b>Seed Word Evaluation.</b>
+	      For each word of length 3 to the maximum motif width in the primary sequences, 
+	      STREME uses the tree to efficiently count the numbers of <em>exact</em> matches 
+              to the word in the primary and control sequences, 
+              and computes its enrichment <i>p</i>-value using the chosen objective function.
+              For each of the <code>neval</code> (default=25) most signficant words of each width, 
+              STREME then uses the tree to count the number of <em>approximate</em> matches
+	      to it, and computes its enrichment <i>p</i>-value.  
+	      (Note: With the Differential Enrichment objective function,
+	      STREME will use the Binomial test instead of Fisher's exact test 
+              if the primary and control sequences have different average 
+              lengths.  With the Central Distance objective function, 
+              STREME computes the cumulative Bates distribution of the average distances of
+	      the seed word from the centers of the sequences.)
+	    </p>
+	  </li> 
+	  <li><b>Motif Refinement.</b>For each word of length 3 to the maximum motif width in the primary sequences,
+              STREME uses the tree to efficiently count the numbers of <em>exact</em> matches
+              to the word in the primary and control sequences,
+              and computes its enrichment <i>p</i>-value using the chosen objective function.
+              For each of the <code>neval</code> (default=25) most signficant words of each width,
+              STREME then uses the tree to count the number of <em>approximate</em> matches
+              to it, and computes its enrichment <i>p</i>-value.
+	    <p>
+	      STREME converts each of the <code>nref</code> (default=4) most significant 
+	      seed words into a motif, and iteratively refines each motif, selecting the motif that
+	      best discriminates the primary sequences from the control sequences.
+	      At each iteration of refinement, the current motif and the (k-1)-order 
+	      background are used with the suffix tree to efficiently find the best 
+	      site in each sequence. The primary and control sequences are then sorted
+	      by the log-likelihood score of their best site, and the score threshold
+	      that optimizes the <i>p</i>-value of the statistical test
+	      (which depends on the chosen objective function) is found.
+	      The iteration ends by estimating a new version of the motif
+	      from the single best site in each primary sequence whose
+	      score is above the optimal threshold.  This new motif is 
+	      used in the next refinement iteration.  Refinement stops
+	      when the <i>p</i>-value fails to improve, or when 
+	      <code>niter</code> (default=20) iterations have been performed.
+	    </p>
+	  </li> 
+	  <li id="significance"><b>Motif Significance Computation.</b>
+	    <p>
+	      STREME computes the statistical significance of the of
+	      the motif by using the motif and the optimal discriminative score threshold (based on the
+	      primary and control sequences) to classify the hold-out set sequences,
+	      and then applying the statistical test (Fisher's exact test, Binomial test,
+	      or the cumulative Bates distribution) to the classification.
+	      Classification is based on the best match to the motif in each
+	      sequence (on either strand when the alphabet is complementable).
+	      If the primary or control hold-out set would contain fewer than 5 sequences,
+	      STREME does not create a hold-out set, and the value of the statistical
+	      test will <b>not</b> be an accurate measure of the statistical significance of
+	      the motif.  In that case STREME will label the test output as a 'score'
+	      rather than as a <i>p</i>-value.  If there is a hold-out set, STREME
+	      also reports an <i>E</i>-value that accounts for the number of motifs
+	      tested by STREME.  The <i>E</i>-value is the <i>p</i>-value multiplied
+	      by the number of motifs reported by STREME, and is an estimate of how many
+	      equally enriched (or better) motifs would be found in shuffled versions of the
+	      primary sequences.
+	    </p>
+	  </li> 
+	  <li><b>Motif Erasing.</b>
+	    <p>
+	      STREME "erases" each of the sites of the best motif
+	      from both the primary and control sequences by converting the sites
+	      to the separator character.  Only the positions in the site
+              where the letter has a positive likelihood ratio are erased to
+	      allow some overlap of sites of different motifs.
+	    </p>
+	  </li>
+	</ol>
+      </div>
+
+      <h3 id="running_time">STREME Running time and memory usage</h3>
+      <div class="indent">
+        <p>
+	  The running time and memory usage of STREME depends on the total size of the sequences
+	  in its input, the length of the sequences, the alphabet of the sequences
+	  and the minimum and maximum motif widths.  The following tables show the
+	  running times and memory usage for STREME on on different size datasets (of random sequences),
+	  as a function of the length of the sequences, on a 3.2 GHz Intel Core i7 processor 
+	  with 16GB of memory.  STREME was run using a single thread, and the motif
+	  width was the maximum allowed range: minimum = 5, maximum = 30.
+          The total sizes of the sequences in the datasets from 
+          100,000 (1 x 10<sup>5</sup>) to 20,000,000 (2 x 10<sup>7</sup>).
+        </p>
+        <p>
+          With very short sequences (length = 5), STREME is extremely fast, processing
+	  4,000,000 DNA sequences in less than 100 seconds. The running time increases with
+          sequence length, reaching a maximum for sequences around 30 long.
+          With very long sequences, STREME is runs more quickly, with length 10,000
+	  sequences taking approximately the same time per motif discovered as length 10 sequences.
+	  STREME runs about twice as slow on DNA sequences as on RNA sequences because
+          STREME treats DNA sequences as double-stranded and RNA sequences as single-stranded.
+	  Because of the larger alphabet size, STREME runs about 5 times more slowly
+	  on protein sequences than on RNA sequences, which is the same factor
+	  as the ratio of the alphabet sizes (20/4).  The running time of STREME with
+	  sequences over a custom alphabet will similarly be (roughly) proportional to the
+	  number of letters in the custom alphabet.
+        </p>
+	<table class="dark" style="width:91%">
+	  <tr><th colspan=3>STREME Running Time (seconds / motif)</th></tr>
+	  <tr>
+	    <th>DNA</th>
+	    <th>RNA</th>
+	    <th>Protein</th>
+	  </tr>
+	  <tr>
+	    <td><img src="images/exp4b.dna.time.seqlen.png" width=260></td>
+	    <td><img src="images/exp4b.rna.time.seqlen.png" width=260></td>
+	    <td><img src="images/exp4b.protein.time.seqlen.png" width=260></td>
+	  </tr>
+	  <tr><th colspan=3>STREME Virtual Memory Size (bytes)</th></tr>
+	  <tr>
+	    <th>DNA</th>
+	    <th>RNA</th>
+	    <th>Protein</th>
+	  </tr>
+	  <tr>
+	    <td><img src="images/exp4b.dna.memory.seqlen.png" width=260</td>
+	    <td><img src="images/exp4b.rna.memory.seqlen.png" width=260</td>
+	    <td><img src="images/exp4b.protein.memory.seqlen.png" width=260</td>
+	  </tr>
+        </table>
+      </div>
+
+    </div>
+
+    <h3 id="citing">Citing</h3>
+    <div class=indent id="citation"><script>print_citation("citation", "STREME");</script></div>
+
+    <script src="js/manual.js"></script>
+
+  </body>
+</html>

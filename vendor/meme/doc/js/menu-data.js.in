@@ -1,0 +1,685 @@
+
+MemeMenu.blurbs = {
+  "memesuite": "The MEME Suite allows you to discover novel motifs in collections of unaligned nucleotide or protein sequences, and to perform a wide variety of other motif-based analyses.  </br></br> It provides <em>motif discovery algorithms</em> using both probabilistic (MEME) and discrete models (STREME), which have complementary strengths.  It also allows discovery of motifs with <em>arbitrary insertions and deletions</em> (GLAM2).  MEME-ChIP performs a <em>comprehensive motif-based analysis of ChIP-seq</em> and other large sequence datasets.  </br></br>In addition to motif discovery, you can also perform several kinds of motif enrichment analysis using compendia of known motifs:  measuring the <em>positional enrichment</em> of sequences for known motifs (CentriMo), measuring the <em>relative enrichment</em> between two sets of sequences (AME), detecting <em>preferred spacings</em> between pairs of motifs (SpaMo) and identifying the <em>biological roles</em> of motifs (GOMo).  </br></br>The MEME Suite also provides tools for <em>scanning sequences</em> for matches to motifs (FIMO, MAST and GLAM2Scan), and for scanning for clusters of motifs (MCAST).  </br></br>Finally, you can <em>compare motifs</em> to known motifs using Tomtom.  </br></br>You can also predict <em>regulatory links</em> between ChIP-seq peaks (or similar genomic regions) and genes (T-Gene).  </br></br>Position the cursor on the flow chart below and/or click for more information on the tools in the MEME suite and information on their inputs and outputs.  Clicking on any of the tool icons also takes you to their input forms.  </br></br><b>Click</b> here for more information on the MEME Suite.",
+
+  "input_sequences": "You can use the MEME Suite tools to discover novel (<em>Motif Discovery</em>) or known (<em>Motif Enrichment</em>) sequence motifs in sets of related DNA, RNA or protein sequences.  </br></br>You can also input sets of sequences and scan them for occurrences of motifs (<em>Motif Scanning</em>).  </br></br>Details on the format of your sequences are given under <em>FASTA Sequence</em> in the <em>File Format Reference</em> menu on the left, or just by <b>clicking</b> here.",
+
+  "input_motifs": "You can input your own motifs to MEME Suite tools to see if they are enriched in your sequences (<dfn>Motif Enrichment</dfn>), to find out where they occur in known sequences (<dfn>Motif Scanning</dfn>), or to see if they are similar to known motifs (<dfn>Motif Comparison</dfn>).  </br></br>Many motif formats are supported including count matrix, position weight matrix, aligned sites, and consensus sequence.  </br></br>You can also directly input the motifs contained in the output of the MEME Suite Motif Discovery tools, or a simplified version of that format, which is detailed under <dfn>MEME Motif</dfn> in the <dfn>File Format Reference</dfn> menu on the left, or just by <b>clicking</b> here.", 
+
+  "motif_databases": "The MEME Suite provides a large number of databases of known motifs that you can use with the <dfn>Motif Enrichment</dfn> and <dfn>Motif Comparison</dfn> tools. </br></br>The motif databases are also available for you to download and use on your own computer under <dfn>Download MEME Suite and Databases</dfn> in the <dfn>Download & Install</dfn> menu on the left. </br></br><b>Click</b> here to see descriptions of the available motif databases.",
+
+  "go_databases": "The MEME Suite provides databases for several organisms for use with the GOMo motif enrichment tool. </br></br>These databases consist of the promoter sequences for all annotated genes in the organism, plus a table listing the Genome Ontology (GO) terms associated with each gene. </br></br><b>Click</b> here to see descriptions of the available GOMo sequence databases. </br></br>The GOMo databases are also available for you to download and use on your own computer under <dfn>Download MEME Suite and Databases</dfn> in the <dfn>Download & Install</dfn> menu on the left.",
+
+  "discovered_motifs": "The MEME Suite <dfn>Motif Discovery</dfn> tools output their results as interactive HTML files. </br></br>You can see an example output from each of the tools under <dfn>Motif Discovery</dfn> in the <dfn>Sample Outputs</dfn> menu on the left.",
+
+  "enriched_motifs": "The MEME Suite <dfn>Motif Enrichment</dfn> tools output their results as interactive HTML files. </br></br>You can see an example output from each of the tools under <dfn>Motif Enrichment</dfn> in the <dfn>Sample Outputs</dfn> menu on the left.",
+
+  "annotated_motifs": "The MEME Suite <dfn>GOMo</dfn> tool outputs its results as an interactive HTML file. </br></br>You can see an example <dfn>GOMo</dfn> output under <dfn>Motif Enrichment</dfn> in the <dfn>Sample Outputs</dfn> menu on the left, or by <b>clicking</b> here.",
+
+  "sequence_databases": "The MEME Suite provides a large number of protein and DNA sequence databases.  These include the proteomes, genomes and sets of promoters for many organisms.</br></br><b>Click</b> here to see descriptions of the available sequence databases.",
+
+  "motif_discovery": "<i>De novo</i> discovery of motifs in set(s) of sequences.",
+
+  "motif_enrichment": "Analyze sequence set(s) for enrichment of known motifs or motifs you provide.",
+
+  "motif_scanning": "Find matches to motif(s) in sequences.",
+
+  "motif_comparison": "Compare query motif(s) to known motifs.",
+
+  "gene_regulation": "Predict regulatory links.",
+
+  "momo": "<dfn>MoMo</dfn> discovers sequence motifs associated with different types of protein post-translational modifications (PTMs)<span class=\"sample_output\"> (<a href=\"../doc/examples/momo_example_output_files/momo.html\">sample output</a>)</span>. The program takes as input a collection of PTMs identified using protein mass spectrometry.  For each distinct type of PTM, MoMo uses one of three algorithms to discover motifs representing amino acid preferences flanking the modification site. <footer><br><br><b>Note:</b> MoMo treats all ambiguous characters in sequences as wildcards that match every letter equally well.</footer>",
+  
+  "meme": "<dfn>MEME</dfn> discovers novel, <em>ungapped</em> motifs (recurring, fixed-length patterns) in your sequences<span class=\"sample_output\"> (<a href=\"../doc/examples/meme_example_output_files/meme.html\">sample output</a> from <a href='@SITE_URL@/doc/examples/example-datasets/crp0.fna'>sequences</a>)</span>. MEME splits variable-length patterns into two or more separate motifs. <span class=\"manual_link\">See this <a href=\"../doc/meme.html?man_type=web\">Manual</a> for more information.</span> <footer><br><br>A motif is an approximate sequence pattern that occurs repeatedly in a group of related sequences. MEME represents motifs as position-dependent letter-probability matrices that describe the probability of each possible letter at each position in the pattern.  Individual MEME motifs do not contain gaps. Patterns with variable-length gaps are split by MEME into two or more separate motifs. <br><br>MEME takes as input a group of sequences and outputs as many motifs as requested. MEME uses statistical modeling techniques to automatically choose the best width, number of occurrences, and description for each motif. <br><br>MEME on the web can take a second (control) set of input sequences and then discovers motifs that are enriched in the primary set relative to the control set.  This is called discriminative motif discovery. <br><br><b>Note:</b> If you have more than 50 sequences, you might want to use STREME instead of MEME. <br><br><b>Note:</b> MEME treats all ambiguous characters in sequences as wildcards that match every letter equally well.</footer>",
+
+  "streme": "<dfn>STREME</dfn> discovers <em>ungapped</em> motifs (recurring, fixed-length patterns) that are <em>enriched</em> in your sequences or <em>relatively enriched</em> in them compared to your control sequences<span class=\"sample_output\"> (<a href=\"../doc/examples/streme_example_output_files/streme.html\">sample output</a> from <a href='@SITE_URL@/doc/examples/example-datasets/Klf1.fna'>sequences</a>)</span>.<span class=\"manual_link\"> See this <a href=\"../doc/streme.html?man_type=web\">Manual</a> or this <a href=\"../doc/streme-tutorial.html\">Tutorial</a> for more information.</span>  <footer><br><br>STREME (Simple, Thorough, Rapid, Enriched Motif Elicitation) finds motifs (up to 30 columns wide) in large sequence datasets. The input to STREME is one or two sets of sequences.  The control sequences should have approximately the same length distribution as the primary sequences. If you do not provide a control set, the program shuffles the primary set to create a control set. The program uses Fisher's Exact Test or the Binomial test to determine significance of each motif found in the positive set as compared with its representation in the control set, using a significance threshold that may be set on the command line.<br><br>STREME achieves high speed via an optimization algorithm that uses a suffix tree, and provides <b>accurate estimates</b> of the statistical significance of the motifs it discovers. <br><br><b>Note:</b> If you have fewer than 50 sequences, you might want to use MEME instead of STREME. <br><br><b>Note:</b> STREME will not include sequence positions that contain ambiguous characters in the motifs it discovers, and will work with DNA sequences even if you specify the RNA alphabet.</footer>",
+
+  "sea": "<dfn>SEA</dfn> identifies <em>known</em> or <em>user-provided</em> motifs that are <em>relatively</em> enriched in your sequences compared with shuffled sequences or your control sequences<span class=\"sample_output\"> (<a href=\"../doc/examples/sea_example_output_files/sea.html\">sample output</a> from <a href='@SITE_URL@/doc/examples/example-datasets/Klf1.fna'>sequences</a>)</span>.<span class=\"manual_link\"> See this <a href=\"../doc/sea.html?man_type=web\">Manual</a> for more information.</span>  <footer><br><br>SEA (Simple Enrichment Analysis) applies the same objective function used by the STREME motif discovery algorithm to measure the enrichment of motifs. The input to SEA is one or two sets of sequences.  If you provide a control set of sequences, they should have approximately the same length distribution as the primary sequences. If you do not provide a control set, SEA shuffles each sequence in the primary set to create a control set. Enrichment is based on the best match to the motif in each sequence (on either strand when the alphabet is complementable).<br><br><b>Note:</b> SEA ignores sequence positions that contain ambiguous characters, and will work with DNA sequences even if the motifs use the RNA alphabet.</footer>",
+
+  "dreme": "<dfn>DREME (deprecated; please consider using <em>STREME</em> instead)</dfn> discovers <em>short</em>, <em>ungapped</em> motifs (recurring, fixed-length patterns) that are <em>relatively</em> enriched in your sequences compared with shuffled sequences or your control sequences<span class=\"sample_output\"> (<a href=\"../doc/examples/dreme_example_output_files/dreme.html\">sample output</a> from <a href='@SITE_URL@/doc/examples/example-datasets/Klf1.fna'>sequences</a>)</span>.<span class=\"manual_link\"> See this <a href=\"../doc/dreme.html?man_type=web\">Manual</a> or this <a href=\"../doc/dreme-tutorial.html\">Tutorial</a> for more information.</span>  <footer><br><br>DREME (Discriminative Regular Expression Motif Elicitation) finds relatively short motifs (up to 8 positions) fast. The input to DREME is one or two sets of sequences.  The control sequences should be approximately the same length as the primary sequences. If you do not provide a control set, the program shuffles the primary set to provide a control set. The program uses Fisher's Exact Test to determine significance of each motif found in the positive set as compared with its representation in the control set, using a significance threshold that may be set on the command line.<br><br>DREME achieves its high speed by restricting its search to regular expressions based on the symbols available in the alphabet, and by using a heuristic estimate of generalized motifs' statistical significance.  <br><br><b>Note:</b> DREME ignores sequence positions that contain ambiguous characters.</footer>",
+
+  "memechip": "<dfn>MEME-ChIP</dfn> performs <em>comprehensive motif analysis</em> (including motif discovery) on sequences where the motif sites tend to be <em>centrally</em> located, such as ChIP-seq peaks<span class=\"sample_output\"> (<a href=\"../doc/examples/memechip_example_output_files/meme-chip.html\">sample output</a> from <a href='@SITE_URL@/doc/examples/example-datasets/Klf1.fna'>sequences</a>)</span>. The input sequences should be <em>centered</em> on a <em>100 character region</em> expected to contain motifs, and each sequence should ideally be around <em>500 letters</em> long. </em><span class=\"manual_link\"> See this <a href=\"../doc/meme-chip.html?man_type=web\">Manual</a> for more information.</span>  <footer><br><br>MEME-ChIP will: <ol> <li>Discover novel motifs in the <b>central regions</b> (100 characters by default) of the input sequences (with MEME and STREME).</li><li>Determine which motifs are most centrally enriched (with CentriMo).</li><li>Analyze them for similarity to known motifs (with Tomtom).</li><li>Group significant motifs by similarity.</li><li>Perform a motif spacing analysis (with SpaMo).</li><li>Create a GFF file for viewing each motif's predicted sites in a genome browser.</li></ol></footer>",
+
+  "glam2": "<dfn>GLAM2</dfn> discovers novel, <em>gapped</em> motifs (recurring, variable-length patterns) in your <em>DNA</em> or <em>protein</em> sequences<span class=\"sample_output\"> (<a href=\"../doc/examples/glam2_example_output_files/glam2.html\">sample output</a> from <a href='@SITE_URL@/doc/examples/example-datasets/At.faa'>sequences</a>)</span>.<span class=\"manual_link\"> See this <a href=\"../doc/glam2.html?man_type=web\">Manual</a> for more information.</span>  <footer><br><br>GLAM2 is a program for finding motifs in sequences, typically amino-acid or nucleotide sequences. The main innovation of GLAM2 is that it allows insertions and deletions in motifs.  <br><br>GLAM2 is a child of <a href=\"http://zlab.bu.edu/glam/\">GLAM</a> and a sibling of <a href=\"http://www.ncbi.nlm.nih.gov/CBBresearch/Spouge/html.ncbi/index/software.html#7\">A-GLAM</a>.  'GLAM' previously to stood for 'Gapless Local Alignment of Multiple sequences', but it now stands for 'Gapped Local Alignment of Motifs'.  <br><br>GLAM2 uses a <a href=\"http://en.wikipedia.org/wiki/Simulated_annealing\">simulated annealing</a> algorithm, with a temperature parameter. At high temperatures, GLAM2 only slightly favors changes that increase the alignment's score, and at low temperatures it strongly favors such changes. Thus, at high temperatures the score will be optimized too slowly, but at low temperatures the algorithm will get frozen in a local optimum. The strategy, then, is to start with a high temperature and reduce it as slowly as possible.  <br><br>Refer to the <a href=\"glam2_tut.html\">GLAM2 tutorial</a>, which uses the command-line version of GLAM2, if you need more information.</footer>",
+
+  "ame": "<dfn>AME</dfn> identifies <em>known</em> or <em>user-provided</em> motifs that are either <em>relatively</em> enriched in your sequences compared with control sequences, that are enriched in the first sequences in your input file, or that are enriched in sequences with <b>small</b> values of scores that you can specify with your input sequences <span class=\"sample_output\"> (<a href=\"../doc/examples/ame_example_output_files/ame.html\">sample output</a> from <a href='@SITE_URL@/doc/examples/example-datasets/crp0.fna'>sequences</a>, <a href='@SITE_URL@/doc/examples/example-datasets/lex0.fna'>control sequences</a> and <a href='@SITE_URL@/doc/examples/example-datasets/dpinteract.meme'>motifs</a>)</span>. <span class=\"manual_link\">See this <a href=\"../doc/ame.html?man_type=web\">Manual</a> or this <a href=\"../doc/ame-tutorial.html\">Tutorial</a> for more information.</span> <footer><br><br>AME (Analysis of Motif Enrichment) scores a set of sequences with a motif, treating each subsequence (and its reverse complement for complementable alphabets) in the sequence as a possible match to the motif. AME supports several types of sequence scoring functions, and it treats motif occurrences the same, regardless of their locations within the sequences.  AME supports several types of statistical enrichment functions.  (See the Command-line Version of the <a href=\"../doc/ame.html?man_type=web\">Manual</a> for more details.) The web version of AME provides a large number of motif databases, or you can upload your own motifs in <a href=meme-format.html>MEME Motif Format</a>, or enter them by typing in many additional formats.<br><br><b>Note:</b> AME does not score sequence positions that contain ambiguous characters.</footer>", 
+
+  "centrimo": "<dfn>CentriMo</dfn> identifies <em>known</em> or <em>user-provided</em> motifs that show a significant preference for particular <em>locations</em> in your sequences<span class=\"sample_output\"> (<a href=\"../doc/examples/centrimo_example_output_files/centrimo.html\">sample output</a> from <a href='@SITE_URL@/doc/examples/example-datasets/mm9_tss_500bp_sampled_1000.fna'>sequences</a> and <a href='@SITE_URL@/doc/examples/example-datasets/some_vertebrates.meme'>motifs</a>)</span>. CentriMo can also show if the local enrichment is significant <em>relative</em> to control sequences. <span class=\"manual_link\">See this <a href=\"../doc/centrimo.html?man_type=web\">Manual</a> or this <a href=\"../doc/centrimo-tutorial.html\">Tutorial</a> for more information.</span> <footer><br><br>CentriMo takes a set of motifs and a set of equal-length sequences and plots the positional distribution of the best match of each motif.  The motifs are typically compendia of DNA- or RNA-binding motifs, and the sequences might be: 500 bp sequences aligned on ChIP-seq peaks or summits; 300 bp sequences centered on sets of transcription start sites or translation start sites; sequences aligned on splice-junctions; etc.  The web version of CentriMo provides a large number of motif databases, or you can upload your own motifs in <a href=meme-format.html>MEME Motif Format</a>, or enter them by typing in many additional formats. <br><br>CentriMo also computes the 'local enrichment' of each motif by counting the number of times its best match in each sequence occurs in a local region and applying a statistical test to see if the local enrichment is significant.  By default, CentriMo examines only regions <b>centered</b> in the input sequences, but CentriMo will compute the enrichment of <b>all</b> regions if requested.  CentriMo uses the binomial test to compute the significance of the number of sequences where the best match occurs in a given region, assuming a uniform prior over best match positions.  CentriMo reports the location and significance of the best region for each motif.  <br><br> CentriMo can also perform comparative enrichment, reporting the relative enrichment of the best region in a second, control set of sequences if you provide a set of control sequences.  CentriMo chooses regions based on their significance in the primary set of sequences, and then it uses Fisher's exact test to evaluate the significance of the number of best matches in the region in the primary set compared with the number of best matches in the same region in the control set of sequences.<br><br><b>Note:</b> CentriMo does not score sequence positions that contain ambiguous characters.</footer>",
+
+  "spamo": "<dfn>SpaMo</dfn> identifies significantly enriched <em>spacings</em> in a set of sequences between a <em>primary motif</em> and each motif in a set of <em>secondary motifs</em><span class=\"sample_output\"> (<a href=\"../doc/examples/spamo_example_output_files/spamo.html\">sample output</a> from <a href='@SITE_URL@/doc/examples/example-datasets/Klf1.fna'>sequences</a> and <a href='@SITE_URL@/doc/examples/example-datasets/Klf1.meme'>motif</a>)</span>. Typically, the input sequences are centered on ChIP-seq peaks, and are each 500bp long.  <span class=\"manual_link\">See this <a href=\"../doc/spamo.html?man_type=web\">Manual</a> for more information.</span>  <footer><br><br>The name SpaMo stands for 'Spaced Motif' analysis.  Its inputs are a set of many short sequences, a primary motif and one or more databases of secondary motifs. It searches for the strongest primary motif binding site (on both strands for complementable alphabets) and then searches in the area around it looking for the strongest secondary motif binding site. The relative spacings of the primary and secondary motif in all the sequences is tallied and the probability of the close spacings happening by chance is calculated.  <br><br> After all the calculations are done SpaMo, outputs the non-redundant secondary motifs in order of significance provided they had a bin that passed the significance threshold. Similar secondary motifs are grouped together and listed in order of significance on the secondary motif they were redundant to. If the bin size is 1 (as it is with the web version of SpaMo), then an alignment for each of the similar secondary motifs is created.  <br><br>The web version of SpaMo provides a large number of secondary motif databases, or you can upload your own motifs in <a href=meme-format.html>MEME Motif Format</a>, or enter them by typing in many additional formats. <br><br>It is important to note that the locations searched for the primary and secondary motifs are dependent on a SpaMO parameter called the \"margin\", which is 150bp by default. The secondary motif must be contained within an area limited by the margin size on either side of the strongest primary motif site. Additionally the primary motif cannot be found closer than the margin size to the edge of the input sequence. <br><br><figure> <figcaption>Restrictions on primary motif locations.</figcaption> <canvas id=\"primary_site_diagram\"></canvas> </figure> <figure> <figcaption>Restrictions on secondary motif locations.</figcaption> <canvas id=\"secondary_site_diagram\" onclick=\"draw_diagram2()\"></canvas> </figure>  <br><br><b>Note:</b> SpaMo does not score sequence positions that contain ambiguous characters.</footer>",
+
+  "gomo": "<dfn>GOMo</dfn> scans all <em>promoters</em> using <em>nucleotide motifs</em> you provide to determine if any motif is significantly associated with genes linked to one or more Genome Ontology (GO) terms<span class=\"sample_output\"> (<a href=\"../doc/examples/gomo_example_output_files/gomo.html\">sample output</a> from <a href='@SITE_URL@/doc/examples/example-datasets/dpinteract_subset.meme'>motifs</a> and E.coli K12 database)</span>. The significant GO terms can suggest the <em>biological roles</em> of the motifs.  <span class=\"manual_link\">See this <a href=\"../doc/gomo.html?man_type=web\">Manual</a> for more information.</span>  <footer><br><br>The name GOMo stands for 'Gene Ontology for Motifs'.  The program searches in a set of ranked genes for enriched GO terms associated with high-ranking genes. The genes can be ranked, for example, by applying a motif scoring algorithms on their upstream sequence.  <br><br>GOMo computes a score for each GO term by estimating the Mann-Whitney rank-sum <i>p</i>-value of the GO term's genes, and can combine the <i>p</i>-values for multiple species. It then estimates final <i>p</i>-values for each GO-term empirically by shuffling the gene identifiers in the ranking (ensuring consistency across species) to generate scores from the null hypothesis. Then <i>q</i>-values are derived from these <i>p</i>-values following the method of Benjamini and Hochberg (where '<i>q</i>-value' is defined as the minimal false discovery rate at which a given GO-term is deemed significant).<br><br>The program reports all GO terms that receive <i>q</i>-values smaller than a specified threshold, outputting a GOMo score with empirically calculated <i>p</i>-values and <i>q</i>-values for each.</footer>",
+
+  "fimo": "<dfn>FIMO</dfn> scans a set of sequences for <em>individual matches</em> to each of the motifs you provide<span class=\"sample_output\"> (<a href=\"../doc/examples/fimo_example_output_files/fimo.html\">sample output</a> for <a href='@SITE_URL@/doc/examples/example-datasets/some_vertebrates.meme'>motifs</a> and <a href='@SITE_URL@/doc/examples/example-datasets/mm9_tss_500bp_sampled_1000.fna'>sequences</a>)</span>.<span class=\"manual_link\"> See this <a href=\"../doc/fimo.html?man_type=web\">Manual</a> or this <a href=\"../doc/fimo-tutorial.html\">Tutorial</a> for more information.</span>  <footer><br><br>The name FIMO stands for 'Find Individual Motif Occurrences'.  The program searches a set of sequences for occurrences of known motifs, treating each motif independently.  Motifs must be in <a href=meme-format.html>MEME Motif Format</a>.  The web version of FIMO also allows you to type in motifs in additional formats. <br><br><b>Note:</b> FIMO does not score sequence positions that contain ambiguous characters.</footer>", 
+
+  "tgene": "<dfn>T-Gene</dfn> predicts <em>regulatory links</em> between each of the <em>loci</em> (genomic locations, typically TF ChIP-seq peak locations) that you provide and each of the organism's <em>genes</em><span class=\"sample_output\"> (<a href=\"../doc/examples/tgene_example_output_files/tgene.html\">sample output</a> for <a href='@SITE_URL@/doc/examples/example-datasets/P300.chr21.bed'>these loci on Chr21</a>)</span>.<span class=\"manual_link\"> See this <a href=\"../doc/tgene.html?man_type=web\">Manual</a> or this <a href=\"../doc/tgene-tutorial.html\">Tutorial</a> for more information.</span>  <footer><br><br>T-Gene predicts the regulatory targets of each of your loci based its distance from a potential target TSS, and, if a \"tissue panel\" is provided, based on the correlation across the tissues of the level of a histone modification at the locus with the expression of the transcript.  Both proximity to the gene and high correlation between a locus and a gene is evidence of that the locus may be involved in the regulation of the gene. The web version of T-Gene provides you with a number of genomes and tissue panels.</footer>",
+
+  "ptm": "<dfn>PTM Portal</dfn> discovers motifs from inputs of peptide-spectrum matches.",
+
+  "mast": "<dfn>MAST</dfn> searches sequences for matches to a set of motifs, and sorts the sequences by the <em>best combined match</em> to all motifs<span class=\"sample_output\"> (<a href=\"../doc/examples/mast_example_output_files/mast.html\">sample output</a> for <a href='@SITE_URL@/doc/examples/example-datasets/adh.meme'>motifs</a> and <a href='@SITE_URL@/doc/examples/example-datasets/adh.faa'>sequences</a>).</span><span class='manual_link'> See this <a href=\"../doc/mast.html?man_type=web\">Manual</a> for more information.</span>  <footer><br><br>The name MAST stands for 'Motif Alignment and Search Tool'.  A motif is a sequence pattern that occurs repeatedly in a group of related sequences. Motifs are represented as position-dependent probability (or scoring) matrices that describe the probability (or score) of each possible letter at each position in the pattern. Individual motifs may not contain gaps. Patterns with variable-length gaps must be split into two or more separate motifs before being submitted as input to MAST.  <br><br>MAST takes as input a file containing the descriptions of one or more motifs and searches a set of sequences that you select for sequences that match the motifs.  Motifs must be in <a href=meme-format.html>MEME Motif Format</a>. The web version of MAST also allows you to type in motifs in additional formats.  <br><br>MAST can search sequences with motifs of the same alphabet but as a special feature it can also search protein sequences with DNA motifs.  You can control how (or if) MAST scans the reverse complement strand (if applicable).  You can also set thresholds for overall (combined match) significance and individual motif site significance.<br><br><b>Note:</b> MAST scores sequence positions that contain ambiguous characters using the weighted average of the log-odds scores of the letters that the ambiguous character matches. The weights are the background frequencies of those letters.</footer>",
+
+  "mcast": "<dfn>MCAST</dfn> searches sequences for <em>clusters of matches</em> to one or more <em>nucleotide</em> motifs<span class=\"sample_output\"> (<a href=\"../doc/examples/mcast_example_output_files/mcast.html\">sample output</a> for <a href='@SITE_URL@/doc/examples/example-datasets/crp0.meme'>motifs</a> and <a href='@SITE_URL@/doc/examples/example-datasets/crp0.fna'>sequences</a>)</span>.<span class='manual_link'> See this <a href=\"../doc/mcast.html?man_type=web\">Manual</a> for more information.</span>  <footer><br><br>The name MCAST stands for 'Motif Cluster Alignment Search Tool'.  MCAST searches a set of sequences for statistically significant clusters of <b>non-overlapping</b> occurrences of a given set of motifs.  It is primarily designed for search genomic DNA databases. Motifs must be in <a href=meme-format.html>MEME Motif Format</a>. The web version of MCAST also allows you to type in motifs in additional formats.  <br><br>A motif 'hit' is a sequence position that is sufficiently similar to a motif in the query, where the score for a motif at a particular sequence position is computed without gaps. To compute the <i>p-</i>value of a motif score, MCAST assumes that the sequences in the file were generated by a 0-order Markov process.  To be considered a hit, the <i>p</i>-value of the motif alignment score must be less than the significance threshold, which you can specify.  Note that MCAST searches for hits on both strands of the sequences.  <br><br>A cluster of non-overlapping hits is called a 'match'. You can specify the maximum allowed distance between the hits in a match.  Two hits separated by more than the maximum allowed gap will be reported in separate matches.  <br><br>The <i>p-</i>value of a hit is converted to a 'p-score' in order to compute the total score of the match it participates in. The p-score for a hit with <i>p-</i>value <span class=\"pdat\">p</span> is <div class=\"indent\"> S = -log<sub>2</sub>(<span class=\"pdat\">p</span>/<span class=\"pdat\">pthresh</span>), </div> <p style=\"margin-top:0\"> where <span class=\"pdat\">pthresh</span> is 0.0005 by default.  The total score of a match is the sum of the p-scores of the hits making up the match.</p> <p style=\"margin-bottom:0\">MCAST searches for all possible matches between the query motifs and the sequences, and reports the matches with the largest scores in decreasing order. Three types of statistical confidence estimates (<i>p</i>-value, <i>E</i>-value, and <i>q</i>-value) are estimated for each score, and the reported matches can be filtered by applying <i>p</i>-value or <i>q</i>-value thresholds that you can specify.</footer>",
+
+  "glam2scan": "<dfn>GLAM2Scan</dfn> searches sequences for matches to gapped <em>DNA</em> or <em>protein</em> GLAM2 motifs<span class=\"sample_output\"> (<a href=\"../doc/examples/glam2scan_example_output_files/glam2scan.html\">sample output</a> for <a href='@SITE_URL@/doc/examples/example-datasets/At.glam2'>GLAM2 motif</a> and <a href='@SITE_URL@/doc/examples/example-datasets/At.faa'>sequences</a>)</span>.<span class='manual_link'> See this <a href=\"../doc/glam2scan.html?man_type=web\">Manual</a> for more information.</span>  <footer><br><br>GLAM2Scan finds matches, in a set of sequences, to motifs discovered by GLAM2. Each match receives a score, indicating how well it fits the motif.  The GLAM2 motifs may be in either plain text (<code>glam2.txt</code>) or HTML (<code>glam2.html</code>) format.</footer>",
+
+  "tomtom": "<dfn>Tomtom</dfn> compares one or more motifs against a database of known motifs (e.g., JASPAR). Tomtom will rank the motifs in the database and produce an alignment for each significant match<span class=\"sample_output\"> (<a href=\"../doc/examples/tomtom_example_output_files/tomtom.html\">sample output</a> for <a href='@SITE_URL@/doc/examples/example-datasets/STRGGTCAN.meme'>motif</a> and JASPAR CORE 2014 database)</span>.<span class='manual_link'> See this <a href=\"../doc/tomtom.html?man_type=web\">Manual</a> for more information.</span>  <footer><br><br>Tomtom searches one or more query motifs against one or more databases of target motifs (and their reverse complements when applicable), and reports for each query a list of target motifs, ranked by <i>p</i>-value.  The <i>E</i>-value and the <i>q</i>-value of each match is also reported.  The <i>q</i>-value is the minimal false discovery rate at which the observed similarity would be deemed significant.  The output contains results for each query, in the order that the queries appear in the input file.  <br><br>The web version of Tomtom provides a large number of target motif databases, or you can upload your own motifs in <a href=meme-format.html>MEME Motif Format</a>, or enter them by typing in many additional formats.  <br><br>For a given pair of motifs, the program considers all offsets between the motifs, while requiring a minimum number of overlapping positions. For a given offset, each overlapping position is scored using one of seven column similarity functions defined below. Columns in the query motif that don't overlap the target motif are assigned a score equal to the median score of the set of random matches to that column. <br><br>In order to compute the scores, Tomtom needs to know the frequencies of the letters of the sequence alphabet in the database being searched (the 'background' letter frequencies). By default, the background letter frequencies included in the query motif file are used. The scores of columns that overlap for a given offset are summed. This summed score is then converted to a <i>p</i>-value. The reported <i>p</i>-value is the minimal <i>p</i>-value over all possible offsets.  To compensate for multiple testing, each reported <i>p</i>-value is converted to an <i>E</i>-value by multiplying it by twice the number of target motifs.  As a second type of multiple-testing correction, <i>q</i>-values for each match are computed from the set of <i>p</i>-values and reported.</footer>",
+
+"xstreme": "<dfn>XSTREME</dfn> performs <em>comprehensive motif analysis</em> (including motif discovery) on sequences where the motif sites can be <em>anywhere</em> in the sequences<span class=\"sample_output\"> (<a href=\"../doc/examples/xstreme_example_output_files/xstreme.html\">sample output</a> from <a href='@SITE_URL@/doc/examples/example-datasets/Klf1.fna'>sequences</a>)</span>. The input sequences may be of <em>any length</em>, and their lengths may <em>vary</em>.  <footer><br><br>XSTREME will: <ol> <li>Discover novel motifs in the input sequences (with STREME and MEME).</li> <li>Determine which motifs are most enriched (with SEA).</li> <li>Analyze them for similarity to known motifs (with Tomtom).</li> <li>Group significant motifs by similarity.</li> </li><li>Create a GFF file for viewing each motif's predicted sites in a genome browser.</li></ol>It is worth noting that XSTREME is <b>not</b> a motif scanner, but the motifs discovered by it can be used by FIMO or MAST to scan for motif sites.</footer>",
+
+  "annotated_sequences": "The MEME Suite <dfn>Motif Scanning</dfn> tools output their results as interactive HTML files. </br></br>You can see an example output from each of the motif scanning tools under <dfn>Motif Scanning</dfn> in the <dfn>Sample Outputs</dfn> menu on the left.",
+
+  "aligned_motifs": "The MEME Suite <dfn>Tomtom</dfn> tool outputs its results as an interactive HTML file. </br></br>You can see an example <dfn>Tomtom</dfn> output under <dfn>Motif Comparison</dfn> in the <dfn>Sample Outputs</dfn> menu on the left, or by <b>clicking</b> here.",
+
+  "target_genes": "The MEME Suite <dfn>T-Gene</dfn> tool outputs its results as an interactive HTML file and a TSV file. </br></br>You can see an example <dfn>T-Gene</dfn> output under <dfn>Gene Regulation</dfn> in the <dfn>Sample Outputs</dfn> menu on the left, or by <b>clicking</b> here.",
+
+  "genomic_loci": "You can provide the genomic coordinates (loci) of genomic regions to the MEME Suite in BED format. </br></br>Details on the format of your genomic regions are given under <em>BED Loci Format</em> in the <em>File Format Reference</em> menu on the left, or just by <b>clicking</b> here."
+};
+
+/*
+ * Three types of URLS
+ * 1) Relative URLs -
+ *      Displayed all the time. These will have the path prefix appended. This
+ *      type of URL is the default.
+ * 2) Webserver URLs - 
+ *      Only displayed when running on a webserver or if a webserver URL has
+ *      been provided. When running on a webserver these should behave like
+ *      relative URLs and have the path prefix appended, otherwise they should
+ *      have the full server_url appended.
+ * 3) Absolute URLs -
+ *      Displayed all the time. These always go to the same site.
+ *
+ */
+MemeMenu.data = {
+  "header": {
+    "title": "MEME Suite @VERSION@",
+    "doc_url": "doc/overview.html",
+    "web_url": "index.html"
+  },
+  "topics": [
+    {
+      "title": "Motif Discovery",
+      "info": MemeMenu.blurbs["motif_discovery"],
+      "server": true,
+      "topics": [
+        {
+          "title": "MEME",
+          "info": MemeMenu.blurbs["meme"],
+          "url": "tools/meme",
+          "server": true
+        }, {
+          "title": "STREME",
+          "info": MemeMenu.blurbs["streme"],
+          "url": "tools/streme",
+          "server": true
+        }, {
+          "title": "XSTREME",
+          "info": MemeMenu.blurbs["xstreme"],
+          "url": "tools/xstreme",
+          "server": true
+        }, {
+          "title": "MEME-ChIP",
+          "info": MemeMenu.blurbs["memechip"],
+          "url": "tools/meme-chip",
+          "server": true
+        }, {
+          "title": "GLAM2",
+          "info": MemeMenu.blurbs["glam2"],
+          "url": "tools/glam2",
+          "server": true
+        }, {
+          "title": "MoMo",
+          "info": MemeMenu.blurbs["momo"],
+          "url": "tools/momo",
+          "server": true
+        }, {
+          "title": "DREME (deprecated)",
+          "info": MemeMenu.blurbs["dreme"],
+          "url": "tools/dreme",
+          "server": true
+        }
+      ]
+    }, {
+      "title": "Motif Enrichment",
+      "info": MemeMenu.blurbs["motif_enrichment"],
+      "server": true,
+      "topics": [
+        {
+          "title": "SEA",
+          "info": MemeMenu.blurbs["sea"],
+          "url": "tools/sea",
+          "server": true
+        }, {
+          "title": "CentriMo",
+          "info": MemeMenu.blurbs["centrimo"],
+          "url": "tools/centrimo",
+          "server": true
+        }, {
+          "title": "AME",
+          "info": MemeMenu.blurbs["ame"],
+          "url": "tools/ame",
+          "server": true
+        }, {
+          "title": "SpaMo",
+          "info": MemeMenu.blurbs["spamo"],
+          "url": "tools/spamo",
+          "server": true
+        }, {
+          "title": "GOMo",
+          "info": MemeMenu.blurbs["gomo"],
+          "url": "tools/gomo",
+          "server": true
+        }
+      ]
+    }, {
+      "title": "Motif Scanning",
+      "info": MemeMenu.blurbs["motif_scanning"],
+      "server": true,
+      "topics": [
+        {
+          "title": "FIMO",
+          "info": MemeMenu.blurbs["fimo"],
+          "url": "tools/fimo",
+          "server": true
+        }, {
+          "title": "MAST",
+          "info": MemeMenu.blurbs["mast"],
+          "url": "tools/mast",
+          "server": true
+        }, {
+          "title": "MCAST",
+          "info": MemeMenu.blurbs["mcast"],
+          "url": "tools/mcast",
+          "server": true
+        }, {
+          "title": "GLAM2Scan",
+          "info": MemeMenu.blurbs["glam2scan"],
+          "url": "tools/glam2scan",
+          "server": true
+        }
+      ]
+    }, {
+      "title": "Motif Comparison",
+      "info": MemeMenu.blurbs["motif_comparison"],
+      "server": true,
+      "topics": [
+        {
+          "title": "Tomtom",
+          "info": MemeMenu.blurbs["tomtom"],
+          "url": "tools/tomtom",
+          "server": true
+        }
+      ]
+    }, {
+      "title": "Gene Regulation",
+      "info": MemeMenu.blurbs["gene_regulation"],
+      "server": true,
+      "topics": [
+        {
+          "title": "T-Gene",
+          "info": MemeMenu.blurbs["tgene"],
+          "url": "tools/tgene",
+          "server": true
+        }
+      ]
+    }, {
+      "title": "Manual",
+      "info": "Read help pages for all the tools in the MEME Suite. This documentation can help you understand how the tools work and how to best use them.  Each help page describes the tool when run via the web, and also describes the inputs and outputs of the tool when you run it from the command line after installing MEME Suite on your computer.",
+      "topics": [ 
+        {
+          "title": "OVERVIEW",
+          "info": "See help pages for all the tools in the MEME Suite.",
+          "url": "doc/overview.html"
+        }, {
+          "divider": true,
+          "title": "Motif Discovery",
+        }, {
+          "title": "MEME",
+          "info": "Read documentation on using MEME.",
+          "url": "doc/meme.html",
+        }, {
+          "title": "STREME",
+          "info": "Read documentation on using STREME.",
+          "url": "doc/streme.html"
+        }, {
+          "title": "XSTREME",
+          "info": "Read documentation on using XSTREME.",
+          "url": "doc/xstreme.html"
+        }, {
+          "title": "MEME-ChIP",
+          "info": "Read documentation on using MEME-ChIP.",
+          "url": "doc/meme-chip.html"
+        }, {
+          "title": "GLAM2",
+          "info": "Read documentation on using GLAM2.",
+          "url": "doc/glam2.html"
+        }, {
+          "title": "MoMo",
+          "info": "Read documentation on using MoMo.",
+          "url": "doc/momo.html"
+        }, {
+          "title": "DREME (deprecated)",
+          "info": "Read documentation on using DREME.",
+          "url": "doc/dreme.html"
+        }, {
+          "divider": true,
+          "title": "Motif Enrichment"
+        }, {
+          "title": "SEA",
+          "info": "Read documentation on using SEA.",
+          "url": "doc/sea.html"
+        }, {
+          "title": "CentriMo",
+          "info": "Read documentation on using CentriMo.",
+          "url": "doc/centrimo.html"
+        }, {
+          "title": "AME",
+          "info": "Read documentation on using AME.",
+          "url": "doc/ame.html"
+        }, {
+          "title": "SpaMo",
+          "info": "Read documentation on using SpaMo.",
+          "url": "doc/spamo.html"
+        }, {
+          "title": "GOMo",
+          "info": "Read documentation on using GOMo.",
+          "url": "doc/gomo.html"
+        }, {
+          "divider": true,
+          "title": "Motif Scanning"
+        }, {
+          "title": "FIMO",
+          "info": "Read documentation on using FIMO.",
+          "url": "doc/fimo.html"
+        }, {
+          "title": "MAST",
+          "info": "Read documentation on using MAST.",
+          "url": "doc/mast.html"
+        }, {
+          "title": "MCAST",
+          "info": "Read documentation on using MCAST.",
+          "url": "doc/mcast.html"
+        }, {
+          "title": "GLAM2Scan",
+          "info": "Read documentation on using GLAM2Scan.",
+          "url": "doc/glam2scan.html"
+        }, {
+          "divider": true,
+          "title": "Motif Comparison"
+        }, {
+          "title": "Tomtom",
+          "info": "Read documentation on using Tomtom.",
+          "url": "doc/tomtom.html"
+        }, {
+          "divider": true,
+          "title": "Gene Regulation"
+        }, {
+          "title": "T-Gene",
+          "info": "Read documentation on using T-Gene.",
+          "url": "doc/tgene.html"
+        }
+      ]
+    }, {
+      "title": "Guides & Tutorials",
+      "info": "Find out more about how to use the MEME Suite.",
+      "topics": [
+        {
+          "title": "AME",
+          "info": "Learn how to use AME to perform motif enrichment analysis on a set of sequences.",
+          "url": "doc/ame-tutorial.html"
+        }, {
+          "title": "CentriMo",
+          "info": "Learn how to use CentriMo to perform positional motif enrichment analysis on a set of sequences.",
+          "url": "doc/centrimo-tutorial.html"
+        }, {
+          "title": "DREME (deprecated)",
+          "info": "Learn how to use DREME to find short nucleotide motifs.",
+          "url": "doc/dreme-tutorial.html"
+        }, {
+          "title": "FIMO",
+          "info": "Learn how to use FIMO to find individual matches to each of your motifs in a set of sequences.",
+          "url": "doc/fimo-tutorial.html"
+        }, {
+          "title": "GLAM2",
+          "info": "Learn how to use GLAM2 to find GAPPED motifs.",
+          "url": "doc/glam2_tut.html"
+        }, {
+          "title": "GT-Scan",
+          "info": "Learn how to use GT-Scan to identify good targets for CRISPR/Cas and other genome targeting technologies.",
+          "url": "https://gt-scan.csiro.au/gt-scan/docs/manual",
+          "absolute": true
+        }, {
+          "title": "MEME-ChIP",
+          "info": "Learn how to analyze large DNA or RNA datasets using MEME-ChIP. It can analyze peak regions identified by ChIP-seq, cross-linking sites identified by CLIP-seq and related assays, as well as sets of genomic regions selected using other criteria. MEME-ChIP performs de novo motif discovery, motif enrichment analysis, motif location analysis and motif clustering, providing a comprehensive picture of the DNA or RNA motifs that are enriched in the input sequences.",
+          "url": "http://www.nature.com/nprot/journal/v9/n6/full/nprot.2014.083.html",
+          "absolute": true
+        }, {
+          "title": "STREME",
+          "info": "Learn how to use STREME to discover motifs that are enriched in the primary dataset that you provide. (If you have fewer than 50 sequences, MEME may work better than STREME.)  STREME accepts sets of sequences in the DNA, RNA, Protein alphabets, or in a custom alphabet designed by you. You can also use STREME to discover motifs that are enriched in the primary dataset relative to a second (control) dataset that you provide.",
+          "url": "doc/streme-tutorial.html"
+        }, {
+          "title": "T-Gene",
+          "info": "Learn how to use T-Gene to predict regulatory links between regulatory elements and genes.",
+          "url": "doc/tgene-tutorial.html"
+        }
+      ]
+    }, {
+      "title": "Sample Outputs",
+      "info": "See samples of the output produced by MEME Suite programs.",
+      "topics": [
+        {
+          "divider": true,
+          "title": "Motif Discovery",
+        }, {
+          "title": "MEME Sample",
+          "info": "See sample output from MEME.",
+          "url": "doc/examples/meme_example_output_files/meme.html"
+        }, {
+          "title": "STREME Sample",
+          "info": "See sample output from STREME.",
+          "url": "doc/examples/streme_example_output_files/streme.html"
+        }, {
+          "title": "XSTREME Sample",
+          "info": "See sample output from XSTREME.",
+          "url": "doc/examples/xstreme_example_output_files/xstreme.html"
+        }, {
+          "title": "MEME-ChIP Sample",
+          "info": "See sample output from MEME-ChIP.",
+          "url": "doc/examples/memechip_example_output_files/meme-chip.html"
+        }, {
+          "title": "GLAM2 Sample",
+          "info": "See sample output from GLAM2.",
+          "url": "doc/examples/glam2_example_output_files/glam2.html"
+        }, {
+          "title": "MoMo Sample",
+          "info": "See sample output from MoMo.",
+          "url": "doc/examples/momo_example_output_files/momo.html"
+        }, {
+          "title": "DREME Sample (deprecated)",
+          "info": "See sample output from DREME.",
+          "url": "doc/examples/dreme_example_output_files/dreme.html"
+        }, {
+          "divider": true,
+          "title": "Motif Enrichment"
+        }, {
+          "title": "SEA Sample",
+          "info": "See sample output from SEA.",
+          "url": "doc/examples/sea_example_output_files/sea.html"
+        }, {
+          "title": "CentriMo Sample",
+          "info": "See sample output from CentriMo.",
+          "url": "doc/examples/centrimo_example_output_files/centrimo.html"
+        }, {
+          "title": "AME Sample",
+          "info": "See sample output from AME.",
+          "url": "doc/examples/ame_example_output_files/ame.html"
+        }, {
+          "title": "SpaMo Sample",
+          "info": "See sample output from SpaMo",
+          "url": "doc/examples/spamo_example_output_files/spamo.html"
+        }, {
+          "title": "GOMo Sample",
+          "info": "See sample output from GOMo.",
+          "url": "doc/examples/gomo_example_output_files/gomo.html"
+        }, {
+          "divider": true,
+          "title": "Motif Scanning"
+        }, {
+          "title": "FIMO Sample",
+          "info": "See sample output from FIMO.",
+          "url": "doc/examples/fimo_example_output_files/fimo.html"
+        }, {
+          "title": "MAST Sample",
+          "info": "See sample output from MAST.",
+          "url": "doc/examples/mast_example_output_files/mast.html"
+        }, {
+          "title": "MCAST Sample",
+          "info": "See sample output files from MCAST.",
+          "url": "doc/examples/mcast_example_output_files/mcast.html"
+        }, {
+          "title": "GLAM2Scan Sample",
+          "info": "See sample output files from GLAM2Scan.",
+          "url": "doc/examples/glam2scan_example_output_files/glam2scan.html"
+        }, {
+          "divider": true,
+          "title": "Motif Comparison"
+        }, {
+          "title": "Tomtom Sample",
+          "info": "See sample output files from Tomtom.  ",
+          "url": "doc/examples/tomtom_example_output_files/tomtom.html"
+        }, {
+          "divider": true,
+          "title": "Gene Regulation"
+        }, {
+          "title": "T-Gene Sample",
+          "info": "See sample output files from T-Gene.  ",
+          "url": "doc/examples/tgene_example_output_files/tgene.html"
+        }
+      ]
+    }, {
+      "title": "File Format Reference",
+      "info": "Read about the file formats that the MEME Suite uses.",
+      "topics": [
+        {
+          "title": "*Alphabet Format",
+          "info": "A custom alphabet can be specified to MEME Suite tools using this custom alphabet definition format.",
+          "url": "doc/alphabet-format.html"
+        }, {
+          "title": "*BED Loci Format",
+          "info": "BED Genomic Loci format is a format used by some tools in the MEME Suite for identifying genomic regions.",
+          "url": "doc/bed-format.html"
+        }, {
+          "title": "*FASTA Sequence",
+          "info": "FASTA sequence format is the main sequence format read by tools in the MEME Suite.",
+          "url": "doc/fasta-format.html"
+        }, {
+          "title": "*MEME Motif format",
+          "info": "MEME motif format is the main motif format read by tools in the MEME Suite.",
+          "url": "doc/meme-format.html"
+        }, {
+          "title": "AME output formats",
+          "info": "AME produces an HTML results file, a TSV results file, and a TSV file containing the names of all sequences classified as 'positive'.",
+          "url": "doc/ame-output-format.html"
+        }, {
+          "title": "CentriMo output formats",
+          "info": "CentriMo produces an HTML results file, a TSV results file, and a text file (suitable for plotting) of the number of sites in each window for each motif.",
+          "url": "doc/centrimo-output-format.html"
+        }, {
+          "title": "FIMO output formats",
+          "info": "FIMO produces an HTML results file, a TSV results file and a GFF3 file containing all the significant matches for each motif.",
+          "url": "doc/fimo-output-format.html"
+        }, {
+          "title": "GOMo output formats",
+          "info": "GOMo produces an HTML results file, a TSV results file and an XML file",
+          "url": "doc/gomo-output-format.html"
+        }, {
+          "title": "MCAST output formats",
+          "info": "MCAST produces an HTML results file, a TSV results file and a GFF3 file containing all the significant matches to sets of motifs.",
+          "url": "doc/mcast-output-format.html"
+        }, {
+          "title": "MEME-ChIP output formats",
+          "info": "MEME-ChIP produces an HTML results file, a TSV file containing a summary of its results, and a file containing all significant motifs in MEME motif format.",
+          "url": "doc/meme-chip-output-format.html"
+        }, {
+          "title": "MoMo output formats",
+          "info": "MoMo produces an HTML results file, a TSV results file, a file of motifs in MEME format, and PNG sequence logo files.",
+          "url": "doc/momo-output-format.html"
+        }, {
+          "title": "SEA output formats",
+          "info": "SEA produces an HTML results file, and a TSV results file.",
+          "url": "doc/ame-output-format.html"
+        }, {
+          "title": "SpaMo output formats",
+          "info": "SpaMo produces an HTML results file and a TSV results file.",
+          "url": "doc/spamo-output-format.html"
+        }, {
+          "title": "STREME output formats",
+          "info": "STREME produces an HTML results file, a text file containing the discovered motifs in MEME motif format, and a TSV containing the names of sequences containing each motif.",
+          "url": "doc/streme-output-format.html"
+        }, {
+          "title": "T-Gene output formats",
+          "info": "T-Gene produces an HTML results file, a Gene Targets TSV file, a Gene Elements TSV file, a TSS Targets TSV file, a TSS Elements TSV file and a Links TSV file.",
+          "url": "doc/tgene-output-format.html"
+        }, {
+          "title": "Tomtom output formats",
+          "info": "Tomtom produces an HTML results file, a TSV results file, and a XML file containing all the significant matches for each motif.",
+          "url": "doc/tomtom-output-format.html"
+        }, {
+          "title": "XSTREME output formats",
+          "info": "XSTREME produces an HTML results file, a TSV file containing a summary of its results, and a file containing all non-redundant, <i>ab initio</i> motifs discovered by XSTREME in MEME motif format.",
+          "url": "doc/xstreme-output-format.html"
+        }, {
+          "title": "Peptide-Spectrum Match",
+          "info": "Peptides identified from tandem mass spectra.",
+          "url": "doc/psm-format.html"
+        }, {
+          "title": "Markov Background Model",
+          "info": "Background letter frequencies can be specified to MEME Suite tools using this Markov model based format.",
+          "url": "doc/bfile-format.html"
+        }, {
+          "title": "Position-specific prior (PSP)",
+          "info": "Priors (weights) on each position in each input sequence can be specified to MEME by a file in PSP format. These priors allow the user to bias the search for motifs by MEME.",
+          "url": "doc/psp-format.html"
+        }, {
+          "title": "Dirichlet Mixtures",
+          "info": "Dirichlet mixture priors capture the tendency of certain letters (e.g., protein residues) to align with each other. These priors allow the user to bias the search for motifs by MEME and GLAM2.",
+          "url": "doc/dmix-format.html"
+        }, {
+          "title": "Other Supported Formats",
+          "info": "See the complete list of formats that are documented in the MEME Suite.",
+          "url": "doc/overview.html#formats"
+        }
+      ]
+    }, {
+      "title": "Databases",
+      "info": "View information about the databases installed on this server.",
+      "server": true,
+      "topics": [
+          {
+            "title": "Motif Databases",
+            "info": "View information on the motif databases installed on this server.",
+            "server": true,
+            "url": "db/motifs"
+          }, {
+            "title": "Sequence Databases",
+            "info": "View information on the sequence databases installed on this server.",
+            "server": true,
+            "url": "db/sequences"
+          }, {
+            "title": "GOMo Sequence Databases",
+            "info": "View information on the GOMo sequence databases installed on this server.",
+            "server": true,
+            "url": "db/gomo"
+          }, {
+            "title": "T-Gene Genomes and Tissue Panels",
+            "info": "View information on the T-Gene Genomes and Histone/Expression Tissue Panels installed on this server.",
+            "server": true,
+            "url": "db/tgene"
+          }
+        ]
+    }, {
+      "title": "Download & Install",
+      "info": "Download a copy of the MEME Suite software and databases for running on your own computer.",
+      "topics": [
+        {
+          "title": "Download MEME Suite and Databases",
+          "info": "Download a copy of the MEME Suite for local installation, as well as motif databases and GOMo databases which can be used with it.",
+          "url": "@SOURCE_URL@/doc/download.html",
+          "absolute": true
+        }, {
+          "title": "Copyright Notice",
+          "info": "Read the copyright notice.",
+          "url": "doc/copyright.html"
+        }, {
+          "title": "Installation Guide",
+          "info": "Learn how to install the MEME Suite.",
+          "url": "doc/install.html"
+        }, {
+          "title": "Release Notes",
+          "info": "Find out what was added to the MEME Suite in this and previous releases.",
+          "url": "doc/release-notes.html"
+        }, {
+          "title": "Commercial Licensing",
+          "info": "Acquire a license for commercial use.",
+          "url": "http://techtransfer.universityofcalifornia.edu/NCD/20911.html",
+          "absolute": true
+        }
+      ]
+    }, {
+      "title": "Help",
+      "info": "Get help using the MEME Suite.",
+      "topics": [
+        /*
+        {
+          "title": "Frequently Asked Questions",
+          "info": "A list of frequently asked questions and their answers.",
+          "url": "doc/general-faq.html"
+          // This has been replaced by the Q&A forum
+        },
+        */
+        {
+          "title": "Q&A Forum",
+          "info": "Ask questions on the forums.",
+          "url": "https://groups.google.com/forum/#!forum/meme-suite",
+          "absolute": true
+        }, {
+          "title": "Email Webmaster",
+          "info": "Send the webmaster an email. This link will open your email client",
+          "url": "mailto:@CONTACT@",
+          "show_test": function(is_server, subs) {return subs["CONTACT"] !== ""},
+          "absolute": true
+        }, {
+          "title": "Email Developers",
+          "info": "Send the developers an email. This link will open your email client",
+          "url": "mailto:@DEV_CONTACT@",
+          "absolute": true
+        }
+      ]
+    }, {
+      "title": "Alternate Servers",
+      "info": "View the current load at and submit jobs to the available MEME Suite servers.",
+      "server": true,
+      "topics": [
+        {
+          "title": "Main Server",
+          "info": "Go to the main MEME Suite site.",
+          "url": "@SITE_URL@",
+          "absolute": true
+        },
+        {
+          "title": "->View Current Load",
+          "info": "View the current load at the main MEME Suite site.",
+          "url": "@SITE_URL@/opal2/dashboard?command=statistics",
+          "absolute": true
+        },
+        {
+          "title": "Alternate Server",
+          "info": "Go to the alternate MEME Suite site.",
+          "url": "@ALT_URL@",
+          "absolute": true
+        },
+        {
+          "title": "->View Current Load",
+          "info": "View the current load at the alternate MEME Suite site.",
+          "url": "@ALT_URL@/opal2/dashboard?command=statistics",
+          "absolute": true
+        }
+      ]
+    }, {
+      "title": "Authors & Citing",
+      "info": "Find out who contributed to the MEME Suite and how to cite the individual tools in publications.",
+      "topics": [
+        {
+          "title": "Authors",
+          "info": "The authors of the MEME Suite.",
+          "url": "doc/authors.html"
+        }, {
+          "title": "Citing the MEME Suite",
+          "info": "How to cite the MEME Suite or individual tools from the MEME Suite.",
+          "url": "doc/cite.html"
+        }
+      ]
+    }
+  ],
+  "opal_site": "http://sourceforge.net/projects/opaltoolkit/"
+};
+MemeMenu.script_loaded();

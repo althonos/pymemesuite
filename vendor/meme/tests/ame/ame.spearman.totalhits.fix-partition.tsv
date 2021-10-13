@@ -1,0 +1,16 @@
+rank	motif_DB	motif_ID	motif_alt_ID	consensus	p-value	adj_p-value	E-value	tests	FASTA_max	pos	neg	Spearmans_CC
+1	common/Jaspar-subset.meme	MA0140.1	Tal1::Gata1	CTGBNNNNNDSAGATAAG	5.51e-2	5.51e-2	7.16e-1	1	169	169	0	0.123
+2	common/Jaspar-subset.meme	MA0300.1	GAT1	YYGATAAG	7.33e-2	7.33e-2	9.53e-1	1	169	169	0	0.112
+5	common/Jaspar-subset2.meme	MA0039.1	Klf4	WARRGRAAGG	1.22e-1	1.22e-1	1.59e0	1	169	169	0	0.0902
+6	common/Jaspar-subset.meme	MA0270.1	AFT2	SACACCCB	1.73e-1	1.73e-1	2.25e0	1	169	169	0	0.0731
+7	common/Jaspar-subset.meme	MA0443.1	btd	RRGGGGCGKR	2.84e-1	2.84e-1	3.69e0	1	169	169	0	0.0443
+8	common/Jaspar-subset2.meme	MA0443.1	btd	RRGGGGCGKR	2.84e-1	2.84e-1	3.69e0	1	169	169	0	0.0443
+9	common/Jaspar-subset.meme	MA0035.2	Gata1	DSAGATAAGVV	4.94e-1	4.94e-1	6.43e0	1	169	169	0	0.00108
+10	common/Jaspar-subset.meme	MA0079.2	SP1	CCCCKCCCCC	5.61e-1	5.61e-1	7.30e0	1	169	169	0	-0.012
+11	common/Jaspar-subset.meme	MA0309.1	GZF3	YGATAASR	6.04e-1	6.04e-1	7.86e0	1	169	169	0	-0.0205
+12	common/Jaspar-subset.meme	MA0039.2	Klf4	DGGGYGKGGC	7.28e-1	7.28e-1	9.46e0	1	169	169	0	-0.0471
+13	common/Jaspar-subset.meme	MA0079.1	SP1	KRGGCDGGGT	8.44e-1	8.44e-1	1.10e1	1	169	169	0	-0.0782
+
+# AME (Analysis of Motif Enrichment): Version 5.4.0 compiled on May 20 2021 at 11:57:07
+# The format of this file is described at https://meme-suite.org/meme/doc/ame-output-format.html.
+# ame --verbose 1 --method spearman --scoring totalhits --oc results/ame34 --evalue-report-threshold 100 --hit-lo-fraction 0.85 --fix-partition 169 common/Klf1-200-100.combined.nofasta.fa common/Jaspar-subset.meme common/Jaspar-subset2.meme

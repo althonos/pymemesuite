@@ -1,0 +1,33 @@
+#
+# ama test
+#
+my $ama_ignore = [
+ 'cis-element-search:parameters:command-line#value',
+ 'cis-element-search:parameters:pattern-file',
+ 'cis-element-search:parameters:sequence-file',
+ 'cis-element-search:parameters:background-seq-file',
+];
+
+&test(
+  'ama1', 'max-odds, no p-values',
+  'ama', '',
+  ['--verbosity', 1, '--scoring', 'max-odds', make_test_src_path('gomo/motif.meme.txt'),
+    make_test_src_path('gomo/seqs.fasta'), make_test_src_path('gomo/seqs.bg')],
+  [
+    {output => '-', reference => make_test_src_path('gomo/ama.withMaxodds.xml'), type => 'xml', ignore => $ama_ignore
+    }
+  ],
+  'results/ama1'
+);
+&test(
+  'ama2', 'avg-odds, combine sequences, calculate p-values',
+  'ama', '',
+  ['--pvalues', '--verbosity', 1, '--cs', make_test_src_path('gomo/motif.meme.txt'), 
+    make_test_src_path('gomo/seqs_red.fasta'), make_test_src_path('gomo/seqs.norc.bg')],
+  [ 
+    {
+      output => '-', reference => make_test_src_path('gomo/ama.redundant.xml'), type => 'xml', ignore => $ama_ignore
+    }
+  ],
+  'results/ama2'
+);

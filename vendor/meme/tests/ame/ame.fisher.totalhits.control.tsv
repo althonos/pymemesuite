@@ -1,0 +1,12 @@
+rank	motif_DB	motif_ID	motif_alt_ID	consensus	p-value	adj_p-value	E-value	tests	FASTA_max	pos	neg	PWM_min	TP	%TP	FP	%FP
+1	common/Jaspar-subset.meme	MA0039.2	Klf4	DGGGYGKGGC	1.57e-24	6.26e-23	8.14e-22	40	169	169	1014	1	34	20.12	6	0.59
+2	common/Jaspar-subset.meme	MA0309.1	GZF3	YGATAASR	1.32e-7	5.55e-6	7.21e-5	42	169	169	1014	1	20	11.83	22	2.17
+3	common/Jaspar-subset.meme	MA0300.1	GAT1	YYGATAAG	4.00e-5	1.28e-3	1.66e-2	32	169	169	1014	1	14	8.28	18	1.78
+4	common/Jaspar-subset.meme	MA0270.1	AFT2	SACACCCB	9.86e-5	5.02e-3	6.52e-2	51	169	169	1014	1	18	10.65	33	3.25
+5	common/Jaspar-subset.meme	MA0035.2	Gata1	DSAGATAAGVV	3.09e-4	5.55e-3	7.22e-2	18	169	169	1014	1	9	5.33	9	0.89
+8	common/Jaspar-subset.meme	MA0079.1	SP1	KRGGCDGGGT	1.76e-2	1.33e-1	1.73e0	8	169	169	1014	1	4	2.37	4	0.39
+9	common/Jaspar-subset.meme	MA0140.1	Tal1::Gata1	CTGBNNNNNDSAGATAAG	1.43e-1	1.43e-1	1.86e0	1	169	169	1014	1	1	0.59	0	0.00
+
+# AME (Analysis of Motif Enrichment): Version 5.4.0 compiled on May 20 2021 at 11:57:07
+# The format of this file is described at https://meme-suite.org/meme/doc/ame-output-format.html.
+# ame --verbose 1 --method fisher --scoring totalhits --oc results/ame2 --evalue-report-threshold 2 --hit-lo-fraction 0.85 --bgfile --motif-- -motif-pseudo 0 --control --shuffle-- --seed 5 common/Klf1-200-100.fa common/Jaspar-subset.meme common/Jaspar-subset2.meme

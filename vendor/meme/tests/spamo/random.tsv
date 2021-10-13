@@ -1,0 +1,7 @@
+prim_db	prim_id	prim_alt	prim_cons	sec_db	sec_id	sec_alt	sec_cons	trim_left	trim_right	red_db	red_id	red_alt	E-value	gap	orient	count	total	adj_p-value	p-value
+primary	GATATATG	MEME-2	GATATATG	secondary	CAAATTTC	MEME-3	CAAATTTC	0	0	.	.	.	2.80e-03	10	4	22	210	2.66e-06	2.39e-05
+primary	GATATATG	MEME-2	GATATATG	secondary	CAAATTTC	MEME-3	CAAATTTC	0	0	.	.	.	2.80e-03	10	0	14	210	7.46e-06	6.71e-05
+
+# SpaMo (Spaced Motif Analysis Tool): Version 5.4.0 compiled on May 20 2021 at 11:57:57
+# The format of this file is described at https://meme-suite.org/meme/doc/spamo-output-format.html.
+# spamo -oc results/spamo2 -verbosity 1 -margin 20 -shared 1 -bgfile --motif-- /Users/t.bailey/meme_git/meme-xstreme/tests/spamo/random.fasta /Users/t.bailey/meme_git/meme-xstreme/tests/spamo/primary.meme /Users/t.bailey/meme_git/meme-xstreme/tests/spamo/secondary.meme

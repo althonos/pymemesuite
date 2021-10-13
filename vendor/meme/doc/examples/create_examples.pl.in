@@ -1,0 +1,483 @@
+#!@WHICHPERL@
+
+use strict;
+use warnings;
+
+use Cwd qw(abs_path getcwd);
+use File::Basename qw(dirname fileparse);
+use File::Copy::Recursive qw(rmove);
+use File::Path qw(remove_tree);
+use File::Spec::Functions qw(catfile catdir);
+use File::Temp qw(tempdir);
+use Getopt::Long;
+use Pod::Usage;
+
+
+=head1 SYNOPSIS
+
+create_examples [options] [list of examples to generate]
+
+  If no examples are listed then all will be generated and a tar file will be created.
+
+  Possible examples to generate are:
+    ame
+    centrimo
+    dreme
+    fimo
+    glam2
+    glam2scan
+    gomo
+    mast
+    mcast
+    meme
+    meme-chip
+    momo
+    motiph
+    sea
+    spamo
+    streme
+    tgene
+    tomtom
+    xstreme
+
+  Options:
+    -not              generate examples not in the list
+    -tar              generates examples.tgz for uploading
+    -p <np>	      run meme with <np> cpus
+    -debug            skip various cleanup related functions to help with debugging
+    -help             displays this help message.
+=cut
+
+my @example_dirs = (
+  'ame_example_output_files',
+  'centrimo_example_output_files',
+  'dreme_example_output_files',
+  'fimo_example_output_files',
+  'glam2_example_output_files',
+  'glam2scan_example_output_files',
+  'gomo_example_output_files',
+  'mast_example_output_files',
+  'mcast_example_output_files',
+  'meme_example_output_files',
+  'memechip_example_output_files',
+  'momo_example_output_files',
+  'motiph_example_output_files',
+  'sea_example_output_files',
+  'spamo_example_output_files',
+  'streme_example_output_files',
+  'tgene_example_output_files',
+  'tomtom_example_output_files',
+  'xstreme_example_output_files'
+);
+my $np = 1;
+my $negate_list = 0; #FALSE
+my $tar = 0; #FALSE
+my $debug = 0; #FALSE
+my $help = 0; #FALSE
+my %listed_examples = ();
+
+GetOptions("p=i" => \$np, "not" => \$negate_list, "tar" => \$tar, "debug" => \$debug, "help|?" => \$help) or pod2usage(2);
+pod2usage(1) if $help;
+if (@ARGV) {
+  for (my $i = 0; $i < scalar(@ARGV); $i++) {
+    $listed_examples{$ARGV[$i]} = 1;
+  }
+} else {
+  # no examples specified, so generate everything and tar it
+  $negate_list = 1;
+  $tar = 1;
+}
+
+create_examples($negate_list, \%listed_examples);
+tar_examples() if $tar;
+update_makefile();
+exit(0);
+
+sub create_examples {
+  my ($negate_list, $listed_examples) = @_;
+  # ame
+  if ($negate_list xor $listed_examples->{"ame"}) {
+    print "Creating AME example\n";
+    create_example(
+      ["ame", "-oc", "ame_example_output_files", "-control", "--shuffle--",
+        "-scoring", "avg", "-method", "fisher", "Klf1.fna", "JASPAR2018_CORE_non-redundant.meme"],
+      "ame_example_output_files",
+      ["example-datasets/Klf1.fna",
+        "example-datasets/JASPAR2018_CORE_non-redundant.meme"],
+      [\&test_html, "ame.html", \&test_exists, "ame.tsv", \&test_exists, "sequences.tsv"]);
+  }
+  # centrimo
+  if ($negate_list xor $listed_examples->{"centrimo"}) {
+    print "Creating CentriMo example\n";
+    create_example(
+      ["centrimo", "--oc", "centrimo_example_output_files", "--local",
+        "--ethresh", "1", "mm9_tss_500bp_sampled_1000.fna", "some_vertebrates.meme"],
+      "centrimo_example_output_files",
+      [ "example-datasets/mm9_tss_500bp_sampled_1000.fna",
+        "example-datasets/some_vertebrates.meme"],
+      [\&test_html, "centrimo.html", \&test_exists, "centrimo.tsv",
+        \&test_exists, "site_counts.txt"]);
+  }
+  # tgene
+  if ($negate_list xor $listed_examples->{"tgene"}) {
+    print "Creating T-Gene example\n";
+    create_example(
+      ["tgene", 
+        "-oc", "tgene_example_output_files",
+	"-max-link-distances", "500000,1000",
+	"-tissues", "A549,Bj,H1hesc,Hepg2,Hsmm,K562,Nhek,Sknshra,Ag04450,Gm12878,Helas3,Hmec,Huvec,Mcf7,Nhlf",
+        "-histone-root", "Histone",
+	"-histones", "H3k27ac,H3k4me3",
+	"--rna-source", "Cage",
+        "-expression-root", "Expression",
+	"--lecat", "6",
+	"--no-closest-locus",
+	"-desc", "Predicted links from P300 binding sites to genes on human chromosome 21",
+        "P300.chr21.bed", "gencode.v7.transcripts.chr21.gtf"
+      ],
+      "tgene_example_output_files",
+      [ "example-datasets/P300.chr21.bed",
+        "../../tests/tgene/Histone",
+        "../../tests/tgene/Expression",
+        "../../tests/tgene/gencode.v7.transcripts.chr21.gtf"
+      ],
+      [\&test_html, "tgene.html", 
+        \&test_exists, "links.tsv",
+	\&test_exists, "HistLev+noise.H3k27ac.tsv",
+	\&test_exists, "HistLev+noise.H3k4me3.tsv",
+	\&test_exists, "TrExp+noise.tsv",
+	\&test_exists, "TrExp.tsv"
+      ]
+    );
+  }
+  # dreme
+  if ($negate_list xor $listed_examples->{"dreme"}) {
+    print "Creating DREME example\n";
+    create_example(
+      ["dreme", "-oc", "dreme_example_output_files", "-png", "-p", "Klf1.fna"],
+      "dreme_example_output_files",
+      ["example-datasets/Klf1.fna"],
+      [\&test_html, "dreme.html", \&test_exists, "dreme.txt",
+        \&test_exists, "dreme.xml"]);
+  }
+  # fimo
+  if ($negate_list xor $listed_examples->{"fimo"}) {
+    print "Creating FIMO example\n";
+    create_example(
+      ["fimo", "--oc", "fimo_example_output_files", "--parse-genomic-coord",
+        "some_vertebrates.meme", "mm9_tss_500bp_sampled_1000.fna"
+      ],
+      "fimo_example_output_files",
+      [ "example-datasets/mm9_tss_500bp_sampled_1000.fna",
+        "example-datasets/some_vertebrates.meme"],
+      [\&test_html, "fimo.html", \&test_exists, "fimo.tsv",
+        \&test_exists, "fimo.gff", \&test_exists, "fimo.xml",
+        \&test_exists, "cisml.xml"
+      ]);
+  }
+  # glam2
+  if ($negate_list xor $listed_examples->{"glam2"}) {
+    print "Creating GLAM2 example\n";
+    create_example(
+      ["glam2", "-O", "glam2_example_output_files", "-M", "p", "At.faa"],
+      "glam2_example_output_files",
+      ["example-datasets/At.faa"],
+      [\&test_html, "glam2.html", \&test_exists, "glam2.meme", \&test_exists, "glam2.txt"]);
+  }
+  # glam2scan -n 25 p aln /home/tbailey/trunk/INSTALLED/db/fasta_databases/c_elegans.aa
+  if ($negate_list xor $listed_examples->{"glam2scan"}) {
+    print "Creating GLAM2Scan example\n";
+    create_example(
+      ["glam2scan", "-O", "glam2scan_example_output_files", "p", "At.glam2", "At.faa"],
+      "glam2scan_example_output_files",
+      [ "example-datasets/At.glam2",
+        "example-datasets/At.faa"],
+      [\&test_html, "glam2scan.html", \&test_exists, "glam2scan.txt"]);
+  }
+  # gomo
+  if ($negate_list xor $listed_examples->{"gomo"}) {
+    print "Creating GOMo example\n";
+    create_example(
+      [\&gomo_runner, 
+      "dpinteract_subset.meme", # motifs for AMA & meme2images
+      "bacteria_escherichia_coli_k12_1000_199.na", # sequences for AMA
+      "bacteria_escherichia_coli_k12_1000_199.na.bfile", # background for AMA
+      "bacteria_escherichia_coli_k12_1000_199.na.csv", # gene map for GOMo
+      "go.dag" # GO DAG for GOMo
+      ],
+      "gomo_example_output_files", 
+      [
+        "example-datasets/dpinteract_subset.meme",
+        "example-datasets/bacteria_escherichia_coli_k12_1000_199.na",
+        "example-datasets/bacteria_escherichia_coli_k12_1000_199.na.bfile",
+        "example-datasets/bacteria_escherichia_coli_k12_1000_199.na.csv",
+        "example-datasets/go.dag"
+      ],
+      [\&test_html, "gomo.html", \&test_exists, "gomo.xml"]);
+  }
+  # mast
+  if ($negate_list xor $listed_examples->{"mast"}) {
+    print "Creating MAST example\n";
+    create_example(
+      ["mast", "-oc", "mast_example_output_files", "-dl", "http://www.uniprot.org/uniprot/?query=SEQUENCEID&sort=score", "adh.meme", "adh.faa"],
+      "mast_example_output_files", [
+        "example-datasets/adh.meme",
+        "example-datasets/adh.faa"],
+      [\&test_html, "mast.html", \&test_exists, "mast.txt", \&test_exists, "mast.xml"]);
+  }
+  # mcast
+  if ($negate_list xor $listed_examples->{"mcast"}) {
+    print "Creating MCAST example\n";
+    create_example(
+      ["mcast", "-oc", "mcast_example_output_files", "-parse-genomic-coord", "Klf1.dreme", "Klf1.fna"],
+      "mcast_example_output_files",
+      ["example-datasets/Klf1.dreme",
+       "example-datasets/Klf1.fna"],
+      [\&test_html, "mcast.html", \&test_exists, "mcast.tsv",
+        \&test_exists, "mcast.xml", \&test_exists, "cisml.xml"]);
+  }
+  # meme
+  if ($negate_list xor $listed_examples->{"meme"}) {
+    print "Creating MEME example\n";
+    create_example(
+      ["meme", "lex0.fna", "-oc", "meme_example_output_files", "-p", $np,
+        "-dna", "-mod", "zoops", "-nmotifs", "3", "-revcomp"],
+      "meme_example_output_files",
+      ["example-datasets/lex0.fna"],
+      [\&test_html, "meme.html", \&test_exists, "meme.txt", \&test_exists, "meme.xml"]);
+  }
+  # meme-chip
+  if ($negate_list xor $listed_examples->{"meme-chip"}) {
+    print "Creating MEME-ChIP example\n";
+    create_example(
+      ["meme-chip", "-meme-p", $np, "-oc", "memechip_example_output_files",
+        "-db", "JASPAR2018_CORE_non-redundant.meme", "Klf1.fna"],
+      "memechip_example_output_files",
+      [ "example-datasets/JASPAR2018_CORE_non-redundant.meme",
+        "example-datasets/Klf1.fna"],
+      [\&test_html, "index.html"]);
+  }
+  # momo
+  if ($negate_list xor $listed_examples->{"momo"}) {
+    print "Creating MoMo example\n";
+    create_example(
+    ["momo", "motifx", "-oc", "momo_example_output_files",
+    "--sequence-column", "Motif Peptide",
+    "--width", "13", "--min-occurrences", "5", "--min-occurrences", "20",
+    "--protein-database", "ensembl_Plasmodium_falciparum_38.200.fa",
+    "pr8b00062_si_002.ptm"],
+    "momo_example_output_files",
+    [ "example-datasets/ensembl_Plasmodium_falciparum_38.200.fa",
+      "example-datasets/pr8b00062_si_002.ptm"],
+    [\&test_html, "momo.html", \&test_exists, "momo.txt"]);
+  }
+
+  # motiph
+  if ($negate_list xor $listed_examples->{"motiph"}) {
+    print "Creating MOTIPH example\n";
+    create_example(
+      ['motiph', "-oc", "motiph_example_output_files", 
+        '--seed', 0, '--bg', 2.0, '--pseudocount', 0.01,
+        'spiked.aln', 'yeast.tree', 'MCM1.meme.html'],
+      "motiph_example_output_files",
+      [ "example-datasets/spiked.aln",
+        "example-datasets/yeast.tree",
+        "example-datasets/MCM1.meme.html"],
+      [\&test_html, "motiph.html", \&test_exists, "motiph.txt",
+        \&test_exists, "motiph.xml", \&test_exists, "motiph.gff"]);
+  }
+  # spamo
+  if ($negate_list xor $listed_examples->{"spamo"}) {
+    print "Creating SpaMo example\n";
+    create_example(
+      ["spamo", "-oc", "spamo_example_output_files", "-png", 
+        "Klf1.fna", "Klf1.meme", "JASPAR2018_CORE_non-redundant.meme"],
+      "spamo_example_output_files",
+      [ "example-datasets/Klf1.fna",
+        "example-datasets/Klf1.meme",
+        "example-datasets/JASPAR2018_CORE_non-redundant.meme"],
+      [\&test_html, "spamo.html", \&test_exists, "spamo.tsv"]);
+  }
+  # sea
+  if ($negate_list xor $listed_examples->{"sea"}) {
+    print "Creating SEA example\n";
+    create_example(
+      ["sea", "--oc", "sea_example_output_files", 
+        "--p", "nrmix.100bp.fa",
+        "--m", "JASPAR2018_CORE_non-redundant.meme",
+        "--m", "xstreme.nrmix.100bp.txt",
+        "--qvalue"
+      ],
+      "sea_example_output_files",
+      ["../../tests/common/nrmix.100bp.fa",
+        "example-datasets/JASPAR2018_CORE_non-redundant.meme",
+        "../../tests/xstreme/xstreme.nrmix.100bp.txt"],
+      [\&test_html, "sea.html", \&test_exists, "sea.tsv", \&test_exists, "sequences.tsv"]);
+  }
+  # streme
+  if ($negate_list xor $listed_examples->{"streme"}) {
+    print "Creating STREME example\n";
+    create_example(
+      ["streme", "--oc", "streme_example_output_files", "--p", "Klf1.fna"],
+      "streme_example_output_files",
+      ["example-datasets/Klf1.fna"],
+      [\&test_html, "streme.html", \&test_exists, "streme.txt",
+        \&test_exists, "streme.xml"]);
+  }
+  # tomtom
+  if ($negate_list xor $listed_examples->{"tomtom"}) {
+    print "Creating Tomtom example\n";
+    create_example(
+      ["tomtom", "-oc", "tomtom_example_output_files", "-min-overlap", "5",
+        "-dist", "pearson", "-evalue", "-thresh", "10", "-no-ssc",
+        "STRGGTCAN.meme", "JASPAR2018_CORE_non-redundant.meme"],
+      "tomtom_example_output_files", 
+      [ "example-datasets/STRGGTCAN.meme", 
+        "example-datasets/JASPAR2018_CORE_non-redundant.meme"],
+      [\&test_html, "tomtom.html", \&test_exists, "tomtom.tsv", \&test_exists, "tomtom.xml"]);
+  }
+  # xstreme
+  if ($negate_list xor $listed_examples->{"xstreme"}) {
+    print "Creating XSTREME example\n";
+    create_example(
+      ["xstreme", "-oc", "xstreme_example_output_files", "--meme-p", $np, "--p", "nrmix.nseqs.100.100bp.seed.1.fa",
+       "--m", "JASPAR2018_CORE_non-redundant.meme"],
+      "xstreme_example_output_files",
+      ["example-datasets/nrmix.nseqs.100.100bp.seed.1.fa",
+       "example-datasets/JASPAR2018_CORE_non-redundant.meme"],
+      [\&test_html, "xstreme.html", \&test_exists, "xstreme.txt",
+        \&test_exists, "xstreme.tsv"]);
+  }
+
+}
+
+sub create_example {
+  my ($cmd, $output_directory, $inputs, $validation_tests) = @_;
+
+  my $cwd = getcwd;
+
+  my $example_area = abs_path(dirname(__FILE__));
+  print "Using example area $example_area\n";
+  chdir($example_area);
+
+  # create a temporary folder
+  my $work_area = tempdir("create_examples_XXXXXXXXXX", TMPDIR => 1);
+  print "Created working area $work_area\n";
+
+  # copy all required files into the work area
+  print "Copying inputs to working area\n";
+  for (my $i = 0; $i < scalar(@{$inputs}); $i++) {
+    my $input = $inputs->[$i];
+    if (ref $input eq "HASH") {
+      die("Input method undefined!\n") unless defined $input->{method};
+      if ($input->{method} eq "wget") {
+        my $wget_status = system("wget", "-nv", "-P", $work_area, $input->{url});
+        die("wget failed!") if ($wget_status != 0);
+      } else {
+        die("Unknown input method!\n");
+      }
+    } elsif (ref $input eq "") {
+      # assume this is a file name relative to the current directory
+      my ($input_name, $input_path) = fileparse($input);
+      #link $input, catfile($work_area, $input_name);	# DANGER-- if this is a directory, cleanup will wipe it out!
+      symlink "$cwd/$input", catfile($work_area, $input_name);
+    } else {
+      die("Unknown input file type!\n");
+    }
+  }
+
+  # change to work area
+  chdir($work_area);
+
+  # run program
+  print "Running program\n";
+  my $status;
+  if (ref $cmd->[0] eq "CODE") {
+    my @args = @{$cmd};
+    my $fn = shift @args;
+    $status = $fn->($output_directory, @args);
+  } else {
+    $status = system(@{$cmd});
+  }
+
+  # change back to where the examples are
+  chdir($example_area);
+
+  #check outputs
+  goto cleanup if $status;
+  for (my $i = 1; $i < scalar(@{$validation_tests}); $i += 2) {
+    my $test = $validation_tests->[$i-1];
+    my $file_name = $validation_tests->[$i];
+    unless ($test->(catfile($work_area, $output_directory, $file_name))) {
+      warn("Test failed on $file_name\n");
+      goto cleanup;
+    }
+  }
+
+  # replace example
+  print "Output tests pass, replacing $output_directory\n";
+  my $from_dir = catdir($work_area, $output_directory);
+  my $to_dir = catdir($example_area, $output_directory);
+  rmove($from_dir, $to_dir ) or die("failure: $!");
+
+  cleanup:
+  unless ($debug) {
+    print "Deleting work area: $work_area\n";
+    remove_tree($work_area);
+  }
+}
+
+sub tar_examples {
+  system('tar -czf examples.tgz ' . join(' ', @example_dirs));
+}
+
+sub update_makefile {
+  # update examples.mk which is included by Makefile.am
+  system('echo "EXAMPLE_OUTPUT_FILES = \\\\" > examples.mk');
+  my $cmd = 'find ' . join(' ', @example_dirs) . q( -type f ! -iname '*.orig' | sed -e 's/^/  /' -e '$q;s/$/ \\\\/' >> examples.mk);
+  system($cmd);
+  # must run automake in top level dir
+  my $example_area = abs_path(dirname(__FILE__));
+  chdir(catdir($example_area, '..', '..'));
+  # regenerate Makefile.in
+  system('automake doc/examples/Makefile');
+  # change back to examples dir
+  chdir($example_area);
+}
+
+sub gomo_runner {
+  my ($out, $motifs, $sequences, $bfile, $map, $dag, @ids) = @_;
+  my @motif_ids = ();
+  foreach my $id (@ids) {
+    push(@motif_ids, '-motif', $id);
+  }
+  my $status;
+  my @args = ();
+  # run AMA
+  push(@args, 'ama', '-oc', '.', '-pvalues', @motif_ids, $motifs, $sequences, $bfile);
+  print join(" ", @args), "\n";
+  $status = system(@args);
+  return $status if $status;
+  if (!&test_exists('ama.xml')) {
+    warn("Test failed on ama.xml");
+    return 1;
+  }
+  # run GOMo
+  @args = ("gomo", '--oc', $out, '--dag', $dag, '--motifs', $motifs, $map, 'ama.xml');
+  print join(" ", @args), "\n";
+  $status = system(@args);
+  return $status;
+}
+
+sub test_exists {
+  my ($file) = @_;
+  return (-e $file);
+}
+
+sub test_html {
+  my ($file) = @_;
+  # we assume the html is correct if it has a closing tag.
+  return !! `grep "</html>" $file 2> /dev/null | wc -l`;
+}
+
+1;

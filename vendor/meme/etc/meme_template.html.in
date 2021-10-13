@@ -1,0 +1,727 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>MEME Results</title>
+    <script src="meme_data.js"></script>
+    <script src="constants.js"></script>
+    <script src="utilities.js"></script>
+    <script src="delay_draw.js"></script>
+    <script src="motif_logo_template.js"></script>
+    <script src="motif_logo.js"></script>
+    <script src="block_diagram.js"></script>
+    <script src="alphabet_utilities.js"></script>
+    <script src="simple-shared-doc.js"></script>
+    <script src="discovery_doc.js"></script>
+    <script src="submit_or_download_motif.js"></script>
+    <script src="https://meme-suite.org/meme-software/js/d3.v5.min.js"></script>
+    <script src="https://meme-suite.org/meme-software/js/jspdf.min.js"></script>
+<!-- This is an alternate source of jspdf
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+-->
+    <script src="meme_template.js"></script>
+    <script src="template.js"></script>
+    <script src="citation.js"></script>
+    <link rel="stylesheet" type="text/css" href="meme.css">
+    <link rel="stylesheet" type="text/css" href="block_diagram.css">
+    <link rel="stylesheet" type="text/css" href="meme_template.css">
+  </head>
+  <body onload="page_loaded()" onpageshow="page_shown(event)" onresize="page_resized()">
+    <!--  -->
+    <div id="grey_out_page" class="grey_background" style="display:none;">
+    </div>
+    <!-- Help popups -->
+    <div class="pop_content" id="pop_results_txt">
+      <p>MEME results in plain text format.</p>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_results_xml">
+      <p>MEME results in XML format.</p>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_">
+      <p>Help poup.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_logo">
+      <script>print_doc_para("pop_logo", "discovery", "motif_logo", site_url);</script>
+      Click on the "+" or "-" buttons to the left of the motif to see
+      the forward or reverse complement of the motif if available.
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_ev">
+      <p>The statistical significance of the motif. MEME usually finds the most
+      statistically significant (low E-value) motifs first. It is unusual to
+      consider a motif with an E-value larger than 0.05 significant so, as an
+      additional indicator, MEME displays these partially transparent.</p> 
+      <p>The E-value of a motif is based on its log likelihood ratio, width,
+      sites, the background letter frequencies (given in the command line
+      summary), and the size of the training set.</p>
+      <p>The E-value is an estimate of the expected number of motifs with the
+      given log likelihood ratio (or higher), and with the same width and site
+      count, that one would find in a similarly sized set of random
+      sequences (sequences where each position is independent and letters are
+      chosen according to the background letter frequencies).</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_sites">
+      <p>The number of sites contributing to the construction of the motif.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_width">
+      <p>The width of the motif. Each motif describes a pattern of a fixed
+      width, as no gaps are allowed in MEME motifs.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_more">
+      <script>print_doc_para("pop_more", "discovery", "more");</script>
+      <div class="pop_close">[<a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_submit_dl">
+      <script>print_doc_para("pop_submit_dl", "discovery", "submit_dl", "@SITE_URL@");</script>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_llr">
+      <p>The log likelihood ratio of the motif. The log likelihood ratio is the 
+      logarithm of the ratio of the probability of the occurrences of the motif
+      given the motif model (likelihood given the motif) versus their
+      probability given the background model (likelihood given the null model).
+      (Normally the background model is a 0-order Markov model using the
+      background letter frequencies, but higher order Markov models may be
+      specified via the -bfile option to MEME.).</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_ic">
+      <p>The information content of the motif in bits. It is equal to the sum
+      of the uncorrected information content, R(), in the columns of the motif.
+      This is equal relative entropy of the motif relative to a uniform
+      background frequency model.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_re">
+      <p>The relative entropy of the motif.</p>
+
+      <p style="font-family: monospace;">re = llr / (sites * ln(2))</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_bt">
+      <p>The Bayes Threshold.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_site_strand">
+      <p>The strand used for the motif site.</p>
+      <dl>
+        <dt>+</dt>
+        <dd>The motif site was found in the sequence as it was supplied.</dd>
+        <dt>-</dt>
+        <dd>The motif site was found in the reverse complement of the supplied sequence.</dd>
+      </dl>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_site_start">
+      <p>The position in the sequence where the motif site starts. If a motif
+      started right at the beginning of a sequence it would be described as
+      starting at position 1.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_site_pvalue">
+      <p>The probability that an equal or better site would be found in a
+      random sequence of the same length conforming to the background letter
+      frequencies.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_site_match">
+      <p>A motif site with the 10 flanking letters on either side.</p> 
+      <p>When the site is not on the given strand then the site
+      and both flanks are reverse complemented so they align.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_seq_name">
+      <p>The name of the sequences as given in the FASTA file.</p>
+      <p>The number to the left of the sequence name is the position
+      of the sequence in the input sequence file.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_motif_sites">
+      <p>These are the motif sites predicted by MEME and used to build the motif.</p>
+      <p>These sites are shown in solid color and hovering the cursor
+      over a site will reveal details about the site.  Only sequences
+      that contain a motif site are shown.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_scanned_sites">
+      <p>These are the motif sites predicted by MEME plus
+      any additional sites detected using a motif scanning
+      algorithm.</p>
+      <p>These MEME sites are shown in solid color and 
+      additional scanned sites are shown in transparent color.
+      Hovering the cursor over a site will reveal details about the site.
+      Only sequences containing a predicted or scanned motif site are shown.</p>
+      <p>The scanned sites are predicted using a
+      log-odds scoring matrix constructed from the MEME sites.
+      Only scanned sites with position <i>p</i>-values less
+      than 0.0001 are shown.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_all_sequences">
+      <p>These are the same sites as shown by selecting the
+      "Motif Sites + Scanned Sites" button except that all
+      sequences, including those with no sites, are included
+      in the diagram.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_seq_pvalue">
+      <p>This is the combined match <i>p</i>-value.</p>
+      <p>The combined match <i>p</i>-value is defined as the probability that a
+      random sequence (with the same length and conforming to the background) 
+      would have position <i>p</i>-values such that the product is smaller
+      or equal to the value calculated for the sequence under test.</p>
+      <p>The position <i>p</i>-value is defined as the probability that a
+      random sequence (with the same length and conforming to the background)
+      would have a match to the motif under test with a score greater or equal
+      to the largest found in the sequence under test.</p>
+      <p>Hovering your mouse over a motif site in the motif location 
+      block diagram will show its position <i>p</i>-value and other information
+      about the site.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_download_pdf_motif_locations">
+      <p>Use this button to download the "Motif Locations" block diagrams
+	as a PDF image suitable for publication.
+      </p>
+      <p>
+	Only the block diagrams currently visible in the inner scrolling 
+	window (below) will be included in the image, and the numbers to
+	the left of each sequence name will not be included in the image.
+	You can change the size of the inner scrolling by moving the bottom
+	of the main document window up and down.  You can display more
+	diagrams by making your browser's font size smaller.
+      </p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_download_svg_motif_locations">
+      <p>Use this button to download the "Motif Locations" block diagrams
+	as a SVG image use in HTML documents.
+      </p>
+      <p>
+	Only the block diagrams currently visible in the inner scrolling 
+	window (below) will be included in the image, and the numbers to
+	the left of each sequence name will not be included in the image.
+	You can change the size of the inner scrolling by moving the bottom
+	of the main document window up and down.  You can display more
+	diagrams by making your browser's font size smaller.
+      </p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_offline">
+      <p>
+        This button will only function if your browser was
+	connected to the internet when you loaded this page.
+      </p>
+      <p>
+	To use this button, make sure your browser is connected to the internet
+	and then reload this page.  (You may need to do a "hard refresh" to clear the cache.
+	On Mac, hold down the Shift key and click the Reload button.
+	On Windows/Linux, hold down Ctrl and press F5.)
+      </p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_motif_location">
+      <p>This diagram shows the location of motif sites.</p>
+      <p>Each block shows the position and strength of a motif
+      site.  The height of a block gives an indication of the 
+      significance of the site as taller blocks are more significant. 
+      The height is calculated to be proportional to the negative 
+      logarithm of the <i>p</i>-value of the site, truncated at 
+      the height for a <i>p</i>-value of 1e-10.</p>
+      <p>For complementable alphabets (like DNA), sites on the 
+      positive strand are shown above the line,
+      sites on the negative strand are shown below.</p>
+      <p>Placing the cursor
+      over a motif site will reveal more information about the site
+      including its position <i>p</i>-value.  (See the help
+      for the <i>p</i>-value column for an explanation of position 
+      <i>p</i>-values.)</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_seq_source">
+      <p>The name of the file(s) of sequences input to MEME.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_psp_source">
+      <p>The position specific priors file used by MEME to find the motifs.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_seq_alph">
+      <p>The alphabet used by the sequences.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_seq_count">
+      <p>The number of FASTA sequences provided in this input file.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_num_positions">
+      <p>The number of characters in the sequences provided in this FASTA input file.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_alph_name">
+      <p>The name of the alphabet symbol.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_alph_freq">
+      <p>The frequency of the alphabet symbol in the dataset.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_alph_bg">
+      <p>The frequency of the alphabet symbol as defined by the background model.</p>
+      <div style="float:right; bottom:0px;">[ 
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <!-- templates -->
+    <div id="measure_match" class="match"></div>
+    <div class="template pop_block" id="tmpl_block_info">
+      <div>
+        <span class="tvar_logo_pad lflank" style="visibility:hidden;"></span>
+        <span class="tvar_logo"></span>
+      </div>
+      <div class="block_sequence_fragment">
+        <span class="tvar_lflank lflank"></span>
+        <span class="tvar_match match"></span>
+        <span class="tvar_rflank rflank"></span>
+      </div>
+      <table class="block_information">
+        <tr><th>Motif</th><td class="tvar_motif">1</td></tr>
+        <tr><th><i>p</i>-value</th><td class="tvar_pvalue">8.23e-7</td></tr>
+        <tr><th>Start</th><td class="tvar_start">23</td></tr>
+        <tr><th>End</th><td class="tvar_end">33</td></tr>
+      </table>
+    </div>
+
+    <div class="template pop_block" id="tmpl_scan_info">
+      <h5>Scanned Site</h5>
+      <div class="tvar_logo"></div>
+      <table class="block_information">
+        <tr><th>Motif</th><td class="tvar_motif">1</td></tr>
+        <tr><th><i>p</i>-value</th><td class="tvar_pvalue">8.23e-7</td></tr>
+        <tr><th>Start</th><td class="tvar_start">23</td></tr>
+        <tr><th>End</th><td class="tvar_end">33</td></tr>
+      </table>
+    </div>
+
+    <div class="template box expanded_motif" id="tmpl_motif_expanded">
+      <div style="position: relative; min-height: 20px">
+        <div class="param_box">
+          <span class="param"><span class="tvar_ordinal"></span>.</span>
+        </div>
+        <div class="sym_btn positioned tvar_less" tabindex="0" 
+          title="Show less information.">&#8613;</div>
+        <div class="sym_btn positioned tvar_submit" tabindex="0"
+          title="Submit the motif to another MEME Suite program or download it.">&#8674;</div>
+      </div>
+      <div>
+        <div class="param_box">
+          <span class="param"><i>E</i>-value:</span>
+          <span class="tvar_evalue"></span>
+          <div class="help" data-topic="pop_ev"></div>
+        </div>
+        <div class="param_box">
+          <span class="param">Site Count:</span>
+          <span class="tvar_site_count"></span>
+          <div class="help" data-topic="pop_sites"></div>
+        </div>
+        <div class="param_box">
+          <span class="param">Width:</span>
+          <span class="tvar_width"></span>
+          <div class="help" data-topic="pop_width"></div>
+        </div>
+      </div>
+      <div class="tabMain base">
+        <div class="tabCenter tvar_logo"></div>
+      </div>
+      <div class="tabArea base">
+        <span class="tvar_tab tab" tabindex="0">Standard</span><span 
+          class="tvar_tab_rc tab middle" tabindex="0">Reverse 
+          Complement</span>
+      </div>
+      <div style="padding: 10px 0">
+        <div class="param_box">
+          <span class="param">Log Likelihood Ratio:</span>
+          <span class="tvar_llr"></span>
+          <div class="help" data-topic="pop_llr"></div>
+        </div>
+        <div class="param_box">
+          <span class="param">Information Content:</span>
+          <span class="tvar_ic"></span>
+          <div class="help" data-topic="pop_ic"></div>
+        </div>
+        <div class="param_box">
+          <span class="param">Relative Entropy:</span>
+          <span class="tvar_re"></span>
+          <div class="help" data-topic="pop_re"></div>
+        </div>
+        <div class="param_box">
+          <span class="param">Bayes Threshold:</span>
+          <span class="tvar_bt"></span>
+          <div class="help" data-topic="pop_bt"></div>
+        </div>
+      </div>
+      <div class="tvar_sites"></div>
+    </div>
+
+    <div id="tab_submit_or_download_motif"></div>
+    <script> make_submit_or_download_motif_form("tab_submit_or_download_motif", site_url, "MEME"); </script>
+
+    <!-- Page starts here -->
+    <div id="top" class="pad1">
+      <div class="prog_logo big">
+        <img src="meme_icon.png" alt="MEME Logo">
+        <h1>MEME</h1>
+        <h2>Multiple Em for Motif Elicitation</h2>
+      </div>
+      <p>
+        For further information on how to interpret these results please access
+        <a href="@SITE_URL@/doc/meme.html">@SITE_URL@/doc/meme.html</a>. <br />
+        To get a copy of the MEME software please access 
+        <a href="@SOURCE_URL@">@SOURCE_URL@</a>. 
+      </p>
+      <p id="citation"> <script>print_citation("citation", "MEME");</script></p>
+    </div>
+    <!-- navigation -->
+    <div class="pad2">
+      <a class="jump" href="#motifs_sec">Discovered Motifs</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="#sites_sec">Motif Locations</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="#inputs_sec">Inputs &amp; Settings</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="#info_sec">Program Information</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="meme.txt">Results in Text Format</a>&nbsp;<span id="results_txt_help"></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="meme.xml">Results in XML Format</a>&nbsp;<span id="results_xml_help"></span>
+      <script>
+        make_help_button($("results_txt_help"), "pop_results_txt");
+        make_help_button($("results_xml_help"), "pop_results_xml");
+      </script>
+    </div>
+    <!-- alert the user when their browser is not up to the task -->
+    <noscript><h1 style="color:red">Javascript is required to view these results!</h1></noscript>
+    <h1 id="html5_warning" style="color:red; display:none;">Your browser does not support canvas!</h1>
+    <script>
+      if (!window.HTMLCanvasElement) $("html5_warning").style.display = "block";
+    </script>
+    <h2 class="mainh pad2" id="motifs_sec">Discovered Motifs</h2>
+    <div id="motifs" class="box">
+      <p>Please wait... Loading...</p>
+      <p>If the page has fully loaded and this message does not disappear then an error may have occurred.</p>
+    </div>
+    <h2 class="mainh pad2" id="sites_sec">Motif Locations</h2>
+    <div id="blocks" class="box">
+      <p>Please wait... Loading...</p>
+      <p>If the page has fully loaded and this message does not disappear then an error may have occurred.</p>
+    </div>
+    <h2 class="mainh pad2" id="inputs_sec">Inputs &amp; Settings</h2>
+    <div class="box">
+      <h4>Sequences</h4>
+      <table id="seq_info" class="inputs">
+        <tr>
+          <th>Role <div class="help" data-topic="pop_seq_role"></div></th>
+          <th>Source <div class="help" data-topic="pop_seq_source"></div></th>
+          <th class="col_psp">PSP Source <div class="help" data-topic="pop_psp_source"></div></th>
+          <th>Alphabet <div class="help" data-topic="pop_seq_alph"></div></th>
+          <th>Sequence Count <div class="help" data-topic="pop_seq_count"></div></th>
+          <th>Total Size <div class="help" data-topic="pop_num_positions"></div></th>
+        </tr>
+        <tr>
+          <td>Primary Sequences</td>
+          <td id="ins_seq_source"></td>
+          <td id="ins_seq_psp" class="col_psp"></td>
+          <td id="ins_seq_alphabet"></td>
+          <td id="ins_seq_count"></td>
+          <td id="ins_num_positions"></td>
+        </tr>
+        <tr class="col_control">
+          <td class="col_control">Control Sequences</td>
+          <td id="ins_control_source" class="col_control"></td>
+          <td id="ins_control_psp" class="col_control col_psp"></td>
+          <td id="ins_control_alphabet" class="col_control"></td>
+          <td id="ins_control_count" class="col_control"></td>
+          <td id="ins_control_positions" class="col_control"></td>
+        </tr>
+      </table>
+      <script>
+      {
+        var db = data.sequence_db;
+        $("ins_seq_source").innerHTML = db.primary_source;
+        $("ins_seq_alphabet").innerHTML = current_alphabet.get_alphabet_name();
+        $("ins_seq_count").innerHTML = db.primary_count;
+        $("ins_num_positions").innerHTML = db.primary_positions;
+        $("ins_control_source").innerHTML = db.control_source;
+        $("ins_control_alphabet").innerHTML = current_alphabet.get_alphabet_name();
+        $("ins_control_count").innerHTML = db.control_count;
+        $("ins_control_positions").innerHTML = db.control_positions;
+        if (db.psp_source) {
+          $("ins_seq_psp").innerHTML = db.psp_source;
+        }
+        toggle_class($("seq_info"), "hide_psp", !(db.psp_source));
+        toggle_class($("seq_info"), "hide_control", (db.control_source == "--none--"));
+      }
+      </script>
+      <h4>Background Model</h4>
+      <span id="bg_source"></span>
+      <span id="bg_order"></span>
+      <span id="alpha_bg"></span>
+      <script>
+      {
+        $("bg_source").appendChild(make_background_source("Source", data.background.source, false));
+        $("bg_order").innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;<b>Order:</b> " + data.background.order +
+          (data.background.order>0 ? " (only order-0 shown)" : "");
+        $("alpha_bg").appendChild(make_alpha_bg_table(current_alphabet, data.sequence_db.freqs));
+      }
+      </script>
+      <h4>Other Settings</h4>
+      <table id="tbl_settings" class="inputs hide_advanced">
+        <tr>
+          <th>Motif Site Distribution</th>
+          <td id="opt_mod">
+            <span class="mod_zoops">ZOOPS: Zero or one site per sequence</span>
+            <span class="mod_oops">OOPS: Exactly one site per sequence</span>
+            <span class="mod_anr">ANR: Any number of sites per sequence</span>
+          </td>
+        </tr>
+        <tr>
+          <th>Objective Function</th>
+          <td id=opt_objfun></td>
+        </tr>
+        <tr>
+          <th>Starting Point Function</th>
+          <td id=opt_spfun></td>
+        </tr>
+        <tr>
+          <th>Site Strand Handling</th>
+          <td id="opt_strand">
+            <span class="strand_none">This alphabet only has one strand</span>
+            <span class="strand_given">Sites must be on the given strand</span>
+            <span class="strand_both">Sites may be on either strand</span>
+          </td>
+        </tr>
+        <tr>
+          <th>Maximum Number of Motifs</th>
+          <td id="opt_nmotifs"></td>
+        </tr>
+        <tr>
+          <th>Motif E-value Threshold</th>
+          <td id="opt_evt"></td>
+        </tr>
+        <tr>
+          <th>Minimum Motif Width</th>
+          <td id="opt_minw"></td>
+        </tr>
+        <tr>
+          <th>Maximum Motif Width</th>
+          <td id="opt_maxw"></td>
+        </tr>
+        <tr>
+          <th>Minimum Sites per Motif</th>
+          <td id="opt_minsites"></td>
+        </tr>
+        <tr>
+          <th>Maximum Sites per Motif</th>
+          <td id="opt_maxsites"></td>
+        </tr>
+        <tr class="advanced">
+          <th>Bias on Number of Sites</th>
+          <td id="opt_wnsites"></td>
+        </tr>
+        <tr class="advanced">
+          <th>Sequence Prior</th>
+          <td id="opt_prior">
+            <span class="prior_dirichlet">Simple Dirichlet</span>
+            <span class="prior_dmix">Dirichlet Mixture</span>
+            <span class="prior_mega">Mega-weight Dirichlet Mixture</span>
+            <span class="prior_megap">Mega-weight Dirichlet Mixture Plus</span>
+            <span class="prior_addone">Add One</span>
+          </td>
+        </tr>
+        <tr class="advanced">
+          <th>Sequence Prior Source</th>
+	  <td id="opt_prior_source"></td>
+        </tr>
+        <tr class="advanced">
+          <th>Sequence Prior Strength</th>
+          <td id="opt_b"></td>
+        </tr>
+        <tr class="advanced">
+          <th>EM Starting Point Source</th>
+          <td id="opt_substring">
+            <span class="substring_on">From substrings in input sequences</span>
+            <span class="substring_off">From strings on command line (-cons)</span>
+          </td>
+        </tr>
+        <tr class="advanced">
+          <th>EM Starting Point Map Type</th>
+          <td id="opt_spmap">
+            <span class="spmap_uni">Uniform</span>
+            <span class="spmap_pam">Point Accepted Mutation</span>
+          </td>
+        </tr>
+        <tr class="advanced">
+          <th>EM Starting Point Fuzz</th>
+          <td id="opt_spfuzz"></td>
+        </tr>
+        <tr class="advanced">
+          <th>EM Maximum Iterations</th>
+          <td id="opt_maxiter"></td>
+        </tr>
+        <tr class="advanced">
+          <th>EM Improvement Threshold</th>
+          <td id="opt_distance"></td>
+        </tr>
+        <tr class="advanced">
+          <th>Maximum Search Size</th>
+          <td id="opt_searchsize"></td>
+        </tr>
+        <tr class="advanced">
+          <th>Maximum Number of Sites for E-values</th>
+          <td id="opt_csites"></td>
+        </tr>
+        <tr class="advanced">
+          <th>Trim Gap Open Cost</th>
+          <td id="opt_wg"></td>
+        </tr>
+        <tr class="advanced">
+          <th>Trim Gap Extend Cost</th>
+          <td id="opt_ws"></td>
+        </tr>
+        <tr class="advanced">
+          <th>End Gap Treatment</th>
+          <td id="opt_noendgaps">
+            <span class="noendgaps_on">No cost</span>
+            <span class="noendgaps_off">Same cost as other gaps</span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align: center">
+            <a href="javascript:toggle_class(document.getElementById('tbl_settings'), 'hide_advanced')">
+              <span class="show_more">Show Advanced Settings</span>
+              <span class="show_less">Hide Advanced Settings</span>
+            </a>
+          </td>
+        </tr>
+      </table>
+      <script>
+      {
+        $("opt_mod").className = data.options.mod;
+        $("opt_objfun").textContent = data.options.objfun;
+        $("opt_spfun").textContent = data.options.spfun;
+        $("opt_strand").className = (current_alphabet.has_complement() ? (data.options.revcomp ? "both" : "given") : "none");
+        $("opt_nmotifs").textContent = data.options.nmotifs;
+        $("opt_evt").textContent = (typeof data.options.evt === "number" ? data.options.evt : "no limit");
+        $("opt_minw").textContent = data.options.minw;
+        $("opt_maxw").textContent = data.options.maxw;
+        $("opt_minsites").textContent = data.options.minsites;
+        $("opt_maxsites").textContent = data.options.maxsites;
+        $("opt_wnsites").textContent = data.options.wnsites;
+        $("opt_spmap").className = data.options.spmap;
+        $("opt_spfuzz").textContent = data.options.spfuzz;
+        $("opt_prior").className = data.options.prior;
+        if (data.options.prior == "dirichlet") {
+          $("opt_prior_source").textContent = make_background_source("Source", data.background.source, true);
+        } else {
+          $("opt_prior_source").textContent = (data.options.prior == "addone") ? "motif observed frequencies" : data.options.priors_source;
+        }
+        $("opt_b").textContent = (data.options.b < 0) ? "not applicable" : (data.options.b == 0) ? "intrinsic strength" : data.options.b;
+        $("opt_maxiter").textContent = data.options.maxiter;
+        $("opt_distance").textContent = data.options.distance;
+        $("opt_searchsize").textContent = data.options.searchsize;
+        if (typeof data.options.csites != "undefined") {
+          $("opt_csites").textContent = data.options.csites;
+        } else {
+          $("opt_csites").parentElement.style.display = "none"
+        }
+        if (typeof data.options.wg != "undefined") {
+          $("opt_wg").textContent = data.options.wg;
+        } else {
+          $("opt_wg").parentElement.style.display = "none"
+        }
+        if (typeof data.options.ws != "undefined") {
+          $("opt_ws").textContent = data.options.ws;
+        }
+        else {
+          $("opt_ws").parentElement.style.display = "none"
+        }
+        if (typeof data.options.noendgaps != "undefined") {
+          $("opt_noendgaps").className = (data.options.noendgaps ? "on" : "off");
+        }
+        else {
+          $("opt_noendgaps").parentElement.style.display = "none"
+        }
+        $("opt_substring").className = (data.options.substring ? "on" : "off");
+      }
+      </script>
+    </div>
+    <!-- list information on this program -->
+    <div id="info_sec" class="bar">
+      <div class="subsection">
+        <h5 id="version">MEME version</h5>
+        <span id="ins_version"></span> 
+        (Release date: <span id="ins_release"></span>)<br>
+      </div>
+      <script>
+        $("ins_version").innerHTML = data["version"];
+        $("ins_release").innerHTML = data["release"];
+      </script>
+      <div class="subsection" id="reference"> <script>print_citation("reference", "MEME");</script></div>
+      <div class="subsection">
+        <h5 id="command">Command line</h5>
+        <textarea id="cmd" rows="5" style="width:100%;" readonly="readonly">
+        </textarea>
+        <script>$("cmd").value = data["cmd"].join(" ");</script>
+      </div>
+    </div>
+    
+  </body>
+</html>

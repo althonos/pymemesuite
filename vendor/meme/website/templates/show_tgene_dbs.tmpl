@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>T-Gene Genomes and Histone/Expression Panels - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../doc/images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="../doc/images/memesuite_icon.png">
+    <link href="../doc/css/style.css" rel="stylesheet" type="text/css" />
+    <script src="../doc/js/menu-path.js"></script>
+    <script src="../doc/js/menu.js"></script>
+    <script src="../doc/js/utilities.js"></script>
+    <script src="../doc/js/motif_logo.js"></script>
+    <script src="../js/site.js"></script>
+    <style>
+      div.category {
+        border: 1px solid black;
+        padding: 5px;
+      }
+      div.listing + div.listing {
+        margin-top: 20px;
+      }
+      div.listing h4, div.listing p {
+        margin-top: 0;
+        margin-bottom: 2px;
+      }
+      div.listing h5 {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      div.listing h5 + ul {
+        margin-top: 0;
+        padding-left: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content_box">
+      <noscript>
+        <div class="no_script">
+          <div class="no_script_warning">
+          <h1>Javascript is disabled! &#9785;</h1>
+          <p>The MEME Suite web application requires the use of JavaScript but
+          Javascript doesn't seem to be available on your browser.</p>
+          <p>Please re-enable Javascript to use the MEME Suite.</p>
+          </div>
+        </div>
+      </noscript>
+      <div class="memesuitelogo">
+        <h1>The MEME Suite</h1>
+        <h2>Motif-based sequence analysis tools</h2>
+      </div>
+      <h1>T-Gene Genomes and Tissue Panels</h1>
+      <div class="subcontent">
+        <!--{content}-->
+        <div class="subcontent">
+          <!--{category}-->
+          <h2 id="cat_${id}"><!--{name}-->A Category<!--{/name}--></h2>
+          <div class="category panel_XXXXidXXXX">
+            <!--{listing}-->
+            <div class="listing">
+              <h4></b><!--{name}-->A Listing<!--{/name}--></h4>
+              <div class="subcontent">
+                <p><b>Description: </b><!--{description}-->A description of the listing will go here. It
+                will be about two or three sentences long.<!--{/description}--></p>
+                <p><b>Genome Release: </b><!--{genome_release}-->The Genome<!--{/genome_release}--><p>
+                <p><b>Annotation File: </b><!--{annotation_file}-->The Annotation File<!--{/annotation_file}--><p>
+                <p class="panel"><b>Tissues: </b><!--{tissues}-->The tissues in the panel<!--{/tissues}--><p>
+                <p class="panel"><b>Expression Data Type: </b><!--{rna_source}-->The RNA Source<!--{/rna_source}--><p>
+                <p class="panel"><b>Histone Modification(s): </b><!--{histones}-->The Histone Modifications <!--{/histones}--><p>
+                <p><b>Maximum Link Distance<span class="panel">(s)</span>: </b><!--{max_link_distances}-->The Maximum Link Distances<!--{/max_link_distances}--><p>
+		<p class="panel"><b>Low Expression Correlation Adjustment Threshold: </b><!--{lecat}-->The LECAT<!--{/lecat}--><p>
+              </div>
+            </div>
+            <!--{/listing}-->
+          </div>
+          <!--{/category}-->
+        </div>
+        <!--{/content}-->
+      </div>
+    </div>
+  </body>
+  <style>
+div.panel_2 .panel {
+  display: none;
+}      
+  </style>
+</html>

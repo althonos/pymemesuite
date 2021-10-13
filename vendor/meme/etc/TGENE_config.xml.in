@@ -1,0 +1,167 @@
+<appConfig xmlns="http://nbcr.sdsc.edu/opal/types" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata appName="TGENE @SERVICE_VERSION@">
+    <usage>T-Gene: Prediction of Target Genes</usage>
+    <info xsd:type="xsd:string">
+    <![CDATA[
+      tgene_webservice [options] <locus_file> <rna_source>
+
+      Options:
+
+	-annotation-file-name <afile>   annotation file name
+	-transcript-types <ttypes>      types of transcript to use from annotation file
+	-max-link-distances <mlds>      comma-separated list of maximum distances between an RE and its target
+	-max-pvalue <mpv>               maximum p-value for including non-CT, non-CL links in output
+	-tissues <tissues>              comma-separated list (no spaces) of tissue names
+	-histone-root <hrd>             histone root directory
+	-histones <histones>            comma-separated list (no spaces) of histone names
+	-rna-source                     type of RNA expression data you are providing
+	-expression-root <erd>          expression root directory
+	-use-gene-ids                   use the 'gene_id' field rather than 'transcript_id' field
+					to associate expression file and annotation file entries;
+	-lecat                          low expression correlation adjustment threshold; default: 0
+	-no-closest-locus               don't include closest locus for all targets
+					unless constraints are satisfied
+	-no-closest-tss                 don't include closest TSS (target transcript) for all loci
+					unless constraints are satisfied
+
+        Files present in the server tgene databases can be specified by appending 'db/'
+        to the file name.
+    ]]>
+    </info>
+    <types>
+      <flags>
+        <flag>
+          <id>use-gene-ids</id>
+          <tag>-use-gene-ids</tag>
+          <textDesc>use the 'gene_id' field rather than 'transcript_id' field to associate expression file and annotation file entries</textDesc>
+          <default>false</default>
+        </flag>
+        <flag>
+          <id>inc-closest-locus</id>
+          <tag>-inc-closet-locus</tag>
+          <textDesc>include closest locus for all targets</textDesc>
+          <default>false</default>
+        </flag>
+        <flag>
+          <id>inc-closest-tss</id>
+          <tag>-inc-closet-tss</tag>
+          <textDesc>include closest TSS (target) for all loci</textDesc>
+          <default>false</default>
+        </flag>
+      </flags>
+      <taggedParams>
+        <separator> </separator>
+        <param>
+          <id>tissues</id>
+          <tag>-tissues</tag>
+          <paramType>STRING</paramType>
+          <default></default>
+          <textDesc>comma-separated list (no spaces) of tissue names</textDesc>
+        </param>
+        <param>
+          <id>histone-root</id>
+          <tag>-histone-root</tag>
+          <paramType>STRING</paramType>
+          <default></default>
+          <textDesc>histone root directory</textDesc>
+        </param>
+        <param>
+          <id>histones</id>
+          <tag>-histones</tag>
+          <paramType>STRING</paramType>
+          <default></default>
+          <textDesc>comma-separated list (no spaces) of histone names</textDesc>
+        </param>
+        <param>
+          <id>max-link-distances</id>
+          <tag>-max-link-distances</tag>
+          <paramType>STRING</paramType>
+          <default></default>
+          <textDesc>comma-separated list of maximum distances between an RE and its target</textDesc>
+        </param>
+        <param>
+          <id>expression-root</id>
+          <tag>-expression-root</tag>
+          <paramType>STRING</paramType>
+          <default></default>
+          <textDesc>expression root directory</textDesc>
+        </param>
+        <param>
+          <id>expression-file-type</id>
+          <tag>-expression-file-type</tag>
+          <paramType>STRING</paramType>
+          <default></default>
+          <textDesc>file type of expression files</textDesc>
+        </param>
+        <param>
+          <id>annotation-file-name</id>
+          <tag>-annotation-file-name</tag>
+          <paramType>STRING</paramType>
+          <default></default>
+          <textDesc>annotation file name</textDesc>
+        </param>
+        <param>
+          <id>annotation-type</id>
+          <tag>-annotation-type</tag>
+          <paramType>STRING</paramType>
+          <default></default>
+          <textDesc>type of annotation [Gencode|RefSeq]</textDesc>
+        </param>
+        <param>
+          <id>transcript-types</id>
+          <tag>-transcript-types</tag>
+          <paramType>STRING</paramType>
+          <default></default>
+          <textDesc>types of transcript to use from annotation file</textDesc>
+        </param>
+        <param>
+          <id>min-feature-count</id>
+          <tag>-min-feature-count</tag>
+          <paramType>INT</paramType>
+          <default></default>
+          <textDesc>only consider links where there is both histone and expression data for at least this many tissues</textDesc>
+        </param>
+        <param>
+          <id>min-max-expression</id>
+          <tag>-min-max-expression</tag>
+          <paramType>INT</paramType>
+          <default></default>
+          <textDesc>maximum expression of a target must be at least this large for the target to be included in the map</textDesc>
+        </param>
+        <param>
+          <id>max-html-score</id>
+          <tag>-max-html-score</tag>
+          <paramType>FLOAT</paramType>
+          <default></default>
+          <textDesc>only include links with this score or better in the HTML</textDesc>
+        </param>
+        <param>
+          <id>desc</id>
+          <tag>-desc</tag>
+          <paramType>STRING</paramType>
+          <default></default>
+          <textDesc>plain text description of the job</textDesc>
+        </param>
+      </taggedParams>
+
+      <untaggedParams>
+        <param>
+          <id>locus_file</id>
+          <paramType>FILE</paramType>
+          <ioType>INPUT</ioType>
+          <required>true</required>
+          <textDesc>Upload Loci in BED format</textDesc>
+        </param>
+        <param>
+          <id>rna_source</id>
+          <paramType>STRING</paramType>
+          <required>true</required>
+          <textDesc>the type of RNA expression data from the list: LongPap LongPapMouse LongPam Short Cage</textDesc>
+        </param>
+      </untaggedParams>
+    </types>
+  </metadata>
+  <binaryLocation>@SERVICE_DIR@/tgene_webservice</binaryLocation>
+  <drmaaQueue>@drmaa_queue@</drmaaQueue>
+  <parallel>false</parallel>
+</appConfig>

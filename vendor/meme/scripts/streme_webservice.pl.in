@@ -1,0 +1,108 @@
+#!@WHICHPERL@
+=head1 NAME
+
+streme_webservice - Run STREME in a restricted mode and create an index webpage.
+
+=head1 SYNOPSIS
+
+streme_webservice [options] <positive sequences file>
+
+  Options:
+    -n <file>         	file containing negative sequences
+    -minw <minw>	minimum motif width
+    -maxw <maxw>	maximum motif width
+    -thresh <thresh>    maximum motif p-value
+    -nmotifs <nmotifs>	maximum motif count
+    -order <order>	Markov order for shuffling and background
+    -align <align>	how to align sequences for site position diagrams
+    -help             	brief help message
+
+=cut
+
+use strict;
+use warnings;
+# load standard perl libraries
+use Getopt::Long qw(:config permute auto_help);
+use Pod::Usage;
+# load custom perl libraries
+use lib qw(@PERLLIBDIR@);
+use Alphabet qw(rna dna protein);
+use StatusPage qw(arg_checks arg_end opt_uploaded opt_choice opt_integer opt_pvalue);
+use Globals;
+# constants
+my $bin_dir = '@BINDIR@';
+# required parameters
+my $positives;
+# Optional parameters.
+my ($alpha, $alphf, $negatives, $minw, $maxw, $thresh, $nmotifs, $order, $align);
+$alpha = 'DNA';
+#status page
+my $status = new StatusPage('STREME', \@ARGV);
+$status->add_message('Parsing arguments');
+# parse options
+my @arg_errors = ();
+my $opts_ok = do {
+  local $SIG{__WARN__} = sub { my ($msg) = @_; chomp($msg); push(@arg_errors, $msg); };
+  GetOptions(
+  '<>' => arg_checks(opt_uploaded(\$positives), arg_end()),
+  'alpha=s' => opt_choice(\$alpha, 'DNA', 'RNA', 'PROTEIN'),
+  'alphf=s' => opt_uploaded(\$alphf),
+  'n=s' => opt_uploaded(\$negatives), 
+  'minw=i' => opt_integer(\$minw), 
+  'maxw=i' => opt_integer(\$maxw), 
+  'thresh=f' => opt_pvalue(\$thresh), 
+  'nmotifs=i' => opt_integer(\$nmotifs),
+  'order=i' => opt_integer(\$order),
+  'align=s' => \$align
+  );
+};
+# add additional error messages for missing sequences and motifs
+push(@arg_errors, "No sequences provided.") unless defined $positives;
+# display the error messages both to the status page and stdout
+foreach my $arg_error (@arg_errors) {
+  print STDERR $arg_error, "\n";
+  $status->add_message($arg_error);
+}
+$opts_ok = 0 if (scalar(@arg_errors) > 0);
+# setup status page
+$status->add_file('html', 'streme.html', 'STREME HTML output');
+$status->add_file('text', 'streme.txt', 'STREME text output (motifs in MEME format)');
+$status->add_file('xml', 'streme.xml', 'STREME XML output');
+$status->add_file('pos_seqs', $positives, 'Input sequences');
+$status->add_file('neg_seqs', $negatives, 'Control sequences');
+$status->add_message($opts_ok ? 'Arguments ok' : "Error parsing arguments");
+$status->update($opts_ok ? 'Starting' : 'Error');
+# exit if there was an error reading the arguments
+unless ($opts_ok) {
+  $status->write_log();
+  pod2usage(2);
+}
+
+# load the alphabet
+my $alphabet = $status->load_alphabet($alpha, $alphf);
+my @alph_args = (defined($alphf) ? ('--alph', $alphf) : ('--' . lc($alpha)));
+
+# Set the maximum total sequence length allowed to limit the run-time and memory use.
+# Allow streme_length_factor characters of total sequence per 1GB or core memory.
+my $maxtotallength = @maxmemory@ * @streme_length_factor@;
+
+# construct the arguments to streme
+my @streme_args = ('--verbosity', 1, '--oc', '.', @alph_args);
+push(@streme_args, '--totallength', $maxtotallength); 
+push(@streme_args, '--time', $status->remaining_time());
+push(@streme_args, '--minw', $minw) if defined($minw);
+push(@streme_args, '--maxw', $maxw) if defined($maxw);
+push(@streme_args, '--thresh', $thresh) if defined($thresh);
+push(@streme_args, '--nmotifs', $nmotifs) if defined($nmotifs);
+push(@streme_args, '--order', $order) if defined($order);
+push(@streme_args, '--align', $align) if defined($align);
+push(@streme_args, '--dfile', 'description') if (-e 'description');
+push(@streme_args, '--p', $positives);
+push(@streme_args, '--n', $negatives) if $negatives;
+# run STREME (let STREME manage the timeout)
+$status->run(PROG => 'streme', BIN => $bin_dir, ARGS => \@streme_args, TIMEOUT => 0);
+# done
+$status->add_message("Done");
+$status->update();
+$status->write_log();
+1;

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>AME Output Formats - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/constants.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/simple-shared-doc.js"></script>
+    <script src="js/ame_doc.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+
+    <h2>AME Output Formats</h2>
+
+    <ul>
+      <h3><li><a href="#html_results">AME Results HTML Format</a></li></h3>
+      <h3><li><a href="#tsv_results">AME Results TSV Format</a></li></h3>
+      <h3><li><a href="#tsv_sequences">AME Positive Sequences TSV Format</a></li></h3>
+    </ul>
+
+    <div id="html_results">
+      <h3> AME Results HTML Format</h3>
+      <p>See this self-documenting <a href="examples/ame_example_output_files/ame.html">sample HTML results file</a>.</p>
+    </div>
+
+    <div id="tsv_results">
+      <h3>AME Results TSV Format</h3>
+      <p>See this <a href="examples/ame_example_output_files/ame.tsv">sample TSV results file</a>.</p>
+      <script>print_doc("tsv_results", "ame", "ame-tsv-description");</script>
+      <script>print_doc("tsv_results", "shared", "motif-consensus");</script>
+    </div>
+
+    <div id="tsv_sequences">
+      <h3>AME Positive Sequences TSV Format</h3>
+      <p><b>Note: </b>This file is only created if when the Fisher Exact test method (<code>fisher</code>) is used.</p>
+      See this <a href="examples/ame_example_output_files/sequences.tsv">sample positive sequences file</a>.
+      <script>print_doc("tsv_sequences", "ame", "ame-sequences-tsv");</script>
+    </div>
+
+  </body>
+</html>

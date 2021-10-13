@@ -1,0 +1,119 @@
+my $verbose = 1;
+my @methods = ('fisher', 'ranksum');
+my @scorings = ('totalhits', 'avg');
+my @controls = ('no', 'yes', 'fix');
+if (&is_comprehensive()) {
+  push(@methods, '3dmhg', '4dmhg', 'pearson', 'spearman');
+  push(@scorings, 'max', 'sum');
+}
+my $primary_only = 'common/Klf1-200-100.combined.fa';
+my $primary_only_nofasta = 'common/Klf1-200-100.combined.nofasta.fa';
+my $primary = 'common/Klf1-200-100.fa';
+my $control = 'common/Klf1-200-100-shuffled.py2.fa';
+my @motifs = ('common/Jaspar-subset.meme', 'common/Jaspar-subset2.meme');
+
+my $counter = 1;
+foreach my $method (@methods) {
+  foreach my $scoring (@scorings) {
+    foreach my $cntrl (@controls) {
+      next if ($method =~ /dmhg/ && $scoring ne 'totalhits');
+      next if ($method =~ /pearson/ && $cntrl eq 'fix');
+      my @args = ();
+      push(@args, '--evalue-report-threshold', '2') if ($method eq 'fisher');
+      push(@args, '--evalue-report-threshold', '100') if ($method ne 'fisher');
+      # these args must come last
+      my $cntrl_str;
+      push(@args, '--hit-lo-fraction', 0.85) if ($scoring eq 'totalhits');
+      if ($cntrl eq 'yes') {
+        next if ($method eq 'pearson' || $method eq 'spearman' || $method eq '3dmhg' || $method eq '4dmhg'); 
+        push(@args, '--bgfile', '--motif--', '-motif-pseudo', '0') if ($scoring ne 'sum');
+        push(@args, '--bgfile', '--motif--', '-pseudocount', '0.25') if ($scoring eq 'sum');
+        push(@args, '--control', '--shuffle--', '--kmer', '1', $primary) if ($method eq 'fisher' && $scoring eq 'avg');
+        push(@args, '--control', '--shuffle--', '--seed', '5', $primary) if ($method eq 'fisher' && $scoring ne 'avg');
+        push(@args, '--control', $control, $primary) if ($method ne 'fisher');
+        $cntrl_str = 'control';
+      } elsif ($cntrl eq 'no') {
+        push(@args, '--bgfile', '--uniform--') if ($counter != 1);
+        push(@args, '--poslist', 'pwm', '--fasta-threshold', -7.3) if ($scoring eq 'sum');
+        push(@args, '--poslist', 'fasta', '--hit-lo-fraction', 0.85) if ($scoring ne 'sum' && $scoring ne 'totalhits');
+        push(@args, $primary_only);
+        $cntrl_str = 'no_control';
+      } elsif ($cntrl eq 'fix') {
+        push(@args, '--fix-partition', 169);
+        push(@args, $primary_only_nofasta);
+        $cntrl_str = 'fix-partition';
+      }
+      my $out = 'ame.'.$method.'.'.$scoring.'.'.$cntrl_str;
+      my $check_html =
+	{
+	  output => 'results/ame'.$counter.'/ame.html',
+	  reference => make_test_src_path('ame/'.$out.'.html'),
+	  type => 'json', ignore => [
+	    'data:(version|revision|release|cmd)',
+	    'data:sequence_db:source',
+	    'data:motif_dbs'
+	  ]
+	};
+      my $check_tsv =
+	{
+	  output => 'results/ame'.$counter.'/ame.tsv', 
+	  reference => make_test_src_path('ame/'.$out.'.tsv'),
+	  type => 'text', ignore => ['^#']
+	};
+      my $check_seq = 
+	{
+	  output => 'results/ame'.$counter.'/sequences.tsv', 
+	  reference => make_test_src_path('ame/'.$out.'.sequences.tsv'),
+	  type => 'text', ignore => ['^#']
+	};
+
+      # Only fisher creates a sequence TSV file.
+      my $checks = ($method eq "fisher") ? [$check_html, $check_tsv, $check_seq] : [$check_html, $check_tsv];
+
+      &test('ame'.$counter, '',
+	'ame', '',
+	['--verbose', $verbose, '--method', $method, '--scoring', $scoring, '--oc', 'results/ame'.$counter,
+	  @args, ($counter==1 ? $motifs[0] : @motifs)
+	],
+        $checks,
+	catdir('results', 'ame' . $counter)
+      );
+      $counter++;
+    } # control
+  } # scoring
+} # method
+
+$out = "dna_with_covalent";
+&test('ame'.$counter, '--xalph, --inc, --exc, --bgfile, --kmer, --motif-pseudo',
+  'ame', '',
+  ['--oc', 'results/ame'.$counter, '--verbose', 1,
+    '--xalph', 'common/'.$out.'.alph',
+    '--inc', 'MA00*', '--inc', 'MA04*', '--exc', 'MA007*', '--inc', 'T*',
+    '--bgfile', 'common/dna_with_covalent.bg', '--kmer', '1',
+    '--control', '--shuffle--', '--motif-pseudo', '1',
+    'common/dna_with_covalent.fa', 'common/Jaspar-subset.meme',
+    'common/Jaspar-subset2.meme', 'common/dna_with_covalent.meme'
+  ],
+  [
+    {
+      output => 'results/ame'.$counter.'/ame.html',
+      reference => make_test_src_path('ame/ame.'.$out.'.html'),
+      type => 'json', ignore => [
+	'data:(version|revision|release|cmd)',
+	'data:sequence_db:source'
+      ]
+    },
+    {
+      output => 'results/ame'.$counter.'/ame.tsv',
+      reference => make_test_src_path('ame/ame.'.$out.'.tsv'),
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/ame'.$counter.'/sequences.tsv', 
+      reference => make_test_src_path('ame/ame.'.$out.'.sequences.tsv'),
+      type => 'text', ignore => ['^#']
+    }
+  ],
+  'results/ame'.$counter
+);
+$counter++;

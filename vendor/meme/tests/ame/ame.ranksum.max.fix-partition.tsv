@@ -1,0 +1,18 @@
+rank	motif_DB	motif_ID	motif_alt_ID	consensus	p-value	adj_p-value	E-value	tests	FASTA_max	pos	neg	U	pleft	pright	pboth	adj_pleft	adj_pright	adj_pboth
+1	common/Jaspar-subset.meme	MA0035.2	Gata1	DSAGATAAGVV	8.93e-10	8.93e-10	1.16e-8	1	169	169	0	8876	1.00e0	8.93e-10	1.79e-9	1.00e0	8.93e-10	1.79e-9
+2	common/Jaspar-subset.meme	MA0140.1	Tal1::Gata1	CTGBNNNNNDSAGATAAG	1.40e-9	1.40e-9	1.82e-8	1	169	169	0	8942	1.00e0	1.40e-9	2.80e-9	1.00e0	1.40e-9	2.80e-9
+3	common/Jaspar-subset.meme	MA0039.2	Klf4	DGGGYGKGGC	6.69e-9	6.69e-9	8.70e-8	1	169	169	0	9177	1.00e0	6.69e-9	1.34e-8	1.00e0	6.69e-9	1.34e-8
+4	common/Jaspar-subset.meme	MA0309.1	GZF3	YGATAASR	7.17e-8	7.17e-8	9.32e-7	1	169	169	0	9554	1.00e0	7.17e-8	1.43e-7	1.00e0	7.17e-8	1.43e-7
+5	common/Jaspar-subset.meme	MA0300.1	GAT1	YYGATAAG	5.38e-7	5.38e-7	6.99e-6	1	169	169	0	9899	1.00e0	5.38e-7	1.08e-6	1.00e0	5.38e-7	1.08e-6
+6	common/Jaspar-subset.meme	MA0079.1	SP1	KRGGCDGGGT	1.14e-4	1.14e-4	1.48e-3	1	169	169	0	1.097e+04	1.00e0	1.14e-4	2.27e-4	1.00e0	1.14e-4	2.27e-4
+7	common/Jaspar-subset.meme	MA0443.1	btd	RRGGGGCGKR	3.91e-4	3.91e-4	5.09e-3	1	169	169	0	1.126e+04	1.00e0	3.91e-4	7.83e-4	1.00e0	3.91e-4	7.83e-4
+8	common/Jaspar-subset2.meme	MA0443.1	btd	RRGGGGCGKR	3.91e-4	3.91e-4	5.09e-3	1	169	169	0	1.126e+04	1.00e0	3.91e-4	7.83e-4	1.00e0	3.91e-4	7.83e-4
+9	common/Jaspar-subset.meme	MA0270.1	AFT2	SACACCCB	6.44e-4	6.44e-4	8.38e-3	1	169	169	0	1.139e+04	9.99e-1	6.44e-4	1.29e-3	9.99e-1	6.44e-4	1.29e-3
+10	common/Jaspar-subset.meme	MA0091.1	TAL1::TCF3	NSAMCATCTGKT	2.39e-2	2.39e-2	3.11e-1	1	169	169	0	1.25e+04	9.76e-1	2.39e-2	4.79e-2	9.76e-1	2.39e-2	4.79e-2
+11	common/Jaspar-subset.meme	MA0079.2	SP1	CCCCKCCCCC	3.41e-2	3.41e-2	4.43e-1	1	169	169	0	1.264e+04	9.66e-1	3.41e-2	6.82e-2	9.66e-1	3.41e-2	6.82e-2
+12	common/Jaspar-subset2.meme	MA0039.1	Klf4	WARRGRAAGG	5.08e-2	5.08e-2	6.60e-1	1	169	169	0	1.281e+04	9.49e-1	5.08e-2	1.02e-1	9.49e-1	5.08e-2	1.02e-1
+13	common/Jaspar-subset.meme	MA0163.1	PLAG1	GGGGCCCWAGGGGG	7.31e-1	7.31e-1	9.51e0	1	169	169	0	1.484e+04	2.69e-1	7.31e-1	5.37e-1	2.69e-1	7.31e-1	5.37e-1
+
+# AME (Analysis of Motif Enrichment): Version 5.4.0 compiled on May 20 2021 at 11:57:07
+# The format of this file is described at https://meme-suite.org/meme/doc/ame-output-format.html.
+# ame --verbose 1 --method ranksum --scoring max --oc results/ame21 --evalue-report-threshold 100 --fix-partition 169 common/Klf1-200-100.combined.nofasta.fa common/Jaspar-subset.meme common/Jaspar-subset2.meme

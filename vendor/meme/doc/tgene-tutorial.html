@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>T-Gene Tutorial - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+    <h2>T-Gene Tutorial</h2>
+    <h3>What T-Gene does</h3>
+    <div class="indent">
+       <span class="tut blurb" data-id="tgene"></span>
+    </div>
+    <h3>Typical T-Gene applications</h3>
+       <ul>
+         <li>Predicting which genes are regulated by a particular transcription factor (TF) using
+		ChIP-seq peaks for that TF.
+         <li>Predicting which ChIP-seq peak corresponds to the TF binding to regulate a particular gene.
+       </ul>
+    <h3>How T-Gene works</h3>
+    <p>
+	T-Gene uses a gene annotation file and, optionally 
+        histone modification and gene expression data for a panel of 'tissues'.
+	It computes a distance based score---the Distance <i>p</i>-value---for each
+	potential regulatory link between one of your Loci and a transcript
+	in the gene annotation file.  Potential links are 1) all locus-transcript pairs
+	where the transcription start site (TSS) is located within a specified maximum distance 
+	from the locus (500,000bp by default), or 2) where the transcript
+	is the closest transcript to the locus ("Closest-TSS link"), or 3) where the locus is 
+	the closest locus to the transcript ("Closest-Locus link").  If you provide a Tissue Panel,
+	T-Gene also computes the level of each histone modification in the panel
+	at each of the genomic loci (typically TF ChIP-seq peaks) that you provide,
+	and then it computes the Pearson correlation between a histone modification
+	at the locus the expression of the transcript.  T-Gene then estimates the
+	<i>p</i>-value of this correlation, and combines it with the Distance <i>p</i>-value
+	for form the CnD <i>p</i>-value (Correlation aNd Distance <i>p</i>-value).
+	Finally, T-Gene computes the q-value of the CnD <i>p</i>-value, which is the minimum
+	false discovery rate (FDR) required to consider this link statistically significant.
+	T-Gene reports these scores for each locus-TSS-histone trio.  Note that if no
+	tissue panel is provided, T-Gene bases the q-value on the Distance <i>p</i>-value
+	rather than the CnD <i>p</i>-value.
+    </p>
+    <h3>Loci</h3>
+    <p>
+    	You provide a set of genomic loci to T-Gene via a 'locus file' in 
+	<a href="bed-format.html">BED format</a>.
+	Each line in the locus file specifies a single locus
+	specified as three fields separated by tabs: &lt;chrom&gt; &lt;chromStart&gt; &lt;chromEnd&gt;.
+	Any additional fields on each line are ignored by T-Gene, as are comment lines, 
+	which must start with the '#' character.
+    </p>
+    <h3>T-Gene Web Server Genome or Histone/Expression Panels</h3>
+    <p>
+	You must choose a Genome or Tissue Panel for the exact genome release (assembly) used by your loci file for
+	T-Gene to work correctly.  If a Genome or Panel does not exist for your genome release,
+	you may be able to use the <a href="https://genome.ucsc.edu/cgi-bin/hgLiftOver">LiftOver</a>
+	tool to convert your loci to the correct coordinates.
+    </p>
+    <h3>T-Gene Command Line Genome or Histone/Expression Panels</h3>
+    <p>
+	You can use T-Gene on your own computer if you download and install the MEME Suite.
+	(See instructions in the "Download & Install" menu on the left.)  You should
+	also download the T-Gene Databases, which include all of the Genomes and Histone/Expression Panels
+	available to the T-Gene Web Server.  You can find gene annotation files for
+	other genomes as GTF files at <a href="ftp://ftp.ensembl.org/pub">ftp.ensembl.org/pub</a> and
+	<a href="ftp://ftp.ensemblgenomes.org/pub">ftp.ensemblgenomes.org/pub</a>.  For example,
+	you can download a gene annotation file in GTF format for Cow at
+	<a href="ftp://ftp.ensembl.org/pub/release-97/gtf/bos_taurus/Bos_taurus.ARS-UCD1.2.97.gtf.gz">
+         ftp://ftp.ensembl.org/pub/release-97/gtf/bos_taurus</a>.  
+	You can reference this file on the T-Gene command-line as long as
+	your locus file (e.g., ChIP-seq peak file) uses Ensembl format for chromosome names and the
+	genomic coordinates are for Ensembl release 97.  
+	(Gene annotation files for older releases are also available at the same FTP site.)
+    </p>
+    <h3>Creating your own Histone/Expression Panels</h3>
+    <p>
+	Under construction...
+    </p>
+    <h3>Interpreting T-Gene's HTML Output</h3>
+    <ul>
+      <li><b>Column Selection: </b>
+	<p>
+	T-Gene allows you to select which columns to display using the check-boxes
+	under the "Columns to display" heading on the right of the HTML output.
+	</p>
+      </li>
+      <li><b>Sorting: </b>
+        <p>
+	By default, T-Gene sorts the potential regulatory links first on the CT (Closest-TSS) column,
+	then by Distance <i>p</i>-value, or by CnD <i>p</i>-value if you provided a tissue panel.
+	so that links that CT links will come first. This is done because CT links are more likely 
+	to be regulatory than other links.  You can change the column on which to sort the links using 
+	drop-down menu labeled "Sort", located on the right.  After choosing the new sorting column,
+	click the "Update Filter & Sort" button located below the drop-down menu.
+        </p>
+        <p>
+	For example, if you are interested in what the gene targets are for a transcription factor (TF),
+	and your locus file is a ChIP-seq peak file for that TF, sorting by the default column, and
+	leaving the filtering of links at the default (see below), makes sense.  This will display
+	the most significant Closest-TSS link for each gene at the top of the list, sorted by
+	statistical significance, followed by the non-Closest-TSS links, also sorted by statistical
+	significance.
+        </p>
+      </li>
+      <li><b>Filtering: </b>
+        <p>
+	By default, T-Gene will display the best link for each gene.  ("Best" depends on how you are
+	sorting the links.)  You can change this to showing the best link for each transcript ("TSSes"),
+	or the best link for each locus ("RE Locus"), or to show all links, using the four radio
+	buttons at the top of the "Filters" section.  
+        </p>
+        <p>
+	In addition, you can filter on Gene ID, Gene Name, TSS ID, TSS Locus, the absolute value of 
+	the distance, the distance etc. using the check boxes
+	and their associated fields.  Note that you can use "regular expressions" to define which
+	names and IDs you want to select with the Gene ID, Gene Name etc. filters.
+        </p>
+        <p>
+	Click "Update Filter & Sort" button located below the filters after changing filter selections.
+        </p>
+      </li>
+      <li><b>Downloading: </b>
+	<p>
+	You can download all the links that are displayed as a tab-separated values (TSV) file.
+	By selecting the columns to be displayed and the filtering and sorting that you want,
+	you can customize the downloaded file.
+	</p>
+      </li>
+    </ul>
+    </p>
+    <h3>FAQ</h3>
+      <ul>
+	<li> Under construction...
+      </ul>
+    <p>
+  </body>
+</html>

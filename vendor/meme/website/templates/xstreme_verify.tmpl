@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>XSTREME verification</title>
+<link href="../css/status.css" rel="stylesheet" type="text/css" />
+<script src="../doc/js/utilities.js"></script>
+<script src="../js/status.js"></script>
+<script>
+var verify = 
+<!--{message}-->
+{
+  "items": [
+    {
+      "type": "sequences",
+      "name": "(Primary) Sequences",
+      "key": "posSeq"
+    },
+    {
+      "type": "sequences",
+      "name": "Control Sequences",
+      "key": "negSeq"
+    },
+    {
+      "type": "flag",
+      "name": "DNA -> RNA",
+      "key": "dna2rna",
+      "on": "XSTREME will treat the sequences as single-stranded RNA."
+    },
+    {
+      "type": "background",
+      "name": "Background",
+      "key": "background"
+    },
+    {
+      "type": "count",
+      "name": "Markov order",
+      "key": "order",
+      "any": "Using order = !!VALUE!! for shuffling sequences and background model."
+    },
+    {
+      "type": "range",
+      "name": "Motif Width",
+      "keyLow": "minw",
+      "keyHigh": "maxw",
+      "same": "XSTREME will discover motifs exactly !!LOW!! wide.",
+      "low": "XSTREME will discover motifs at least !!LOW!! wide.",
+      "high": "XSTREME will discover motifs at most !!HIGH!! wide.",
+      "both": "XSTREME will discover motifs between !!LOW!! wide and !!HIGH!! wide (inclusive)."
+    },
+    {
+      "type": "number",
+      "name": "Reporting E-value Threshold",
+      "key": "evt",
+      "any": "XSTREME will report motifs with <i>E</i>-value &le; !!VALUE!!."
+    },
+    {
+      "type": "number",
+      "name": "STREME <i>E</i>-value Threshold",
+      "key": "stremeOptE",
+      "any": "STREME will search for motifs with a <i>E</i>-value &le; !!VALUE!!."
+    },
+    {
+      "type": "count",
+      "name": "STREME Number of Motifs",
+      "key": "stremeOptM",
+      "one": "STREME will search for one motif.",
+      "any": "STREME will search for !!VALUE!! motifs."
+    },
+    {
+      "type": "number",
+      "name": "MEME <i>E</i>-value Threshold",
+      "key": "memeOptE",
+      "any": "MEME will search for motifs with an <i>E</i>-value &le; !!VALUE!!."
+    },
+    {
+      "type": "count",
+      "name": "MEME Number of Motifs",
+      "key": "memeOptM",
+      "one": "MEME will search for one motif.",
+      "any": "MEME will search for !!VALUE!! motifs."
+    },
+    {
+      "type": "choice",
+      "name": "MEME Site Distribution",
+      "key": "memeOptMode",
+      "options": {
+        "zoops": "MEME will only find motifs with zero or one occurrence (of a contributing motif site) per sequence.",
+        "oops": "MEME will only find motifs with one occurrence (of a contributing motif site) per sequence.",
+        "anr": "MEME will find motifs with any number of repetitions (of a contributing motif site per sequence)."
+      }
+    },
+    {
+      "type": "count",
+      "name": "Central Trimming",
+      "key": "ctrim",
+      "any": "XSTREME will use only the central !!VALUE!! characters of each (primary) sequence for motif discovery and enrichment analysis."
+    },
+    {
+      "type": "motifs",
+      "name": "Known Motifs",
+      "key": "motifs"
+    },
+    {
+      "type" : "choice",
+      "name": "Site Positional Distribution Plots",
+      "key": "align",
+      "options": {
+        "left": "Sequences are aligned on their left ends.",
+        "center": "Sequences are aligned on their centers.",
+        "right": "Sequences are aligned on their right ends."
+      }
+    },
+    {
+      "type": "flag",
+      "name": "SEA matching sequences TSV file",
+      "key": "seaSeqs",
+      "on": "SEA will output matching sequences.",
+      "off": "SEA will NOT output matching sequences."
+    },
+  ]
+}<!--{/message}-->;
+</script>
+</head>
+<body>
+<!--{title}-->XSTREME<!--{/title}--> - <!--{subtitle}-->Motif Discovery and Enrichment Analysis<!--{/subtitle}--><br>
+<!--{logo}-->doc/images/xstreme_icon.png<!--{/logo}-->: <!--{alt}-->XSTREME Logo<!--{/alt}--><br>
+<div id="info"></div>
+<script>display_job_information($("info"), verify["items"], data);</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+#!/bin/bash -l
+
+#
+# Make usage reports.  This wrapper is necessary so that the
+# cron job runs in a login shell environment.
+#
+BIN="@LIBEXECDIR@"
+PROGS="meme streme memechip tgene momo centrimo dreme fimo glam2 glam2scan gomo mast mcast spamo tomtom ame cismapper"
+NULL=":dev/null"
+
+$BIN/make-usage-reports -progs "$PROGS" -years 2
+$BIN/make-usage-reports -rem meme-alt:. -progs "$PROGS" -years 2
+$BIN/make-usage-reports -rem "$NULL" -progs "$PROGS" -years 5 -yearly
+$BIN/create-png-plots -years1 5 -years2 2

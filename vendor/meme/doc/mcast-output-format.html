@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>MCAST Output Formats - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/utilities.js"></script> <!-- for help_refine -->
+    <script src="js/menu.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/simple-shared-doc.js"></script>
+    <script src="js/mcast_doc.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+
+    <h2>MCAST Output Formats</h2>
+
+    <ul>
+      <h3><li><a href="#html_results">MCAST Results HTML Format</a></li></h3>
+      <h3><li><a href="#tsv_results">MCAST Results TSV Format</a></li></h3>
+      <h3><li><a href="#gff3_results">MCAST Results GFF3 Format</a></li></h3>
+    </ul>
+
+    <div id="html_results">
+      <h3> MCAST Results HTML Format</h3>
+      <p>See this self-documenting <a href="examples/mcast_example_output_files/mcast.html">sample HTML results file</a>.</p>
+    </div>
+
+    <div id="tsv_results">
+      <h3>MCAST Results TSV Format</h3>
+      <p>See this <a href="examples/mcast_example_output_files/mcast.tsv">sample TSV results file</a>.</p>
+      <script>print_doc("tsv_results", "mcast", "mcast-results-tsv");</script>
+      <!-- The following popups are required by mcast-cluster-score -->
+      <div class="pop_content" id="pop_motif_match_score"> 
+        <script>print_doc_para('pop_motif_match_score', 'shared', 'motif-match-score');</script>
+	<div style="float:right; bottom:0px;">[
+	  <a href="javascript:help_popup()">close</a> ]</div>
+      </div>
+      <div class="pop_content" id="pop_motif_match_pvalue"> 
+        <script>print_doc_para('pop_motif_match_pvalue', 'shared', 'motif-match-p-value')</script>
+	<div style="float:right; bottom:0px;">[
+	  <a href="javascript:help_popup()">close</a> ]</div>
+      </div>
+    </div>
+
+    <div id="gff3_results">
+      <h3>MCAST Results GFF3 Format</h3>
+      <p>See this <a href="examples/mcast_example_output_files/mcast.gff">sample GFF3 results file</a>.</p>
+      <script>print_doc("gff3_results", "mcast", "mcast-results-gff3");</script>
+    </div>
+
+  </body>
+</html>

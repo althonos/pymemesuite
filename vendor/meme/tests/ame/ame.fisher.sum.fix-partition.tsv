@@ -1,0 +1,16 @@
+rank	motif_DB	motif_ID	motif_alt_ID	consensus	p-value	adj_p-value	E-value	tests	FASTA_max	pos	neg	PWM_min	TP	%TP	FP	%FP
+1	common/Jaspar-subset.meme	MA0039.2	Klf4	DGGGYGKGGC	1.51e-15	1.50e-13	1.95e-12	99	169	169	169	1.06e+03	64	37.87	7	4.14
+2	common/Jaspar-subset.meme	MA0140.1	Tal1::Gata1	CTGBNNNNNDSAGATAAG	1.10e-11	7.95e-10	1.03e-8	72	169	169	169	590	46	27.22	4	2.37
+3	common/Jaspar-subset.meme	MA0309.1	GZF3	YGATAASR	3.41e-11	1.95e-9	2.53e-8	57	169	169	169	339	42	24.85	3	1.78
+4	common/Jaspar-subset.meme	MA0035.2	Gata1	DSAGATAAGVV	6.85e-10	5.55e-8	7.21e-7	81	169	169	169	202	63	37.28	16	9.47
+5	common/Jaspar-subset.meme	MA0300.1	GAT1	YYGATAAG	2.51e-9	1.15e-7	1.50e-6	46	169	169	169	257	41	24.26	5	2.96
+6	common/Jaspar-subset.meme	MA0270.1	AFT2	SACACCCB	2.92e-7	1.96e-5	2.55e-4	67	169	169	169	1.53e+03	40	23.67	8	4.73
+7	common/Jaspar-subset.meme	MA0079.1	SP1	KRGGCDGGGT	1.10e-6	1.07e-4	1.38e-3	97	169	169	169	452	48	28.40	14	8.28
+8	common/Jaspar-subset.meme	MA0443.1	btd	RRGGGGCGKR	4.33e-5	2.03e-3	2.64e-2	47	169	169	169	250	35	20.71	10	5.92
+9	common/Jaspar-subset2.meme	MA0443.1	btd	RRGGGGCGKR	4.33e-5	2.03e-3	2.64e-2	47	169	169	169	250	35	20.71	10	5.92
+10	common/Jaspar-subset.meme	MA0091.1	TAL1::TCF3	NSAMCATCTGKT	8.52e-4	1.52e-2	1.98e-1	18	169	169	169	574	10	5.92	0	0.00
+11	common/Jaspar-subset.meme	MA0079.2	SP1	CCCCKCCCCC	3.57e-4	2.99e-2	3.88e-1	85	169	169	169	344	44	26.04	19	11.24
+
+# AME (Analysis of Motif Enrichment): Version 5.4.0 compiled on May 20 2021 at 11:57:07
+# The format of this file is described at https://meme-suite.org/meme/doc/ame-output-format.html.
+# ame --verbose 1 --method fisher --scoring sum --oc results/ame12 --evalue-report-threshold 2 --fix-partition 169 common/Klf1-200-100.combined.nofasta.fa common/Jaspar-subset.meme common/Jaspar-subset2.meme

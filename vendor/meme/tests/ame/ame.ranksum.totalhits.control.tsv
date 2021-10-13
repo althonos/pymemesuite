@@ -1,0 +1,16 @@
+rank	motif_DB	motif_ID	motif_alt_ID	consensus	p-value	adj_p-value	E-value	tests	FASTA_max	pos	neg	U	pleft	pright	pboth	adj_pleft	adj_pright	adj_pboth
+1	common/Jaspar-subset.meme	MA0039.2	Klf4	DGGGYGKGGC	1.30e-3	1.30e-3	1.69e-2	1	169	169	0	1.158e+04	9.99e-1	1.30e-3	2.61e-3	9.99e-1	1.30e-3	2.61e-3
+2	common/Jaspar-subset.meme	MA0309.1	GZF3	YGATAASR	3.70e-2	3.70e-2	4.81e-1	1	169	169	0	1.268e+04	9.63e-1	3.70e-2	7.40e-2	9.63e-1	3.70e-2	7.40e-2
+5	common/Jaspar-subset.meme	MA0270.1	AFT2	SACACCCB	1.10e-1	1.10e-1	1.43e0	1	169	169	0	1.318e+04	8.90e-1	1.10e-1	2.21e-1	8.90e-1	1.10e-1	2.21e-1
+6	common/Jaspar-subset.meme	MA0300.1	GAT1	YYGATAAG	1.11e-1	1.11e-1	1.44e0	1	169	169	0	1.318e+04	8.89e-1	1.11e-1	2.22e-1	8.89e-1	1.11e-1	2.22e-1
+7	common/Jaspar-subset.meme	MA0035.2	Gata1	DSAGATAAGVV	1.99e-1	1.99e-1	2.58e0	1	169	169	0	1.352e+04	8.01e-1	1.99e-1	3.98e-1	8.01e-1	1.99e-1	3.98e-1
+8	common/Jaspar-subset.meme	MA0079.2	SP1	CCCCKCCCCC	3.54e-1	3.54e-1	4.60e0	1	169	169	0	1.394e+04	6.46e-1	3.54e-1	7.07e-1	6.46e-1	3.54e-1	7.07e-1
+9	common/Jaspar-subset.meme	MA0079.1	SP1	KRGGCDGGGT	3.89e-1	3.89e-1	5.06e0	1	169	169	0	1.403e+04	6.11e-1	3.89e-1	7.78e-1	6.11e-1	3.89e-1	7.78e-1
+10	common/Jaspar-subset2.meme	MA0039.1	Klf4	WAARGRAAGG	3.89e-1	3.89e-1	5.06e0	1	169	169	0	1.403e+04	6.11e-1	3.89e-1	7.78e-1	6.11e-1	3.89e-1	7.78e-1
+11	common/Jaspar-subset.meme	MA0443.1	btd	AGGGGGCGGR	4.63e-1	4.63e-1	6.02e0	1	169	169	0	1.42e+04	5.37e-1	4.63e-1	9.25e-1	5.37e-1	4.63e-1	9.25e-1
+12	common/Jaspar-subset.meme	MA0140.1	Tal1::Gata1	CTGBNNNNNDSAGATAAG	4.63e-1	4.63e-1	6.02e0	1	169	169	0	1.42e+04	5.37e-1	4.63e-1	9.25e-1	5.37e-1	4.63e-1	9.25e-1
+13	common/Jaspar-subset2.meme	MA0443.1	btd	AGGGGGCGGR	4.63e-1	4.63e-1	6.02e0	1	169	169	0	1.42e+04	5.37e-1	4.63e-1	9.25e-1	5.37e-1	4.63e-1	9.25e-1
+
+# AME (Analysis of Motif Enrichment): Version 5.4.0 compiled on May 20 2021 at 11:57:07
+# The format of this file is described at https://meme-suite.org/meme/doc/ame-output-format.html.
+# ame --verbose 1 --method ranksum --scoring totalhits --oc results/ame14 --evalue-report-threshold 100 --hit-lo-fraction 0.85 --bgfile --motif-- -motif-pseudo 0 --control common/Klf1-200-100-shuffled.py2.fa common/Klf1-200-100.fa common/Jaspar-subset.meme common/Jaspar-subset2.meme

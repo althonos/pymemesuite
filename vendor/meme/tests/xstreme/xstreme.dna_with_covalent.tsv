@@ -1,0 +1,24 @@
+RANK	SEED_MOTIF	CLUSTER	SOURCE	ID	ALT_ID	CONSENSUS	WIDTH	SITES	SEA_PVALUE	EVALUE	EVALUE_ACC	SIM_SOURCE	SIM_MOTIF	MOTIF_URL
+1	1	1	STREME	1-Sm1BCMWS	STREME-1	Sm1BCMWS	8	1148	1.11e-269	2.81e-031	1	common/Jaspar-subset.meme	MA0140.1 (Tal1::Gata1)	http://jaspar.genereg.net/cgi-bin/jaspar_db.pl?ID=MA0140.1&rm=present&collection=CORE
+2	0	1	MEME	Vm1DGV	MEME-3	Vm1DGV	6	605	3.64e-253	7.20e-007	1	common/dna_with_covalent.meme	Gm1TGC (GCAm1C)	 
+3	0	1	MEME	m1SAGV	MEME-1	m1SAGV	6	855	1.47e-250	9.30e-030	1	MEME	m1SAGV	 
+4	0	1	MEME	m1SCHNCH	MEME-2	m1SCHNCH	8	566	1.99e-250	5.40e-019	1	common/dna_with_covalent.meme	TGCm1C (Gm1GCA)	 
+5	1	2	STREME	2-KCWGCWGM	STREME-2	KCWGCWGM	8	1171	4.94e-172	1.50e-017	1	common/dna_with_covalent.meme	GCAGCA (TGCTGC)	 
+6	1	3	common/dna_with_covalent.meme	Gm7GCA	TGCx1C	Gm7GCA	6	357	1.13e-091	2.95e-090	1	common/dna_with_covalent.meme	Gm7GCA	 
+7	0	3	common/dna_with_covalent.meme	TGCm1C	Gm1GCA	TGCm1C	6	356	2.44e-091	6.33e-090	1	common/dna_with_covalent.meme	TGCm1C	 
+8	1	4	common/dna_with_covalent.meme	GCAm7C	Gx1TGC	GCAm7C	6	325	2.69e-084	6.98e-083	1	common/dna_with_covalent.meme	GCAm7C	 
+9	0	4	common/dna_with_covalent.meme	GCAm1C	Gm1TGC	GCAm1C	6	323	1.22e-083	3.17e-082	1	common/dna_with_covalent.meme	GCAm1C	 
+9	0	4	common/dna_with_covalent.meme	Gm1TGC	GCAm1C	Gm1TGC	6	323	1.22e-083	3.17e-082	1	common/dna_with_covalent.meme	Gm1TGC	 
+10	0	3	common/dna_with_covalent.meme	GCAGCA	TGCTGC	GCAGCA	6	312	3.85e-047	1.00e-045	1	common/dna_with_covalent.meme	GCAGCA	 
+11	0	3	common/dna_with_covalent.meme	GCm1C1	mGm1GC	GCm1C1	6	179	1.12e-040	2.90e-039	1	common/dna_with_covalent.meme	GCm1C1	 
+12	1	5	common/Jaspar-subset.meme	MA0079.2	SP1	CCCCKCCCCC	10	1363	6.45e-033	1.68e-031	1	common/Jaspar-subset.meme	MA0079.2	http://jaspar.genereg.net/cgi-bin/jaspar_db.pl?ID=MA0079.2&rm=present&collection=CORE
+13	1	6	common/Jaspar-subset.meme	MA0091.1	TAL1::TCF3	NSAMCATCTGKT	12	238	2.16e-028	5.61e-027	1	common/Jaspar-subset.meme	MA0091.1	http://jaspar.genereg.net/cgi-bin/jaspar_db.pl?ID=MA0091.1&rm=present&collection=CORE
+14	0	5	common/Jaspar-subset.meme	MA0079.1	SP1	KRGGCDGGGT	10	477	4.30e-017	1.12e-015	1	common/Jaspar-subset.meme	MA0079.1	http://jaspar.genereg.net/cgi-bin/jaspar_db.pl?ID=MA0079.1&rm=present&collection=CORE
+15	1	7	common/Jaspar-subset.meme	MA0140.1	Tal1::Gata1	CTGBNNNNNDSAGATAAG	18	943	5.81e-013	1.51e-011	1	common/Jaspar-subset.meme	MA0140.1	http://jaspar.genereg.net/cgi-bin/jaspar_db.pl?ID=MA0140.1&rm=present&collection=CORE
+16	0	3	common/dna_with_covalent.meme	TGCmGC	GC1GCA	TGCmGC	6	78	1.61e-011	4.18e-010	1	common/dna_with_covalent.meme	TGCmGC	 
+17	1	8	common/dna_with_covalent.meme	CCTTCC	GGAAGG	CCTTCC	6	127	2.52e-005	6.55e-004	1	common/dna_with_covalent.meme	CCTTCC	 
+18	1	9	common/Jaspar-subset.meme	MA0270.1	AFT2	SACACCCB	8	36	2.95e-005	7.66e-004	1	common/Jaspar-subset.meme	MA0270.1	http://jaspar.genereg.net/cgi-bin/jaspar_db.pl?ID=MA0270.1&rm=present&collection=CORE
+
+# XSTREME (Motif Discovery and Enrichment Analysis): Version 5.4.0 released on Mon Aug 16 16:18:19 2021 -0700
+# The format of this file is described at https://meme-suite.org/meme/doc/xstreme-output-format.html
+# xstreme --p common/dna_with_covalent.fa --oc results/xstreme4 --verbosity 0 --m common/Jaspar-subset.meme --m common/dna_with_covalent.meme --meme-nmotifs 3 --streme-nmotifs 2 --meme-searchsize 10000 --xalph common/dna_with_covalent.alph --bfile common/dna_with_covalent.bg --ctrim 100 --meme-p 6

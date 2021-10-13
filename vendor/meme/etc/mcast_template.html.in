@@ -1,0 +1,472 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>MCAST Results</title>
+    <script src="mcast_data.js"></script>
+    <script src="utilities.js"></script>
+    <script src="motif_logo.js"></script>
+    <script src="block_diagram.js"></script>
+    <script src="alphabet_utilities.js"></script>
+    <script src="constants.js"></script>
+    <script src="simple-shared-doc.js"></script>
+    <script src="mcast_doc.js"></script>
+    <script src="mcast_template.js"></script>
+    <script src="template.js"></script>
+    <script src="citation.js"></script>
+    <link rel="stylesheet" type="text/css" href="meme.css">
+    <link rel="stylesheet" type="text/css" href="block_diagram.css">
+    <link rel="stylesheet" type="text/css" href="mcast_template.css">
+  </head>
+  <body data-scrollpad>
+    <span class="sequence ruler" id="ruler">ACGTN</span>
+    <span class="line_num ruler" id="num_ruler">500</span>
+    <script>$("num_ruler").textContent = data.calc.max_display_num;</script>
+
+    <!-- HELP POPUPS -->
+    <div class="pop_content" id="pop_tsv_results">
+      <script>print_doc("pop_tsv_results", "mcast", "mcast-results-tsv");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_gff_results">
+      <script>print_doc("pop_gff_results", "mcast", "mcast-results-gff3");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_motif_id">
+      <script>print_doc_para("pop_motif_id", "shared", "motif-id");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_motif_alt">
+      <script>print_doc_para("pop_motif_alt", "shared", "motif-alt-id");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_motif_width">
+      <script>print_doc_para("pop_motif_width", "shared", "motif-width", "MCAST");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_sdb_name">
+      <script>print_doc_para("pop_sdb_name", "shared", "sdb-name");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_sdb_psp">
+      <script>print_doc_para("pop_sdb_psp", "shared", "sdb-psp");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_sdb_dist">
+      <script>print_doc_para("pop_sdb_dist", "shared", "sdb-dist");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_sdb_count">
+      <script>print_doc_para("pop_sdb_count", "shared", "sdb-count");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_sdb_letters">
+      <script>print_doc_para("pop_sdb_letters", "shared", "sdb-letters");</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_cluster_start">
+      <script>
+        if (data.settings.genomic_coord) {
+          print_doc_para('pop_cluster_start', 'shared', 'match-start-genomic', 'matched sequence region');
+          print_doc_para('pop_cluster_start', 'shared', 'parse-genomic-coord', 'MCAST');
+        } else {
+          print_doc_para('pop_cluster_start', 'shared', 'match-start-seq', 'matched sequence region');
+        }
+      </script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_cluster_stop">
+      <script>
+        if (data.settings.genomic_coord) {
+          print_doc_para('pop_cluster_stop', 'shared', 'match-stop-genomic', 'matched sequence region');
+          print_doc_para('pop_cluster_stop', 'shared', 'parse-genomic-coord', 'MCAST');
+        } else {
+          print_doc_para('pop_cluster_stop', 'shared', 'match-stop-seq', 'matched sequence region');
+        }
+      </script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_cluster_score">
+      <script>print_doc_para('pop_cluster_score', 'mcast', 'mcast-cluster-score');</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_cluster_pvalue">
+      <script>print_doc_para('pop_cluster_pvalue', 'mcast', 'mcast-cluster-p-value');</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_cluster_evalue">
+      <script>print_doc_para('pop_cluster_evalue', 'mcast', 'mcast-cluster-E-value');</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_cluster_qvalue">
+      <script>print_doc_para('pop_cluster_qvalue', 'mcast', 'mcast-cluster-q-value');</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_motif_match_score">
+      <script>print_doc_para('pop_motif_match_score', 'shared', 'motif-match-score', 
+        '<br>Sequences shorter than one or more of the motifs in the motif database file are skipped.');
+      </script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_motif_match_pvalue">
+      <script>print_doc_para('pop_motif_match_pvalue', 'shared', 'motif-match-p-value');</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_seq_id">
+      <script>print_doc_para('pop_seq_id', 'shared', 'sequence-id', '.');</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_seq_name">
+      <script>print_doc_para('pop_seq_name', 'shared', 'sequence-name', 'The ');</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_alph_name">
+      <script>print_doc_para('pop_alph_name', 'shared', 'alph-name', 'The ');</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_alph_bg">
+      <script>print_doc_para('pop_alph_bg', 'shared', 'alph-bg', 'The ');</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_mdb_name">
+      <script>print_doc_para('pop_mdb_name', 'shared', 'motif-db', 'motifs used in the search.');</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_genomic_start">
+      <script>
+        print_doc_para('pop_genomic_start', 'shared', 'match-start-genomic', 'displayed region');
+        print_doc_para('pop_genomic_start', 'shared', 'parse-genomic-coord', 'MCAST');
+      </script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_genomic_stop">
+      <script>
+        print_doc_para('pop_genomic_stop', 'shared', 'match-stop-genomic', 'displayed region');
+        print_doc_para('pop_genomic_stop', 'shared', 'parse-genomic-coord', 'MCAST');
+      </script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_seq_start">
+      <script>print_doc_para('pop_seq_start', 'shared', 'match-start-seq', 'displayed region');</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_seq_stop">
+      <script>print_doc_para('pop_seq_stop', 'shared', 'match-stop-seq', 'displayed region');</script>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <div class="pop_content" id="pop_diagram" style="width:500px;">
+      <p>The block diagram shows the motif matches comprising a motif cluster detected by MCAST.
+      <ul style="padding-left: 1em; margin-top:5px;">
+         <li><b>Hovering the mouse cursor over a motif match causes the display of the motif name,
+         position <i>p</i>-value of the match and other details in the hovering text.</b></p>
+        <li><b>Click the small blue arrow on the left of the diagram to see more detail for 
+          a given motif cluster.</b>
+        <li>A block is shown where the motif is on the
+          highest-scoring (Viterbi) path of the hidden Markov model
+          constructed by MCAST contains the motif.
+        <li>All motif matches have <a href="javascript:help_refine('pop_motif_match_pvalue')" >match <i>p</i>-value</a>
+          less (more significant) than the significance threshold, which is 0.0005 by default.</li>
+        <li>The position of a block shows where a motif has matched the sequence.</li>
+        <li><b>Complementable alphabets (like DNA) only:</b> Blocks displayed above the line are a 
+          match on the given sequence, whereas blocks displayed below the line are matches 
+          to the reverse-complement of the given sequence.</li>
+        <li>The width of a block shows the width of the motif relative to the length of the 
+          displayed portion of the input sequence.</li>
+        <li>The color and border of a block identifies the matching motif as in the legend.
+          <b>Note: You can change the color of a motif by clicking on the motif in the legend.</b></li>
+        <li>The height of a block gives an indication of the significance of the match as
+          taller blocks are more significant. The height is calculated to be proportional
+          to the negative logarithm of the motif 
+          <a href="javascript:help_refine('pop_motif_match_pvalue')" >match <i>p</i>-value</a>,
+          truncated at the height for a <i>p</i>-value of 1e-10.</li>
+      </ul>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_annotated_sequence">
+      <p>A selected portion of the input sequence with the matching motifs displayed above it.</p>
+      <p>For each matching motif the strand of the match (+/-),
+      the consensus sequence of the motif, the <i>p</i>-value of the
+      individual motif match (see also help button for "Cluster Score") and
+      the sequence logo of the motif is shown.</p>
+      <p>You can select the portion of the sequence to be displayed by sliding the
+      two buttons below the sequence block diagram so that the portion you want
+      to see is between the two needles attached to the buttons. By default the
+      two buttons move together, but you can drag one individually by 
+      <b>holding shift</b> before you start the drag.<p>
+      <div style="float:right; bottom:0px;">[
+        <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+
+    <!-- TEMPLATES -->
+    <div class="template pop_block" id="t_hit_info">
+      <div>
+        <span class="tvar_logo_pad sequence flank" style="visibility:hidden;"></span>
+        <span class="tvar_logo"></span>
+      </div>
+      <div>
+        <span class="tvar_match_pad sequence flank" style="visibility:hidden;"></span>
+        <span class="tvar_match sequence"></span>
+      </div>
+      <div class="xlate">
+        <span class="tvar_xlate_pad sequence flank" style="visibility:hidden;"></span>
+        <span class="tvar_xlate sequence"></span>
+      </div>
+      <div class="block_sequence_fragment">
+        <span class="tvar_lflank sequence flank"></span>
+        <span class="tvar_hit sequence"></span>
+        <span class="tvar_rflank sequence flank"></span>
+      </div>
+      <table class="block_information">
+        <tr><th>Motif</th><td class="tvar_motif">1</td></tr>
+        <tr><th><i>p</i>-value</th><td class="tvar_pvalue">8.23e-7</td></tr>
+        <tr><th>Start</th><td class="tvar_start">23</td></tr>
+        <tr><th>End</th><td class="tvar_end">33</td></tr>
+      </table>
+    </div>
+
+    <div class="template box infobox" id="t_infobox">
+      <div class="inline_headers">
+        <h5>Cluster Start:</h5> <span class="tvar_start"></span>
+        <div class="help" data-topic="pop_cluster_start"></div>&emsp;
+        <h5>Cluster Stop:</h5> <span class="tvar_stop"></span>
+        <div class="help" data-topic="pop_cluster_stop"></div>&emsp;
+        <h5>Cluster Score:</h5> <span class="tvar_score"></span>
+        <div class="help" data-topic="pop_cluster_score"></div>&emsp;
+        <h5><i>p</i>-value:</h5> <span class="tvar_pvalue"></span>
+        <div class="help" data-topic="pop_cluster_pvalue"></div>&emsp;
+        <h5><i>E</i>-value:</h5> <span class="tvar_evalue"></span>
+        <div class="help" data-topic="pop_cluster_evalue"></div>&emsp;
+        <h5>q-value:</h5> <span class="tvar_qvalue"></span>
+        <div class="help" data-topic="pop_cluster_qvalue"></div>
+      </div>
+      <h5>Annotated Sequence <div class="help" data-topic="pop_annotated_sequence"></div></h5>
+      <p>Change the portion of annotated sequence by <b>dragging the buttons</b>; hold shift to drag them individually.</p>
+      <div class="annotated_sequence_container">
+        <div class="annotated_sequence"></div>
+      </div>
+    </div>
+
+    <!-- PAGE START -->
+    <div id="top" class="pad1">
+      <div class="prog_logo big">
+        <img src="mcast_icon.png" alt="MCAST Logo"/>
+        <h1>MCAST</h1>
+        <h2>Motif Cluster Alignment and Search Tool</h2>
+      </div>
+      <p class="spaced">
+        For further information on how to interpret these results please access
+        <a href="@SITE_URL@/doc/mcast-output-format.html">@SITE_URL@/doc/mcast-output-format.html</a>. <br>
+ 	To get a copy of the MEME software please access 
+        <a href="@SOURCE_URL@">@SOURCE_URL@</a>. 
+      </p>
+      <p id="citation"> <script>print_citation("citation", "MCAST");</script></p>
+    </div>
+
+    <div id="navigation" class="pad2">
+      <a class="jump" href="#results">Search Results</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="#inputs">Inputs &amp; Settings</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="#program">Program information</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="mcast.tsv">Results in TSV Format</a>&nbsp;<span id="tsv_results_help"></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a class="jump" href="mcast.gff">Results in GFF3 Format</a>&nbsp;<span id="gff_results_help"></span>
+      <script>
+        make_help_button($("tsv_results_help"), "pop_tsv_results");
+        make_help_button($("gff_results_help"), "pop_gff_results");
+      </script>
+    </div>
+
+    <!-- alert the user when their browser is not up to the task -->
+    <noscript><h1 style="color:red">Javascript is required to view these results!</h1></noscript>
+    <h1 id="html5_warning" style="color:red; display:none;">Your browser does not support canvas!</h1>
+    <script> if (!window.HTMLCanvasElement) $("html5_warning").style.display = "block"; </script>
+
+    <div id="results" class="header">
+      <h2>Search Results</h2>
+      <span><a href="#inputs">Next</a>&nbsp;<a href="#">Top</a></span>
+    </div>
+    <div class="box">
+      <h4>Top Scoring Clusters</h4>
+      <div class="pad">
+        <div id="seqs_legend_top" class="legend_container"></div>
+        <table id="seqs_table" class="seqs_table">
+        </table>
+        <div id="seqs_legend_bottom" class="legend_container"></div>
+        <div id="more_results">Please wait the page is still downloading.</div>
+      </div>
+      <script>if (data.matches.length > 0) { make_seq_table(); }</script>
+    </div>
+
+    <div id="inputs" class="header">
+      <h2>Inputs &amp; Settings</h2>
+      <span><a href="#results">Prev</a>&nbsp;<a href="#program">Next</a>&nbsp;<a href="#">Top</a></span>
+    </div>
+    <div class="box">
+      <h4 id="motif_databases">Alphabet</h4>
+      <span id="bg_source"></span>
+      <div class="pad" id="alpha_bg"></div>
+      <script> 
+        $("bg_source").appendChild(make_background_source("Background Source", data.background.source));
+        $("alpha_bg").appendChild(make_alpha_bg_table(mcast_alphabet));
+      </script>
+      <h4 id="sequence_databases">Sequences</h4>
+      <div class="pad">
+        <p>The following sequence database<span id="sdb_plural">s were</span> supplied to MCAST.</p>
+        <script> (function() { $("sdb_plural").textContent = (data.sequence_dbs.length > 1 ? "s were" : " was"); })(); </script>
+        <table id="sequence_db" class="padded-table" border="0" >
+          <thead>
+            <tr>
+              <th style="text-align:left;" >Database <div class="help" data-topic="pop_sdb_name"></div></th>
+              <th class="priors">PSP/Wig file <div class="help" data-topic="pop_sdb_psp"></div></th>
+              <th class="priors">PSP Distribution file <div class="help" data-topic="pop_sdb_dist"></div></th>
+              <th>Sequence Count <div class="help" data-topic="pop_sdb_count"></div></th>
+              <th>Letter Count <div class="help" data-topic="pop_sdb_letters"></div></th>
+            </tr>
+          </thead>
+          <tbody id="sequence_db_stats"></tbody>
+          <tfoot id="sequence_db_summary"></tfoot>
+        </table>
+        <script>make_sequence_databases_table();</script>
+      </div>
+      <h4 id="motif_databases">Motifs</h4>
+      <div class="pad">
+        <p>The following motif database<span id="mdb_plural">s were</span> supplied to MCAST.</p>
+        <script> (function() { $("mdb_plural").textContent = (data.motif_dbs.length > 1 ? "s were" : " was"); })(); </script>
+        <table class="padded-table" border="0" >
+          <thead>
+            <tr>
+              <th style="text-align:left;" >Database <div class="help" data-topic="pop_mdb_name"></div></th>
+            </tr>
+          </thead>
+          <tbody id="motif_db_stats"></tbody>
+        </table>
+        <script>make_motif_databases_table();</script>
+        <p>Which contained the following motifs.</p>
+        <div id="motifs_table"></div>
+        <script> $("motifs_table").appendChild(make_motifs_table()); </script>
+      </div>
+
+      <h4>Other Settings</h4>
+      <table id="tbl_settings" class="inputs hide_advanced">
+        <tr>
+          <th>Alpha</th>
+          <td id="opt_alpha"></td>
+        </tr>
+        <tr>
+          <th>Hard mask</th>
+          <td id="opt_hard_mask"></td>
+        </tr>
+        <tr>
+          <th>Max Gap</th>
+          <td id="opt_max_gap"></td>
+        </tr>
+        <tr>
+          <th>Max Stored Scores</th>
+          <td id="opt_max_stored_scores"></td>
+        </tr>
+        <tr>
+          <th>Max Combined Motif Width</th>
+          <td id="opt_max_total_width"></td>
+        </tr>
+        <tr>
+          <th>Motif <i>p</i>-value threshold</th>
+          <td id="opt_motif_p_thresh"></td>
+        </tr>
+        <tr>
+          <th>Output Threshold</th>
+          <td><span id="opt_threshold_type"></span> &le; <span id="opt_threshold_value"></span></td>
+        </tr>
+        <tr>
+          <th>Parse Genomic Coordinates</th>
+          <td id="opt_parse_genomic_coord"></td>
+        </tr>
+        <tr>
+          <th>Synthetic Scores</th>
+          <td id="opt_synth"></td>
+        </tr>
+        <tr class="advanced">
+          <th>Min Match Score</th>
+          <td id="opt_min_match_score"></td>
+        </tr>
+        <tr class="advanced">
+          <th>Cost Factor</th>
+          <td id="opt_cost_factor"></td>
+        </tr>
+        <tr class="advanced">
+          <th>Gap Open Cost</th>
+          <td id="opt_gap_open_cost"></td>
+        </tr>
+        <tr class="advanced">
+          <th>Gap Extend Cost</th>
+          <td id="opt_gap_extend_cost"></td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align: center">
+            <a href="javascript:toggle_class(document.getElementById('tbl_settings'), 'hide_advanced')">
+              <span class="show_more">Show Advanced Settings</span>
+              <span class="show_less">Hide Advanced Settings</span>
+            </a>
+          </td>
+        </tr>
+      </table>
+      <script> make_other_settings(); </script>
+    </div>
+
+    <div id="program" class="bar">
+      <div style="text-align:right;"><a href="#inputs">Prev</a>&nbsp;<a href="#top">Top</a></div>
+      <div class="subsection">
+        <h5 id="version">MCAST version <span id="release_version"></span></h5>
+        (Release date: <span id="release_date"></span>)
+      </div>
+      <script>
+      $("release_version").textContent = data.version;
+      $("release_date").textContent = data.release;
+      </script>
+      <div class="subsection" id="reference"> <script>print_citation("reference", "MCAST");</script></div>
+      <div class="subsection">
+        <h5 id="command">Command line summary</h5>
+        <textarea id="cmd" rows="5" style="width:100%;" readonly="readonly"></textarea>
+        Ran in <span id="run_time"></span> on <span id="run_when"></span> on <span id="run_host"></span>
+      </div>    
+      <script>
+        $("cmd").value =  data.cmd.join(" ");
+        $("run_time").textContent = data.runtime.seconds + " seconds";
+        $("run_when").textContent = data.runtime.when;
+        $("run_host").textContent = data.runtime.host;
+      </script>
+    </div>
+    <!-- allow the bulk of the sequence data to load after the page has displayed -->
+    <script src="mcast_data_aux.js"></script>
+  </body>
+</html>

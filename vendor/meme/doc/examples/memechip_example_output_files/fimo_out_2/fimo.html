@@ -1,0 +1,2711 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:cis="http://zlab.bu.edu/schema/cisml" xmlns:fimo="http://noble.gs.washington.edu/schema/cisml" xmlns:mem="http://noble.gs.washington.edu/meme">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>FIMO Results</title>
+<style type="text/css">
+td.left {text-align: left;}
+td.right {text-align: right; padding-right: 1cm;}
+</style>
+</head>
+<body color="#000000">
+<a name="top_buttons"></a>
+<hr>
+<table summary="buttons" align="left" cellspacing="0">
+<tr>
+<td bgcolor="#00FFFF"><a href="#database_and_motifs"><b>Database and Motifs</b></a></td>
+<td bgcolor="#DDFFDD"><a href="#sec_i"><b>High-scoring Motif Occurences</b></a></td>
+<td bgcolor="#DDDDFF"><a href="#debugging_information"><b>Debugging Information</b></a></td>
+<td bgcolor="#FFDD00"><a href="fimo.tsv""><b>Results in TSV Format</b></a></td>
+<td bgcolor="#FFDDFF"><a href="fimo.gff""><b>Results in GFF3 Format</b></a></td>
+</tr>
+</table>
+<br/>
+<br/>
+<hr/>
+<center><big><b>FIMO - Motif search tool</b></big></center>
+<hr>
+<p>
+FIMO version 5.4.0, (Release date: Mon Aug 16 16:18:19 2021 -0700)
+</p>
+<p>
+For further information on how to interpret these results please access <a href="https://meme-suite.org/meme/doc/fimo-output-format.html">https://meme-suite.org/meme/doc/fimo-output-format.html</a>.<br>
+To get a copy of the FIMO software please access <a href="https://meme-suite.org">https://meme-suite.org</a>
+
+</p>
+<p>If you use FIMO in your research, please cite the following paper:<br>
+Charles E. Grant, Timothy L. Bailey, and William Stafford Noble,
+"FIMO: Scanning for occurrences of a given motif",
+<i>Bioinformatics</i>, <b>27</b>(7):1017-1018, 2011.
+<a href="http://bioinformatics.oxfordjournals.org/content/27/7/1017">[full text]</a></p>
+<hr>
+<center><big><b><a name="database_and_motifs">DATABASE AND MOTIFS</a></b></big></center>
+<hr>
+<div style="padding-left: 0.75in; line-height: 1em; font-family: monospace;">
+<p>
+  DATABASE memechip_example_output_files/Klf1.fna
+  <br />
+  Database contains 904 sequences, 452000 residues
+</p>
+<p>
+  MOTIFS memechip_example_output_files/meme_out/meme.xml (DNA)
+  <table>
+    <thead>
+      <tr>
+        <th style="border-bottom: 1px dashed;">MOTIF</th>
+        <th style="border-bottom: 1px dashed; padding-left: 1em;">WIDTH</th>
+        <th style="border-bottom: 1px dashed; padding-left: 1em;text-align:left;" >
+         BEST POSSIBLE MATCH
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align:right;">WGGGTGTGGYYS</td>
+        <td style="text-align:right;padding-left: 1em;">12</td>
+        <td style="text-align:left;padding-left: 1em;">TGGGTGTGGCTG</td>
+       </tr>
+      <tr>
+        <td style="text-align:right;">NWGATAAG</td>
+        <td style="text-align:right;padding-left: 1em;">8</td>
+        <td style="text-align:left;padding-left: 1em;">CAGATAAG</td>
+       </tr>
+      <tr>
+        <td style="text-align:right;">CCWCCCCTCCCCCTC</td>
+        <td style="text-align:right;padding-left: 1em;">15</td>
+        <td style="text-align:left;padding-left: 1em;">CCACCCCTCCCCCTC</td>
+       </tr>
+    </tbody>
+  </table>
+</p>
+<p>
+Random model letter frequencies (memechip_example_output_files/background):
+<br/>
+
+A 0.256 C 0.244 G 0.244 T 0.256 </p>
+</div>
+<hr>
+<center><big><b><a name="sec_i">SECTION I: HIGH-SCORING MOTIF OCCURENCES</a></b></big></center>
+<hr>
+<ul>
+<li>
+There were 229 motif occurences with a p-value less than 0.0001.
+
+The full set of motif occurences can be seen in the
+TSV (tab-delimited values) output file
+<a href="fimo.tsv">fimo.tsv</a>, 
+the GFF3 file 
+<a href="fimo.gff">fimo.gff</a> 
+which may be suitable for uploading to the 
+<a href="http://genome.ucsc.edu/cgi-bin/hgTables">UCSC Genome Table Browser</a>
+(assuming the FASTA input sequences included genomic coordinates in UCSC or Galaxy format),
+or the XML file 
+<a href="fimo.xml">fimo.xml</a>.
+</li>
+<li>
+The <i>p</i>-value of a motif occurrence is defined as the
+probability of a random sequence of the same length as the motif
+matching that position of the sequence with as good or better a score.
+</li>
+<li>
+The score for the match of a position in a sequence to a motif
+is computed by summing the appropriate entries from each column of
+the position-dependent scoring matrix that represents the motif.
+</li>
+<li>
+The q-value of a motif occurrence is defined as the
+false discovery rate if the occurrence is accepted as significant.
+</li>
+<li>The table is sorted by increasing <i>p</i>-value.</li>
+</ul>
+<table border="1">
+<thead>
+<tr>
+<th>Motif ID</th>
+<th>Alt ID</th>
+<th>Sequence Name</th>
+<th>Strand</th>
+<th>Start</th>
+<th>End</th>
+<th>p-value</th>
+<th>q-value</th>
+<th>Matched Sequence</th>
+</tr>
+</thead>
+<tbody>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr17</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">12397973</td>
+      <td style="text-align:left;">12397980</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr16</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">32509274</td>
+      <td style="text-align:left;">32509281</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr2</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">34638699</td>
+      <td style="text-align:left;">34638706</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr17</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">36139153</td>
+      <td style="text-align:left;">36139160</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">37127458</td>
+      <td style="text-align:left;">37127465</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr2</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">37405293</td>
+      <td style="text-align:left;">37405300</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr6</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">38874341</td>
+      <td style="text-align:left;">38874348</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr19</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">55940487</td>
+      <td style="text-align:left;">55940494</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr3</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">60623752</td>
+      <td style="text-align:left;">60623759</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">71081623</td>
+      <td style="text-align:left;">71081630</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr15</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">73573715</td>
+      <td style="text-align:left;">73573722</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr9</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">75406772</td>
+      <td style="text-align:left;">75406779</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr18</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">78548257</td>
+      <td style="text-align:left;">78548264</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr14</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">79703161</td>
+      <td style="text-align:left;">79703168</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">111007773</td>
+      <td style="text-align:left;">111007780</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr9</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">114376115</td>
+      <td style="text-align:left;">114376122</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">140280282</td>
+      <td style="text-align:left;">140280289</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr1</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">173211156</td>
+      <td style="text-align:left;">173211163</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr16</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">12052333</td>
+      <td style="text-align:left;">12052340</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr19</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">24354256</td>
+      <td style="text-align:left;">24354263</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">32169131</td>
+      <td style="text-align:left;">32169138</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr16</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">32510145</td>
+      <td style="text-align:left;">32510152</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr17</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">37006353</td>
+      <td style="text-align:left;">37006360</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr18</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">62325950</td>
+      <td style="text-align:left;">62325957</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">64827032</td>
+      <td style="text-align:left;">64827039</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">65203462</td>
+      <td style="text-align:left;">65203469</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr14</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">71023830</td>
+      <td style="text-align:left;">71023837</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr1</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">77295360</td>
+      <td style="text-align:left;">77295367</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr1</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">92186193</td>
+      <td style="text-align:left;">92186200</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr16</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">92716217</td>
+      <td style="text-align:left;">92716224</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr2</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">93306628</td>
+      <td style="text-align:left;">93306635</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">94859084</td>
+      <td style="text-align:left;">94859091</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr3</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">101355938</td>
+      <td style="text-align:left;">101355945</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">104332700</td>
+      <td style="text-align:left;">104332707</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">110976644</td>
+      <td style="text-align:left;">110976651</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">121295704</td>
+      <td style="text-align:left;">121295711</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr8</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">122895876</td>
+      <td style="text-align:left;">122895883</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">128112954</td>
+      <td style="text-align:left;">128112961</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr4</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">129141106</td>
+      <td style="text-align:left;">129141113</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">139672880</td>
+      <td style="text-align:left;">139672887</td>
+      <td style="text-align:left;">1.6e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr18</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">32702253</td>
+      <td style="text-align:left;">32702260</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr15</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">38999431</td>
+      <td style="text-align:left;">38999438</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chrX</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">39372753</td>
+      <td style="text-align:left;">39372760</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr12</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">41846459</td>
+      <td style="text-align:left;">41846466</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr1</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">59011095</td>
+      <td style="text-align:left;">59011102</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr13</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">59915839</td>
+      <td style="text-align:left;">59915846</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr14</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">61273047</td>
+      <td style="text-align:left;">61273054</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr18</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">62326282</td>
+      <td style="text-align:left;">62326289</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr3</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">68858867</td>
+      <td style="text-align:left;">68858874</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr14</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">69923063</td>
+      <td style="text-align:left;">69923070</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr17</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">87913344</td>
+      <td style="text-align:left;">87913351</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr13</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">96735287</td>
+      <td style="text-align:left;">96735294</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">103854191</td>
+      <td style="text-align:left;">103854198</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">115368093</td>
+      <td style="text-align:left;">115368100</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr8</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">125244430</td>
+      <td style="text-align:left;">125244437</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr6</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">135115923</td>
+      <td style="text-align:left;">135115930</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr4</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">135734046</td>
+      <td style="text-align:left;">135734053</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">139930479</td>
+      <td style="text-align:left;">139930486</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr4</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">154285937</td>
+      <td style="text-align:left;">154285944</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr2</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">172173993</td>
+      <td style="text-align:left;">172174000</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr2</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">172174041</td>
+      <td style="text-align:left;">172174048</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">19832422</td>
+      <td style="text-align:left;">19832429</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">27985293</td>
+      <td style="text-align:left;">27985300</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">28267080</td>
+      <td style="text-align:left;">28267087</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr18</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">32702282</td>
+      <td style="text-align:left;">32702289</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr18</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">32716544</td>
+      <td style="text-align:left;">32716551</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">38900914</td>
+      <td style="text-align:left;">38900921</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chrX</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">39372849</td>
+      <td style="text-align:left;">39372856</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr6</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">41654335</td>
+      <td style="text-align:left;">41654342</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">56247765</td>
+      <td style="text-align:left;">56247772</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr3</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">60589217</td>
+      <td style="text-align:left;">60589224</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr18</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">61379974</td>
+      <td style="text-align:left;">61379981</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr18</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">62325909</td>
+      <td style="text-align:left;">62325916</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr15</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">66969381</td>
+      <td style="text-align:left;">66969388</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr1</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">77295521</td>
+      <td style="text-align:left;">77295528</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr2</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">84652226</td>
+      <td style="text-align:left;">84652233</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr18</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">85054515</td>
+      <td style="text-align:left;">85054522</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr15</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">91082699</td>
+      <td style="text-align:left;">91082706</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">95195401</td>
+      <td style="text-align:left;">95195408</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">96809403</td>
+      <td style="text-align:left;">96809410</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">96809459</td>
+      <td style="text-align:left;">96809466</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">96888684</td>
+      <td style="text-align:left;">96888691</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr4</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">111174209</td>
+      <td style="text-align:left;">111174216</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr2</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">132521549</td>
+      <td style="text-align:left;">132521556</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">140280334</td>
+      <td style="text-align:left;">140280341</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr3</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">144333315</td>
+      <td style="text-align:left;">144333322</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr2</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">150491915</td>
+      <td style="text-align:left;">150491922</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr1</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">157198902</td>
+      <td style="text-align:left;">157198909</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr2</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">180447333</td>
+      <td style="text-align:left;">180447340</td>
+      <td style="text-align:left;">3.19e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">CTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr13</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">3866625</td>
+      <td style="text-align:left;">3866632</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr4</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">8631929</td>
+      <td style="text-align:left;">8631936</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr16</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">10384461</td>
+      <td style="text-align:left;">10384468</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr19</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">10736601</td>
+      <td style="text-align:left;">10736608</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">16685469</td>
+      <td style="text-align:left;">16685476</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr9</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">21069619</td>
+      <td style="text-align:left;">21069626</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr19</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">24609411</td>
+      <td style="text-align:left;">24609418</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr12</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">41693520</td>
+      <td style="text-align:left;">41693527</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">53840218</td>
+      <td style="text-align:left;">53840225</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr19</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">56466260</td>
+      <td style="text-align:left;">56466267</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr1</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">59011055</td>
+      <td style="text-align:left;">59011062</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr14</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">61272959</td>
+      <td style="text-align:left;">61272966</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr9</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">70774808</td>
+      <td style="text-align:left;">70774815</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr13</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">73580945</td>
+      <td style="text-align:left;">73580952</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr8</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">83025438</td>
+      <td style="text-align:left;">83025445</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">89056794</td>
+      <td style="text-align:left;">89056801</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr12</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">90222860</td>
+      <td style="text-align:left;">90222867</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">90524586</td>
+      <td style="text-align:left;">90524593</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">97307711</td>
+      <td style="text-align:left;">97307718</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr13</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">104819777</td>
+      <td style="text-align:left;">104819784</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">105995024</td>
+      <td style="text-align:left;">105995031</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">106743015</td>
+      <td style="text-align:left;">106743022</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr10</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">110604525</td>
+      <td style="text-align:left;">110604532</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr4</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">118241533</td>
+      <td style="text-align:left;">118241540</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr1</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">134264550</td>
+      <td style="text-align:left;">134264557</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr1</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">135847022</td>
+      <td style="text-align:left;">135847029</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr3</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">138480134</td>
+      <td style="text-align:left;">138480141</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">139969709</td>
+      <td style="text-align:left;">139969716</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr1</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">169314583</td>
+      <td style="text-align:left;">169314590</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr4</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">9588294</td>
+      <td style="text-align:left;">9588301</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr19</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">17398037</td>
+      <td style="text-align:left;">17398044</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr17</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">24340089</td>
+      <td style="text-align:left;">24340096</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr2</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">28463355</td>
+      <td style="text-align:left;">28463362</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">31712397</td>
+      <td style="text-align:left;">31712404</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">32145857</td>
+      <td style="text-align:left;">32145864</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr16</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">34031798</td>
+      <td style="text-align:left;">34031805</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr1</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">36977331</td>
+      <td style="text-align:left;">36977338</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr3</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">39901755</td>
+      <td style="text-align:left;">39901762</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr10</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">40924918</td>
+      <td style="text-align:left;">40924925</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr12</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">41693277</td>
+      <td style="text-align:left;">41693284</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr4</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">42890741</td>
+      <td style="text-align:left;">42890748</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr9</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">44096715</td>
+      <td style="text-align:left;">44096722</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">53194021</td>
+      <td style="text-align:left;">53194028</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr19</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">53260173</td>
+      <td style="text-align:left;">53260180</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr10</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">60612429</td>
+      <td style="text-align:left;">60612436</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">69186916</td>
+      <td style="text-align:left;">69186923</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr14</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">70506949</td>
+      <td style="text-align:left;">70506956</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr13</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">76003446</td>
+      <td style="text-align:left;">76003453</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr18</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">80417135</td>
+      <td style="text-align:left;">80417142</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr12</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">90222892</td>
+      <td style="text-align:left;">90222899</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr8</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">97964244</td>
+      <td style="text-align:left;">97964251</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr2</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">103324506</td>
+      <td style="text-align:left;">103324513</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">104890500</td>
+      <td style="text-align:left;">104890507</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr8</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">108345052</td>
+      <td style="text-align:left;">108345059</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr6</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">117858737</td>
+      <td style="text-align:left;">117858744</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr9</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">121335782</td>
+      <td style="text-align:left;">121335789</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr3</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">121365903</td>
+      <td style="text-align:left;">121365910</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr2</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">121964006</td>
+      <td style="text-align:left;">121964013</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr10</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">127624599</td>
+      <td style="text-align:left;">127624606</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr4</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">134537974</td>
+      <td style="text-align:left;">134537981</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">137731017</td>
+      <td style="text-align:left;">137731024</td>
+      <td style="text-align:left;">4.79e-05</td>
+      <td style="text-align:left;">0.209</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr17</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">5112286</td>
+      <td style="text-align:left;">5112293</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">33616511</td>
+      <td style="text-align:left;">33616518</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr9</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">40980713</td>
+      <td style="text-align:left;">40980720</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr4</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">46420051</td>
+      <td style="text-align:left;">46420058</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr6</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">57695592</td>
+      <td style="text-align:left;">57695599</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">68709970</td>
+      <td style="text-align:left;">68709977</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr14</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">71023920</td>
+      <td style="text-align:left;">71023927</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr8</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">83024310</td>
+      <td style="text-align:left;">83024317</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr6</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">86027949</td>
+      <td style="text-align:left;">86027956</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr10</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">93585737</td>
+      <td style="text-align:left;">93585744</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">97380869</td>
+      <td style="text-align:left;">97380876</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">106743089</td>
+      <td style="text-align:left;">106743096</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">129513383</td>
+      <td style="text-align:left;">129513390</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr2</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">130961727</td>
+      <td style="text-align:left;">130961734</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">144580012</td>
+      <td style="text-align:left;">144580019</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr6</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">146179216</td>
+      <td style="text-align:left;">146179223</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chrX</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">146984376</td>
+      <td style="text-align:left;">146984383</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr8</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">3522486</td>
+      <td style="text-align:left;">3522493</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr16</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">8687078</td>
+      <td style="text-align:left;">8687085</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr15</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">36250891</td>
+      <td style="text-align:left;">36250898</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr17</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">43466887</td>
+      <td style="text-align:left;">43466894</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr8</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">87495102</td>
+      <td style="text-align:left;">87495109</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr13</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">94151421</td>
+      <td style="text-align:left;">94151428</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr3</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">100351582</td>
+      <td style="text-align:left;">100351589</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr3</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">104477761</td>
+      <td style="text-align:left;">104477768</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr8</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">122895829</td>
+      <td style="text-align:left;">122895836</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr2</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">130961815</td>
+      <td style="text-align:left;">130961822</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">134369323</td>
+      <td style="text-align:left;">134369330</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">139930665</td>
+      <td style="text-align:left;">139930672</td>
+      <td style="text-align:left;">6.39e-05</td>
+      <td style="text-align:left;">0.234</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">GTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr16</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">34031876</td>
+      <td style="text-align:left;">34031883</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr19</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">42304831</td>
+      <td style="text-align:left;">42304838</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr4</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">44017245</td>
+      <td style="text-align:left;">44017252</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr19</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">44460583</td>
+      <td style="text-align:left;">44460590</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr13</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">59915810</td>
+      <td style="text-align:left;">59915817</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr9</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">65063756</td>
+      <td style="text-align:left;">65063763</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr2</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">72859245</td>
+      <td style="text-align:left;">72859252</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr3</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">79383887</td>
+      <td style="text-align:left;">79383894</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">101177047</td>
+      <td style="text-align:left;">101177054</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr13</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">104819788</td>
+      <td style="text-align:left;">104819795</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">107138755</td>
+      <td style="text-align:left;">107138762</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">111007889</td>
+      <td style="text-align:left;">111007896</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr1</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">122155989</td>
+      <td style="text-align:left;">122155996</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr2</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">132521631</td>
+      <td style="text-align:left;">132521638</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">148957068</td>
+      <td style="text-align:left;">148957075</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">17335068</td>
+      <td style="text-align:left;">17335075</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr13</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">23643835</td>
+      <td style="text-align:left;">23643842</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr16</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">30565924</td>
+      <td style="text-align:left;">30565931</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">32156320</td>
+      <td style="text-align:left;">32156327</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr14</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">32982231</td>
+      <td style="text-align:left;">32982238</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr12</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">33905766</td>
+      <td style="text-align:left;">33905773</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr6</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">38874286</td>
+      <td style="text-align:left;">38874293</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr14</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">55043585</td>
+      <td style="text-align:left;">55043592</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr13</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">73612997</td>
+      <td style="text-align:left;">73613004</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr13</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">94151651</td>
+      <td style="text-align:left;">94151658</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">115468437</td>
+      <td style="text-align:left;">115468444</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr14</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">119195527</td>
+      <td style="text-align:left;">119195534</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">143814401</td>
+      <td style="text-align:left;">143814408</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr6</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">145703335</td>
+      <td style="text-align:left;">145703342</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr2</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">167169430</td>
+      <td style="text-align:left;">167169437</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr1</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">196502203</td>
+      <td style="text-align:left;">196502210</td>
+      <td style="text-align:left;">8.06e-05</td>
+      <td style="text-align:left;">0.252</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TAGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr13</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">20242161</td>
+      <td style="text-align:left;">20242168</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr6</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">38861073</td>
+      <td style="text-align:left;">38861080</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">68709963</td>
+      <td style="text-align:left;">68709970</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">69793514</td>
+      <td style="text-align:left;">69793521</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr8</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">73367527</td>
+      <td style="text-align:left;">73367534</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">74652387</td>
+      <td style="text-align:left;">74652394</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr3</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">96233088</td>
+      <td style="text-align:left;">96233095</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr7</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">104332849</td>
+      <td style="text-align:left;">104332856</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr8</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">107824075</td>
+      <td style="text-align:left;">107824082</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr11</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">115374936</td>
+      <td style="text-align:left;">115374943</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr4</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">128533140</td>
+      <td style="text-align:left;">128533147</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr5</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">137731157</td>
+      <td style="text-align:left;">137731164</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr2</td>
+      <td style="text-align:center;">+</td>
+      <td style="text-align:left;">152650723</td>
+      <td style="text-align:left;">152650730</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr8</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">24164673</td>
+      <td style="text-align:left;">24164680</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr8</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">24255037</td>
+      <td style="text-align:left;">24255044</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr9</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">66764141</td>
+      <td style="text-align:left;">66764148</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr12</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">82044573</td>
+      <td style="text-align:left;">82044580</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr9</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">107997473</td>
+      <td style="text-align:left;">107997480</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+    <tr>
+      <td style="text-align:left;">NWGATAAG</td>
+      <td style="text-align:left;">MEME-2</td>
+      <td style="text-align:left;">chr4</td>
+      <td style="text-align:center;">-</td>
+      <td style="text-align:left;">118241324</td>
+      <td style="text-align:left;">118241331</td>
+      <td style="text-align:left;">9.74e-05</td>
+      <td style="text-align:left;">0.279</td>
+      <td style="text-align:left;font-size:x-large;font-family:monospace;">TTGATAAG</td>
+   </tr>
+</tbody>
+</table>
+
+<hr>
+<center><big><b><a name="debugging_information">DEBUGGING INFORMATION</a></b></big></center>
+<hr>
+<p>
+Command line:
+</p>
+<pre>
+fimo --parse-genomic-coord --verbosity 1 --oc memechip_example_output_files/fimo_out_2 --bgfile memechip_example_output_files/background --motif NWGATAAG memechip_example_output_files/meme_out/meme.xml memechip_example_output_files/Klf1.fna
+</pre>
+<p>
+Settings:
+</p>
+<pre>
+<table>
+  <tr>
+    <td style="padding-right: 2em">output_directory = memechip_example_output_files/fimo_out_2</td>
+    <td style="padding-left: 5em; padding-right: 2em">MEME file name = memechip_example_output_files/meme_out/meme.xml</td>
+    <td style="padding-left: 5em; padding-right: 2em">sequence file name = memechip_example_output_files/Klf1.fna</td>
+  </tr>  <tr>
+    <td style="padding-right: 2em">background file name = memechip_example_output_files/background</td>
+    <td style="padding-left: 5em; padding-right: 2em">alphabet = DNA</td>
+    <td style="padding-left: 5em; padding-right: 2em">max stored scores = 100000</td>
+  </tr>  <tr>
+    <td style="padding-right: 2em">allow clobber = true</td>
+    <td style="padding-left: 5em; padding-right: 2em">compute q-values = true</td>
+    <td style="padding-left: 5em; padding-right: 2em">parse genomic coord. = true</td>
+  </tr>
+  <tr>
+    <td style="padding-right: 2em">text only = false</td>
+    <td style="padding-left: 5em; padding-right: 2em">scan both strands = true</td>
+    <td style="padding-left: 5em; padding-right: 2em">max strand = false</td>
+  </tr>
+  <tr>
+    <td style="padding-right: 2em">threshold type = p-value</td>
+    <td style="padding-left: 5em; padding-right: 2em">output theshold = 0.0001</td>
+    <td style="padding-left: 5em; padding-right: 2em">pseudocount = 0.1</td>
+  </tr>
+  <tr>
+    <td style="padding-right: 2em">alpha = 1</td>
+    <td style="padding-left: 5em; padding-right: 2em">verbosity = 1</td>
+    <td style="padding-left: 5em; padding-right: 2em"></td>
+  </tr>
+
+</table>
+</pre>
+<p>
+This information can be useful in the event you wish to report a
+problem with the FIMO software.
+</p>
+<hr>
+<span style="background-color: #DDDDFF"><a href="#top_buttons"><b>Go to top</b></a></span>
+</body>
+</html>

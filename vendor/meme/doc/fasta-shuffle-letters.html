@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>fasta-shuffle-letters - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+    <script src="js/shared-doc.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+    <h2>fasta-shuffle-letters</h2>
+    
+    <div class="usage">
+      <h3>Usage:</h3>
+      <code>fasta-shuffle-letters [options] &lt;sequence file&gt; [&lt;output file&gt;]</code>
+    </div>
+
+    <h3>Description</h3>
+    <div class="indent">
+      <p>The program fasta-shuffle-letters creates a shuffled version of a FASTA file.
+      The letters in each sequence in the input file are shuffled in such a way
+      that k-mer frequencies are exactly preserved where k is by default 1 but
+      may be set by the "<span class="popt">-kmer</span>" option.  If an alphabet
+      is specified via <span class="popt">-dna</span>, <span class="popt">-rna</span>,
+      <span class="popt">-protein</span> or <span class="popt">-alph</span>,
+      any aliased symbols are first converted to their core symbol before shuffling.
+      By default, aliased symbols are <i>not</i> converted to their core symbols, and are
+      treated as distinct letters, which may not be what you want.
+      
+      <p>The underlying implementation uses 
+      <a href="http://digital.cs.usu.edu/~mjiang/ushuffle/">uShuffle</a>.</p>
+
+    </div>
+
+    <h3>Input</h3>
+    <div class="indent">
+      <h4><span class='popt'>&lt;sequence file&gt;</span></h4>
+      <p>The name of a file of sequences in <a href="fasta-format.html">FASTA format</a> from a file.</p>
+      <h4><span class='popt'>&lt;output file&gt;</span></h4>
+      <p>(Optional) The name of a file to receive the shuffled sequences.
+    </div>
+
+    <h3>Output</h3>
+    <div class="indent">
+      <p>Writes a <a href="fasta-format.html">FASTA format</a> file to the
+      optional output file or standard output if it is left unspecified.</p>
+    </div>
+
+    <h3>Options</h3>
+    <div class="indent">
+      <table class="options">
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Parameter</th>
+            <th>Description</th>
+            <th>Default Behavior</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th colspan="4">General Options</th>
+          </tr>
+          <tr>
+            <td class="popt">-kmer</td><td><span class="pdat">k</span></td>
+            <td>Shuffle the sequences so that the frequencies of all
+	    words of length <span class="pdat">k</span> are preserved. Note that in setting
+            this number you must maintain a balance&mdash;the larger the number the
+            more realistic the resulting sequences will be,  but setting <span class="pdat">k</span>
+            too large will prevent the sequences from being shuffled at all! 
+	     A value of 2 is used by MEME-ChIP. For values
+            larger than 1, specifying the alphabet is highly recommended because
+            it allows for the translation of aliases which may be important in
+            some cases like soft-masked sequence.</td>
+            <td>A value of 1 is used.</td>
+          </tr>
+          <tr>
+            <td class="popt">-preserve</td><td><span class="pdat">pos</span></td>
+            <td>The position (1-relative) to preserve within each sequence during shuffling. 
+	    All other positions are shuffled in each sequence, but position <span class="pdat">pos</span>
+	    remains untouched.  If <span class="pdat">pos</span> is greater than the 
+	    sequence length, the entire sequence is shuffled.</td>
+            <td>Each sequence is shuffled in its entirety.</td>
+          </tr>
+          <tr>
+            <td class="popt">-fix</td><td><span class="pdat">char</span></td>
+            <td>Preserve the positions of all occurrences of character <span class="pdat">char</span>.
+	    All other positions are shuffled in each sequence, but all occurrences
+            of character <span class="pdat">char</span> remain untouched.</td>
+            <td>Each sequence is shuffled in its entirety.</td>
+          </tr>
+          <tr>
+            <td class="popt">-copies</td><td><span class="pdat">num</span></td>
+            <td>The number of shuffled copies to create for each sequence in the source.</td>
+            <td>A single shuffled sequence is created for each sequence in the source.</td>
+          </tr>
+	  <script>
+            wropt("all-alph", {"ddash": false, "fasta-shuffle": true, "ambig-distinct": true});
+            wropt("all-stdalph", {"ddash": false, "fasta-shuffle": true, "ambig-distinct": true, "dna": true});
+            wropt("all-stdalph", {"ddash": false, "fasta-shuffle": true, "ambig-distinct": true, "rna": true});
+            wropt("all-stdalph", {"ddash": false, "fasta-shuffle": true, "ambig-distinct": true, "protein": true});
+	  </script>
+          <tr>
+            <td class="popt">-line</td><td><span class="pdat">num</span></td>
+            <td>The sequences will be output with a maximum of <span class="pdat">num</span>
+              symbols per line.</td>
+            <td>A line length of 100 is used.</td>
+          </tr>
+          <tr>
+            <td class="popt">-tag</td><td><span class="pdat">text</span></td>
+            <td>The name of the sequence will have <span class="pdat">text</span>
+              appended to it.</td>
+            <td>The name of the sequence will have "_shuf" appended to it.</td>
+          </tr>
+          <tr>
+            <td class="popt">-seed</td><td><span class="pdat">num</span></td>
+            <td>Set the seed of the random number generator to <span class="pdat">num</span>.</td>
+            <td>Seed the random number generator from the computer as randomly as possible.</td>
+          </tr>
+	  <script>
+	    wropt("all-help");
+	  </script>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
+

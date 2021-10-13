@@ -1,0 +1,8 @@
+# Uncomment to enable service logging
+log4perl.logger.meme.service = ALL, SERVICE
+log4perl.appender.SERVICE=Log::Log4perl::Appender::File
+log4perl.appender.SERVICE.filename=/tmp/service-log.txt 
+log4perl.appender.SERVICE.mode=append
+log4perl.appender.SERVICE.layout=PatternLayout
+log4perl.appender.SERVICE.layout.ConversionPattern=[%10r] %p %c - %m%n
+log4perl.threshold = ERROR

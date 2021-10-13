@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CentriMo Output Formats - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/simple-shared-doc.js"></script>
+    <script src="js/centrimo_doc.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+
+    <h2>CentriMo Output Formats</h2>
+
+    <ul>
+      <h3><li><a href="#html_results">CentriMo Results HTML Format</a></li></h3>
+      <h3><li><a href="#tsv_results">CentriMo Results TSV Format</a></li></h3>
+      <h3><li><a href="#txt_sites">CentriMo Sites Text Format</a></li></h3>
+    </ul>
+
+    <div id="html_results">
+      <h3> CentriMo Results HTML Format</h3>
+      <p>See this self-documenting <a href="examples/centrimo_example_output_files/centrimo.html">sample HTML results file</a>.</p>
+    </div>
+
+    <div id="tsv_results">
+      <h3>CentriMo Results TSV Format</h3>
+      <p>See this <a href="examples/centrimo_example_output_files/centrimo.tsv">sample TSV results file</a>.</p>
+      <script>print_doc("tsv_results", "centrimo",  "centrimo-results-tsv");</script>
+      <script>print_doc("tsv_results", "shared", "motif-consensus");</script>
+    </div>
+
+    <div id="txt_sites">
+      <h3>CentriMo Sites Text Format</h3>
+      See this <a href="examples/centrimo_example_output_files/site_counts.txt">sample sites file</a>.
+      <script>print_doc("txt_sites", "centrimo", "centrimo-sites-txt");</script>
+    </div>
+
+  </body>
+</html>

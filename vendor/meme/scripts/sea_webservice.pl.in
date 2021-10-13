@@ -1,0 +1,107 @@
+#!@WHICHPERL@
+=head1 NAME
+
+sea_webservice - Run SEA.
+
+=head1 SYNOPSIS
+
+sea_webservice [options]
+
+  Options: 
+    -p <primary sequences> (required)
+    -n <control sequences> (required)
+    -xalph <alphabet file> 
+    -order <m>
+    -thresh <thresh>
+    -bfile <bg filename>
+    -align <align>
+    -help
+
+  Motif databases can be specified by prefixing the file name by "db/".
+
+=cut
+
+use strict;
+use warnings;
+# load standard perl libraries
+use Getopt::Long qw(:config permute auto_help);
+use Pod::Usage;
+# load custom perl libraries
+use lib qw(@PERLLIBDIR@);
+use Alphabet qw(rna dna protein);
+use StatusPage qw(arg_checks arg_end opt_uploaded opt_db_or_uploaded opt_choice opt_integer opt_number);
+use Globals;
+# constants
+my $bin_dir = '@BINDIR@';
+my $libexec_dir = '@LIBEXECDIR@';
+my $motif_db_dir = '@MEMEDB@/motif_databases';
+# Required parameters
+my $sequences;
+my @motifs;
+# Optional parameters
+my ($control, $xalph_file, $bfile, $thresh, $order, $align);
+#status page
+my $status = new StatusPage('SEA', \@ARGV);
+$status->add_message('Parsing arguments');
+# parse options
+my @arg_errors = ();
+my $opts_ok = do {
+  local $SIG{__WARN__} = sub { my ($msg) = @_; chomp($msg); push(@arg_errors, $msg); };
+  GetOptions(
+  'p=s' => opt_uploaded(\$sequences),
+  'n=s' => opt_uploaded(\$control),
+  'm=s' => opt_db_or_uploaded(\@motifs, $motif_db_dir, 'db'),
+  'order=f' => \$order,
+  'thresh=f' => opt_number(\$thresh, '>', 0, '<=', 1e300),
+  'bfile=s' => opt_uploaded(\$bfile),
+  'xalph=s' => opt_uploaded(\$xalph_file),
+  'align=s' => \$align
+  );
+};
+# add additional error messages for missing sequences and motifs
+push(@arg_errors, "No sequences provided.") unless defined $sequences;
+push(@arg_errors, "No motifs provided.") unless @motifs;
+# display the error messages both to the status page and stdout
+foreach my $arg_error (@arg_errors) {
+  print STDERR $arg_error, "\n";
+  $status->add_message($arg_error);
+}
+$opts_ok = 0 if (scalar(@arg_errors) > 0);
+# declare some derived file names
+# setup status page
+$status->add_file('html', 'sea.html', 'SEA HTML output');
+$status->add_file('tsv', 'sea.tsv', 'SEA TSV output');
+$status->add_file('seq', 'sequences.tsv', 'SEA passing sequences');
+$status->add_file('pos', $sequences, 'Uploaded Primary Sequences');
+$status->add_file('neg', $control, 'Uploaded Control Sequences');
+$status->add_file('alph', $xalph_file, 'Uploaded Alphabet');
+$status->add_file('bg', $bfile, 'Uploaded Background');
+$status->add_message($opts_ok ? 'Arguments ok' : "Error parsing arguments");
+$status->update($opts_ok ? 'Starting' : 'Error');
+# exit if there was an error reading the arguments
+unless ($opts_ok) {
+  $status->write_log();
+  pod2usage(2);
+}
+# create the symlink to the databases
+symlink($motif_db_dir, 'db');
+# ensure it will be removed on completion (when the log is written)
+$status->set_cleanup( sub { unlink('db'); } );
+# Run SEA 
+my @sea_args = ('--verbosity', 1, '--oc', '.');
+push(@sea_args, '--xalph', $xalph_file) if defined $xalph_file;
+push(@sea_args, '--bfile', $bfile) if (defined($bfile));
+push(@sea_args, '--order', $order) if defined $order;
+push(@sea_args, '--thresh', $thresh) if defined $thresh;
+push(@sea_args, '--align', $align) if defined $align;
+push(@sea_args, '--p', $sequences);
+push(@sea_args, '--n', $control) if $control;
+foreach my $motifs (@motifs) {
+  push(@sea_args, '--m', $motifs);
+}
+$status->run(PROG => 'sea', BIN => $bin_dir, ARGS => \@sea_args);
+# done
+$status->add_message("Done");
+$status->update();
+$status->write_log();
+1;

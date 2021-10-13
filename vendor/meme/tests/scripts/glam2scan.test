@@ -1,0 +1,20 @@
+# Test fimo
+&test('glam2scan1', '',
+  'glam2scan', '',
+  [
+    '-O', 'results/glam2scan1', 
+    'p', 
+    make_test_src_path('glam2/glam2.txt'), 
+    'common/At.s'
+  ],
+  [
+      {
+        output => 'results/glam2scan1/glam2scan.txt', 
+        reference => make_test_src_path('glam2scan/glam2scan.txt'), 
+        type => 'text', 
+        ignore => ['glam2scan']
+      }
+   ],
+  'results/glam2scan1'
+);
+

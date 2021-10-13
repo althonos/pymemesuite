@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# Combine all the logs in directories meme[_-]*/var/meme-*/LOGS
+# by appending them to a file with the same name
+# in directory COMBINED_LOGS.
+#
+# The log files in COMBINED_LOGS will be harvested remotely.
+
+root=$1
+cd $root
+
+combined=COMBINED_LOGS
+if [ ! -e $combined ] ; then
+  mkdir $combined
+fi
+
+# Append each log file to the file with the same
+# name (if it exists) in COMBINED_LOGS
+filename='meme[_-]*/var/meme-*/LOGS/*'
+for f in $filename
+  do
+    echo f is $f
+    if [ "$f" != "$filename" ] ; then
+      log=$(basename $f)
+      echo $log
+      append=$combined/$log
+      if [ -e $append ] ; then
+        echo Appending $f to $append
+        ls -l $append
+        cat $f >> $append
+          rm -f $f
+        else
+          echo Moving $f to $append
+          mv $f $append
+      fi
+    fi
+  done

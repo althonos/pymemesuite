@@ -1,0 +1,96 @@
+my $verbose = 1;
+my @controls = ('no', 'yes');
+my $primary_only = 'common/Klf1-200-100.combined.fa';
+my $primary = 'common/Klf1-200-100.fa';
+my $control = 'common/Klf1-200-100-shuffled.py2.fa';
+my @motifs = ('common/Jaspar-subset.meme', 'common/Jaspar-subset2.meme');
+
+my $counter = 1;
+foreach my $cntrl (@controls) {
+  my @args = ();
+  my $cntrl_str;
+  if ($cntrl eq 'yes') {
+    $cntrl_str = 'control';
+    push(@args, '--p', $primary);
+    push(@args, '--n', $control);
+    push(@args, '--motif-pseudo', '0', '--hofract', '0');
+  } elsif ($cntrl eq 'no') {
+    $cntrl_str = 'no_control';
+    push(@args, '--p', $primary_only);
+    push(@args, '--bfile', '--uniform--') if ($counter != 1);
+  }
+  if ($counter == 1) {
+    push(@args, '--m', "'$motifs[0]'");
+    push(@args, '--thresh', '0.1', '--qvalue');
+  } else {
+    foreach my $motif (@motifs) {
+      push(@args, '--m', "'$motif'");
+    }
+    push(@args, '--thresh', '10');
+  }
+  my $out = 'sea.'.$cntrl_str;
+  my $check_html =
+    {
+      output => 'results/sea'.$counter.'/sea.html',
+      reference => make_test_src_path('sea/'.$out.'.html'),
+      type => 'json', ignore => [
+	'data:(version|revision|release|cmd)'
+      ]
+    };
+  my $check_tsv =
+    {
+      output => 'results/sea'.$counter.'/sea.tsv', 
+      reference => make_test_src_path('sea/'.$out.'.tsv'),
+      type => 'text', ignore => ['^#']
+    };
+  my $check_seq = 
+    {
+      output => 'results/sea'.$counter.'/sequences.tsv', 
+      reference => make_test_src_path('sea/'.$out.'.sequences.tsv'),
+      type => 'text', ignore => ['^#']
+    };
+
+  &test('sea'.$counter, '',
+    'sea', '',
+    ['--verbosity', $verbose, '--oc', 'results/sea'.$counter, @args
+    ],
+    [$check_html, $check_tsv, $check_seq],
+    catdir('results', 'sea' . $counter)
+  );
+  $counter++;
+} # control
+
+$out = "dna_with_covalent";
+&test('sea'.$counter, '--xalph, --inc, --exc, --bfile, --order, --motif-pseudo',
+  'sea', '',
+  ['--oc', 'results/sea'.$counter, '--verbosity', 1,
+    '--xalph', 'common/'.$out.'.alph',
+    '--inc', 'MA00*', '--inc', 'MA04*', '--exc', 'MA007*', '--inc', 'T*',
+    '--bfile', 'common/dna_with_covalent.bg', '--order', '0',
+    '--qvalue',
+    '--p', 'common/dna_with_covalent.fa', '--m', 'common/Jaspar-subset.meme',
+    '--m', 'common/Jaspar-subset2.meme', '--m', 'common/dna_with_covalent.meme'
+  ],
+  [
+    {
+      output => 'results/sea'.$counter.'/sea.html',
+      reference => make_test_src_path('sea/sea.'.$out.'.html'),
+      type => 'json', ignore => [
+	'data:(version|revision|release|cmd)',
+	'data:sequence_db:source'
+      ]
+    },
+    {
+      output => 'results/sea'.$counter.'/sea.tsv',
+      reference => make_test_src_path('sea/sea.'.$out.'.tsv'),
+      type => 'text', ignore => ['^#']
+    },
+    {
+      output => 'results/sea'.$counter.'/sequences.tsv', 
+      reference => make_test_src_path('sea/sea.'.$out.'.sequences.tsv'),
+      type => 'text', ignore => ['^#']
+    }
+  ],
+  'results/sea'.$counter
+);
+$counter++;

@@ -1,0 +1,166 @@
+my @objfuns = ('classic', 'de');
+my @datasets = ('crp0', 'adh', 'Klf1-200-100', 'Klf1-200');
+my $n_basic_dsets = @datasets;
+if (&is_comprehensive()) {
+  push(@datasets, 'INO_up800', 'farntrans5', 'lipocalin');
+  push(@objfuns, 'se', 'cd', 'ce', 'nz');
+}
+my @models = ('oops', 'zoops', 'anr');
+my %params = (
+  'crp0' => ['-dna', '-revcomp'], 
+  'INO_up800' => ['-dna', '-revcomp', '-bfile', catfile('common', 'yeast.nc.6.freq')],
+  'farntrans5' => ['-protein'], 
+  'lipocalin' => ['-protein'], 
+  'adh' => ['-protein'],
+  'Klf1-200-100' => ['-dna', '-revcomp', '-brief', 0],
+  'Klf1-200' => ['-dna', '-revcomp', '-brief', 0]
+);
+my %obj_params = (
+  'classic' => ['-objfun', 'classic', '-minw', 8],
+  'de' => ['-objfun', 'de', '-w', 12, '-hsfrac', 0.6, '-shuf', 3],
+  'se' => ['-objfun', 'se', '-w', 12, '-hsfrac', 0.6, '-shuf', 2],
+  'nz' => ['-objfun', 'nz', '-w', 12, '-hsfrac', 0.5, '-shuf', 2],
+  'cd' => ['-objfun', 'cd', '-maxw', 30, '-searchsize', 40000, '-norand'],
+  'ce' => ['-objfun', 'ce', '-maxw', 30, '-searchsize', 40000]
+);
+
+# extensions for each type of data
+my %extensions= (
+  'text' => 'txt', 
+  'json' => 'html', 
+  'xml' => 'xml'
+);
+# type of data for each extension
+my %types= (
+  'txt' => 'text', 
+  'html' => 'json', 
+  'xml' => 'xml'
+);
+# parts to ignore in MEME text, HTML or XML output
+my %meme_ignore = (
+  'text' => [
+    'Release date', 'http:', 'https:', 'MOTIFS', 'Time', 'CPU:', 'DATAFILE=', 'DATABASE',
+    'command: ', 'Background letter frequencies', 'Last updated', '^LAM', '^$',
+    '^mast ', 'PRIMARY SEQUENCES'
+  ], 
+  'json' => [
+    '^data:(version|release|cmd)', 
+    ':time',
+    'data:sequence_db:primary_source'
+  ], 
+  'xml' => [
+    'MEME@(version|release)', 'MEME:model:command_line#value$',
+    'MEME:motifs:motif@elapsed_time',
+    'MEME:model:host',
+    'MEME:training_set@primary_sequences'
+  ]
+);
+
+my $meme = 'meme';
+my $meme_dir = 'src/parallel';
+my @pargs = ();
+@pargs = ('-p', &num_cores()) if (&num_cores() > 1);
+
+my $counter = 1;
+
+foreach my $obj (@objfuns) {
+  my $i_dset;
+  for ($i_dset=0; $i_dset<@datasets; $i_dset++) {
+    my $dset = $datasets[$i_dset];
+    next if (($obj eq 'de' || $obj eq 'se' || $obj eq 'nz')
+      && $i_dset >= $n_basic_dsets); 			# skip DE/SE/NZ in small datasets (<15 seqs)
+    next if ($dset eq 'Klf1-200-100' 
+      && ! ($obj eq 'classic' || $obj eq 'de' || $obj eq 'se' || $obj eq 'nz')); # only Classic/DE/SE/NZ on Klf1-100-200
+    next if ($dset eq 'Klf1-200' 
+      && !($obj eq 'cd' || $obj eq 'ce'));	 	# only CD/CE on Klf1-200
+    next if (($obj eq 'cd' || $obj eq 'ce') 
+      && !($dset eq 'Klf1-200')); 			# CD/CE only on Klf1-200
+    foreach my $mod (@models) {
+      next if (($obj eq 'cd' || $obj eq 'ce') && $mod eq 'anr'); # skip CD/CE for ANR models
+      my $reference_root = catfile('meme', 'meme.'.$dset.'.'.$obj.'.'.$mod);
+      my $ext = ($dset =~ /Klf1/) ? '.fa' : '.s';
+      my @kargs = ($dset eq 'Klf1-200-100' && $obj eq 'classic') ? ('-csites', 30) : ();
+      my @adhargs = ($dset eq 'adh' && $mod ne 'oops') ? ('-nsites', 27) : ();
+      my @crpargs = ($dset eq 'crp0' && $mod ne 'oops') ? ('-minsites', 3, '-maxsites', 17) : ();
+      &test('meme'.$counter, '',
+        $meme, '',
+        [
+          @pargs, 
+          @kargs, 
+          @adhargs, 
+          @crpargs, 
+          catfile('common', $dset . $ext), 
+          '-oc', 'results/meme'.$counter,
+          '-mod', $mod, 
+          @{$params{$dset}}, 
+          '-nmotifs', 2, 
+          @{$obj_params{$obj}}, 
+          '-nostatus'
+        ],
+        [
+          {
+            output => 'results/meme'.$counter.'/meme.txt', 
+            reference => make_test_src_path($reference_root.'.txt'),
+            type => 'text',
+            ignore => $meme_ignore{'text'}
+          },
+          {
+            output => 'results/meme'.$counter.'/meme.html', 
+            reference => make_test_src_path($reference_root.'.html'),
+            type => 'json',
+            ignore => $meme_ignore{'json'}
+          },
+          {
+            output => 'results/meme'.$counter.'/meme.xml', 
+            reference => make_test_src_path($reference_root.'.xml'),
+            type => 'xml',
+            ignore => $meme_ignore{'xml'}
+          }
+        ],
+        catdir('results', 'meme' . $counter), $meme_dir
+      );
+      $counter++;
+    } # mod
+  } # dset
+} # obj
+
+# test psp
+&test('meme_psp', '',
+  $meme, '',
+  [
+    @pargs, 
+    catfile('common', 'psp_test.s'), 
+    '-oc', 'results/meme'.$counter, 
+    '-psp', catfile('common', 'psp_test.psp'),
+    '-minsites', 5, 
+    '-dna', 
+    '-revcomp', 
+    '-minw', 7, 
+    '-maxw', 12, 
+    '-nostatus', 
+    '-searchsize', '0'
+  ],
+  [
+    {
+      output => 'results/meme'.$counter.'/meme.txt', 
+      reference => make_test_src_path(catfile('meme', 'meme.psp_test.classic.zoops.txt')), 
+      type => 'text', 
+      ignore => $meme_ignore{'text'}
+    },
+    {
+      output => 'results/meme'.$counter.'/meme.html', 
+      reference => make_test_src_path(catfile('meme', 'meme.psp_test.classic.zoops.html')), 
+      type => 'json', 
+      ignore => $meme_ignore{'json'}
+    },
+    {
+      output => 'results/meme'.$counter.'/meme.xml', 
+      reference => make_test_src_path(catfile('meme', 'meme.psp_test.classic.zoops.xml')), 
+      type => 'xml', 
+      ignore => $meme_ignore{'xml'}
+    }
+  ],
+  catdir('results', 'meme' . $counter), $meme_dir
+);
+$counter++;
+

@@ -1,0 +1,47 @@
+#
+# fasta-dinucleotide-shuffle
+#
+use File::Which;
+my %paths;
+
+$paths{python} = which('python');
+my $python_version = (split ' ', `$paths{python} --version`)[1];
+
+if ($python_version < 3) {
+  # Python 2 tests
+  print STDERR "Using python 2\n";
+  &test('fasta-dinucleotide-shuffle1', '',
+    'fasta-dinucleotide-shuffle', '',
+    [
+      '-f', 'common/Klf1-200-100.fa',
+      '-t', 
+      '-dinuc'
+    ],
+    [
+      {
+        output => '-', 
+        reference => 'common/Klf1-200-100-shuffled.py2.fa', 
+        type => 'text'
+      }
+    ],
+    'results/fasta-dinucleotide-shuffle1', 'scripts');
+}
+else {
+  # Python 3 tests
+  print STDERR "Using python 3\n";
+  &test('fasta-dinucleotide-shuffle1', '',
+    'fasta-dinucleotide-shuffle', '',
+    [
+      '-f', 'common/Klf1-200-100.fa',
+      '-t', 
+      '-dinuc'
+    ],
+    [
+      {
+        output => '-', 
+        reference => 'common/Klf1-200-100-shuffled.py3.fa', 
+        type => 'text'
+      }
+    ],
+    'results/fasta-dinucleotide-shuffle1', 'scripts');
+}

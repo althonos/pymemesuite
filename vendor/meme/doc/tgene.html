@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>T-Gene - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+    <script src="js/shared-doc.js"></script>
+    <script src="js/tgene_doc.js"></script>
+    <script src="js/citation.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+    <div class="prog_logo">
+      <img src="images/tgene_icon.png" alt="T-Gene Logo">
+      <h1>T-Gene</h1>
+      <h2>Prediction of Target Genes</h2>
+    </div>
+
+    <div style='display:inline' id='man_web_button'>
+      <p> <button onclick="toggle_man_display()">View Web Version</button> </p>
+    </div>
+
+    <div style='display:none' id='man_cmd_button'>
+      <p> <button onclick="toggle_man_display()">View Command-Line Version</button> </p>
+    </div>
+
+    <div style='display:inline' id='man_usage'>
+      <div class="usage">
+        <h3>Usage:</h3>
+        <code>tgene [options] &lt;locus_file&gt; &lt;annotation_file&gt;</code>
+      </div>
+    </div>
+
+    <h3>Description</h3>
+    <div class="indent">
+       <span class="man blurb" data-id="tgene"></span>
+    </div>
+
+    <!-- Command Line Version Doc -->
+    <div style='display:inline' id='man_cmd'>
+      <h3>Input</h3>
+      <div class="indent">
+        <h4><span class='popt'>&lt;locus_file&gt;</span></h4>
+        <div class="indent">
+	  The name of a file containing chromosome locations (loci) of potential regulatory elements in
+	  <a href="bed-format.html">BED format</a>.
+	  The genomic coordinates are assumed to be 0-based, half-open as defined in the BED standard.
+	  Typically, these would be transcription factor (TF) peaks from a TF ChIP-seq experiment,
+	  output by a peak-caller such as MACS.
+        </div>
+        <h4><span class='popt'>&lt;annotation_file&gt;</span></h4>
+        <div class="indent">
+	  The name of an annotation file containing information on each of the
+	  transcription start sites of the genome referenced by the locus file.
+	  The annotation file should be in either
+	  <a href="https://www.gencodegenes.org/pages/data_format.html">GenCode GTF format</a> or
+	  in Ensembl GTF Format (where the key "transcript_type" is replaced by "transcript_biotype"),
+	  and is used to supply transcription start site coordinates as well as other gene and transcript
+	  information.  The attributes field (column 9) should contain (at least) the key-value pairs for the 
+	  following keys: gene_id, transcript_id, gene_name and transcript_type.
+          Annotaton files for many genomes are available from 
+	  <a href="ftp://ftp.ensembl.org/pub">ftp://ftp.ensembl.org/pub/release-X/gtf</a> and
+	  <a href="ftp://ftp.ensemblgenomes.org/pub">ftp://ftp.ensemblgenomes.org/pub/release-X/GROUP/gtf</a>.
+	  The genomic coordinates are assumed to be 1-based, closed as defined in the GTF standard.
+        </div>
+      </div>
+
+      <h3>Output</h3>
+      <div class="indent">
+        <p>
+          T-Gene writes its output to files in a directory named
+          <code>tgene_out</code>, which it creates if necessary. You can change the
+          output directory using the <span class='popt'>--o</span> or <span class='popt'>--oc</span> options.
+          The directory will contain:
+        </p>
+        <ul>
+          <li id="html_file"><a href=examples/tgene_example_output_files/tgene.html><code>tgene.html</code></a> -
+	    <script>print_tgene_doc("html_file", "html-file-short");</script>
+          </li>
+          <li id="links_tsv">
+            <a href=examples/tgene_example_output_files/links.tsv><code>links.tsv</code></a> - 
+	    <script>print_tgene_doc("links_tsv", "links-tsv-short");</script>
+          </li>
+        </ul>
+        <p>
+	  <b>Note:</b> See this detailed description of the 
+	    <a href=tgene-output-format.html>T-Gene output formats</a> for more information.
+        </p>
+        
+      </div>
+      <h3>Options</h3>
+      <div class="indent">
+        <table class="options">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Parameter</th>
+              <th>Description</th>
+              <th>Default Behavior</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th colspan="4">General Options</th>
+            </tr>
+            <script>
+              wropt("all-o", {"ddash": true, "dir": "tgene_out"});
+              wropt("all-oc", {"ddash": true, "dir": "tgene_out"});
+            </script>
+            <tr>
+              <td class="popt">--transcript-types</td>
+              <td><span class="pdat">ttypes</span></td>
+              <td>
+		A comma-separated list (no spaces) of RNA transcript types.
+		T-Gene will only output links for transcripts of these types.
+	      </td>
+              <td>
+		The value of <span class="pdat">ttypes</span> is set to <br>
+		'<code>protein_coding,processed_transcript</code>'.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--max-link-distances</td>
+              <td><span class="pdat">mlds</span></td>
+              <td>
+		A comma-separated list (no spaces) of maximum distances between a potential regulatory
+		element (RE) and its target. By default, T-Gene will evaluate all potential 
+		links that satisfy the maximum distance criterion as well as Closest-Locus and Closest-TSS links 
+		(see options <span class="popt">--no-closest-locus</span>
+		and <span class="popt">--no-closest-tss</span>, below).
+		<b>Note: </b>If you provide a tissue panel (see Tissue Panel Options, below), 
+		there must be one distance for each histone name in <span class="pdat">histones</span>
+		(see option <span class=popt>--histones</span>, below),
+		and each distance is used with the corresponding histone name.  
+		If you do not provide a tissue panel, you may only specify one distance.
+	      </td>
+              <td>
+		The value of <span class="pdat">mlds</span> is set to '<code>500000</code>'.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--max-pvalue</td>
+              <td><span class="pdat">mpv</span></td>
+              <td>
+		Only links whose <i>p</i>-value is less than or equal to 
+		<span class="pdat">mpv</span> will be included in the output of T-Gene.
+		If you provide a tissue panel (see Tissue Panel Options, below), 
+		T-Gene will test the CnD (Correlation and Distance) <i>p</i>-value,
+		otherwise it will test the Distance <i>p</i>-value.
+		<b>Note:</b> T-Gene does not apply the maximum <i>p</i>-value threshold
+		to closest-locus and closest-TSS links, which are always included in
+		the output unless options you specify options (see Other Options, below)
+		<span class="popt">--no-closest-locus</span> or
+		<span class="popt">--no-closest-tss</span>, respectively.
+	      </td>
+              <td>
+		0.05
+              </td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <th colspan="4">Tissue Panel Options</th>
+            </tr>
+            <tr>
+              <td class="popt">--tissues</td>
+              <td><span class="pdat">tissues</span></td>
+              <td>A comma-separated list (no spaces) of tissue names that are the
+		sources of the histone and expression data. These names are
+		must also be the names of the subfolders where the
+		histone and expression data files are to be found by T-Gene.
+		See below under options <span class='popt'>--histone-root</span> and
+		<span class='popt'>--expression-root</span> for more information.
+	      </td>
+              <td>
+		None.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--histone-root</td>
+              <td><span class="pdat">hrd</span></td>
+              <td>
+		The root directory containing the histone modification files.
+		The files are must be in 
+		<a href="https://genome.ucsc.edu/FAQ/FAQformat.html#format13">ENCODE broadPeak</a>
+		or <a href="https://genome.ucsc.edu/FAQ/FAQformat.html#format12">ENCODE narrowPeak format</a> format</a>,
+		but only the first 7 fields are used (or required).
+	        The genomic coordinates are assumed to be 0-based, half-open as defined in the above standards.
+		The histone modification files should be subdirectories under 
+		the histone root directory, where each subfolder is named according
+		to the tissue from which the data is taken.  (See option <span class='popt'>--tissues</span>,
+		above.)  The subdirectories should be named 
+		'<code>&lt;hrd&gt;/&lt;t&gt;</code>', 
+		where <code>&lt;t&gt;</code>
+		is one of the tissue names in the comma-separated 
+		<span class="pdat">tissues</span> list.
+	      </td>
+              <td>
+		None.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--histones</td>
+              <td><span class="pdat">histones</span></td>
+              <td>
+		A comma-separated list (no spaces) of histone modification names.
+		The histone modification file names must match
+		'<code>&lt;hrd&gt;/&lt;t&gt;/*&lt;hname&gt;*[broad|narrow]Peak</code>', 
+		where &lt;t&gt;</code> is one of the tissue names in the 
+		comma-separated <span class="pdat">tissues</span> list, and
+		<code>&lt;hname&gt;</code> is one of the histone names in the
+		comma-separated <span class="pdat">histones</span> list.
+	      </td>
+              <td>
+		None.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--rna-source</td>
+              <td><span class="popt">Cage|LongPap</span></td>
+              <td>
+		The type of RNA expression data that you are providing.
+		This determines the precise format expected in the expression files in
+		<a href="https://genome.ucsc.edu/FAQ/FAQformat.html#format4">GTF format</a>
+		that you specify.  
+                For <span class='popt'>Cage</span> GTF files,
+		the attributes field (column 9) should contain the key-value pairs for the 
+		following keys: gene_id and trlist (which is a comma-separated list of transcript IDs),
+		and one or two keys matching the regular expression "rpm[12]?" whose value is
+		the RNA expression of the transcript.
+		(Note that this is not standard GTF format due to the required 
+		transcript_id key-value pair being replaced by the trlist key-value pair.)
+                For <span class='popt'>LongPap</span> GTF files,
+		the attributes field (column 9) should contain the key-value pairs for the 
+		following keys: gene_id, transcript_id and one or two keys matching the
+		regular expression "[RF]PKM[12]?" whose value is the RNA expression
+		of the transcript.
+		<table border=1>
+		<tr><th rowspan=2>RNA<br>Source</th><th colspan=9>GTF field</th></tr>
+		<tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th></tr>
+		<tr><th>Cage</th><td>chr1</td><td>Gencode TSS</td><td>11869</td><td>11869</td><td>0</td><td>+</td><td>.</td><td>gene_id</td><td>"ENSG00000223972.3"; trlist "ENST00000456328.2,"; trbiotlist "processed_transcript,"; confidence "not_low"; gene_biotype "pseudogene"; rpm1 "0"; rpm2 "0";</td></tr>
+		<tr><th>LongPap</th><td>chrX</td><td>EpiRoad gene</td><td>99883667</td><td>99894988</td><td>0</td><td>-</td><td>.</td><td>gene_id</td><td>"ENSG00000000003.9"; transcript_id "ENSG00000000003.9";  RPKM "43.985";</td></tr>
+		</table>
+	      </td>
+              <td>None.</td>
+            </tr>
+            <tr>
+              <td class="popt">--expression-root</td>
+              <td><span class="pdat">erd</span></td>
+              <td>
+		The root directory containing the RNA expression files.
+		The files must be in a flavor of
+		<a href="https://genome.ucsc.edu/FAQ/FAQformat.html#format4">GTF format</a>,
+		as described above under option <span class='popt'>--source</span>.
+		The genomic coordinates are assumed to be 1-based, closed as defined in the GTF standard.
+		The RNA expression files must be subdirectories under 
+		the expression root directory, where each subfolder is named according
+		to the tissue from which the data is taken.  (See option <span class='popt'>--tissues</span>,
+		above.)  The subdirectories should be named 
+		'<code>&lt;erd&gt;/&lt;t&gt;</code>', 
+		where <code>&lt;t&gt;</code>
+		is one of the tissue names in the comma-separated 
+		<span class="pdat">tissues</span> list.
+		The RNA expression file names must match
+		'<code>&lt;erd&gt;/&lt;t&gt;/*&lt;rna_source&gt;*.gtf</code>'.
+	      </td>
+              <td>
+		None.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--use-gene-ids</td>
+              <td></td>
+              <td>
+		If your expression data files only contain gene ID information
+		(e.g., if the 'transcript_id' fields are not unique or not
+		specified), T-Gene can use the 'gene_id' fields instead
+		for associating entries in the expression files with an entry
+		in the annotation file.  T-Gene will use the start and end 
+		positions given for each 'gene_id' in the expression files, and,
+		for each 'gene_id' all expression files must agree or the
+		results will be unpredictable.
+	      </td>
+              <td>
+		T-Gene uses the 'transcript_id' fields in the annotation
+		and expression files to identify transcripts, and they must
+		be unique within the annotation file.  T-Gene uses the 
+		start and end positions for each transcript as specified in
+		the annotation file.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--lecat</td>
+              <td><span class="pdat">lecat</span></td>
+              <td>
+		(Low Expression Adjustment Threshold)
+		If the maximum expression of a TSS is &lt; <span class="pdat">lecat</span>,
+		T-Gene reduces the computed correlation values for all its links.
+		It multiplies the computed correlations are each link
+		by the scale factor <tt>max_expr/<span class="pdat">lecat</span></tt>,
+		where <tt>max_expr</tt> is the maximum expression of the TSS across the
+		panel of tissues.
+	      </td>
+              <td>
+		0 (No correlations are reduced.)
+              </td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <th colspan="4">Other Options</th>
+            </tr>
+            <tr>
+              <td class="popt">--no-closest-locus</td>
+              <td></span></td>
+              <td>
+		T-Gene will not search for closest-locus links that exceed the
+		maximum distance requirement
+                (see option <span class="popt">--max-link-distances</span>, above), 
+		and it will not output closest-locus links that exceed
+		the maximum <i>p</i>-value requirement
+                (see option <span class="popt">--max-pvalue</span>, above).
+	      </td>
+              <td>
+		T-Gene includes a link to the closest locus (or loci in case of ties) 
+		for each transcript even if the locus does not meet the maximum link distance requirement 
+		or the maximum <i>p</i>-value requirement.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--no-closest-tss</td>
+              <td></span></td>
+              <td>
+		T-Gene will not search for closest-TSS links that exceed the
+		maximum distance requirement
+                (see option <span class="popt">--max-link-distances</span>, above), 
+		and it will not output closest-TSS links that exceed
+		the maximum <i>p</i>-value requirement
+                (see option <span class="popt">--max-pvalue</span>, above).
+	      </td>
+              <td>
+		T-Gene includes a link to the closest transcript (or transcripts
+		in case of ties) for each locus even if the transcript does not meet the 
+		maximum link distance requirement 
+		or the maximum <i>p</i>-value requirement.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--no-noise</td>
+              <td></span></td>
+              <td>
+		T-Gene will not add random Gaussian noise to expression or histone
+		values that are zero.  <b>Note:</b> Using this option will make the <i>p</i>-value
+		calculations less accurate.
+	      </td>
+              <td>
+		T-Gene adds random Gaussian noise to all zero expression and histone
+		values.
+              </td>
+            </tr>
+            <tr>
+              <td class="popt">--seed</td>
+              <td><span class="pdat">seed</span></td>
+              <td>
+		Seed for random number generator for generating the 
+		null model for correlation <i>p</i>-values and for
+		adding random noise to zero expression and histone values.
+	      </td>
+              <td>
+		0
+              </td>
+            </tr>
+            <script>
+              wropt("all-desc", {"ddash": true});
+              wropt("all-dfile", {"ddash": true});
+	      wropt("all-verbosity", {"ddash": true});
+	      wropt("all-help", {"ddash": true});
+	      wropt("all-version", {"ddash": true});
+            </script>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <h3>Citing</h3>
+    <div class=indent id="citation"><script>print_citation("citation", "T-Gene");</script></div>
+
+    <script src="js/manual.js"></script>
+
+  </body>
+</html>
+

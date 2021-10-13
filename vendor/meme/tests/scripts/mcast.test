@@ -1,0 +1,106 @@
+# Test mcast (basic)
+&test('mcast1', '',
+  'mcast', '',
+  [
+    '-oc', 'results/mcast1',
+    make_test_src_path('meme/meme.lex0.zoops.txt'), 
+    'common/lex0.s'
+  ],
+  [
+    {
+      output => 'results/mcast1/mcast.tsv', 
+      reference => make_test_src_path('mcast/lex0.zoops.tsv'), 
+      type => 'text', 
+      ignore => ['^#']
+    },
+    {
+      output => 'results/mcast1/mcast.gff', 
+      reference => make_test_src_path('mcast/lex0.zoops.gff'), 
+      type => 'text', 
+      ignore => ['^#']
+    },
+    {
+      output => 'results/mcast1/mcast.xml', 
+      reference => make_test_src_path('mcast/lex0.zoops.xml'), 
+      type => 'xml', 
+      ignore => [
+        '^mcast@(release|version)$',
+        '^mcast:command-line#value$',
+        '^mcast:pattern-file#value$',
+      ]
+    },
+    {
+      output => 'results/mcast1/cisml.xml', 
+      reference => make_test_src_path('mcast/lex0.zoops.cisml'), 
+      type => 'xml', 
+      ignore => [ 
+        '^cis-element-search:parameters:pattern-file',
+        '^cis-element-search:parameters:sequence-file'
+      ]
+    },
+    {
+      output => 'results/mcast1/mcast.html', 
+      reference => make_test_src_path('mcast/lex0.zoops.html'), 
+      type => 'json', 
+      ignore => [
+        'data:(version|revision|release|cmd|runtime)',
+        'data:motif_dbs@1:file',
+        'data:sequence_dbs@1:file'
+      ]
+    }
+  ],
+  'results/mcast1'
+);
+
+&test('mcast2', '',
+  'mcast', '',
+  [
+    '-oc', 'results/mcast2', 
+    '-parse-genomic-coord', 
+    make_test_src_path('fimo/GCN4.meme.txt'), 
+    make_test_src_path('fimo/GCN4_YPD-genomic.fasta')
+  ],
+  [
+    {
+      output => 'results/mcast2/mcast.tsv', 
+      reference => make_test_src_path('mcast/parse_genomic.tsv'), 
+      type => 'text', 
+      ignore => ['^#']
+    },
+    {
+      output => 'results/mcast2/mcast.gff', 
+      reference => make_test_src_path('mcast/parse_genomic.gff'), 
+      type => 'text', 
+      ignore => ['^#']
+    },
+    {
+      output => 'results/mcast2/mcast.xml', 
+      reference => make_test_src_path('mcast/parse_genomic.xml'), 
+      type => 'xml', 
+      ignore => [
+        '^mcast@(release|version)$',
+        '^mcast:command-line#value$'
+      ]
+    },
+    {
+      output => 'results/mcast2/cisml.xml', 
+      reference => make_test_src_path('mcast/parse_genomic.cisml'), 
+      type => 'xml', 
+      ignore => [
+        '^cis-element-search:parameters:pattern-file',
+        '^cis-element-search:parameters:sequence-file'
+      ]
+    },
+    {
+      output => 'results/mcast2/mcast.html', 
+      reference => make_test_src_path('mcast/parse_genomic.html'), 
+      type => 'json', 
+      ignore => [
+        'data:(version|revision|release|cmd|runtime)',
+        'data:motif_dbs@1:file',
+        'data:sequence_dbs@1:file'
+      ]
+    }
+  ],
+  'results/mcast2'
+);

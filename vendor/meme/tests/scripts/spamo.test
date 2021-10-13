@@ -1,0 +1,160 @@
+# parts to ignore in SpaMo output
+my $spamo_json_ignore = [
+    '^data:(version|revision|release|host|when|cmd)',
+    ':last_modified',
+    '^data:run_time:(cpu|real)',
+    'data:primary_dbs@1:source',
+    'data:secondary_dbs@1:source',
+    'data:sequence_dbs@1:source'
+  ];
+# test spamo with data at the limits of the scan
+&test(
+  'spamo1', 
+  'limits test',
+  'spamo', 
+  '',
+  [
+    '-oc', 'results/spamo1', 
+    '-verbosity', 1, 
+    '-margin', 20, 
+    '-shared', 1, 
+    '-bgfile', '--uniform--', 
+    make_test_src_path('spamo/limits.fasta'), 
+    make_test_src_path('spamo/primary.meme'), 
+    make_test_src_path('spamo/secondary.meme')
+  ],
+  [
+    {
+      output => 'results/spamo1/spamo.html',
+      reference => make_test_src_path('spamo/limits.html'),
+      type => 'json', ignore => $spamo_json_ignore
+    },
+    {
+      output => 'results/spamo1/spamo.tsv',
+      reference => make_test_src_path('spamo/limits.tsv'),
+      type => 'text', ignore => ['^#']
+    },
+   ],
+  'results/spamo1'
+);
+# test spamo with a random (but unambiguous test)
+&test(
+  'spamo2', 
+  'random distributed unambiguous',
+  'spamo', 
+  '',
+  [
+    '-oc', 'results/spamo2', 
+    '-verbosity', 1, 
+    '-margin', 20, 
+    '-shared', 1, 
+    '-bgfile', '--motif--',
+    make_test_src_path('spamo/random.fasta'), 
+    make_test_src_path('spamo/primary.meme'), 
+    make_test_src_path('spamo/secondary.meme')
+  ],
+  [
+    {
+      output => 'results/spamo2/spamo.html',
+      reference => make_test_src_path('spamo/random.html'),
+      type => 'json', 
+      ignore => $spamo_json_ignore
+    },
+    {
+      output => 'results/spamo2/spamo.tsv',
+      reference => make_test_src_path('spamo/random.tsv'),
+      type => 'text', 
+      ignore => ['^#']
+    }
+  ],
+  'results/spamo2'
+);
+# test spamo with -xalph and selecting motif and keeping primary.
+&test(
+  'spamo3', 
+  '-xalph, sequence bg, -inc, -exc, -primary',
+  'spamo', 
+  '',
+  [
+    '-oc', 'results/spamo3', 
+    '-verbosity', 3,
+    '-xalph', 
+    '-primary', 'TGCm1C', 
+    '-keepprimary',
+    '-margin', '20', 
+    '-shared', '1',
+    '-inc', 'MA00*', 
+    '-inc', 'T*', 
+    '-exc', 'MA007*',
+    'common/dna_with_covalent.fa', 
+    'common/dna_with_covalent.meme', 
+    'common/Jaspar-subset.meme', 
+    'common/dna_with_covalent.meme',
+    'common/dna_with_covalent.meme'
+  ],
+  [
+    {
+      output => 'results/spamo3/spamo.html',
+      reference => make_test_src_path('spamo/dna_with_covalent.html'),
+      type => 'json', 
+      ignore => $spamo_json_ignore
+    },
+    {
+      output => 'results/spamo3/spamo.tsv',
+      reference => make_test_src_path('spamo/dna_with_covalent.tsv'),
+      type => 'text', 
+      ignore => ['^#']
+    }
+  ],
+  'results/spamo3'
+);
+# test spamo with --dumpseqs and names in Genome Browser format,
+#   -primary, -keepprimary, -inc
+&test(
+  'spamo4', 
+  'dumpseqs test',
+  'spamo', 
+  '',
+  [
+    '-oc', 'results/spamo4', 
+    '-verbosity', 1, 
+    '-margin', 20, 
+    '-shared', 1, 
+    '-bgfile', '--uniform--', 
+    '-dumpseqs', 
+    '-primary', 'MA0039.2', 
+    '-keepprimary',
+    '-inc', 'MA0039.2', 
+    '-inc', 'MA0140.1',
+    'common/Klf1.fa', 
+    'common/Jaspar-subset.meme', 
+    'common/Jaspar-subset.meme'
+  ],
+  [
+    {
+      output => 'results/spamo4/spamo.html',
+      reference => make_test_src_path('spamo/dumpseqs.html'),
+      type => 'json', 
+      ignore => $spamo_json_ignore
+    },
+    {
+      output => 'results/spamo4/spamo.tsv',
+      reference => make_test_src_path('spamo/dumpseqs.tsv'),
+      type => 'text', 
+      ignore => ['^#']
+    },
+    {
+      output => 'results/spamo4/seqs_MA0039.2_db1_MA0039.2.tsv',
+      reference => make_test_src_path('spamo/dumpseqs.seqs_MA0039.2_db1_MA0039.2.tsv'),
+      type => 'text', 
+      ignore => ['^#']
+    },
+    {
+      output => 'results/spamo4/seqs_MA0039.2_db1_MA0140.1.tsv',
+      reference => make_test_src_path('spamo/dumpseqs.seqs_MA0039.2_db1_MA0140.1.tsv'),
+      type => 'text', 
+      ignore => ['^#']
+    },
+   ],
+  'results/spamo4'
+);

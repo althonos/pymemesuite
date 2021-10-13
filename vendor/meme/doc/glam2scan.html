@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>GLAM2Scan - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+    <script src="js/shared-doc.js"></script>
+    <script src="js/citation.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+    <div class="prog_logo">
+      <img src="images/glam2scan_icon.png" alt="GLAM2Scan Logo">
+      <h1>GLAM2Scan</h1>
+      <h2>Scanning with Gapped Motifs</h2>
+    </div>
+
+    <div style='display:inline' id='man_web_button'>
+      <p> <button onclick="toggle_man_display()">View Web Version</button> </p>
+    </div>
+
+    <div style='display:none' id='man_cmd_button'>
+      <p> <button onclick="toggle_man_display()">View Command-Line Version</button> </p>
+    </div>
+
+    <div style='display:inline' id='man_usage'>
+      <div class="usage">
+        <h3>Usage:</h3>
+        <code>glam2scan [options] &lt;alphabet&gt; &lt;glam2 motif file&gt; &lt;sequence file&gt;</code>
+      </div>
+    </div>
+
+    <h3>Description</h3>
+    <div class="indent">
+      <span class="man blurb" data-id="glam2scan"></span>
+    </div>
+
+    <!-- Command Line Version Doc -->
+    <div style='display:inline' id='man_cmd'>
+      <h3>Input</h3>
+      <div class="indent">
+       <h4><span class='popt'>&lt;alphabet&gt;</h4>
+        <p>The alphabet of the motif and sequences. This can be 'p' for protein
+        sequences, 'n' for nucleotide sequences or the name of an
+        <a href="glam2_alphabet.html">GLAM2 alphabet file</a>.</p>
+
+        <h4><span class='popt'>&lt;glam2 motif file&gt;</h4>
+        <p>The name of a file containing a GLAM2 motif. If the file contains multiple motifs
+        then GLAM2SCAN only considers the top one.  The file may be either GLAM2's plain
+        text (<code>glam2.txt</code>) or HTML (<code>glam2.html</code>) output.</p>
+        <p>The minimal component of the GLAM2 motif is shown in this
+        <a href="examples/sample-dna-aln.glam2">GLAM2 DNA motif</a> and
+        <a href="examples/sample-protein-aln.glam2">GLAM2 protein motif</a>.</p>
+
+        <h4><span class='popt'>&lt;sequence file&gt;</h4>
+        <p>The name of a file containing <a href="fasta-format.html">FASTA formatted sequences</a>.</p>
+      </div>
+
+      <h3>Output</h3>
+      <div class="indent">
+        <p>
+          GLAM2Scan writes its output to files in a directory named
+          <code>glam2scan_out</code>, which it creates if necessary. You can change the
+          output directory using the <span class='popt'>-o</span> or <span class='popt'>-O</span> options.
+          The directory will contain:
+        </p>
+        <ul>
+          <li><a href=examples/glam2scan_example_output_files/glam2scan.html><code>glam2scan.html</code></a> -
+	    an HTML file containing the results in a human-readable format</li>
+          <li><a href=examples/glam2scan_example_output_files/glam2scan.txt><code>glam2scan.txt</code></a> -
+            a plain text file containing the results
+            (the HTML format contains slightly less information but is easier to read)</li>
+        </ul>
+        <p>
+        Output begins with some general information
+        stating the program name, version and the actual command line:</p>
+
+        <pre>
+  GLAM2scan
+  Version 9999
+
+  glam2scan p prot_motif.glam2 lotsa_prots.fa
+        </pre>
+
+        <p>This is followed by motif matches, sorted in order of score. A
+        motif match looks like this:</p>
+	<table>
+	  <tr>
+	  <th style="padding-right: 1em">NAME</th>
+	  <th style="padding-right: 1em">START</th>
+	  <th style="text-align: center">SITE</th>
+	  <th style="padding-left: 1em">END</th>
+	  <th style="padding-left: 1em">STRAND</th>
+	  <th style="padding-left: 1em">SCORE</th>
+	  </tr>
+	  <tr>
+	    <td></td><td></td>
+              <td style="text-align: center;font-family: monospace"> ****.*********..*********.*** </td>
+            </td><td></td><td></td>
+	  </tr>
+	  <tr>
+	    <td style="padding-right: 1em"> At1g01140.2_SnRK3.12 </td>
+	    <td style="padding-right: 1em;text-align: right"> 196 </td>
+	    <td style="text-align: center;font-family: monospace"> YDGAAADVWSCGVI.FVLMAGYLPFDEPN </td>
+	    <td style="padding-left: 1em;text-align: right"> 223 </td>
+	    <td style="padding-left: 1em;text-align: center"> + </td>
+	    <td style="padding-left: 1em"> 66.9 </td>
+	  </tr>
+        </table>
+
+        <p>The name of the sequence with the match appears on the left; the
+        start and end coordinates of the match appear on either side of the
+        matching sequence; the match score appears on the right. The plus sign
+        indicates the strand of the match (only meaningful when considering both
+        strands of nucleotide sequences with the -2 option). The stars indicate
+        the <em>key positions</em> of the motif: the alignment of the match to
+        the key positions is shown.  (The HTML format output does not include
+        the stars over the matched sequence.) </p>
+      </div>
+      <h3>Options</h3>
+      <div class="indent">
+        <table class="options">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Parameter</th>
+              <th>Description</th>
+              <th>Default Behavior</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th colspan="4">Basic Options</th>
+            </tr>
+            <script>
+              wropt("all-o", {"dir": "glam2scan_out", "glam2": true});
+              wropt("all-oc", {"dir": "glam2scan_out", "glam2": true});
+            </script>
+            <tr>
+              <td class="popt">-t</td><td></td>
+              <td>Output in text format only to standard output.</td>
+              <td>The program behaves as if <code>-O&nbsp;glam2scan_out</code> had
+              been specified.</td>
+            </tr>
+            <tr>
+              <td class="popt">-n</td><td><span class="pdat">n</span></td>
+              <td>Report <span class="pdat">n</span> matches. If scores are
+              tied, they are sorted in alphabetical order of sequence name. If
+              sequence names are also identical, the order is arbitrary.</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="popt">-2</td><td></td>
+              <td>Search both strands of nucleotide sequences.</td>
+              <td></td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <th colspan="4">Advanced Options</th>
+            </tr>
+            <tr>
+              <td colspan="4">The remaining options are somewhat specialized.
+              For typical usage, it is reasonable to set them to exactly the
+              same values as were used with glam2 to discover the motif.</td>
+            </tr>
+            <tr>
+              <td class="popt">-D</td><td><span class="pdat">pseudocount</span></td>
+              <td>Specify the deletion pseudocount.</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="popt">-E</td><td><span class="pdat">pseudocount</span></td>
+              <td>Specify the 'no-deletion' pseudocount.</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="popt">-I</td><td><span class="pdat">pseudocount</span></td>
+              <td>Specify the insertion pseudocount.</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="popt">-J</td><td><span class="pdat">pseudocount</span></td>
+              <td>Specify the 'no-insertion' pseudocount.</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="popt">-d</td><td><span class="pdat">file</span></td>
+              <td>Specify a <a href="http://compbio.soe.ucsc.edu/dirichlets/">Dirichlet mixture</a>
+              file.</td>
+              <td></td>
+            </tr>
+	    <script>
+	      wropt("all-version");
+	    </script>
+          </tbody>
+        </table>
+      </div>
+
+
+      <h2>Motif format</h2>
+        <div class="indent">
+        <p>Some users may wish to make 'fake' glam2 motifs for input to
+        glam2scan, for instance based on motifs found by other tools. Most of
+        the glam2 output is ignored by glam2scan, and a minimal motif file looks
+        like this:</p>
+
+        <pre>
+                  **..****
+  seq1         10 HP..D.IG
+  seq2          5 HPGADLIG
+  seq3          7 HP..ELIG
+  seq4          5 HP..ELLA
+        </pre>
+
+        <p>The sequence names and coordinates are ignored, but some
+        placeholder characters should be present. The stars indicating key
+        positions are necessary, and the first and last columns must be starred.</p>
+      </div>
+    </div>
+
+    <h3 id="citing">Citing</h3>
+    <div class=indent id="citation"> <script>print_citation("citation", "GLAM2SCAN");</script> </div>
+
+    <script src="js/manual.js"></script>
+
+  </body>
+</html>

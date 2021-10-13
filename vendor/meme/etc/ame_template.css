@@ -1,0 +1,56 @@
+table.inputs, table.alpha_bg_table {
+  margin-top: 20px;
+  border-collapse:collapse;
+}
+table.inputs * td, table.inputs * th, table.alpha_bg_table * td, table.alpha_bg_table * th {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+table.results {
+  border-collapse:collapse;
+}
+table.results * td, table.results * th {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+table.results * td.logo {
+  height: 20px;
+}
+
+table.no_tp_fp .col_fp,
+table.no_tp_fp .col_tp,
+table.no_p_thresh .col_p_thresh,
+table.no_tp_thresh .col_tp_thresh,
+table.no_pos .col_pos,
+table.no_neg .col_neg,
+table.linreg .col_spearmans_rho,
+table.spearman .col_pearsons_rho,
+table.spearman .col_mean_square_error, 
+table.spearman .col_m, 
+table.spearman .col_b,
+table.other .col_pearsons_rho,
+table.other .col_spearmans_rho,
+table.other .col_mean_square_error, 
+table.other .col_m, 
+table.other .col_b {
+  display: none;
+}
+
+div.pop_content {
+  position:absolute;
+  z-index:1;
+  width:300px;
+  padding: 5px;
+  background: #E4ECEC;
+  font-size: 12px;
+  font-family: Arial;
+  border-style: double;
+  border-width: 3px;
+  border-color: #AA2244;
+  display:none;
+}

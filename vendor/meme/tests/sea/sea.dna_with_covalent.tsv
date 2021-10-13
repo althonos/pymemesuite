@@ -1,0 +1,11 @@
+RANK	DB	ID	ALT_ID	CONSENSUS	TP	TP%	FP	FP%	ENR_RATIO	SCORE_THR	PVALUE	LOG_PVALUE	EVALUE	LOG_EVALUE	QVALUE	LOG_QVALUE
+1	common/dna_with_covalent.meme	TGCm1C	Gm1GCA	TGCm1C	842	37.42	27	1.20	30.1	9	3.53e-251	-576.69	3.17e-250	-574.49	3.17e-250	-574.49
+2	common/Jaspar-subset2.meme	MA0039.1	Klf4	WARRGRAAGG	1550	68.89	962	42.76	1.61	8.3	1.22e-70	-160.98	1.10e-69	-158.78	5.49e-70	-159.48
+3	common/dna_with_covalent.meme	TGCmGC	GC1GCA	TGCmGC	1265	56.22	733	32.58	1.72	2.1	5.29e-58	-131.88	4.76e-57	-129.69	1.59e-57	-130.79
+4	common/Jaspar-subset.meme	MA0091.1	TAL1::TCF3	NSAMCATCTGKT	1656	73.60	1159	51.51	1.43	1.4	1.44e-53	-121.67	1.30e-52	-119.47	3.25e-53	-120.86
+5	common/Jaspar-subset.meme	MA0039.2	Klf4	DGGGYGKGGC	307	13.64	147	6.53	2.08	10	9.75e-16	-34.56	8.78e-15	-32.37	1.76e-15	-33.98
+6	common/Jaspar-subset.meme	MA0035.2	Gata1	DSAGATAAGVV	1656	73.60	1500	66.67	1.1	5.1	2.18e-7	-15.34	1.96e-6	-13.14	3.27e-7	-14.93
+
+# SEA (Simple Enrichment Analysis): Version 5.4.0 compiled on Aug 20 2021 at 15:30:59
+# The format of this file is described at https://meme-suite.org/meme/doc/sea-output-format.html.
+# sea --oc results/sea3 --verbosity 1 --xalph common/dna_with_covalent.alph --inc MA00* --inc MA04* --exc MA007* --inc T* --bfile common/dna_with_covalent.bg --order 0 --qvalue --p common/dna_with_covalent.fa --m common/Jaspar-subset.meme --m common/Jaspar-subset2.meme --m common/dna_with_covalent.meme

@@ -1,0 +1,609 @@
+#### MEME SUITE NEWS
+* [August 25, 2021] Release of MEME version 5.4.1
+        <li><b>Bug Fixes</b></li>
+        <ul>
+          <li>Fixed bug in MEME HTML output files that caused the "Motif Locations"
+          download buttons to fail when the file was on the server.</li>
+        </ul>
+
+* [August 22, 2021] Release of MEME Suite 5.4.0
+        <li><b>New Features and Enhancements</b>
+          <ul>
+            <li>XSTREME: Combined motif discovery and enrichment analysis.
+                Combines the results of ab initio discovery using MEME and STREME
+                with motif enrichment analysis using SEA.  Groups similar
+                ab initio motifs with each other and with known motifs.
+		XSTREME is similar to MEME-CHIP, but is more appropriate when the motifs
+                may not tend to be enriched in the centers of the input sequences, and
+                works well with protein sequences and nucleotide sequences.
+            </li>
+            <li>SEA: Simple Enrichment Analysis of motifs. Reports known motifs that are
+                enriched in your sequences relative to your control sequences or to
+                shuffled versions of your sequences.  Replaces and enhances ENR.
+            </li>
+            <li>STREME:
+              <ul>
+                <li>Added options --thresh and --evalue to allow STREME to stop
+                  looking for motifs based on their <i>E</i>-values rather than their
+                  <i>p</i>-values.  (The --thresh option replaces the --pvt option,
+                  which is still available for backward compatability.)
+                </i>
+                <li>Added motif <i>E</i>-value column in HTML output and change MEME format
+                  motif header to E= in streme.txt.
+                </li>
+                <li>Added "Positional Distribution" plots to HTML output.
+                  These plots show how the sites of each motif are distributed
+                  within the input sequences.  Alignment of sequences for the
+                  plots is controlled by the new --align option.
+                </li>
+                <li>Added output of a file (sequences.tsv) containing the names of each
+                    input sequence that contains a site of a discovered motif.
+                </li>
+                <li>Added "Matches per Sequence" plots to HTML output.
+                  These plots show the distribution of the percentage of sequences
+                  with different numbers of matches to each significant motif.
+                </li>
+                <li>The Sites column in the HTML now shows both the number of
+                  percentage of positive sequences with a site as well as the number of sequences.
+                </li>
+                <li>The meme.txt file of motifs created by STREME now shows
+                    the Score (Training Set <i>p</i>-value) rather than the Test Set <i>p</i>-value
+                    when there was no Test Set due to the input containing too few sequences.
+                    This is indicated in the motif "letter-probability matrix" line, where "P=" is
+                    now replaced by "S=".
+                </li>
+              </ul>
+            </li>
+            <li>MEME: Will now search for up to 1000 motifs if -evt is given
+                and you don't specify -nmotifs.  Previously, it would only search
+                for (up to) 1 motif.
+            </li>
+            <li>AME:
+              <ul>
+                <li>Added the motif alternate ID to the sequence.tsv output.  The
+                  new column in the TSV file is named "motif_ALT_ID".
+                <li>Added option --text to just send TSV output to standard output.
+              </ul>
+            </li>
+            <li>fasta-holdout-set: New utility for splitting primary (positive) and control
+                (negative) sequence sets into a main and holdout sets.  Input is
+                one or two FASTA sequence files.  Output is two or four FASTA sequence
+                files.  If no control sequences are given, they are created by shuffling
+                the primary sequences.  By default, each FASTA file (primary and control)
+                is split into two FASTA files containing 90% ("main file")
+                and 10% (holdout file) of the input sequences, respectively.  If either of the
+                holdout files (primary or control) would contain fewer than 10 sequences,
+                no holdout files are created and all sequences are put in the main files.
+                This utility was create for use by XSTREME.
+            </li>
+            <li>configure.ac: Added --with-mpi-nprocs to allow MPI jobs (e.g., meme) to
+                use multiple processors when run as web services.
+            </li>
+            <li>Consolidated all citations in doc/js/citation.js to remove redundancy
+                and to prevent things from getting out of sync.
+            </li>
+            <li>Added check for multiple cores to speed up "make test".  Adds dependency
+                on perl module "Sys::Info".
+            </li>
+            <li>Simplified Tomtom web-server implementation.  Removed the "run-immediate"
+                option; all Tomtom jobs now go through the "short queue".
+            </li>
+          </ul>
+        <li><b>Bug Fixes</b>
+          <ul>
+            <li>AME: fixed bug in webserver, was ignoring advanced options "uniform" and "Model in motif".</li>
+            <li>CentriMo: fixed bug with "Download EPS (for publication)" button not working on some browsers.</li>
+            <li>GOMO: fixed links from GO terms to their descriptions at "amigo".</li>
+            <li>MAST: fixed bug in usage message.</li>
+            <li>MEME:
+              <ul>
+                <li>Fixed core dump caused with the "anr" model by very long sequences.
+                <li>The -searchsize option now also limits the length of the longest sequence allowed,
+                 unless you specify "-searchsize 0".
+              </ul>
+            </li>
+            <li>STREME:
+              <ul>
+                <li>Fixed failure to honor "T=U" in custom RNA alphabets.</li>
+                <li>Fixed error when maximum motif width is larger than average sequence length.</li>
+                <li>Fixed printing of motifs in MEME format when there were no test positives or negatives
+                but there was a hold-out set.
+              </ul>
+            <li>fasta-get-markov: was not deleting its temporary files /tmp/bfile.*.</li>
+            <li>All web servers: "Clear Input" button was no clearing "Hidden Modifications" warning on Advanced options menu header.</li>
+            <li>Scripting Access: Fixed broken links to sample scripts.</li>
+          </ul>
+      </ul>
+
+* [8 February 2021] Release of MEME Suite 5.3.2
+        <li><b>Bug Fixes</b>
+        <ul>
+          <li>MEME -- fixed problem that prevented downloading block diagram PDFs.</li>
+          <li>MEME -- RNA and Protein motifs may now be submitted to Tomtom via the Submit/Download menu
+                in the MEME HTML output.
+          <li>configure.ac -- changed default SITE URL to "https://meme-suite.org/meme".</li>
+          <li>sample outputs -- updated all sample outputs with new site URL.</li>
+          <li>Installation guide -- Simplified Quick Install instructions.</li>
+          <li>INSTALL -- updated Quick Install instructions.</li>
+          <li>various -- removed hard-coded references to meme-suite.org.
+          <li>menu -- fix URL of menu header when the menu is on a server page
+        </ul>
+      </ul>
+
+* [27 January 2021] Release of MEME Suite 5.3.1
+        <li><b>New Features and Enhancements</b>
+          <ul>
+            <li>MEME-CHIP web server: Modified Tomtom to send short jobs to a short job queue,
+              rather executing them directly</li>
+            <li>Changed the time outputs from CPU time to ELAPSED time in MEME, STREME, MAST and TOMTOM so that the "-time"
+              option works even when the job gets less than 100% of CPU time.</li>
+            <li>Added configure switches for setting the maximum memory and run time of jobs
+              submitted via the web.</li>
+            <li>Added --totallength = maximum memory / 1000 to input to STREME when
+              submitted via the web.  Same for STREME called from MEME-ChIP submitted via the web.
+              This will prevent STREME from using too much memory.</li>
+          </ul>
+        </li>
+        <li><b>Bug Fixes</b>
+          <ul>
+            <li>MEME web application: 1-order model was missing from background model menu.</li>
+            <li>AME web application: the uniform background was broken,
+              and 1-order mode menu choices were being displayed when they should not be.</li>
+          </ul>
+        </li>
+
+* [29 November 2020] Release of MEME Suite 5.3.0.
+        <li><b>New Features and Enhancements</b>
+          <ul>
+            <li>MEME-CHIP:
+              <ul>
+                <li>STREME now replaces DREME in the MEME-CHIP pipeline.
+                <li>The maximum allowed motif width is reduced to 30 (from 300).
+                <li>The motif width search range now defaults to [6,15] (from [6,30]).
+                <li>The motif width options are now -minw and -maxw (were -meme-minw and -meme-maxw),
+                and the minimum and maximum widths apply to motifs found by both MEME and STREME.
+                <li>The default for the Markov model order option (-order) is raised from 1 to 2.
+                <li>The Markov model is now created from the control sequences if given, not the primary sequences.
+                <li>The -norc option is replaced by the -dna2rna option, which causes
+                STREME and MEME to output RNA motifs given DNA sequence given DNA sequences.  CentriMo and SpaMo will display
+                the DNA sequences as RNA; FIMO shows the sequences as DNA even when the motifs are RNA.
+                <li>SpaMo and FIMO are now only run on motifs discovered by MEME and STREME (not on motifs
+                from the motif database(s), which saves lots of time.
+                The user can perform a separate SpaMo analysis using any motif later, if desired.
+              </ul>
+            </li>
+            <li>MEME-CHIP web server:
+              <ul>
+                <li>The default background model order is now 2nd order (was 1st order).
+                <li>The width range option is now under Universal options (was under MEME options).
+                <li>The Universal option "Scan both DNA strands" has been removed, and now a checkbox
+                appears when you input DNA sequences: "Convert DNA sequences to RNA?".
+                <li>You may now specify that MEME find 0 motifs, and STREME find 0 motifs,
+                so only CentriMo will run, followed by a clustering of enriched motifs.
+              </ul>
+            </li>
+            <li>STREME: Added the "Sites" column to the HTML output to make it more like MEME output.
+            </li>
+          </ul>
+        </li>
+        <li><b>Bug Fixes</b>
+          <ul>
+            <li>STREME: fixed bugs in links to TEXT and XML outputs in the template HTML output.
+            <li>STREME: fixed rare bug when palindrome went past end of seed.
+            <li>STREME: fixed globals in header that were not declared extern.
+            <li>ENR: fixed typo in documentation.
+            <li>MEME-CHIP webserver: fixed bug where the the control sequence disappeared after page refresh.
+            <li>General: Added charset=UTF-8 to etc/job_status.tmpl to stop Firefox console warnings.
+            <li>General: Fixed duplicate variable declarations that caused compile failure with GCC v10.
+            <li>General: Added -fno-common to CFLAGS so that variables not declared
+                "extern" in .h files will cause an error with MacOS compilers, as
+                the do with GCC v10.
+            <li>General: Fixed bug in SameSite attribute of Google Analytics cookies.
+          </ul>
+* [24 October 2020] Release of MEME Suite 5.2.0.
+        <li><b>New Features and Enhancements</b>
+          <ul>
+            <li>STREME: The new <a href="../doc/streme.html">STREME</a> motif discovery algorithm is designed to replace DREME
+                and to complement MEME.  STREME finds more accurate motifs than DREME, finds
+                more subtle motifs, can find much wider motifs (up to 30 wide vs. 8 wide),
+                and can quickly process very large sequence datasets
+                (e.g., 4,000,000bp DNA input in 100 seconds/motif).
+                STREME provides <b>accurate estimates</b> of the statistical significance
+                of the motifs it discovers.
+                Like MEME, STREME works with a wide range of sequence alphabets: DNA, RNA,
+                protein and custom (user-specified) alphabets.  Like DREME, STREME can
+                work with a single input set of sequences, or you can provide a set
+                of control sequences for discriminative motif discovery.
+                <br>
+                STREME is available both via its webserver and as a command-line program
+                if you download the MEME Suite software.
+            <li>ENR: The new <a href="../doc/enr.html">ENR</a> (Motif ENRichment Analysis) algorithm applies the same objective
+                function used by the STREME motif discovery algorithm to measure the enrichment
+                of motifs large sequence datasets. It is useful for comparing the discriminative
+                power of motifs found by STREME and other motif discovery tools.
+                The input to ENR is one or two sets of sequences.
+                The control sequences should have approximately the same length distribution as the
+                primary sequences. If you do not provide a control set, the program shuffles the
+                primary set to create a control set. The program uses Fisher's Exact Test to
+                determine significance of each motif found in the positive set as compared
+                with its representation in the control set, using a significance threshold
+                that may be set on the command line.
+            <li>fasta-grep: Now -erase now works with proteins (as well as DNA) replacing
+                matching words with 'X's.</li>
+            <li>fasta-shuffle-letters: New option -fix allows shuffling
+                while preserving the position of a selected character.
+                This is useful to allow 0-order (-kmer 1) shuffling of masked sequences
+                while preserving runs of the masked character.</li>
+            <li>MEME motif text format: Now allows "P= &lt;motif p-value&gt;" in place of
+                "P= &lt;motif p-value&gt;" on the letter-probability matrix line.
+          </ul>
+        </li>
+        <li><b>Documentation:</b>
+          <ul>
+            <li><a href="../doc/streme.html">STREME Manual</a>.</li>
+            <li><a href="../doc/streme-tutorial.html">STREME Tutorial</a>.</li>
+            <li><a href="../doc/enr.html">ENR Manual</a>.</li>
+          </ul>
+        </li>
+        <li><b>Bug fixes:</b>
+          <ul>
+            <li>CentriMo webserver: fixed the Advanced option "Choose the match score threshold; optimize score" button.
+            <li>MAST: fixed -mev so that it works.  Also works when the motif file
+                specifies the motif p-value rather than E-value.</li>
+          </ul>
+        </li>
+      </ul>
+* [28 October 2019] The HT-SELEX motif database---Human Methylcytosine (Yin2017)---is now available for use with Tomtom and other MEME Suite tools.  These motifs are from the Yin et al., Science 2017 paper.  They are motifs for Human TFs binding to fully methylated CpGs.  The HOCOMOCO Human v11 databases have also been updated to remove motifs that were retracted by the authors of that database.
+<p><hr></p>
+* [01 February 2020] Release of MEME Suite 5.1.1.
+      <ul>
+        <li><b>New Features and Enhancements</b>
+          <ul>
+      <li>The MEME Suite build will now detect whether the version
+      of Python being used is version 2 or version 3, and generate
+      the appropriate version of tools such as Dreme.</li>
+	    <li> Tomtom: Added limit on the query width to prevent
+		memory overrun.  TOMTOM_MAX_QUERY_WIDTH is set to 100 by
+		default but can be changed by installer via src/user.h.
+    Also, added a <code>-time</code> option to limit the CPU
+    time used by a Tomtom job.
+            </li>
+            <li>Tomtom webserver: Set limit (default 3) on number of
+		concurrent "run immediately" Tomtom jobs that can run, and limit
+    such jobs to 1 minute of CPU time.
+		This prevents exceeding the server's memory.
+	     </li>
+          </ul>
+        <li><b>Documentation:</b>
+	  <ul>
+      <li>The web application now records basic usage information to 
+      Google Analytics</li>
+	    <li>transfac2meme: Fixed the documentation pertaining to TRANSFAC-like format
+		and added the -use_name option.  Updated the motif_conversion.html
+		document regarding transfac2meme and the TRANSFAC-like motif format.
+	    </li>
+	  </ul>
+        </li>
+	<li><b>Bug fixes:</b>
+	  <ul>
+	    <li>Glam2: Fixed the HTML output so that the "letter-probability" motif columns
+		sum correctly to 1.  This bug caused Glam2 motif not to work with other MEME Suite 
+		programs such as Tomtom.
+            </li>
+	    <li>transfac2meme: Improved the usage message.
+            </li>
+	  </ul>
+      </ul>
+* [13 October 2019] Release of MEME Suite 5.1.0.
+      <ul>
+        <li><b>New Features and Enhancements</b>
+          <ul>
+	    <li>CisMapper: removed from the MEME-Suite; has been replaced by <b>T-Gene</b>.
+            </li>
+	    <li>T-Gene: New command line program for improved prediction of the gene targets of transcription factors
+                from BED files containing the genomic locations of possible regulatory elements (typically,
+		a bed file of ChIP-seq peaks).  T-Gene's only other required input is a gene annotation file,
+		and computes a statistical, distance-based score for each potential regulatory link
+		between a locus in the BED file and a transcription start site (TSS) of a transcript in the annotation file. 
+		T-Gene can also use a Tissue Panel containing histone modification data and gene expression
+		data for a set of tissue or cell types.  It then computes a statistical score for each
+		link that combines distance with the correlation in histone state at the locus and expression
+		of the gene, achieving higher accuracy than methods based only on distance or correlation.
+		T-Gene also includes a link to the <b>closest</b> TSS to each locus (putative
+		regulatory element) element, and such links have much higher predictive accuracy in 
+		empirical studies.  T-Gene computes <i>p</i>-values for the observed expression/histone correlation by
+		generating a null model based on shuffling the order of the expression tissues
+		relative to the histone tissues.  T-Gene computes the <i>p</i> value for the
+		distance between an RE and a TSS assuming a uniform distribution on the distance:<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;<tt><i>p</i>-value = (distance + RE width) / (maximum distance + RE width)</tt>.<br>
+		T-Gene computes a score that combines Correlation and Distance (<b>CnD <i>p</i>-value</b>)
+		by computing the <i>p</i>-value of the product of the correlation and distance <i>p</i>-values.
+		Finally, T-Gene computes the Q-value of the CND <i>p</i>-value, which is defined as the
+		minimum false discovery rate (FDR) required to consider this link statistically significant.
+		All regulatory links predicted by T-Gene are labeled as to whether they are either
+		"closest-TSS" or "closest-locus" links.
+	    </li>
+	    <li>T-Gene Web Server: added, featuring tissue panels for Human and Mouse and Genomes
+		for 8 model organisms: Arabidopsis, Worm, Zebrafish, Fly, Human, Mouse, Rat, and Yeast.
+            </li>
+            <li>The MEME HTML output now allows you to generate an image of the 
+                <b>motif location diagram</b> as either 1) a PDF image file suitable for use in publications, 
+		or, 2) an SVG (Scalable Vector Graphics) image file suitable for inclusion in HTML documents.
+            </li>
+            <li>CentriMo now lists the number of reported regions in the control sequences
+                containing the best match to a motif, and the number of motif matches in the control scoring 
+	        higher than the score threshold.
+            </li>
+          </ul>
+        </li>
+        <li><b>Documentation:</b>
+	  <ul>
+	    <li> T-Gene manual.
+	    <li> T-Gene tutorial.
+	  </ul>
+        </li>
+	<li><b>Bug fixes:</b>
+	  <ul>
+            <li>Fixed integer overflow on large sequences in <code>fasta-shuffle-letters</code></li>
+            <li>SpaMo HTML output file: added missing '.eps' extension to Alignment Logo download file.
+          </ul>
+        </li>
+      </ul>
+  </ul>
+  <p>
+    <hr>
+ * [19 March 2019] Release of MEME Suite 5.0.5.
+      <ul>
+        <li><b>New Features and Enhancements</b>
+          <ul>
+	    <li>CisMapper: Now part of the MEME Suite.  CisMapper is useful
+		for predicting regulatory links between regulatory regions (chromosome
+		locations) and genes.  Typical uses include predicting regulatory links
+		from transcription factor ChIP-seq peaks, provided as a BED file.
+		CisMapper can be run from its new webserver page, or from the
+		command line.  
+		CisMapper uses gene expression and histone modification
+		data from a panel of tissues in a given organisms.
+		The CisMapper webserver currently provides Expression & Histone panels
+		only for hg19 (human) and mm9 (mouse).
+	    </li>
+	    <li>MoMo: Upgraded HTML output to use JSON like other MEME Suite 
+		programs, and added help bubbles,
+		improving its layout and readability.  
+	    </li>
+	    <li>MoMo: Added PERL-style regular expressions for each 
+		discovered motif in the HTML, TSV and text (MEME) outputs.
+	    </li>
+	    <li>MoMo: Simplified and improved documentation of MoMo's
+		output format.
+	    </li>
+	    <li>MoMo Web Server: Added a gzipped tar file of the results
+		because the HTML file is not stand-alone--it requires the 
+		log PNG files.</li>
+          </ul>
+	</li>
+        <li><b>Documentation:</b>
+	  <ul>
+	    <li>Added the CisMapper documentation: the manual page and the tutorial page.
+	  </ul>
+        </li>
+	<li><b>Bug fixes:</b>
+	  <ul>
+	    <li>Fixed MoMo bug: motif logo files contained square brackets, which didn't work over
+		the web; now they are replace by 'b' for '[' and 'd' for ']'.</li>
+	    <li>Fixed MoMo bug: MoDL algorithm could result in divide by zero when calculating
+		the fold change.</li>
+	    <li>Fixed MAST bug: could crash if FASTA sequence descriptor line contained non-ASCII character;
+		now replaces them with underscores.</li>
+	    <li>Fixed FIMO bug: could crash if FASTA sequence header line contained non-ASCII character;
+		now replaces them with underscores.</li>
+	  </ul>
+    </ul>
+    </p>
+  
+* [25 January 2019] Release of MEME Suite 5.0.4.
+      <ul>
+	<li>
+	  Bug fixes:
+	  <ul>
+	    <li>Fixed CentriMo bug: crashed if a motif was as wide or wider than the sequences; now it skips the motif and prints a warning.</li>
+            <li>Fixed AMA/GoMO bug: could crash if the motif was very wide.</li>
+            <li>Fixed AME bug: could crash if there was only one sequence in the input.</li>
+            <li>Fixed SpaMo bug: memory leak would exhaust memory with big input files.</li>
+            <li>Fixed FASTA bug: read_one_fasta was failing to leave room for trailing null in read buffer.</li>
+            <li>Fixed Tomtom bug: would crash if primary motif was not valid.</li>
+            <li>Fixed MCAST bug: would crash if any sequences was shorter than the widest motif.</li>
+            <li>Fixed MCAST bug: would crash if any motif was only 1 wide; now motifs are skipped if
+		their width is less than 2.</li>
+	    <li>Fixed MCAST bug: would sometimes crash when --synth switch given.  MCAST
+		results are now slightly different (different <i>p</i>-, <i>E</i>- and <i>q</i>-values, mostly.)</li>
+	    <li>Fixed MCAST bug: crash could occur when there was only one or two motifs.</li>
+            <li>Fixed MCAST bug: output would not display properly sometimes when the number of motifs 
+		was very large.</li>
+            <li>Fixed CentriMo bug: would crash if any motif was as long as the sequences; now motifs
+		are skipped if they are not at least 2 shorter than the sequences.</li>
+	    <li>Fixed missing documentation files fasta-center.html and fasta-dinucleotide-shuffle.html.</li>
+          </ul>
+        <li>
+	  Improvements
+	  <ul>
+	    <li>AME: Checks that there are a total of at least 2 primary and control sequences.</li>
+	    <li>AME webserver: Checks that there are a total of at least 2 primary and control sequences.</li>
+	    <li>CentriMo webserver: Added option to use a uniform background model, or the model in the motif file.</li>
+	    <li>MCAST webserver: Added option to not hard-mask (convert to 'N') lower-case nucleotides.</li>
+	    <li>MEME webserver: Checks that there are at least 2 primary sequences unless you specify
+		the 'Any Number of Repetitions' site distribution.</li>
+	    <li>SpaMo webserver: Added advanced option to specify the background model.</li>
+	    <li>MEME: reduce the amount of memory required, especially with the ANR model.  With ANR,
+		no more than 2,000,000 local maxima will ever be stored (1,000,000 each for primary and 
+		control sequences).</li>
+	    <li>FASTA input: programs will now skip sequences that are too long, rather than dying.
+	    <li>test_driver: added --valgrind switch to allow search for memory leaks.
+	    <li>Plugged many memory leaks.
+          </ul>
+        </li>
+        <li>
+	  Documentation
+	  <ul>
+	    <li>MEME: Clarify that -nsites and -maxsites override -csites if the model is ANR, 
+		and correct the description of the default for -maxsites.</li>
+	  </ul>
+        </li>
+      </ul>
+* [02 December 2018] Release of MEME Suite 5.0.3.
+      <ul>
+	<li>
+	  Bug fixes:
+	  <ul>
+	    <li>Fixed MAST bug: didn't read E-values of motifs correctly if they were >1e300; checks the log(E-value) of motifs now.
+	    <li>Fixed MEME bug: -cons option didn't work when the model type is DE or SE.
+	    <li>Fixed MEME bug: -mod zoops sensitivity was decreased for large datasets (greater than -searchsize)
+		due to incorrect setting of the initial fraction of sequences with sites.
+	    <li>Fixed gendb bug: -alph option caused crashing.
+	    <li>Fixed AME bug: output erroneously called E-value threshold "Adjusted p-value threshold".
+	    <li>Fixed AME bug: crashed sometimes when sequence names were > 100 characters (bug in shuffle_seq()).
+	    <li>Fixed bug: parsing of MEME model file alphabet line was failing if they were missing the trailing ":".
+	    <li>Fixed FIMO bug: crash occurred if a motif in a MEME text file had zero alphabet length.
+	    <li>Fixed MCAST bug: crash occurred if a motif ID was longer than 50 characters.
+	    <li>Fixed MEME bug: crash when sequence name contained a non-ASCII character; now replaces them with
+		underscores.
+	    <li>Fixed SPAMO bug: crash caused by bug in similar sequence removal algorithm
+	  </ul>
+	</li>
+        <li>
+	  Improvements
+	  <ul>
+	    <li>MEME: Improve results with large alphabets by making the default value of "fuzz" 
+		(see MEME option -spfuzz) depend on the alphabet size: fuzz = 2 / size_of_alphabet.
+	    <li>MCAST: Improved user message when the --hardmask switch is given and lower case letters
+		are changed to wildcards.
+	    <li>CentriMo: Improved failure message when the input file contains no sequences of the 
+		correct length.
+	    <li>MEME-ChiP: Improved documentation to emphasize that motif discovery is only in the
+		<b>central regions</b> (100 characters by default) of the input sequences; 
+		also removed reference to 50Mb website limit.
+	    <li>test_driver: Added --valgrind switch to allow testing for memory errors.
+          </ul>
+        </li>
+      </ul>
+* [30 August 2018] Release of MEME Suite 5.0.2.
+      <ul>
+	<li>
+	  Bug fixes
+	  <ul>
+	    <li>Fixed rna2meme bug when there is no word after the FASTA ID.</li>
+	    <li>Fixed bug that caused failure of notification email for AME web app</li>
+	    <li>Fixed bug that caused generation of spurious warning message file for AME web app</li>
+	    <li>Fixed bug that caused miscounting of background peptides in MoMo with MoDL algorithm.</li>
+	    <li>Fixed bug that caused MEME not to honor the limits on nsites.</li>
+	    <li>Fixed menu link to MEME SUITE source code.</li>
+	    <li>Fixed missing Messages file link in MEME-ChIP output.</li>
+	    <li>Fixed missing output format documentation files.</li>
+	  </ul>
+	</li>
+        <li>
+	  Improvements
+	  <ul>
+	    <li>Added -searchsize 0 feature to MEME to make it emulate earlier versions of MEME
+		when used with -objfun classic.</li>
+	    <li>Added shuffled foreground peptides as default for MoMo background peptides.</li>
+	    <li>Greatly improved computation of MoMo E-values.</li>
+	    <li>Improved MoMo HTML output.</li>
+	    <li>Added new MoMo TSV output file.</li>
+            <li>Added new MoMo test.</li>
+            <li>Fixed the momo.html file to give correct descriptions of --min-occurrences,
+                --remove-unknowns and --eliminate-repeats regarding affect on background peptides.</li>
+            <li>Created documentation file 'momo-output-format.html'.</li>
+            <li>Fixed the rna2meme documentation file 'rna2meme.html' to corectly describe its purpose.</li>
+            <li>Fixed the motif_conversion.html file to give better example of rna2meme.</li>
+	    <li>Installation now allows the user to specify the URL for a local website, the
+		alternate local website, and the source code repository.  
+	        These locations are then updated throughout the installed command-line and website applications.  
+                If desired, these can all be set to local URLs so that no links will point 
+		outside of the user's installation of the MEME Suite.</li>
+	     <li>Updated tool output HTML to specify the location of help on interpreting
+		results and the repository fo downloading the source code as separate URLs.</li>
+	     <li>Re-formatted FIMO HTML output to resemble the other tools' output.</li>
+	  </ul>
+	</li>
+      </ul>
+* [28 August 2018] Release of new motif databases (Version 12.18)
+* [31 July 2018] Release of MEME Suite 5.0.1 patch 1.
+      <ul>
+      <li>
+      Bug fixes
+      <ul>
+      <li>Fixed bug in AME web application that prevented sending of confirmation email.</li>
+      <li>Fixed bug in AME web application that caused the generation of a supurious, empty, warning message file.</li>
+      </ul>
+      </li>
+     </ul>
+* [21 June 2018] Release of MEME Suite 5.0.1.
+      <ul>
+      <li>
+      Bug fixes
+      <ul>
+      <li>Fixed bug in momo_webservice with <code>--remove_unknowns</code> switch</li>
+      <li>Fixed AME bug triggered by sequences that are too short for the 
+      widest motif</li>
+      <li>Fixed NULL pointer bug in MEME triggered by <code>-maxsize</code>
+      option</li>
+      <li>Fixed bug in momo.test</li>
+      </ul>
+      </li>
+      <li>
+      Improvements
+      <ul>
+      <li>Enhancements to MoMo HTML output.</li>
+      </ul>
+      </li>
+      </ul>
+
+* [06 June 2018] Release of MEME Suite 5.0.0
+      <ul>
+        <li><b>Highlights</b></li>
+          <ul>
+            <li><b>MEME improvements:</b> 
+              <ul>
+                <li>Major <b>speed enhancements</b> have been made to MEME when used with <b>large inputs</b>.</li>
+	        <li><b>Two new objective functions</b> have been added to MEME for finding differentially enriched
+		and centrally enriched motifs, respectively.</li>
+                <li>The <b>MEME webserver</b> now allows much larger inputs.  Inputs may now contain up to <b>500,000</b> sequences
+		  (up from 1000).  The input form limit of <b>80,000,000</b> characters remains.</li>
+              </ul>
+            </li>
+            <li><b>AME improvements:</b> The AME tool has been completely redesigned, its speed enhanced, and many bugs have 
+		been corrected.</li>
+	    <li><b>MEME-ChIP improvements:</b>
+              <ul>
+                <li>MEME-ChIP now <b>uses all input sequences.</b> It no longer subsamples the input sequences if there are more than
+		600, which was previously needed due to MEME's time complexity with large inputs. The MEME-ChIP webserver
+		now accepts inputs with up to <b>500,000</b> sequences.  The input form limit of <b>80,000,000</b> characters remains.</li>
+                <li>The <b>MEME-ChIP output has been improved</b>, and now provides both an output summary in TSV format as well as
+		a file containing all the enriched motifs found in MEME format.</li>
+               </ul>
+	    <li><b>New (TSV) output files:</b> Most tools now also produce tab-separated value format (TSV) output files.
+		Links to each of the new output files have been added to the top of the tool's HTML output file.
+	        These TSV files simplify and enhance using the output of the tools
+		AME, CentriMo, FIMO, GOMo, MCAST, MEME-ChIP, SpaMo and Tomtom.  Each TSV output file contains
+		a header line (without the "#" character so R will see the column names as variables).
+		The main TSV output files also contain the version number, documentation link and command line.</li>
+	    <li><b>More documentation:</b> Added documentation files for the output formats of 
+                AME, CentriMo, FIMO, GOMo, MCAST, MEME-ChIP, SpaMo and Tomtom.
+	        The MEME documenation now includes plots of running time as a function of input size.</li>
+	    <li><b>Improved documentation:</b> 
+              <ul>
+                <li><b>Ambiguous characters:</b> Added documentation to each HTML man page stating how the tool treats ambiguous characters in sequences.</li>
+	        <li><b>Alphabet description:</b> Added the alphabet description to the HTML output for: AME, CentriMo, SpaMo, MEME-ChIP, MCAST, FIMO, Tomtom.</li>
+               </ul>
+	    <li><b>Backward compatibility testing:</b> Added backward compatability testing of motif reading in motif-in.test (--comprehensive) for versions 
+		as old as 4.7.0.</li>
+            <li><b>Standard directory structure:</b> The directory structure of the MEME Suite installation now conforms to the
+              <a href="http://refspecs.linuxfoundation.org/fhs.shtml">Filesytem Hierarchy Standard</a>.</li>
+	    <li><b>Balanced background models:</b> When scanning both strands, all tools now "balance" the background model
+		(if the alphabet has complements) before using it to create pseudocounts for the motifs.</li>
+	    <li><b>Command-line consistency:</b> All programs now also accept <b>-bfile</b> if they just accepted -bgfile before.</li>
+          </ul>
+</ul>
+<p/>
+<a href="https://meme-suite.org/meme/doc/release-notes.html">Full Release Notes</a>      

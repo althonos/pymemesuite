@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>GOMo Output Formats - MEME Suite</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="images/memesuite_icon.png">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="js/menu.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/simple-shared-doc.js"></script>
+    <script src="js/gomo_doc.js"></script>
+  </head>
+  <body>
+    <div class="memesuitelogo">
+      <h1>The MEME Suite</h1>
+      <h2>Motif-based sequence analysis tools</h2>
+    </div>
+
+    <h2>GOMo Output Formats</h2>
+
+    <ul>
+      <h3><li><a href="#html_results">GOMo Results HTML Format</a></li></h3>
+      <h3><li><a href="#tsv_results">GOMo Results TSV Format</a></li></h3>
+      <h3><li><a href="#xml_results">GOMo Results XML Format</a></li></h3>
+    </ul>
+
+    <div id="html_results">
+      <h3> GOMo Results HTML Format</h3>
+      <p>See this self-documenting <a href="examples/gomo_example_output_files/gomo.html">sample HTML results file</a>.</p>
+    </div>
+
+    <div id="tsv_results">
+      <h3>GOMo Results TSV Format</h3>
+      <p>See this <a href="examples/gomo_example_output_files/gomo.tsv">sample TSV results file</a>.</p>
+      <script>print_doc("tsv_results", "gomo", "gomo-results-tsv");</script>
+    </div>
+
+    <div id="xml_results">
+      <h3> GOMo Results XML Format</h3>
+      <p>See this <a href="examples/gomo_example_output_files/gomo.xml">sample XML results file</a>.</p>
+      <script>print_doc("xml_results", "gomo", "gomo-results-xml");</script>
+    </div>
+
+  </body>
+</html>

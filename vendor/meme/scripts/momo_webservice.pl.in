@@ -1,0 +1,253 @@
+#!@WHICHPERL@
+=head1 NAME
+
+momo_webservice - Run MoMo
+
+=head1 SYNOPSIS
+
+momo_webservice [options] [-ptm <ptm file>]+
+    algorithm alg_simp|alg_modl|alg_mtfx  Specify the algorithm (required)
+    [-ptm <ptm file>]+                    Specify a PTM file for processing (required)
+    -psm-type <type>			  comet|ms-gf+|tide|percolator
+    -psm-column-name <name>		  Name of column containing modified peptides
+					  (PTM file(s) must be in PSM format)
+    [-filter-field <encoded field name>    Specify a field of the previously
+                                           specified PTM file to filter on.
+    -filter-type lt|le|eq|ge|gt           Specify the filtering type for the
+                                           previously specified PTM file as: 
+                                            lt   - less than,
+                                            le   - less than or equal,
+                                            eq   - equal,
+                                            ge   - greater than or equal, or
+                                            gt   - greater than.
+    -filter-thresh <threshold>]            Specify the number used to filter the
+                                           previously specified PTM file.
+    -db-background			  use the flank file for background peptides
+    -flank <FASTA file>                   Specify a protein FASTA file
+                                           containing flanking sequence;
+                                           any paths begining with db/ are
+                                           pre-existing databases.
+    -occurs <num>                         Set the minimum number of occurences.
+    -width <width>                        Set the width of the motifs.
+    -remove-unknowns                      modified peptides will be removed if 
+                                            they contain 'X'
+    -single-per-mass                      A single motif will be generated for each distinct
+                                            modification mass.
+    -harvard				  emulate original motif-x (including p-value hack)
+    -help                                 Show this brief help message.
+
+=cut
+
+use strict;
+use warnings;
+# load standard perl libraries
+use Getopt::Long qw(:config permute auto_help);
+use Pod::Usage;
+# load custom perl libraries
+use lib qw(@PERLLIBDIR@);
+use StatusPage qw(arg_checks arg_end parse_uploaded opt_db_or_uploaded opt_choice opt_encoded opt_integer opt_number);
+use Cwd qw(getcwd abs_path);
+use File::Spec::Functions qw(abs2rel catfile splitdir);
+
+# constants
+my $bin_dir = '@BINDIR@';
+my $fasta_db_dir = '@MEMEDB@/fasta_databases';
+my $workdir = getcwd;
+# required parameters
+my $algorithm;
+my @ptms = (); # list of PTM objects with optional filters
+my $psm_type;
+my $psm_column_name;
+my $width;
+my $flank_file;
+# option defaults
+my ($filter_field, $filter_type, $filter_thresh);
+my $db_background = 0;	 # FALSE
+my $remove_unknowns;
+my $eliminate_width = 0; # don't eliminate repeats
+my $occurs;
+my $single_per_mass = 0; # FALSE
+my $harvard = 0;	 # FALSE
+my ($score_threshold, $max_motifs, $max_iterations, $max_no_decrease);
+#status page
+my $status = new StatusPage('MOMO', \@ARGV);
+$status->add_message('Parsing arguments');
+# parse options
+my @arg_errors = ();
+my $opts_ok = do {
+  local $SIG{__WARN__} = sub { my ($msg) = @_; chomp($msg); push(@arg_errors, $msg); };
+  GetOptions(
+  '<>' => arg_checks(arg_end()),
+  'algorithm=s' => opt_choice(\$algorithm, 'alg_simp', 'alg_mtfx', 'alg_modl'),
+  'ptm=s' => sub {
+    my ($opt, $value) = @_; my $file;
+    parse_uploaded($opt, $value, \$file);
+    push(@ptms, {file => $file});
+  },
+  'psm-type=s' => opt_encoded(\$psm_type),
+  'psm-column-name=s' => opt_encoded(\$psm_column_name),
+  'width=i' => opt_integer(\$width, 1, 51),
+  'db-background' => \$db_background,
+  'flank=s' => opt_db_or_uploaded(\$flank_file, $fasta_db_dir, 'db'),
+  'filter-field=s' => opt_encoded(\$filter_field),
+  'filter-type=s' => opt_choice(\$filter_type, 'lt', 'le', 'eq', 'ge', 'gt'),
+  'filter-thresh=f' => opt_number(\$filter_thresh),
+  'remove-unknowns=s' => opt_choice(\$remove_unknowns, 'T', 'F'),
+  'eliminate-width=i' => opt_integer(\$eliminate_width, 0, 51),
+  'occurs=i' => opt_integer(\$occurs, 1),
+  'score-threshold=f' => opt_number(\$score_threshold, '<', 1),
+  'score-threshold=f' => opt_number(\$score_threshold, '>', 0),
+  'max-motifs=i' => opt_integer(\$max_motifs, 1, 1000),
+  'max-iterations=i' => opt_integer(\$max_iterations, 1, 1000),
+  'max-no-decrease=i' => opt_integer(\$max_no_decrease, 1, 1000),
+  'single-per-mass' => \$single_per_mass,
+  'harvard' => \$harvard
+  );
+};
+# add additional error messages for missing sequences and motifs
+push(@arg_errors, "No PTM files provided.") unless @ptms;
+for (my $i = 0; $i < scalar(@ptms); $i++) {
+  my $ptm = $ptms[$i];
+}
+# display the error messages both to the status page and stdout
+foreach my $arg_error (@arg_errors) {
+  print STDERR $arg_error, "\n";
+  $status->add_message($arg_error);
+}
+$opts_ok = 0 if (scalar(@arg_errors) > 0);
+# setup status page
+
+# add the tar file to the output listing
+$status->add_file('html', 'momo.html', 'MOMO HTML output');
+$status->add_file('tsv', 'momo.tsv', 'MOMO TSV output');
+$status->add_file('txt', 'momo.txt', 'MOMO TXT output');
+
+for (my $i = 0; $i < scalar(@ptms); $i++) {
+  $status->add_file('ptm'.$i, $ptms[$i]->{file}, 'Post-translational modifications (PTM) file ' . ($i + 1));
+}
+$status->add_message($opts_ok ? 'Arguments ok' : "Error parsing arguments");
+$status->update($opts_ok ? 'Starting' : 'Error');
+# exit if there was an error reading the arguments
+unless ($opts_ok) {
+  $status->write_log();
+  pod2usage(2);
+}
+# create the symlink to the databases
+symlink($fasta_db_dir, 'db');
+# ensure it will be removed on completion (when the log is written)
+my @cleanup_files = ('db');
+$status->set_cleanup(
+  sub {
+    foreach my $file (@cleanup_files) {
+      unlink($file);
+    }
+  }
+);
+
+# take a listing of all the files in the current directory
+my $before = &dir_listing_set($workdir);
+
+my $alg_string;
+$alg_string = "simple" if ($algorithm eq 'alg_simp');
+$alg_string = "motifx" if ($algorithm eq 'alg_mtfx');
+$alg_string = "modl" if ($algorithm eq 'alg_modl');
+
+my @momo_args = ($alg_string, '-oc', '.', '--verbosity', 1);
+push(@momo_args, '--psm-type', $psm_type) if (defined($psm_type));
+push(@momo_args, '--sequence-column', $psm_column_name) if (defined($psm_column_name));
+push(@momo_args, '--width', $width) if (defined($width));
+push(@momo_args, '--protein-database', $flank_file) if (defined($flank_file));
+push(@momo_args, '--db-background') if ($db_background != 0);
+if (defined($filter_field) && defined($filter_type) && defined($filter_thresh)) {
+  my $filter_string = "$filter_field,$filter_type,$filter_thresh";
+  push(@momo_args, '--filter', $filter_string) 
+}
+push(@momo_args, '--eliminate-repeats', $eliminate_width);
+push(@momo_args, '--remove-unknowns', $remove_unknowns) if (defined($remove_unknowns));
+push(@momo_args, '--min-occurrences', $occurs) if (defined($occurs));
+push(@momo_args, '--single-motif-per-mass') if ($single_per_mass != 0);
+push(@momo_args, '--harvard') if ($harvard != 0);
+push(@momo_args, '--score-threshold', $score_threshold) if (defined($score_threshold));
+push(@momo_args, '--max-motifs', $max_motifs) if (defined($max_motifs));
+push(@momo_args, '--max-iterations', $max_iterations) if (defined($max_iterations));
+push(@momo_args, '--max-no-decrease', $max_no_decrease) if (defined($max_no_decrease));
+for (my $i = 0; $i < scalar(@ptms); $i++) {
+  push(@momo_args, ($ptms[$i])->{file});
+}
+$status->run(PROG => 'momo', BIN => $bin_dir, ARGS => \@momo_args);
+
+# Create a tar file of the directory
+# determine all files added
+my @tar_files = &added_files($before, &dir_listing_set($workdir));
+for (my $i = 0; $i < scalar(@ptms); $i++) {
+  push(@tar_files, $ptms[$i]->{file});
+}
+push(@tar_files, $flank_file) if (defined($flank_file));
+# create tar with all new files plus the input files
+my $tarname = &create_tar(@tar_files);
+$status->add_file('tar', $tarname, 'Gzipped Tar of all output');
+
+# done
+$status->add_message("Done");
+$status->update();
+$status->write_log();
+
+sub create_tar {
+  my @tar_files = @_;
+  my ($folder, $folder_dir, $tarname);
+  # we want to tar including the containing directory
+  # find the real name of the containing directory
+  $folder = (splitdir(abs_path()))[-1];
+  $folder_dir = abs_path('..');
+  # append the folder to the tar_files
+  for (my $i = 0; $i < scalar(@tar_files); $i++) {
+    $tar_files[$i] = abs2rel(abs_path($tar_files[$i]), $folder_dir);
+  }
+  $tarname = $folder . ".tar.gz";
+  my @args = ('-czf', $tarname, '-C', $folder_dir, @tar_files);
+  # run tar
+  my $status = system('tar', @args);
+  return $tarname;
+}
+
+sub added_files {
+  my ($before, $after) = @_;
+  my @list = ();
+  foreach my $file (keys %{$after}) {
+    push(@list, $file) unless ($before->{$file});
+  }
+  return @list;
+}
+
+sub dir_listing_set {
+  my ($dir) = @_;
+  my @list = &dir_listing($dir);
+  my %set = ();
+  foreach my $file (@list) {
+    $set{$file} = 1;
+  }
+  return \%set;
+}
+
+sub dir_listing {
+  my ($dir) = @_;
+  my @list = ();
+  my $dirh;
+  opendir($dirh, $dir);
+  while (1) {
+    my $fname = readdir($dirh);
+    last unless defined($fname);
+    next if ($fname eq '.' || $fname eq '..');
+    my $file = catfile($dir, $fname);
+    if (-d $file) {
+      unless (-l $file) { # skip symlinks
+        push(@list, &dir_listing($file));
+      }
+    } else {
+      push(@list, $file);
+    }
+  }
+  closedir($dirh);
+  return @list;
+}
+1;

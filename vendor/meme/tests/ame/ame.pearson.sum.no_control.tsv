@@ -1,0 +1,18 @@
+rank	motif_DB	motif_ID	motif_alt_ID	consensus	p-value	adj_p-value	E-value	tests	PWM_min	pos	neg	Pearson_CC	mean_squared_error	slope	intercept
+1	common/Jaspar-subset.meme	MA0039.2	Klf4	DGGGYGKGGC	1.20e-148	3.70e-146	4.81e-145	309	0.0128	338	0	0.889	1.57	-0.00536	3.09
+2	common/Jaspar-subset.meme	MA0270.1	AFT2	SACACCCB	1.21e-15	3.74e-13	4.86e-12	309	0.000194	338	0	0.407	3.12	-0.0179	13
+3	common/Jaspar-subset.meme	MA0079.1	SP1	KRGGCDGGGT	1.55e-6	4.79e-4	6.23e-3	309	105	157	0	0.359	4.31	-0.0138	11.5
+4	common/Jaspar-subset.meme	MA0035.2	Gata1	DSAGATAAGVV	2.07e-4	6.19e-2	8.05e-1	309	0.0622	326	0	0.194	3.39	-0.00572	18.3
+5	common/Jaspar-subset.meme	MA0309.1	GZF3	YGATAASR	1.93e-3	4.50e-1	5.85e0	309	1.2	158	0	0.228	4.65	-0.0126	14.2
+6	common/Jaspar-subset.meme	MA0300.1	GAT1	YYGATAAG	7.72e-3	9.08e-1	1.18e1	309	0.000282	336	0	0.132	3.37	-0.00656	20.1
+7	common/Jaspar-subset2.meme	MA0039.1	Klf4	WARRGRAAGG	5.05e-2	1.00e0	1.30e1	309	86.7	248	0	0.104	3.84	-0.0069	16.2
+8	common/Jaspar-subset.meme	MA0443.1	btd	RRGGGGCGKR	4.95e-1	1.00e0	1.30e1	309	80	105	0	0.0013	4.59	-2.14e-05	14.6
+9	common/Jaspar-subset.meme	MA0163.1	PLAG1	GGGGCCCWAGGGGG	6.52e-1	1.00e0	1.30e1	309	120	38	0	-0.0658	4.32	0.000173	-0.0848
+10	common/Jaspar-subset.meme	MA0079.2	SP1	CCCCKCCCCC	2.09e-1	1.00e0	1.30e1	309	3.73	299	0	0.0469	3.47	-0.000516	20.1
+11	common/Jaspar-subset.meme	MA0140.1	Tal1::Gata1	CTGBNNNNNDSAGATAAG	5.78e-1	1.00e0	1.30e1	309	0.404	329	0	-0.0109	3.47	8.47e-05	22.6
+12	common/Jaspar-subset.meme	MA0091.1	TAL1::TCF3	NSAMCATCTGKT	3.80e-1	1.00e0	1.30e1	309	134	48	0	0.0454	6.06	-0.00103	6.17
+13	common/Jaspar-subset2.meme	MA0443.1	btd	RRGGGGCGKR	4.95e-1	1.00e0	1.30e1	309	80	105	0	0.0013	4.59	-2.14e-05	14.6
+
+# AME (Analysis of Motif Enrichment): Version 5.4.0 compiled on May 20 2021 at 11:57:07
+# The format of this file is described at https://meme-suite.org/meme/doc/ame-output-format.html.
+# ame --verbose 1 --method pearson --scoring sum --oc results/ame32 --evalue-report-threshold 100 --bgfile --uniform-- --poslist pwm --fasta-threshold -7.3 common/Klf1-200-100.combined.fa common/Jaspar-subset.meme common/Jaspar-subset2.meme

@@ -1,0 +1,18 @@
+rank	motif_DB	motif_ID	motif_alt_ID	consensus	p-value	adj_p-value	E-value	tests	FASTA_max	pos	neg	Spearmans_CC
+1	common/Jaspar-subset.meme	MA0039.2	Klf4	DGGGYGKGGC	4.49e-19	1.39e-16	1.80e-15	309	-36.5	91	0	0.737
+2	common/Jaspar-subset.meme	MA0270.1	AFT2	SACACCCB	6.37e-10	1.97e-7	2.56e-6	309	-16.7	158	0	0.452
+3	common/Jaspar-subset.meme	MA0079.1	SP1	KRGGCDGGGT	4.15e-6	1.28e-3	1.67e-2	309	6.49	227	0	0.289
+4	common/Jaspar-subset.meme	MA0079.2	SP1	CCCCKCCCCC	9.06e-6	2.79e-3	3.63e-2	309	6.2	226	0	0.279
+5	common/Jaspar-subset.meme	MA0035.2	Gata1	DSAGATAAGVV	1.66e-5	5.11e-3	6.64e-2	309	1.81	215	0	0.278
+6	common/Jaspar-subset.meme	MA0140.1	Tal1::Gata1	CTGBNNNNNDSAGATAAG	3.57e-5	1.10e-2	1.43e-1	309	6.49	227	0	0.259
+7	common/Jaspar-subset.meme	MA0300.1	GAT1	YYGATAAG	5.54e-5	1.70e-2	2.21e-1	309	0.727	212	0	0.261
+8	common/Jaspar-subset.meme	MA0309.1	GZF3	YGATAASR	9.56e-4	2.56e-1	3.33e0	309	0.282	209	0	0.213
+9	common/Jaspar-subset.meme	MA0443.1	btd	RRGGGGCGKR	2.31e-3	5.10e-1	6.63e0	309	-27.5	124	0	0.252
+10	common/Jaspar-subset2.meme	MA0443.1	btd	RRGGGGCGKR	2.31e-3	5.10e-1	6.63e0	309	-27.5	124	0	0.252
+11	common/Jaspar-subset2.meme	MA0039.1	Klf4	WARRGRAAGG	4.24e-3	7.30e-1	9.49e0	309	7.35	230	0	0.173
+12	common/Jaspar-subset.meme	MA0091.1	TAL1::TCF3	NSAMCATCTGKT	2.28e-2	9.99e-1	1.30e1	309	-31.8	111	0	0.19
+13	common/Jaspar-subset.meme	MA0163.1	PLAG1	GGGGCCCWAGGGGG	2.95e-2	1.00e0	1.30e1	309	-27.7	123	0	0.171
+
+# AME (Analysis of Motif Enrichment): Version 5.4.0 compiled on May 20 2021 at 11:57:07
+# The format of this file is described at https://meme-suite.org/meme/doc/ame-output-format.html.
+# ame --verbose 1 --method spearman --scoring max --oc results/ame37 --evalue-report-threshold 100 --bgfile --uniform-- --poslist fasta --hit-lo-fraction 0.85 common/Klf1-200-100.combined.fa common/Jaspar-subset.meme common/Jaspar-subset2.meme

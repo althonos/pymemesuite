@@ -1,0 +1,15 @@
+db_index	motif_id	motif_alt_id	consensus	E-value	adj_p-value	log_adj_p-value	bin_location	bin_width	total_width	sites_in_bin	total_sites	p_success	p-value	mult_tests	neg_sites_in_bin	neg_sites	neg_adj_pvalue	log_neg_adj_pvalue	fisher_adj_pvalue	log_fisher_adj_pvalue
+   1	MA0039.2	Klf4	DGGGYGKGGC	3.5e-64	   3.2e-65	        -148.51	         0.0	    111.0	        491	         369	        697	  0.22607	1.3e-67	       245	          75	        141	7.7e-13	         -27.90	1.0e0	           0.00	
+   1	MA0140.1	Tal1::Gata1	CTGBNNNNNDSAGATAAG	1.4e-48	   1.3e-49	        -112.55	         0.0	    177.0	        483	         447	        684	  0.36646	5.4e-52	       241	          95	        144	2.2e-10	         -22.23	1.0e0	           0.00	
+   1	MA0035.2	Gata1	DSAGATAAGVV	1.3e-40	   1.2e-41	         -94.22	         0.0	    184.0	        490	         471	        751	  0.37551	5.0e-44	       244	          96	        162	4.3e-6	         -12.35	1.0e0	           0.00	
+   1	MA0300.1	GAT1	YYGATAAG	5.8e-37	   5.3e-38	         -85.84	         0.0	    183.0	        493	         348	        529	  0.37120	2.1e-40	       246	          72	        110	2.2e-7	         -15.34	1.0e0	           0.00	
+   1	MA0309.1	GZF3	YGATAASR	5.6e-34	   5.1e-35	         -78.96	         0.0	    151.0	        493	         323	        571	  0.30629	2.1e-37	       246	          68	        120	5.3e-7	         -14.45	1.0e0	           0.00	
+   1	MA0270.1	AFT2	SACACCCB	5.4e-32	   4.9e-33	         -74.39	         0.0	    129.0	        493	         260	        496	  0.26166	2.0e-35	       246	          55	        110	2.0e-5	         -10.83	1.0e0	           0.00	
+   1	MA0443.1	btd	RRGGGGCGKR	2.6e-13	   2.3e-14	         -31.39	         0.0	    103.0	        491	         222	        629	  0.20978	9.5e-17	       245	          56	        135	1.4e-5	         -11.16	1.0e0	           0.00	
+   1	MA0079.1	SP1	KRGGCDGGGT	1.3e-8	   1.2e-9	         -20.55	         0.0	    105.0	        491	         261	        825	  0.21385	4.9e-12	       245	          52	        174	7.3e-1	          -0.32	1.0e0	           0.00	
+   1	MA0079.2	SP1	CCCCKCCCCC	1.2e-1	   1.1e-2	          -4.50	         0.0	    127.0	        491	         245	        757	  0.25866	4.6e-5	       245	          48	        160	1.0e0	          -0.00	1.0e0	           0.00	
+   1	MA0091.1	TAL1::TCF3	NSAMCATCTGKT	5.1e0	   4.6e-1	          -0.77	         0.0	     41.0	        489	          56	        454	  0.08384	2.5e-3	       244	          12	         95	1.0e0	          -0.00	1.0e0	           0.00	
+
+# CentriMo (Local Motif Enrichment Analysis): Version 5.4.0 compiled on May 20 2021 at 11:57:49
+# The format of this file is described at https://meme-suite.org/meme/doc/centrimo-output-format.html.
+# centrimo --verbosity 1 --oc results/centrimo5 --neg common/Klf1-200.fa --motif-pseudo 1 common/Klf1.fa common/Jaspar-subset.meme

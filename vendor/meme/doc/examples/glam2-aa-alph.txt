@@ -1,0 +1,25 @@
+# This is the standard protein alphabet.  The abundances are taken
+# from from: AB Robinson & LR Robinson Proc Natl Acad Sci 1991
+# 88:8880-4, which is cited in publications on NCBI BLAST.
+
+Aa 35155
+Cc 8669
+Dd 24161
+Ee 28354
+Ff 17367
+Gg 33229
+Hh 9906
+Ii 23161
+Kk 25872
+Ll 40625
+Mm 10101
+Nn 20212
+Pp 23435
+Qq 19208
+Rr 23105
+Ss 32070
+Tt 26311
+Vv 29012
+Ww 5990
+Yy 14488
+x

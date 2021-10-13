@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>T-Gene - Submission form</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../doc/images/memesuite_icon.ico">
+    <link rel="icon" type="image/png" href="../doc/images/memesuite_icon.png">
+    <link href="../doc/css/style.css" rel="stylesheet" type="text/css" />
+    <script src="../doc/js/menu-path.js"></script>
+    <script src="../doc/js/menu.js"></script>
+    <script src="../doc/js/utilities.js"></script>
+    <script src="../doc/js/motif_logo.js"></script>  <!-- needed by site.js -->
+    <script src="../js/site.js"></script> <!-- needed by Advanced options -->
+    <script src="../js/bedchecker.js"></script>
+    <script src="../js/component_loci.js"></script>
+    <script src="../js/tgene.js"></script>
+  </head>
+  <body>
+    <div class="pop_content" id="pop_loci">
+      <p>The chromosome locations (loci) of potential regulatory elements in 
+	<a href=../doc/bed-format.html">BED format</a>.
+	Typically, these would be transcription factor (TF) peaks from a TF ChIP-seq 
+	experiment, output by a peak-caller such as MACS.
+      </p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_tgene_panel">
+      <p>Select genome release corresponding to your genomic locations (loci)
+	along with a tissue panel of histone modification and gene expression
+	data, if one is available for your genome release.
+        T-Gene will score each potential regulatory link between a locus and a TSS,
+	that are within 500,000bp of each other.  (It will always score the closest-TSS
+	and closest-locus links, regardless of distance.)
+	If you choose a genome with a tissue panel, T-Gene will score each link by
+	by combining the correlation between the histone modification
+	at the locus and the gene expression of the TSS, across the panel of tissues, 
+	with the distance between the locus and TSS.
+	If no tissue panel is available (or chosen), T-Gene will score each link based
+	solely on the distance between the locus and the TSS.
+	See the T-Gene 
+	<a style="color:red" href="../db/tgene">Genomes and Tissue Panels documentation</a>
+	for more information on the available genomes and histone/expression panels.
+      </p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_max_pvalue">
+      <p>Set this to a value less than 1 to limit the size of the HTML and TSV output files.
+        Set it to 1 if you want the HTML and TSV files to contain all possible links, 
+	regardless of their statistical significance.
+      </p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_closest_locus">
+      <p>Enable this option if you want T-Gene to include a link to 
+        the closest locus for each transcript even if the link does not satisfy 
+	the maximum link distance requirement.
+      </p>
+      <p>Enabling this option will make the T-Gene output substantially larger.</p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <div class="pop_content" id="pop_closest_tss">
+      <p>Enable this option if you want T-Gene to include a link to 
+        the closest TSS for each locus even if the link does not satisfy
+        the maximum link distance requirement.
+      </p>
+      <p>Enabling this option will make the T-Gene output substantially larger.</p>
+      <div class="pop_close">[ <a href="javascript:help_popup()">close</a> ]</div>
+    </div>
+    <!--{help/}-->
+    <div class="content_box">
+      <!--{header}-->
+      <p>
+      <!--{title}-->T-Gene<!--{/title}--> - <!--{subtitle}-->Prediction of Target Genes<!--{/subtitle}--><br>
+      <!--{logo}-->../doc/images/tgene_icon.png<!--{/logo}-->: <!--{alt}-->T-Gene Logo<!--{/alt}--><br>
+      <!--{blurb}--><span class="blurb" data-id="tgene"></span><!--{/blurb}-->
+      </p>
+      <!--{/header}-->
+      <form enctype="multipart/form-data" accept-charset="utf-8"
+      method="POST" action="tgene" id="tgene_form">
+        <fieldset>
+          <legend>Data Submission Form</legend>
+          <p class="meme">Predict regulatory links between genomic loci and genes.</p> 
+          <!--{loci}-->
+          <!--{prefix}-->loci<!--{/prefix}-->
+          <!--{title}-->Input genomic locations<!--{/title}-->
+          <!--{subtitle}-->Upload a BED file of genomic locations (loci) to analyze.<!--{/subtitle}-->
+          <!--{default}-->FILE<!--{/default}-->
+          <!--{register}-->register_component<!--{/register}-->
+          <!--{/loci}-->
+
+          <!--{tgene_panel}-->
+          <!--{prefix}-->tgene_panel<!--{/prefix}-->
+          <!--{title}-->Select the genome and tissue panel<!--{/title}-->
+          <!--{subtitle}-->Choose the genome and histone/expression panel (if available).<!--{/subtitle}-->
+          <!--{/tgene_panel}-->
+
+          <!--{job_details/}-->
+
+          <!-- Advanced Options -->
+          <div style="margin-top: 5px; margin-bottom: 5px; width: 80%">
+            <!--{advanced_options/}-->
+            <div>
+
+              <h3 class="meme">Set the maximum <i>p</i>-value for links in T-Gene's output files</h3>
+              <label for="max_pvalue">&nbsp;Link <i>p</i>-value &le;</label>
+              <input class="meme numonly sz3" type="text" id="max_pvalue"
+                  name="max_pvalue" size="3" value="0.05" min="0" max="1" step="any">
+              <div class="help" data-topic="pop_max_pvalue"></div>
+
+              <h3 class="meme">Include closest locus links</h3>
+              <input class="meme" type="checkbox" name="closest_locus" id="closest_locus" value="1">
+              <label for="closest_locus">Include closest locus links</label>
+              <div class="help" data-topic="pop_closest_locus"></div>
+
+              <h3 class="meme">Include closest TSS links</h3>
+              <input class="meme" type="checkbox" name="closest_tss" id="closest_tss" value="1" checked>
+              <label for="closest_tss">Include closest TSS links</label>
+              <div class="help" data-topic="pop_closest_tss"></div>
+            </div>
+          </div>
+          <!--{submit_reset/}-->
+        </fieldset>
+      </form>
+      <!--{footer/}-->
+    </div>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+table.inputs {
+  margin-top: 20px;
+  border-collapse:collapse;
+}
+table.inputs * td, table.inputs * th {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+table.results {
+  border-collapse:collapse;
+}
+table.results * td, table.results * th {
+  text-align:center;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+table.results * td.logo {
+  height: 20px;
+}
+
+table.no_score .col_score,
+table.no_bg .col_bg,
+table.no_fold .col_fold,
+table.no_unadjusted_p .col_unadjusted_p,
+table.no_n_tests .col_n_tests,
+table.no_adjusted_p .col_adjusted_p,
+table.no_modl_log .col_modl_log {
+  display: none;
+}
+

@@ -1,0 +1,9 @@
+mod	motif	regexp	fg_matches
+T+79.966	xxx_T+79.966_xxx	[ADFLNRSV][AEFHIKLNT][AFGIKLSTV]T[ACEFGHIKRSTV][ADGKLNPQRSWY][ADEFGKPRSY]	16
+S+79.966	xxx_S+79.966_xxx	[ADEFGHKNRSTVY][ACDEGILMNPSTVY][ACDEGHKLMNQRSTY]S[ACDEFGHKLNPRSVW][ACDFGLNPQRSWY][ACEFGIKMNQRTY]	28
+Y+79.966	xxx_Y+79.966_xxx	[AGILPTV][EHINST][AEFGHKLPVY]Y[CDEKLNS][AEGIKRST][EGILNPS]	15
+C+57.021	xxx_C+57.021_xxx	[CDLNST][ACEFGKRS][ACDEGINSTY]C[CEGIPRS][CGNRSVY][CENPR]	10
+
+# MoMo (Modification Motifs): Version 5.4.0 compiled on May 20 2021 at 11:57:28
+# The format of this file is described at https://meme-suite.org/meme/doc/momo-output-format.html.
+# momo simple --oc results/momo15 --psm-type ms-gf+ --sequence-column Peptide /Users/t.bailey/meme_git/meme-xstreme/tests/momo/small-msgf-mod.txt

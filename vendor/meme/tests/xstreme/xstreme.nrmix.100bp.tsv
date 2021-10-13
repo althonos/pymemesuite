@@ -1,0 +1,35 @@
+RANK	SEED_MOTIF	CLUSTER	SOURCE	ID	ALT_ID	CONSENSUS	WIDTH	SITES	SEA_PVALUE	EVALUE	EVALUE_ACC	SIM_SOURCE	SIM_MOTIF	MOTIF_URL
+1	1	1	STREME	6-GCCACCAGRGGGCRG	STREME-6	GCCACCAGRGGGCRG	15	43	1.91e-009	3.50e+000	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0139.1 (CTCF)	http://jaspar2014.genereg.net?ID=MA0139.1&rm=present&collection=CORE
+2	1	2	MEME	DHWTGCTGAGTCAT	MEME-1	DHWTGCTGAGTCAT	14	60	2.10e-008	4.70e-045	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0501.1 (NFE2::MAF)	http://jaspar2014.genereg.net?ID=MA0501.1&rm=present&collection=CORE
+3	1	3	STREME	2-CCCCTCCCCT	STREME-2	CCCCTCCCCT	10	89	3.10e-007	5.17e-001	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0079.3 (SP1)	http://jaspar2014.genereg.net?ID=MA0079.3&rm=present&collection=CORE
+4	0	5	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0035.3	Gata1	TYCTTATCTSY	11	66	6.81e-006	1.47e-003	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0035.3	http://jaspar2014.genereg.net?ID=MA0035.3&rm=present&collection=CORE
+5	1	4	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0466.1	CEBPB	KATTGCAYMAY	11	38	7.67e-006	1.66e-003	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0466.1	http://jaspar2014.genereg.net?ID=MA0466.1&rm=present&collection=CORE
+6	0	2	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0501.1	NFE2::MAF	ATGACTCAGCANWTY	15	55	7.73e-006	1.67e-003	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0501.1	http://jaspar2014.genereg.net?ID=MA0501.1&rm=present&collection=CORE
+7	1	5	STREME	1-VTTATC	STREME-1	VTTATC	6	95	1.35e-005	1.88e-001	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0036.2 (GATA2)	http://jaspar2014.genereg.net?ID=MA0036.2&rm=present&collection=CORE
+8	0	2	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0591.1	Bach1::Mafk	RSSATGACTCAGCAB	15	71	1.70e-005	3.67e-003	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0591.1	http://jaspar2014.genereg.net?ID=MA0591.1&rm=present&collection=CORE
+9	0	5	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0036.2	GATA2	WRDTTCTTATCTSH	14	97	2.33e-005	5.03e-003	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0036.2	http://jaspar2014.genereg.net?ID=MA0036.2&rm=present&collection=CORE
+10	0	4	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0102.3	CEBPA	ATTGCAYAAYH	11	51	4.49e-005	9.69e-003	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0102.3	http://jaspar2014.genereg.net?ID=MA0102.3&rm=present&collection=CORE
+11	0	2	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0478.1	FOSL2	KRRTGASTCAB	11	38	1.03e-004	2.23e-002	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0478.1	http://jaspar2014.genereg.net?ID=MA0478.1&rm=present&collection=CORE
+12	0	1	MEME	GCCASYAGRGGGCRS	MEME-3	GCCASYAGRGGGCRS	15	51	1.51e-004	4.80e-025	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0139.1 (CTCF)	http://jaspar2014.genereg.net?ID=MA0139.1&rm=present&collection=CORE
+13	1	6	MEME	CCDCYYCC	MEME-4	CCDCYYCC	8	116	1.67e-004	1.60e-009	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0079.3 (SP1)	http://jaspar2014.genereg.net?ID=MA0079.3&rm=present&collection=CORE
+14	0	6	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0062.2	GABPA	CCGGAAGTGVV	11	49	1.92e-004	4.14e-002	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0062.2	http://jaspar2014.genereg.net?ID=MA0062.2&rm=present&collection=CORE
+15	0	5	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0037.2	GATA3	AGATAAGA	8	28	1.98e-004	4.28e-002	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0037.2	http://jaspar2014.genereg.net?ID=MA0037.2&rm=present&collection=CORE
+16	0	4	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0488.1	JUN	DDRATGATGTCAT	13	36	2.57e-004	5.54e-002	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0488.1	http://jaspar2014.genereg.net?ID=MA0488.1&rm=present&collection=CORE
+17	0	2	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0491.1	JUND	DRTGASTCATS	11	47	4.21e-004	9.10e-002	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0491.1	http://jaspar2014.genereg.net?ID=MA0491.1&rm=present&collection=CORE
+18	0	2	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0477.1	FOSL1	RRTGASTCAKV	11	52	5.45e-004	1.18e-001	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0477.1	http://jaspar2014.genereg.net?ID=MA0477.1&rm=present&collection=CORE
+19	0	4	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0492.1	JUND	DDDRATGABGTCATN	15	53	6.27e-004	1.35e-001	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0492.1	http://jaspar2014.genereg.net?ID=MA0492.1&rm=present&collection=CORE
+20	1	7	STREME	4-CAACCACA	STREME-4	CAACCACA	8	34	6.50e-004	8.48e-001	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0002.2 (RUNX1)	http://jaspar2014.genereg.net?ID=MA0002.2&rm=present&collection=CORE
+21	0	2	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0476.1	FOS	DVTGASTCATB	11	40	6.55e-004	1.41e-001	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0476.1	http://jaspar2014.genereg.net?ID=MA0476.1&rm=present&collection=CORE
+22	0	5	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0482.1	Gata4	YCTTATCTSHB	11	63	8.13e-004	1.76e-001	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0482.1	http://jaspar2014.genereg.net?ID=MA0482.1&rm=present&collection=CORE
+23	0	4	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0043.1	HLF	BRTTACRYAATN	12	52	8.93e-004	1.93e-001	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0043.1	http://jaspar2014.genereg.net?ID=MA0043.1&rm=present&collection=CORE
+24	0	5	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0140.2	TAL1::GATA1	MTTATCWSNNNNNHVCAG	18	80	1.05e-003	2.26e-001	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0140.2	http://jaspar2014.genereg.net?ID=MA0140.2&rm=present&collection=CORE
+25	0	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0139.1	CTCF	YGRCCASYAGRKGGCRSYR	19	167	1.74e-003	3.75e-001	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0139.1	http://jaspar2014.genereg.net?ID=MA0139.1&rm=present&collection=CORE
+26	1	8	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0148.3	FOXA1	YNBNTGTTTACWYWD	15	28	2.12e-003	4.57e-001	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0148.3	http://jaspar2014.genereg.net?ID=MA0148.3&rm=present&collection=CORE
+27	0	6	STREME	7-CCRCTTCCGG	STREME-7	CCRCTTCCGG	10	31	2.60e-003	5.27e+000	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0062.2 (GABPA)	http://jaspar2014.genereg.net?ID=MA0062.2&rm=present&collection=CORE
+28	1	9	STREME	5-GACTACAK	STREME-5	GACTACAK	8	52	1.32e-002	1.27e+000	1	STREME	5-GACTACAK	 
+29	0	2	STREME	3-ATGACTCAGCAWDH	STREME-3	ATGACTCAGCAWDH	14	50	1.66e-002	8.48e-001	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0501.1 (NFE2::MAF)	http://jaspar2014.genereg.net?ID=MA0501.1&rm=present&collection=CORE
+30	1	10	MEME	WAAAAAAAAAAAVAA	MEME-2	WAAAAAAAAAAAVAA	15	24	3.91e-001	1.70e-024	1	meme-chip/JASPAR_CORE_2014_vertebrates.meme	MA0481.1 (FOXP1)	http://jaspar2014.genereg.net?ID=MA0481.1&rm=present&collection=CORE
+
+# XSTREME (Motif Discovery and Enrichment Analysis): Version 5.4.0 released on Mon Aug 16 16:18:19 2021 -0700
+# The format of this file is described at https://meme-suite.org/meme/doc/xstreme-output-format.html
+# xstreme --p common/nrmix.100bp.fa --oc results/xstreme7 --verbosity 0 --m meme-chip/JASPAR_CORE_2014_vertebrates.meme -evt 0.5 --meme-nmotifs 4 --meme-searchsize 50000 --meme-p 6

@@ -1,0 +1,63 @@
+MOTIF_INDEX	MOTIF_SOURCE	MOTIF_ID	ALT_ID	CONSENSUS	WIDTH	SITES	E-VALUE	E-VALUE_SOURCE	MOST_SIMILAR_MOTIF_SOURCE	MOST_SIMILAR_MOTIF	URL
+1	MEME	WGGGTGTGGYYS	MEME-1	WGGGTGTGGYYS	12	312	6.7e-293	MEME	JASPAR2018_CORE_non-redundant.meme	MA0493.1 (Klf1)	http://jaspar2018.genereg.net/matrix/MA0493.1
+2	JASPAR2018_CORE_non-redundant.meme	MA0493.1	Klf1	RRCCACACCCW	11	647	8.4e-078	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0493.1
+3	STREME	1-RCCACACCCWD	STREME-1	RCCACACCCWD	11	262	1.6e-073	STREME	JASPAR2018_CORE_non-redundant.meme	MA0493.1 (Klf1)	http://jaspar2018.genereg.net/matrix/MA0493.1
+4	JASPAR2018_CORE_non-redundant.meme	MA0742.1	Klf12	GRCCACGCCCWHHWH	15	456	5.8e-070	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0742.1
+5	JASPAR2018_CORE_non-redundant.meme	MA0599.1	KLF5	GCCCCDCCCH	10	653	8.5e-043	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0599.1
+6	JASPAR2018_CORE_non-redundant.meme	MA0039.3	KLF4	MCACACCCTNN	11	758	1.1e-042	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0039.3
+7	MEME	NWGATAAG	MEME-2	NWGATAAG	8	171	2.6e-042	MEME	JASPAR2018_CORE_non-redundant.meme	MA0140.2 (GATA1::TAL1)	http://jaspar2018.genereg.net/matrix/MA0140.2
+8	JASPAR2018_CORE_non-redundant.meme	MA1107.1	KLF9	VSCCACACCCACH	13	681	6.3e-040	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA1107.1
+9	JASPAR2018_CORE_non-redundant.meme	MA0035.3	Gata1	TYCTTATCTSY	11	459	1.9e-038	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0035.3
+10	JASPAR2018_CORE_non-redundant.meme	MA0746.1	SP3	VCCACGCCCMC	11	759	8.4e-036	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0746.1
+11	JASPAR2018_CORE_non-redundant.meme	MA0037.3	GATA3	WGATAASR	8	683	5.1e-035	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0037.3
+12	JASPAR2018_CORE_non-redundant.meme	MA0300.1	GAT1	YYGATAAG	8	529	7.4e-035	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0300.1
+13	STREME	2-ACWGATAAS	STREME-2	ACWGATAAS	9	278	3.0e-034	STREME	JASPAR2018_CORE_non-redundant.meme	MA0140.2 (GATA1::TAL1)	http://jaspar2018.genereg.net/matrix/MA0140.2
+14	JASPAR2018_CORE_non-redundant.meme	MA0766.1	GATA5	WGATAASR	8	785	1.5e-033	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0766.1
+15	JASPAR2018_CORE_non-redundant.meme	MA0036.3	GATA2	NBCTTATCTNH	11	700	5.7e-033	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0036.3
+16	JASPAR2018_CORE_non-redundant.meme	MA0140.2	GATA1::TAL1	MTTATCWSNNNNNHVCAG	18	413	1.3e-032	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0140.2
+17	JASPAR2018_CORE_non-redundant.meme	MA0740.1	KLF14	KRCCACGCCCMCYT	14	391	3.1e-032	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0740.1
+18	JASPAR2018_CORE_non-redundant.meme	MA0309.1	GZF3	YGATAASR	8	567	3.3e-032	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0309.1
+19	JASPAR2018_CORE_non-redundant.meme	MA0289.1	DAL80	CGATAAG	7	578	7.1e-032	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0289.1
+20	JASPAR2018_CORE_non-redundant.meme	MA0270.1	AFT2	SACACCCB	8	457	3.0e-030	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0270.1
+21	JASPAR2018_CORE_non-redundant.meme	MA0482.1	Gata4	YCTTATCTSHB	11	513	2.2e-029	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0482.1
+22	JASPAR2018_CORE_non-redundant.meme	MA0307.1	GLN3	GATAA	5	801	2.2e-029	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0307.1
+23	JASPAR2018_CORE_non-redundant.meme	MA0741.1	KLF16	GMCACGCCCCC	11	634	3.5e-024	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0741.1
+24	JASPAR2018_CORE_non-redundant.meme	MA0747.1	SP8	RCCACGCCCMCY	12	692	3.8e-023	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0747.1
+25	JASPAR2018_CORE_non-redundant.meme	MA1104.1	GATA6	NDNAGATAAGADD	13	734	2.1e-022	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA1104.1
+26	JASPAR2018_CORE_non-redundant.meme	MA1399.1	At5g08520	DWWDWRGATAAGR	13	388	2.0e-019	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA1399.1
+27	JASPAR2018_CORE_non-redundant.meme	MA1192.1	At5g58900	WDWRGATAAGRTTWD	15	425	1.4e-015	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA1192.1
+28	JASPAR2018_CORE_non-redundant.meme	MA0450.1	hkb	KGGGCGTGA	9	292	5.8e-015	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0450.1
+29	JASPAR2018_CORE_non-redundant.meme	MA0542.1	elt-3	TCTTATCA	8	132	2.0e-012	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0542.1
+30	JASPAR2018_CORE_non-redundant.meme	MA0807.1	TBX5	AGGTGTKA	8	812	1.1e-011	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0807.1
+31	JASPAR2018_CORE_non-redundant.meme	MA1188.1	At3g11280	AWYCTTATCTTHWY	14	542	3.4e-011	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA1188.1
+32	JASPAR2018_CORE_non-redundant.meme	MA0199.1	Optix	TGATA	5	506	7.0e-011	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0199.1
+33	JASPAR2018_CORE_non-redundant.meme	MA0803.1	TBX15	AGGTGTGA	8	551	5.6e-010	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0803.1
+34	JASPAR2018_CORE_non-redundant.meme	MA0801.1	MGA	AGGTGTGA	8	699	6.3e-010	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0801.1
+35	JASPAR2018_CORE_non-redundant.meme	MA0657.1	KLF13	RTGMCACGCCCCTTTTTG	18	109	2.2e-009	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0657.1
+36	JASPAR2018_CORE_non-redundant.meme	MA1186.1	At1g49010	HWWAWYCTTATCYWH	15	545	3.2e-009	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA1186.1
+37	JASPAR2018_CORE_non-redundant.meme	MA0806.1	TBX4	AGGTGTGA	8	761	6.5e-008	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0806.1
+38	JASPAR2018_CORE_non-redundant.meme	MA0685.1	SP4	BWRGCCACGCCCMCTYH	17	169	8.5e-008	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0685.1
+39	STREME	3-CCCCKCCC	STREME-3	CCCCKCCC	8	64	2.0e-007	STREME	JASPAR2018_CORE_non-redundant.meme	MA0079.3 (SP1)	http://jaspar2018.genereg.net/matrix/MA0079.3
+40	JASPAR2018_CORE_non-redundant.meme	MA1196.1	At5g05790	AWYCTTATCYTNWTH	15	465	4.6e-007	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA1196.1
+41	JASPAR2018_CORE_non-redundant.meme	MA0733.1	EGR4	NHMCGCCCACGCAHWT	16	468	6.0e-007	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0733.1
+42	JASPAR2018_CORE_non-redundant.meme	MA0079.3	SP1	GCCCCKCCCCC	11	561	8.1e-006	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0079.3
+43	JASPAR2018_CORE_non-redundant.meme	MA0443.1	btd	RRGGGGCGKR	10	442	1.1e-005	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0443.1
+44	STREME	6-AAACGCCCW	STREME-6	AAACGCCCW	9	24	1.8e-005	STREME	 	 	 
+45	JASPAR2018_CORE_non-redundant.meme	MA0334.1	MET32	MGCCACA	7	795	2.3e-005	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0334.1
+46	JASPAR2018_CORE_non-redundant.meme	MA0014.3	PAX5	RRGCGTGACCNN	12	588	3.0e-005	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0014.3
+47	JASPAR2018_CORE_non-redundant.meme	MA1099.1	Hes1	SVCACGYGHN	10	687	3.8e-003	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA1099.1
+48	JASPAR2018_CORE_non-redundant.meme	MA1063.1	TCP19	TGGGSCCCAC	10	725	4.1e-003	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA1063.1
+49	JASPAR2018_CORE_non-redundant.meme	MA0607.1	Bhlha15	SCATATGT	8	297	4.7e-003	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0607.1
+50	JASPAR2018_CORE_non-redundant.meme	MA1065.1	TCP20	GGSCCCACHN	10	745	5.3e-003	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA1065.1
+51	JASPAR2018_CORE_non-redundant.meme	MA1398.1	At5g47390	HHWWYCTTATCCAHW	15	376	7.4e-003	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA1398.1
+52	JASPAR2018_CORE_non-redundant.meme	MA1097.1	ARALYDRAFT_493022	GGSMCCAC	8	514	1.0e-002	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA1097.1
+53	JASPAR2018_CORE_non-redundant.meme	MA0333.1	MET31	RNTGTGGCG	9	422	1.1e-002	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0333.1
+54	JASPAR2018_CORE_non-redundant.meme	MA0516.1	SP2	GYCCCGCCYCYBSSS	15	603	1.4e-002	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0516.1
+55	JASPAR2018_CORE_non-redundant.meme	MA0545.1	hlh-1	SAACAGCTGNC	11	390	1.6e-002	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0545.1
+56	JASPAR2018_CORE_non-redundant.meme	MA0948.1	ARR18	NNMNAGATACGVN	13	737	1.8e-002	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0948.1
+57	JASPAR2018_CORE_non-redundant.meme	MA0425.1	YGR067C	VCCCCDCNNNNNNN	14	506	2.8e-002	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0425.1
+58	JASPAR2018_CORE_non-redundant.meme	MA0204.1	Six4	TGAYAC	6	662	4.8e-002	CENTRIMO	 	 	http://jaspar2018.genereg.net/matrix/MA0204.1
+
+# MEME-ChIP (Motif Analysis of Large Nucleotide Datasets): Version 5.4.0 released on Mon Aug 16 16:18:19 2021 -0700
+# The format of this file is described at https://meme-suite.org/meme//doc/meme-chip-output-format.html
+# meme-chip -meme-p 1 -oc memechip_example_output_files -db JASPAR2018_CORE_non-redundant.meme Klf1.fna

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>MoMo verification</title>
+<link href="../css/status.css" rel="stylesheet" type="text/css" />
+<script src="../doc/js/utilities.js"></script>
+<script src="../js/status.js"></script>
+<script>
+
+var verify = 
+<!--{message}-->
+{
+  "items": [
+    {
+      "type": "psms",
+      "name": "Peptide-spectrum Matches",
+      "key": "psms"
+    },
+    {
+      "type": "cname",
+      "name": "Name of Modified Peptide Column",
+      "key": "psm_column_name",
+      "any": "MoMo will assume modified peptides are in the \'!!VALUE!!\' column."
+    },
+    {
+      "type": "sequences",
+      "name": "Context Sequences",
+      "key": "sequences"
+    },
+    {
+      "type": "choice",
+      "name": "Algorithm",
+      "key": "algorithm",
+      "options": {
+        "alg_simp": "MoMo will use the Simple algorithm.",
+        "alg_mtfx": "MoMo will use the motif-x algorithm.",
+        "alg_modl": "MoMo will use the MoDL algorithm."
+      }
+    },
+    {
+      "type": "count",
+      "name": "Eliminate Repeats",
+      "key": "eliminate_width",
+      "zero": "Repeats will not be eliminated.",
+      "one": "Repeats of length !!VALUE!! will be removed.",
+      "any": "Repeats of length !!VALUE!! will be removed."
+    },
+    {
+      "type": "filter",
+      "name": "Filter",
+      "keyField": "filter_field",
+      "keyType": "filter_type",
+      "keyThresh": "filter_thresh",
+      "any": "Only PSMs with !!FIELD!! !!TYPE!! !!THRESH!! will be used."
+    },
+    {
+      "type": "count",
+      "name": "Occurrences",
+      "key": "occurs",
+      "one": "Motifs only need one occurrence.",
+      "any": "Motifs must have at least !!VALUE!! occurrences."
+    },
+    {
+      "type": "count",
+      "name": "Motif Width",
+      "key": "width",
+      "one": "Report motifs one residue wide.",
+      "any": "Report motifs !!VALUE!! residues wide.",
+    },
+    {
+      "type": "flag",
+      "name": "Splitting",
+      "key": "single_per_mass",
+      "on": "One motif will be created per mass.",
+      "off": "One motif will be created per combination of mass and central amino acid."
+    },
+    {
+      "type": "flag",
+      "name": "Background peptides",
+      "key": "db_background",
+      "on": "Background peptides are extracted from context sequences.",
+      "off": "Background peptides are shuffled foreground peptides."
+    },
+    {
+      "type": "number",
+      "name": "Score Threshold",
+      "key": "score_threshold",
+      "any": "Motif-X will use a score threshold of !!VALUE!!."
+    },
+    {
+      "type": "flag",
+      "name": "Original motif-x emulation",
+      "key": "harvard",
+      "on": "Binomial p-values for large datasets may be inaccurate.",
+      "off": "Binomial p-values will be accurate for large datasets."
+    },
+    {
+      "type": "count",
+      "name": "Maximum Motifs",
+      "key": "max_motifs",
+      "one": "MoDL will output one motif.",
+      "any": "MoDL will stop after it finds !!VALUE!! motifs."
+    },
+    {
+      "type": "count",
+      "name": "Maximum Iterations",
+      "key": "max_iterations",
+      "one": "MoDL will stop after 1 iteration.",
+      "any": "MoDL will stop after !!VALUE!! iterations."
+    },
+    {
+      "type": "count",
+      "name": "Maximum No Decrease Iterations",
+      "key": "max_no_decrease",
+      "any": "MoDL will stop after !!VALUE!! iterations without a decrease in MDL."
+    }
+  ]
+}<!--{/message}-->;
+
+var data = {
+  "service": "MoMo",
+  "id": "appMOMO_4.12.01381207214457-2050656034",
+  "when":1381207216291,
+  "expiry": 1381812016291,
+  "description": "This is a test of MoMo",
+  "inputs": {
+    "psms": [
+      {
+        "safe-file": "percolatorTab.txt",
+        "orig-file": "percolatorTab.txt",
+      },
+      {
+        "safe-file": "Sequest_example_ver1.1.mzid",
+        "orig-file": "Sequest_example_ver1.1.mzid",
+      }
+    ],
+    "flank": {
+      "source": "file",
+      "safe-file": "blah.fna",
+      "orig-file": "blah.fna",
+      "alphabet": {
+        "name": "Protein",
+        "like": "protein",
+        "ncore": 20,
+        "symbols": [
+          {
+            "symbol": "A",
+            "name": "Alanine",
+            "colour": "0000CC"
+          }, {
+            "symbol": "C",
+            "name": "Cysteine",
+            "colour": "0000CC"
+          }, {
+            "symbol": "D",
+            "name": "Aspartic acid",
+            "colour": "FF00FF"
+          }, {
+            "symbol": "E",
+            "name": "Glutamic acid",
+            "colour": "FF00FF"
+          }, {
+            "symbol": "F",
+            "name": "Phenylalanine",
+            "colour": "0000CC"
+          }, {
+            "symbol": "G",
+            "name": "Glycine",
+            "colour": "FFB300"
+          }, {
+            "symbol": "H",
+            "name": "Histidine",
+            "colour": "FFCCCC"
+          }, {
+            "symbol": "I",
+            "name": "Isoleucine",
+            "colour": "0000CC"
+          }, {
+            "symbol": "K",
+            "name": "Lysine",
+            "colour": "CC0000"
+          }, {
+            "symbol": "L",
+            "name": "Leucine",
+            "colour": "0000CC"
+          }, {
+            "symbol": "M",
+            "name": "Methionine",
+            "colour": "0000CC"
+          }, {
+            "symbol": "N",
+            "name": "Asparagine",
+            "colour": "008000"
+          }, {
+            "symbol": "P",
+            "name": "Proline",
+            "colour": "FFFF00"
+          }, {
+            "symbol": "Q",
+            "name": "Glutamine",
+            "colour": "008000"
+          }, {
+            "symbol": "R",
+            "name": "Arginine",
+            "colour": "CC0000"
+          }, {
+            "symbol": "S",
+            "name": "Serine",
+            "colour": "008000"
+          }, {
+            "symbol": "T",
+            "name": "Threonine",
+            "colour": "008000"
+          }, {
+            "symbol": "V",
+            "name": "Valine",
+            "colour": "0000CC"
+          }, {
+            "symbol": "W",
+            "name": "Tryptophan",
+            "colour": "0000CC"
+          }, {
+            "symbol": "Y",
+            "name": "Tyrosine",
+            "colour": "33E6CC"
+          }, {
+            "symbol": "X",
+            "aliases": "*.",
+            "name": "Any amino acid",
+            "equals": "ACDEFGHIKLMNPQRSTVWY"
+          }, {
+            "symbol": "B",
+            "name": "Asparagine or Aspartic acid",
+            "equals": "DN"
+          }, {
+            "symbol": "Z",
+            "name": "Glutamine or Glutamic acid",
+            "equals": "EQ"
+          }, {
+            "symbol": "J",
+            "name": "Leucine or Isoleucine",
+            "equals": "IL"
+          }
+        ]
+      },
+      "count": 102,
+      "min": 50,
+      "max": 50,
+      "avg": 50,
+      "total": 5100
+    },
+    "filter_field": "sp_score",
+    "filter_type": "gt",
+    "filter_thresh": 400,
+    "eliminate_width": 7,
+    "occurs": 5,
+    "width": 7,
+    "single_per_mass": false,
+    "score_threshold" : 0.000001,
+    "algorithm" : "alg_simp",
+    "fg_filetype" : "psm",
+    "psm_column_name" : "sequence"
+  }
+};
+</script>
+</head>
+<body>
+<!--{title}-->MoMo<!--{/title}--> - <!--{subtitle}-->Motifs of Post-translational Modifications<!--{/subtitle}--><br>
+<!--{logo}-->doc/images/momo_icon.png<!--{/logo}-->: <!--{alt}-->MoMo Logo<!--{/alt}--><br>
+<div id="info"></div>
+<script>display_job_information($("info"), verify["items"], data);</script>
+</body>
+</html>
