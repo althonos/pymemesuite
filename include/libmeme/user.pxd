@@ -1,0 +1,17 @@
+cdef extern from "user.h" nogil:
+    const int    MSN                    = 24
+    const int    MAXALPH                = 28
+    const int    MAXSITE                = 300
+    const int    MINSITES               = 2
+    const int    LLR_RANGE              = 200
+    const double MINCONS                = 0.2
+    const double LOGOHEIGHT             = 7.5
+    const int    MAXLOGOWIDTH           = 30
+    const int    MIN_W                  = 8
+    const int    MAX_W                  = 50
+    const int    MAX_NMOTIFS            = 1000
+    const int    HSIZE                  = 64
+    const int    HS_DECREASE            = 2
+    const int    BFACTOR                = 3
+    const double ERR_EPSILON            = 0.01
+    const int    TOMTOM_MAX_QUERY_WIDTH = 100
