@@ -1,4 +1,5 @@
 from libc.stdint cimport uint32_t
+from libc.stdio cimport FILE
 
 
 cdef extern from * nogil:

@@ -1,6 +1,6 @@
 from libc.stdint cimport uint8_t
 
-from libmeme.alphabet cimport ALPH_T
+from libmeme.alphabet cimport ALPH_T, ALPHABET_T
 from libmeme.array cimport ARRAY_T
 from libmeme.data_types cimport Z_T, LCB_T, WEIGHTS_T
 from libmeme.hash_table cimport HASH_TABLE
@@ -367,3 +367,13 @@ cdef extern from "meme.h" nogil:
         int*    svalues
         double  pv
         char*   diagram
+
+
+    cdef S_POINT *get_starts(DATASET *primary, DATASET* control, MODEL* model, uint8_t* e_cons, int* n_starts)
+    cdef THETA init_map(MAP_TYPE type, double scale, ALPH_T* alph, ARRAY_T* back, bint lo)
+    cdef void convert_to_lmap(THETA map, int lmap[MAXALPH][MAXALPH], ALPH_T* alph)
+
+    cdef bint init_model(S_POINT* s_point, MODEL* model, DATASET* dataset, int imotif)
+    cdef void erase(DATASET* dataset, MODEL* model)
+    cdef PRIORS *create_priors(PTYPE ptype, double beta, DATASET* dataset, char* plib_name)
+    cdef void init_meme_background(char* bfile, bint rc, DATASET* dataset, char* alph_file, ALPHABET_T alphabet_type, int order, char* seqfile, bint status)
