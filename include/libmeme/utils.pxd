@@ -18,4 +18,9 @@ cdef extern from "utils.h" nogil:
 
     cdef extern VERBOSE_T verbosity
 
-    cdef srand_mt(uint32_t seed)
+    cdef void srand_mt(uint32_t seed)
+    cdef void shuffle(void *base, size_t n, size_t size)
+    cdef double drand_mt()
+    cdef long random_mt()
+    cdef int rand_int(const unsigned n)
+    cdef double rand_dbl(const double n)

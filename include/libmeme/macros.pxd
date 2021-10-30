@@ -5,3 +5,5 @@ cdef extern from "macros.h" nogil:
 
     cdef double LOGEV(double logn, double logp)
     cdef double exp10_logx(double logx, double m, double e, double prec)
+
+    cdef void free_2array(void** array, int rows)

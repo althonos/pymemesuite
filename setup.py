@@ -129,10 +129,11 @@ class build_ext(_build_ext):
         ext.library_dirs.append(self._clib_cmd.build_clib)
         for name in ext.libraries:
             lib = self._clib_cmd.get_library(name)
-            ext.include_dirs.extend(lib.include_dirs)
-            ext.extra_objects.append(self.compiler.library_filename(
-                lib.name, output_dir=self._clib_cmd.build_clib
-            ))
+            if lib is not None:
+                ext.include_dirs.extend(lib.include_dirs)
+                ext.extra_objects.append(self.compiler.library_filename(
+                    lib.name, output_dir=self._clib_cmd.build_clib
+                ))
 
         # build the rest of the extension as normal
         _build_ext.build_extension(self, ext)
@@ -368,7 +369,7 @@ class build_clib(_build_clib):
     # --- Helpers ---
 
     def get_library(self, name):
-        return next(lib for lib in self.libraries if lib.name == name)
+        return next((lib for lib in self.libraries if lib.name == name), None)
 
     # --- Build code ---
 
@@ -469,6 +470,7 @@ class clean(_clean):
 libraries = [
     Library(
         "xml2",
+        extra_compile_args=["-Wno-all"],
         include_dirs=[
             os.path.join("vendor", "meme", "src", "libxml2", "include"),
             os.path.join("vendor", "meme", "src", "libxml2"),
@@ -504,6 +506,7 @@ libraries = [
     # ),
     Library(
         "meme",
+        extra_compile_args=["-Wno-all"],
         define_macros=[
             ("MT_GENERATE_CODE_IN_HEADER", "0"),
         ],
@@ -547,7 +550,7 @@ extensions = [
             os.path.join("pymeme", "errors.pyx"),
             os.path.join("pymeme", "_globals.c"),
         ],
-        libraries=["xml2", "meme"],
+        libraries=["m", "xml2", "meme"],
         include_dirs=[os.path.join("meme", "src")],
         define_macros=[
             ("MT_GENERATE_CODE_IN_HEADER", "0"),
@@ -559,7 +562,7 @@ extensions = [
             os.path.join("pymeme", "_common.pyx"),
             os.path.join("pymeme", "_globals.c"),
         ],
-        libraries=["xml2", "meme"],
+        libraries=["m", "xml2", "meme"],
         include_dirs=[os.path.join("meme", "src")],
         define_macros=[
             ("MT_GENERATE_CODE_IN_HEADER", "0"),
@@ -571,7 +574,7 @@ extensions = [
             os.path.join("pymeme", "_meme.pyx"),
             os.path.join("pymeme", "_globals.c"),
         ],
-        libraries=["xml2", "meme"],
+        libraries=["m", "xml2", "meme"],
         include_dirs=[os.path.join("meme", "src")],
         define_macros=[
             ("MT_GENERATE_CODE_IN_HEADER", "0"),

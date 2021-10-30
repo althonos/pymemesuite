@@ -368,6 +368,12 @@ cdef extern from "meme.h" nogil:
         double  pv
         char*   diagram
 
+    cdef void set_seq_groups_to_include(DATASET* dataset, bint groups[3])
+    cdef void set_seq_regions_to_include(DATASET* dataset, bint incl0, bint incl1, bint incl2)
+
+    cdef void copy_model(MODEL *m1, MODEL *m2, ALPH_T *alph)
+    cdef void free_model(MODEL *model)
+    cdef MODEL* create_model(MOTYPE mtype, bint invcomp, int max_w, ALPH_T* alph, OBJTYPE objfun)
 
     cdef S_POINT *get_starts(DATASET *primary, DATASET* control, MODEL* model, uint8_t* e_cons, int* n_starts)
     cdef THETA init_map(MAP_TYPE type, double scale, ALPH_T* alph, ARRAY_T* back, bint lo)
