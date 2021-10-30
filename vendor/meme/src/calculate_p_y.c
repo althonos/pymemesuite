@@ -75,7 +75,7 @@ void get_pY(
  * the positive and negative strands.
  *
  */
-void inline combine_strands(
+void combine_strands(
   DATASET *dataset,
   int w              ///< The length of the motifs under which the pY
                      ///< arrays were initially instantiated.
