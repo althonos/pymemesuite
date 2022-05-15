@@ -11,6 +11,10 @@ from libmeme.string_builder cimport STR_T
 
 cdef extern from "motif.h" nogil:
 
+    const char NON_MOTIF_ID_CHAR = '.'
+    const size_t MAX_MOTIF_ID_LENGTH = 200
+    const size_t MAX_MOTIF_URL_LENGTH = 500
+
     cdef struct motif_t:
         pass
     ctypedef motif_t MOTIF_T
