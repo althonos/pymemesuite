@@ -568,18 +568,6 @@ extensions = [
             ("MT_GENERATE_CODE_IN_HEADER", "0"),
         ],
     ),
-    Extension(
-        "pymeme._meme",
-        sources=[
-            os.path.join("pymeme", "_meme.pyx"),
-            os.path.join("pymeme", "_globals.c"),
-        ],
-        libraries=["m", "xml2", "meme"],
-        include_dirs=[os.path.join("meme", "src")],
-        define_macros=[
-            ("MT_GENERATE_CODE_IN_HEADER", "0"),
-        ],
-    ),
 ]
 
 
