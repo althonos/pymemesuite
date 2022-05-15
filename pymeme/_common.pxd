@@ -3,24 +3,14 @@
 """Internal API common to all MEME tools.
 """
 
-from cpython.bytes cimport PyBytes_FromString, PyBytes_FromStringAndSize, PyBytes_AsString
-from cpython.mem cimport PyMem_Free, PyMem_Malloc, PyMem_Realloc
-from libc.errno cimport errno
-from libc.limits cimport LONG_MAX
-from libc.math cimport INFINITY
-from libc.stdint cimport uint8_t
-from libc.stdio cimport FILE, fopen, fclose
-from libc.string cimport strdup, strcmp, memcpy, memset
-from libc.stdlib cimport calloc, free, malloc, realloc
-
-cimport libmeme.alphabet
-cimport libmeme.read_sequence
 from libmeme.alphabet cimport ALPH_T
+from libmeme.array cimport ARRAY_T
 from libmeme.hash_table cimport HASH_TABLE
 from libmeme.data_types cimport WEIGHTS_T, Z_T, LCB_T
 from libmeme.motif cimport MOTIF_T
 from libmeme.meme cimport CANDIDATE, DATASET, MODEL, SAMPLE, THETA, MOTIF_SUMMARY
 from libmeme.prior_dist cimport PRIOR_DIST_T
+from libmeme.pssm cimport PSSM_T
 from libmeme.seq cimport SEQ_T
 from libmeme.user cimport MINSITES
 
@@ -42,6 +32,12 @@ cdef void matrix_free(void** matrix)
 
 cdef class Alphabet:
     cdef ALPH_T* _alph
+
+
+# --- Array ------------------------------------------------------------------
+
+cdef class Array:
+    cdef          ARRAY_T*   _array
 
 
 # --- Candidate model --------------------------------------------------------
@@ -80,7 +76,7 @@ cdef class Model:
 # --- Motif ------------------------------------------------------------------
 
 cdef class Motif:
-    cdef         MOTIF_T*   _motif
+    cdef          MOTIF_T*   _motif
     cdef readonly Alphabet alphabet
 
 
@@ -101,6 +97,12 @@ cdef class MotifSummary:
 
 cdef class PriorDistribution:
     cdef          PRIOR_DIST_T* _pd
+
+
+# --- PSSM -------------------------------------------------------------------
+
+cdef class PSSM:
+    cdef          PSSM_T* _pssm
 
 
 # --- Sample -----------------------------------------------------------------

@@ -4,6 +4,7 @@
 """
 
 from cpython.bytes cimport PyBytes_FromString, PyBytes_FromStringAndSize, PyBytes_AsString
+from cpython.mem cimport PyMem_Free, PyMem_Malloc, PyMem_Realloc
 from libc.errno cimport errno
 from libc.limits cimport LONG_MAX
 from libc.math cimport INFINITY
@@ -13,6 +14,7 @@ from libc.string cimport strdup, strcmp, strcpy, strncpy, memcpy, memset
 from libc.stdlib cimport calloc, free, malloc, realloc
 
 cimport libmeme.alphabet
+cimport libmeme.array
 cimport libmeme.macros
 cimport libmeme.meme
 cimport libmeme.read_sequence
@@ -59,7 +61,7 @@ cdef dict MEME_MODEL_TYPES = {
 cdef void* allocate(size_t size, str typename) except NULL:
     cdef void* tmp = malloc(size)
     if tmp == NULL:
-        raise AllocationError(typename)
+        raise AllocationError(typename, size)
     return tmp
 
 cdef void* matrix_create(size_t nrows, size_t ncols, size_t itemsize) except NULL:
@@ -69,13 +71,13 @@ cdef void* matrix_create(size_t nrows, size_t ncols, size_t itemsize) except NUL
     # allocate array of pointers
     matrix = <void**> malloc(sizeof(void*) * nrows)
     if matrix == NULL:
-        raise AllocationError("double**")
+        raise AllocationError("double*", sizeof(double), nrows)
 
     # allocate contiguous memory
     matrix[0] = <void*> malloc(itemsize * nrows * ncols)
     if matrix[0] == NULL:
         free(matrix)
-        raise AllocationError("double*")
+        raise AllocationError("double", sizeof(double), nrows * ncols)
 
     # update pointer offsets
     for r in range(nrows):
@@ -171,6 +173,44 @@ cdef class Alphabet:
         return libmeme.alphabet.alph_size_wild(self._alph)
 
 
+# --- Array ------------------------------------------------------------------
+
+cdef class Array:
+
+    @classmethod
+    def zeros(cls, int length):
+        cdef Array array = Array.__new__(Array)
+        array._array = libmeme.array.allocate_array(length)
+        if array._array is NULL:
+            raise AllocationError("ARRAY_T", sizeof(ARRAY_T))
+        with nogil:
+            libmeme.array.init_array(0, array._array)
+        return array
+
+    def __cinit__(self):
+        self._array = NULL
+
+    def __dealloc__(self):
+        libmeme.array.free_array(self._array)
+
+    def __len__(self):
+        assert self._array is not NULL
+        return libmeme.array.get_array_length(self._array)
+
+    def __getitem__(self, int index):
+        assert self._array is not NULL
+
+        cdef int length = libmeme.array.get_array_length(self._array)
+        cdef int i      = index
+
+        if i < 0:
+            i += index
+        if i < 0 or i >= length:
+            raise IndexError(index)
+
+        return libmeme.array.get_array_item(i, self._array)
+
+
 # --- Candidate model --------------------------------------------------------
 
 cdef class Candidate:
@@ -261,7 +301,7 @@ cdef class Dataset:
                 dataset._ds.n_samples * sizeof(SAMPLE*)
             )
             if dataset._ds.samples == NULL:
-                raise AllocationError("SAMPLE**")
+                raise AllocationError("SAMPLE*", sizeof(SAMPLE*), dataset._ds.n_samples)
         # initialize group sizes
         dataset._ds.n_region[0] = dataset._ds.max_slength
         dataset._ds.n_group = (dataset._ds.n_samples, 0, 0)
@@ -400,7 +440,7 @@ cdef class Dataset:
                 (self._ds.n_samples + libmeme.read_sequence.RCHUNK) * sizeof(SAMPLE*)
             )
             if self._ds.samples == NULL:
-                raise AllocationError("SAMPLE**")
+                raise AllocationError("SAMPLE*", sizeof(SAMPLE*), (self._ds.n_samples + libmeme.read_sequence.RCHUNK) * sizeof(SAMPLE*))
 
         # record the sample
         self._ds.samples[self._ds.n_samples] = copy._sm
@@ -496,7 +536,7 @@ cdef class Model:
             MEME_OBJECTIVE_FUNCTIONS[objective_function],
         )
         if self._mm == NULL:
-            raise AllocationError("MODEL")
+            raise AllocationError("MODEL", sizeof(MODEL))
 
         # keep a reference to the alphabet
         self.alphabet = alphabet
