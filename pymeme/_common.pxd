@@ -39,6 +39,8 @@ cdef class Alphabet:
 cdef class Array:
     cdef          ARRAY_T*   _array
 
+    cpdef Array copy(self)
+
 
 # --- Candidate model --------------------------------------------------------
 

@@ -3,6 +3,7 @@
 """Internal API common to all MEME tools.
 """
 
+from cpython.buffer cimport PyBUF_FORMAT
 from cpython.bytes cimport PyBytes_FromString, PyBytes_FromStringAndSize, PyBytes_AsString
 from cpython.mem cimport PyMem_Free, PyMem_Malloc, PyMem_Realloc
 from libc.errno cimport errno
@@ -176,15 +177,26 @@ cdef class Alphabet:
 # --- Array ------------------------------------------------------------------
 
 cdef class Array:
+    """A 1D vector of fixed size with double-precision elements.
+    """
 
     @classmethod
-    def zeros(cls, int length):
+    def zeros(cls, int n):
+        """zeros(cls, n)\n--
+
+        Create a new array of size ``n`` filled with zeros.
+
+        """
+        if n < 0:
+            raise ValueError("Cannot create a vector with negative size")
+
         cdef Array array = Array.__new__(Array)
-        array._array = libmeme.array.allocate_array(length)
+        array._array = libmeme.array.allocate_array(n)
         if array._array is NULL:
             raise AllocationError("ARRAY_T", sizeof(ARRAY_T))
         with nogil:
             libmeme.array.init_array(0, array._array)
+
         return array
 
     def __cinit__(self):
@@ -193,9 +205,35 @@ cdef class Array:
     def __dealloc__(self):
         libmeme.array.free_array(self._array)
 
+    def __bool__(self):
+        self._array
+        return libmeme.array.get_array_length(self._array) != 0
+
     def __len__(self):
         assert self._array is not NULL
         return libmeme.array.get_array_length(self._array)
+
+    def __copy__(self):
+        return self.copy()
+
+    def __getbuffer__(self, Py_buffer* buffer, int flags):
+        assert self._array is not NULL
+
+        if flags & PyBUF_FORMAT:
+            buffer.format = b"d"
+        else:
+            buffer.format = NULL
+
+        buffer.buf = libmeme.array.raw_array(self._array)
+        buffer.internal = NULL
+        buffer.itemsize = sizeof(double)
+        buffer.len = libmeme.array.get_array_length(self._array)
+        buffer.ndim = 1
+        buffer.obj = self
+        buffer.readonly = 0
+        buffer.shape = NULL
+        buffer.suboffsets = NULL
+        buffer.strides = NULL
 
     def __getitem__(self, int index):
         assert self._array is not NULL
@@ -209,6 +247,25 @@ cdef class Array:
             raise IndexError(index)
 
         return libmeme.array.get_array_item(i, self._array)
+
+    cpdef Array copy(self):
+        """copy(self)\n--
+
+        Create a copy of the array, allocating a new buffer.
+
+        """
+        assert self._array is not NULL
+
+        cdef int   length = libmeme.array.get_array_length(self._array)
+        cdef Array copy   = Array.__new__(Array)
+
+        copy._array = libmeme.array.allocate_array(length)
+        if copy._array is NULL:
+            raise AllocationError("ARRAY_T", sizeof(ARRAY_T))
+        with nogil:
+            libmeme.array.copy_array(self._array, copy._array)
+
+        return copy
 
 
 # --- Candidate model --------------------------------------------------------
