@@ -185,6 +185,8 @@ cdef class Array:
     """A 1D vector of fixed size with double-precision elements.
     """
 
+    # --- Class methods ------------------------------------------------------
+
     @classmethod
     def zeros(cls, int n):
         """zeros(cls, n)\n--
@@ -205,9 +207,28 @@ cdef class Array:
 
         return array
 
+    # --- Magic methods ------------------------------------------------------
+
     def __cinit__(self):
         self._array = NULL
         self._owner = None
+
+    def __init__(self, object iterable = ()):
+        """__init__(self, iterable=())\n--
+
+        Create a new array from the given iterable of values.
+
+        """
+        cdef int   i
+        cdef ATYPE item
+        cdef int   length = len(iterable)
+
+        self._owner = None
+        self._array = libmeme.array.allocate_array(length)
+        if array._array is NULL:
+            raise AllocationError("ARRAY_T", sizeof(ARRAY_T))
+        for i, item in enumerate(iterable):
+            libmeme.array.set_array_item(i, item, array._array)
 
     def __dealloc__(self):
         if self._owner is None:
@@ -255,6 +276,38 @@ cdef class Array:
             raise IndexError(index)
 
         return libmeme.array.get_array_item(i, self._array)
+
+    def __repr__(self):
+        cdef type ty   = type(self)
+        cdef str  name = ty.__name__
+        cdef str  mod  = ty.__module__
+        return f"{mod}.{name}({list(self)!r})"
+
+    def __sizeof__(self):
+        assert self._array is not NULL
+        return (
+            sizeof(self)
+          + sizeof(ARRAY_T)
+          + libmeme.array.get_array_length(self._array) * sizeof(ATYPE)
+        )
+
+    def __reduce__(self):
+        assert self._array is not NULL
+        cdef object buffer = array.array("d")
+        buffer.frombytes(memoryview(self).cast("b"))
+        return Array, (buffer,)
+
+    # --- Properties ---------------------------------------------------------
+
+    @property
+    def itemsize(self):
+        return sizeof(ATYPE)
+
+    @property
+    def format(self):
+        return "d"
+
+    # --- Methods ------------------------------------------------------------
 
     cpdef Array copy(self):
         """copy(self)\n--
