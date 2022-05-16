@@ -11,6 +11,7 @@ from libmeme.motif cimport MOTIF_T
 from libmeme.meme cimport CANDIDATE, DATASET, MODEL, SAMPLE, THETA, MOTIF_SUMMARY
 from libmeme.prior_dist cimport PRIOR_DIST_T
 from libmeme.pssm cimport PSSM_T
+from libmeme.reservoir cimport RESERVOIR_SAMPLER_T
 from libmeme.seq cimport SEQ_T
 from libmeme.user cimport MINSITES
 
@@ -117,6 +118,12 @@ cdef class PriorDist:
 cdef class PSSM:
     cdef          PSSM_T*  _pssm
     cdef readonly Motif    motif
+
+
+# --- ReservoirSampler -------------------------------------------------------
+
+cdef class ReservoirSampler:
+    cdef          RESERVOIR_SAMPLER_T* _reservoir
 
 
 # --- Sample -----------------------------------------------------------------

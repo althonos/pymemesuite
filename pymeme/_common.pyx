@@ -830,6 +830,14 @@ cdef class PSSM:
         return libmeme.pssm.get_pssm_w(self._pssm)
 
 
+# --- ReservoirSampler -------------------------------------------------------
+
+cdef class ReservoirSampler:
+
+    def __cinit__(self):
+        self._reservoir = NULL
+
+
 # --- Sample -----------------------------------------------------------------
 
 cdef class Sample:
