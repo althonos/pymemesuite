@@ -23,6 +23,8 @@ cimport libmeme.motif
 cimport libmeme.pssm
 cimport libmeme.read_sequence
 cimport libmeme.read_seq_file
+cimport libmeme.reservoir
+cimport libmeme.seq
 from libmeme.alphabet cimport ALPH_T
 from libmeme.hash_table cimport HASH_TABLE
 from libmeme.data_types cimport WEIGHTS_T, Z_T, LCB_T
@@ -941,6 +943,11 @@ cdef class ReservoirSampler:
     def __cinit__(self):
         self._reservoir = NULL
 
+    def __init__(self, size_t size):
+        self._reservoir = libmeme.reservoir.new_reservoir_sampler(size, NULL)
+        if self._reservoir is NULL:
+            raise AllocationError("RESERVOIR_SAMPLER_T", sizeof(RESERVOIR_SAMPLER_T*))
+
 
 # --- Sample -----------------------------------------------------------------
 
@@ -1245,3 +1252,64 @@ cdef class Sample:
             self.description,
             self._sm.resic != NULL,
         )
+
+
+# --- Sequence -----------------------------------------------------------------
+
+cdef class Sequence:
+
+    def __cinit__(self):
+        self._seq = NULL
+
+    def __init__(
+        self,
+        str sequence not None,
+        bytes name = None,
+        bytes description = None,
+        unsigned int offset = 0,
+    ):
+        self._seq = libmeme.seq.allocate_seq(
+            NULL if name is None else <char*> name,
+            NULL if description is None else <char*> description,
+            offset,
+            sequence.encode('ascii')
+        )
+        if self._seq is NULL:
+            raise AllocationError("SEQ_T", sizeof(SEQ_T*))
+
+    def __len__(self):
+        assert self._seq is not NULL
+        return libmeme.seq.get_seq_length(self._seq)
+
+    def __getitem__(self, int index):
+        assert self._seq is not NULL
+
+        cdef int length = libmeme.seq.get_seq_length(self._seq)
+        cdef int i      = index
+
+        if i < 0:
+            i += index
+        if i < 0 or i >= length:
+            raise IndexError(index)
+
+        return chr(libmeme.seq.get_seq_char(i, self._seq))
+
+    @property
+    def name(self):
+        assert self._seq is not NULL
+        return <bytes> libmeme.seq.get_seq_name(self._seq)
+
+    @property
+    def description(self):
+        assert self._seq is not NULL
+        return <bytes> libmeme.seq.get_seq_description(self._seq)
+
+    @property
+    def offset(self):
+        assert self._seq is not NULL
+        return libmeme.seq.get_seq_offset(self._seq)
+
+    @offset.setter
+    def offset(self, unsigned int offset):
+        assert self._seq is not NULL
+        libmeme.seq.set_seq_offset(offset, self._seq)
