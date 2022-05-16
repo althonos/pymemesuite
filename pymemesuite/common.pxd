@@ -69,6 +69,7 @@ cdef class Motif:
         int num_gc_bins = *,
         bint no_log = *,
     )
+    cpdef Motif reverse_complement(self)
 
 
 # --- MotifFile --------------------------------------------------------------

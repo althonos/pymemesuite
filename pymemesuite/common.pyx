@@ -384,9 +384,11 @@ cdef class Motif:
         *,
         Matrix frequencies = None,
         Matrix scores = None,
+        bytes name = None,
+        bytes accession = None,
     ):
         if frequencies is None and scores is None:
-            raise ValueError("Either `frequencies` or `scores` is required to create a `Motif`")
+            raise ValueError("Either `frequencies` or `scores` are required to create a `Motif`")
 
         self.alphabet = alphabet
         self._motif = libmeme.motif.allocate_motif(
@@ -398,6 +400,21 @@ cdef class Motif:
         )
 
     # --- Properties ---------------------------------------------------------
+
+    @property
+    def accession(self):
+        assert self._motif is not NULL
+        return libmeme.motif.get_motif_id(self._motif)
+
+    @property
+    def name(self):
+        assert self._motif is not NULL
+        return libmeme.motif.get_motif_id2(self._motif)
+
+    @property
+    def strand(self):
+        assert self._motif is not NULL
+        return chr(libmeme.motif.get_motif_strand(self._motif))
 
     @property
     def width(self):
@@ -426,6 +443,11 @@ cdef class Motif:
         return libmeme.motif.get_motif_evalue(self._motif)
 
     @property
+    def log_evalue(self):
+        assert self._motif is not NULL
+        return libmeme.motif.get_motif_log_evalue(self._motif)
+
+    @property
     def consensus(self):
         assert self._motif is not NULL
         return libmeme.motif.get_motif_consensus(self._motif).decode('ascii')
@@ -436,6 +458,11 @@ cdef class Motif:
         if not libmeme.motif.has_motif_url(self._motif):
             return None
         return libmeme.motif.get_motif_url(self._motif).decode('ascii')
+
+    @property
+    def complexity(self):
+        assert self._motif is not NULL
+        return libmeme.motif.get_motif_complexity(self._motif)
 
     # --- Python methods -----------------------------------------------------
 
@@ -490,6 +517,26 @@ cdef class Motif:
             )
 
         return pssm
+
+    cpdef Motif reverse_complement(self):
+        """reverse_complement(self)\n--
+
+        Create a new motif with the reverse-complement of this motif.
+
+        """
+        assert self._motif is not NULL
+        assert self.alphabet is not None
+
+        if not libmeme.alphabet.alph_has_complement(libmeme.motif.get_motif_alph(self._motif)):
+            raise ValueError("Cannot reverse-complement a motif in a non-complementable alphabet")
+
+        cdef Motif rc = Motif.__new__(Motif)
+        rc._motif = libmeme.motif.dup_rc_motif(self._motif)
+        if rc._motif is NULL:
+            raise AllocationError("MOTIF_T", sizeof(MOTIF_T*))
+        rc.alphabet = Alphabet.__new__(Alphabet)
+        rc.alphabet._alph = libmeme.alphabet.alph_hold(libmeme.motif.get_motif_alph(rc._motif))
+        return rc
 
 
 # --- MotifFile --------------------------------------------------------------
@@ -661,7 +708,6 @@ cdef class ReservoirSampler:
         self._reservoir = libmeme.reservoir.new_reservoir_sampler(size, NULL)
         if self._reservoir is NULL:
             raise AllocationError("RESERVOIR_SAMPLER_T", sizeof(RESERVOIR_SAMPLER_T*))
-
 
 
 # --- Sequence -----------------------------------------------------------------
