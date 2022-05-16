@@ -614,6 +614,9 @@ cdef class MotifFile:
     def __exit__(self, exc_type, exc_value, traceback):
         self.close()
 
+    def __iter__(self):
+        return self
+
     def __next__(self):
         cdef Motif motif = self.read()
         if motif is None:

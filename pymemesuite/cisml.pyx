@@ -92,6 +92,7 @@ cdef class MatchedElements:
         return me
 
 
+@cython.freelist(8)
 @cython.no_gc_clear
 cdef class MatchedElement:
 
@@ -157,6 +158,7 @@ cdef class MatchedElement:
         assert self._me is not NULL
         cdef const char* seq = libmeme.cisml.get_matched_element_sequence(self._me)
         return None if seq is NULL else seq.decode('ascii')
+
 
 # --- MultiPattern -----------------------------------------------------------
 
@@ -257,6 +259,7 @@ cdef class Pattern:
 
 # --- ScannedSequence --------------------------------------------------------
 
+@cython.freelist(8)
 @cython.no_gc_clear
 cdef class ScannedSequence:
 
