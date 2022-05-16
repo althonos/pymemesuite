@@ -545,10 +545,10 @@ libraries = [
 # fmt: off
 extensions = [
     Extension(
-        "pymeme.errors",
+        "pymemesuite.errors",
         sources=[
-            os.path.join("pymeme", "errors.pyx"),
-            os.path.join("pymeme", "_globals.c"),
+            os.path.join("pymemesuite", "errors.pyx"),
+            os.path.join("pymemesuite", "_globals.c"),
         ],
         libraries=["m", "xml2", "meme"],
         include_dirs=[os.path.join("meme", "src")],
@@ -557,10 +557,10 @@ extensions = [
         ],
     ),
     Extension(
-        "pymeme._common",
+        "pymemesuite._common",
         sources=[
-            os.path.join("pymeme", "_common.pyx"),
-            os.path.join("pymeme", "_globals.c"),
+            os.path.join("pymemesuite", "_common.pyx"),
+            os.path.join("pymemesuite", "_globals.c"),
         ],
         libraries=["m", "xml2", "meme"],
         include_dirs=[os.path.join("meme", "src")],
