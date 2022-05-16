@@ -29,7 +29,8 @@ cdef class CisML:
         self._cisml = libmeme.cisml.allocate_cisml(b"", b"", b"", b"")
 
     def __dealloc__(self):
-        libmeme.cisml.free_cisml(self._cisml)
+        if self._cisml is not NULL:
+            libmeme.cisml.free_cisml(self._cisml)
 
     def __len__(self):
         assert self._cisml is not NULL
@@ -103,7 +104,7 @@ cdef class MatchedElement:
         self.owner = None
 
     def __dealloc__(self):
-        if self.owner is None:
+        if self.owner is None and self._me is not NULL:
             libmeme.cisml.free_matched_element(self._me)
 
     def __init__(
@@ -172,7 +173,7 @@ cdef class MultiPattern:
         self.owner = None
 
     def __dealloc__(self):
-        if self.owner is None:
+        if self.owner is None and self._mp is not NULL:
             libmeme.cisml.free_multi_pattern(self._mp)
 
     # --- Properties ---------------------------------------------------------
@@ -190,7 +191,7 @@ cdef class Pattern:
         self.owner = None
 
     def __dealloc__(self):
-        if self.owner is None:
+        if self.owner is None and self._pattern is not NULL:
             libmeme.cisml.free_pattern(self._pattern)
 
     def __init__(self, bytes accession not None, bytes name not None):
@@ -270,7 +271,7 @@ cdef class ScannedSequence:
         self.owner = None
 
     def __dealloc__(self):
-        if self.owner is None:
+        if self.owner is None and self._sseq is not NULL:
             libmeme.cisml.free_scanned_sequence(self._sseq)
 
     def __init__(

@@ -1,3 +1,6 @@
+# coding: utf-8
+# cython: language_level=3, linetrace=True
+
 from libmeme.cisml cimport (
     CISML_T,
     MATCHED_ELEMENT_T,
@@ -14,6 +17,10 @@ cdef class CisML:
 
 # --- MatchedElement ---------------------------------------------------------
 
+cdef class MatchedElements:
+    cdef readonly Pattern             owner
+    cdef          MATCHED_ELEMENT_T** _elements
+
 cdef class MatchedElement:
     cdef readonly object             owner
     cdef          MATCHED_ELEMENT_T* _me
@@ -27,10 +34,6 @@ cdef class MultiPattern:
 
 
 # --- Pattern ----------------------------------------------------------------
-
-cdef class MatchedElements:
-    cdef readonly Pattern             owner
-    cdef          MATCHED_ELEMENT_T** _elements
 
 cdef class Pattern:
     cdef readonly object          owner
