@@ -557,9 +557,9 @@ extensions = [
         ],
     ),
     Extension(
-        "pymemesuite._common",
+        "pymemesuite.common",
         sources=[
-            os.path.join("pymemesuite", "_common.pyx"),
+            os.path.join("pymemesuite", "common.pyx"),
             os.path.join("pymemesuite", "_globals.c"),
         ],
         libraries=["m", "xml2", "meme"],
