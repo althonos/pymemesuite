@@ -472,8 +472,8 @@ libraries = [
         "xml2",
         extra_compile_args=["-Wno-all"],
         include_dirs=[
+            os.path.join("vendor", "meme", "src"),
             os.path.join("vendor", "meme", "src", "libxml2", "include"),
-            os.path.join("vendor", "meme", "src", "libxml2"),
         ],
         sources=[
             os.path.join("vendor", "meme", "src", "libxml2", "{}.c".format(src))
@@ -481,39 +481,43 @@ libraries = [
                 "chvalid", "debugXML", "dict", "encoding", "entities",
                 "error", "globals", "hash", "HTMLparser", "HTMLtree", "list",
                 "parserInternals", "parser", "pattern", "relaxng", "tree",
-                "SAX2", "threads", "uri", "valid", "xmlIO", "xmlreader",
-                "xmlregexp", "xmlsave", "xmlstring", "xmlschemas",
+                "SAX2", "threads", "uri", "valid", "xmlIO", "xmlmodule",
+                "xmlreader", "xmlregexp", "xmlsave", "xmlstring", "xmlschemas",
                 "xmlschemastypes", "xmlunicode", "xmlwriter", "xmlmemory",
                 "xpath",
             )
         ],
     ),
-    # Library(
-    #     "xslt",
-    #     include_dirs=[
-    #         os.path.join("vendor", "meme", "src", "libxml2", "include"),
-    #         os.path.join("vendor", "meme", "src", "libxslt"),
-    #     ],
-    #     sources=[
-    #         os.path.join("vendor", "meme", "src", "libxslt", "{}.c".format(src))
-    #         for src in (
-    #         	"attributes", "attrvt", "documents", "extensions", "extra",
-    #         	"functions", "imports", "keys", "namespaces", "pattern",
-    #             "preproc", "security", "templates", "transform", "variables",
-    #             "xslt", "xsltlocale", "xsltutils",
-    #         )
-    #     ],
-    # ),
+    Library(
+        "xslt",
+        libraries=["xml2"],
+        extra_compile_args=["-Wno-all"],
+        include_dirs=[
+            os.path.join("vendor", "meme", "src"),
+            os.path.join("vendor", "meme", "src", "libxml2", "include"),
+        ],
+        sources=[
+            os.path.join("vendor", "meme", "src", "libxslt", "{}.c".format(src))
+            for src in (
+            	"attributes", "attrvt", "documents", "extensions",
+                "extra",
+            	"functions", "imports", "keys", "namespaces", "numbers",
+                "pattern", "preproc", "security", "templates", "transform",
+                "variables", "xslt", "xsltlocale", "xsltutils",
+            )
+        ],
+    ),
     Library(
         "meme",
+        libraries=["xml2", "xslt"],
         extra_compile_args=["-Wno-all"],
         define_macros=[
             ("MT_GENERATE_CODE_IN_HEADER", "0"),
         ],
         include_dirs=[
             "include",
-            os.path.join("vendor", "meme", "src", "libxml2", "include"),
             os.path.join("vendor", "meme", "src"),
+            os.path.join("vendor", "meme", "src", "libxml2", "include"),
         ],
         sources=[
             x for x in glob.glob(os.path.join("vendor", "meme", "src", "*.c"))
@@ -563,7 +567,24 @@ extensions = [
             os.path.join("pymemesuite", "_globals.c"),
         ],
         libraries=["m", "xml2", "meme"],
-        include_dirs=[os.path.join("meme", "src")],
+        include_dirs=[
+            os.path.join("vendor", "meme", "src"),
+        ],
+        define_macros=[
+            ("MT_GENERATE_CODE_IN_HEADER", "0"),
+        ],
+    ),
+    Extension(
+        "pymemesuite.cisml",
+        sources=[
+            os.path.join("pymemesuite", "cisml.pyx"),
+            os.path.join("pymemesuite", "_globals.c"),
+        ],
+        libraries=["m", "xml2", "xslt", "meme"],
+        include_dirs=[
+            os.path.join("vendor", "meme", "src"),
+            os.path.join("vendor", "meme", "src", "libxml2")
+        ],
         define_macros=[
             ("MT_GENERATE_CODE_IN_HEADER", "0"),
         ],
