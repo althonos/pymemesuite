@@ -3,9 +3,10 @@
 """Internal API common to all MEME tools.
 """
 
-from cpython.buffer cimport PyBUF_FORMAT
+from cpython.buffer cimport PyBUF_FORMAT, PyBUF_READ, PyBUF_WRITE, PyBuffer_FillInfo
 from cpython.bytes cimport PyBytes_FromString, PyBytes_FromStringAndSize, PyBytes_AsString
 from cpython.mem cimport PyMem_Free, PyMem_Malloc, PyMem_Realloc
+from cpython.memoryview cimport PyMemoryView_FromMemory, PyMemoryView_GET_BUFFER
 from libc.errno cimport errno
 from libc.limits cimport LONG_MAX
 from libc.math cimport INFINITY
@@ -767,7 +768,6 @@ cdef class Motif:
         Matrix frequencies = None,
         Matrix scores = None,
     ):
-
         if frequencies is None and scores is None:
             raise ValueError("Either `frequencies` or `scores` is required to create a `Motif`")
 
@@ -885,7 +885,28 @@ cdef class MotifFile:
         self.handle = None
         self.buffer = None
 
-    def __init__(self, object handle, bint symmetrical=False):
+    def __init__(
+        self,
+        object handle,
+        *,
+        bint symmetrical=False,
+        double pseudocount=0.1,
+    ):
+        """__init__(self, handle, *, symmetrical=False, pseudocount=0.1)\n--
+
+        Create a new motif reader from a path or file-like object.
+
+        Arguments:
+            handle (`str`, `os.PathLike` or file-like object): The handle to
+                the file to read the motif data from.
+
+        Keyword Arguments:
+            symmetrical (`bool`): Set to `True` to make the background
+                symmetrical, provided the motif alphabet is complementable.
+            pseudocount (`float`): The pseudo-count to be applied to the
+                motif being read.
+
+        """
         self.buffer = bytearray(2048)
 
         try:
@@ -905,6 +926,9 @@ cdef class MotifFile:
         if self._reader is NULL:
             raise AllocationError("MREAD_T*", sizeof(MREAD_T*))
 
+        libmeme.motif_in.mread_set_bg_source(self._reader, NULL, NULL)
+        libmeme.motif_in.mread_set_pseudocount(self._reader, pseudocount)
+
     def __dealloc__(self):
         if self._reader is not NULL:
             warnings.warn("unclosed motif file", ResourceWarning)
@@ -921,6 +945,29 @@ cdef class MotifFile:
         if motif is None:
             raise StopIteration
         return motif
+
+    @property
+    def alphabet(self):
+        assert self._reader is not NULL
+
+        cdef ALPH_T*  alph
+        cdef Alphabet alphabet
+
+        alph = libmeme.motif_in.mread_get_alphabet(self._reader)
+        if alph is NULL:
+            return None
+
+        alphabet = Alphabet.__new__(Alphabet)
+        alphabet._alph = libmeme.alphabet.alph_hold(alph)
+        return alphabet
+
+    @property
+    def background(self):
+        assert self._reader is not NULL
+        cdef Array array = Array.__new__(Array)
+        array._owner = None
+        array._array = libmeme.motif_in.mread_get_background(self._reader)
+        return None if array._array is NULL else array
 
     cpdef void close(self):
         """close(self)\n--
@@ -1459,3 +1506,32 @@ cdef class Sequence:
     def offset(self, unsigned int offset):
         assert self._seq is not NULL
         libmeme.seq.set_seq_offset(offset, self._seq)
+
+    @property
+    def sequence(self):
+        assert self._seq is not NULL
+
+        cdef object mem = PyMemoryView_FromMemory(
+            libmeme.seq.get_raw_sequence(self._seq),
+            libmeme.seq.get_seq_length(self._seq) * sizeof(char),
+            PyBUF_READ | PyBUF_WRITE
+        )
+
+        # DANGER (@althonos): We need to make sure that the object is not
+        #                     deallocated before the memoryview, so we
+        #                     register the `Sequence` object (self) as the
+        #                     memoryview exporter. This needs a bit of
+        #                     tweaking with the internal Py_buffer, because
+        #                     `PyMemoryView_FromMemory` doesn't allow setting
+        #                     up an exporter, and directly setting the `obj`
+        #                     attribute is unsafe.
+        PyBuffer_FillInfo(
+            PyMemoryView_GET_BUFFER(mem),
+            self,
+            libmeme.seq.get_raw_sequence(self._seq),
+            libmeme.seq.get_seq_length(self._seq) * sizeof(char),
+            False,
+            PyBUF_READ | PyBUF_WRITE,
+        )
+
+        return mem

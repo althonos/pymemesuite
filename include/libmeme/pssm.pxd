@@ -109,6 +109,10 @@ cdef extern from "pssm.h" nogil:
         ARRAY_T* scaled_prior_dist
     )
 
+    cdef double scaled_to_raw(double x, double w, double scale, double offset)
+    cdef double pssm_scaled_to_raw(double x, PSSM_T* pssm)
+    cdef double raw_to_scaled(double x, double w, double scale, double offset)
+
     cdef double get_unscaled_pssm_score(double score, PSSM_T* pssm)
     cdef double get_scaled_pssm_score(double score, PSSM_T* pssm)
 
