@@ -7,6 +7,7 @@ from libmeme.alphabet cimport ALPH_T
 from libmeme.array cimport ARRAY_T
 from libmeme.hash_table cimport HASH_TABLE
 from libmeme.data_types cimport WEIGHTS_T, Z_T, LCB_T
+from libmeme.matrix cimport MATRIX_T
 from libmeme.motif cimport MOTIF_T
 from libmeme.meme cimport CANDIDATE, DATASET, MODEL, SAMPLE, THETA, MOTIF_SUMMARY
 from libmeme.prior_dist cimport PRIOR_DIST_T
@@ -38,7 +39,8 @@ cdef class Alphabet:
 # --- Array ------------------------------------------------------------------
 
 cdef class Array:
-    cdef          ARRAY_T*   _array
+    cdef          ARRAY_T* _array
+    cdef readonly object   _owner
 
     cpdef Array copy(self)
 
@@ -62,6 +64,13 @@ cdef class Dataset:
     cdef void _set_database_freq_and_entropy(self)
 
     cpdef void shuffle(self) except *
+
+
+# --- Matrix -----------------------------------------------------------------
+
+cdef class Matrix:
+    cdef          MATRIX_T* _mx
+    cdef readonly object    _owner
 
 
 # --- Model ------------------------------------------------------------------

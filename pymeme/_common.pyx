@@ -17,6 +17,7 @@ from libc.stdlib cimport calloc, free, malloc, realloc
 cimport libmeme.alphabet
 cimport libmeme.array
 cimport libmeme.macros
+cimport libmeme.matrix
 cimport libmeme.meme
 cimport libmeme.pssm
 cimport libmeme.read_sequence
@@ -192,6 +193,7 @@ cdef class Array:
             raise ValueError("Cannot create a vector with negative size")
 
         cdef Array array = Array.__new__(Array)
+        array._owner = None
         array._array = libmeme.array.allocate_array(n)
         if array._array is NULL:
             raise AllocationError("ARRAY_T", sizeof(ARRAY_T))
@@ -202,9 +204,11 @@ cdef class Array:
 
     def __cinit__(self):
         self._array = NULL
+        self._owner = None
 
     def __dealloc__(self):
-        libmeme.array.free_array(self._array)
+        if self._owner is None:
+            libmeme.array.free_array(self._array)
 
     def __bool__(self):
         self._array
@@ -552,6 +556,38 @@ cdef class Dataset:
         libmeme.read_seq_file.shuffle_dataset_order(self._ds)
 
 
+# --- Matrix -----------------------------------------------------------------
+
+cdef class Matrix:
+
+    # --- Class methods ------------------------------------------------------
+
+    @classmethod
+    def zeros(cls, int m, int n):
+        if m < 0 or n < 0:
+            raise ValueError("Cannot create a matrix with negative dimension")
+
+        cdef Matrix matrix = Matrix.__new__(Matrix)
+        matrix._owner = None
+        matrix._mx = libmeme.matrix.allocate_matrix(m, n)
+        if matrix._mx is NULL:
+            raise AllocationError("MATRIX_T", sizeof(MATRIX_T))
+        with nogil:
+            libmeme.matrix.init_matrix(0, matrix._mx)
+
+        return matrix
+
+    # --- Magic methods ------------------------------------------------------
+
+    def __cinit__(self):
+        self._owner = None
+        self._mx = NULL
+
+    def __dealloc__(self):
+        if self._owner is None:
+            libmeme.matrix.free_matrix(self._mx)
+
+
 # --- Model ------------------------------------------------------------------
 
 cdef class Model:
@@ -828,6 +864,14 @@ cdef class PSSM:
     def width(self):
         assert self._pssm is not NULL
         return libmeme.pssm.get_pssm_w(self._pssm)
+
+    @property
+    def matrix(self):
+        assert self._pssm is not NULL
+        cdef Matrix matrix = Matrix.__new__(Matrix)
+        matrix._mx = self._pssm.matrix
+        matrix._owner = self
+        return matrix
 
 
 # --- ReservoirSampler -------------------------------------------------------
