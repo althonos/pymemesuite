@@ -100,3 +100,13 @@ cdef extern from "motif.h" nogil:
     cdef int idx_cmp(const void* p1, const void* p2)
 
     cdef void motif2consensus(MOTIF_T* motif, STR_T* consensus, bool single_letter)
+
+
+cdef extern from "motif-spec.h" nogil:
+
+    cdef MOTIF_T* allocate_motif(char* id, char* id2, ALPH_T* alph, MATRIX_T* freqs, MATRIX_T* scores)
+    cdef void set_motif_id(const char* id, int len, MOTIF_T* motif)
+    cdef void set_motif_id2(const char* id, int len, MOTIF_T* motif)
+    cdef void set_motif_strand(char strand, MOTIF_T *motif)
+    cdef void set_motif_nsites(MOTIF_T* motif, int num_sites)
+    cdef void set_motif_url(char* url, MOTIF_T *motif)

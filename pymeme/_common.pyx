@@ -19,6 +19,7 @@ cimport libmeme.array
 cimport libmeme.macros
 cimport libmeme.matrix
 cimport libmeme.meme
+cimport libmeme.motif
 cimport libmeme.pssm
 cimport libmeme.read_sequence
 cimport libmeme.read_seq_file
@@ -692,9 +693,64 @@ cdef class Model:
 
 cdef class Motif:
 
+    # --- Magic methods ------------------------------------------------------
+
     def __cinit__(self):
         self._motif = NULL
         self.alphabet = None
+
+    def __dealloc__(self):
+        libmeme.motif.free_motif(self._motif)
+
+    def __init__(
+        self,
+        Alphabet alphabet not None,
+        *,
+        Matrix frequencies = None,
+        Matrix scores = None,
+    ):
+
+        if frequencies is None and scores is None:
+            raise ValueError("Either `frequencies` or `scores` is required to create a `Motif`")
+
+        self.alphabet = alphabet
+        self._motif = libmeme.motif.allocate_motif(
+            b"",
+            b"",
+            alphabet._alph,
+            NULL if frequencies is None else frequencies._mx,
+            NULL if scores is None else scores._mx,
+        )
+
+    # --- Properties ---------------------------------------------------------
+
+    @property
+    def frequencies(self):
+        assert self._motif is not NULL
+        cdef Matrix matrix = Matrix.__new__(Matrix)
+        matrix._owner = self
+        matrix._mx = libmeme.motif.get_motif_freqs(self._motif)
+        return matrix
+
+    @property
+    def scores(self):
+        assert self._motif is not NULL
+        cdef Matrix matrix = Matrix.__new__(Matrix)
+        matrix._owner = self
+        matrix._mx = libmeme.motif.get_motif_scores(self._motif)
+        return matrix
+
+    @property
+    def evalue(self):
+        assert self._motif is not NULL
+        return libmeme.motif.get_motif_evalue(self._motif)
+
+    @property
+    def consensus(self):
+        assert self._motif is not NULL
+        return libmeme.motif.get_motif_consensus(self._motif).decode('ascii')
+
+    # --- Python methods -----------------------------------------------------
 
     cpdef PSSM build_pssm(
         self,
@@ -727,6 +783,10 @@ cdef class Motif:
 
         if range <= 0:
             raise ValueError("``range`` must be strictly positive")
+        if len(bg_freqs) != self.alphabet.size:
+            raise ValueError("``bg_freqs`` length is inconsistent with motif alphabet")
+        if len(bg_freqs) != self.alphabet.size:
+            raise ValueError("``pv_freqs`` length is inconsistent with motif alphabet")
 
         cdef PSSM pssm = PSSM.__new__(PSSM)
         pssm.motif = self
