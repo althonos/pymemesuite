@@ -3,6 +3,7 @@
 """Internal API common to all MEME tools.
 """
 
+cimport cython
 from cpython.buffer cimport PyBUF_FORMAT, PyBUF_READ, PyBUF_WRITE, PyBuffer_FillInfo
 from cpython.bytes cimport PyBytes_FromString, PyBytes_FromStringAndSize, PyBytes_AsString
 from cpython.mem cimport PyMem_Free, PyMem_Malloc, PyMem_Realloc
@@ -105,6 +106,8 @@ cdef void matrix_free(void** matrix):
 
 cdef class Alphabet:
 
+    # --- Class methods ------------------------------------------------------
+
     @classmethod
     def protein(cls):
         """protein(cls)\n--
@@ -153,6 +156,8 @@ cdef class Alphabet:
             raise RuntimeError("Failed to create DNA alphabet")
         return alphabet
 
+    # --- Magic methods ------------------------------------------------------
+
     def __cinit__(self):
         self._alph = NULL
 
@@ -170,6 +175,8 @@ cdef class Alphabet:
         else:
             return "Alphabet()"
 
+    # --- Properties ---------------------------------------------------------
+
     @property
     def size(self):
         """`int`: The number of core letters in the alphabet.
@@ -185,6 +192,7 @@ cdef class Alphabet:
 
 # --- Array ------------------------------------------------------------------
 
+@cython.freelist(8)
 cdef class Array:
     """A 1D vector of fixed size with double-precision elements.
     """
@@ -464,7 +472,7 @@ cdef class Motif:
         assert self._motif is not NULL
         return libmeme.motif.get_motif_complexity(self._motif)
 
-    # --- Python methods -----------------------------------------------------
+    # --- Methods ------------------------------------------------------------
 
     cpdef PSSM build_pssm(
         self,
@@ -543,6 +551,8 @@ cdef class Motif:
 
 cdef class MotifFile:
 
+    # --- Magic methods ------------------------------------------------------
+
     def __cinit__(self):
         self._reader = NULL
         self._close = False
@@ -610,6 +620,8 @@ cdef class MotifFile:
             raise StopIteration
         return motif
 
+    # --- Properties ---------------------------------------------------------
+
     @property
     def alphabet(self):
         assert self._reader is not NULL
@@ -632,6 +644,8 @@ cdef class MotifFile:
         array._owner = None
         array._array = libmeme.motif_in.mread_get_background(self._reader)
         return None if array._array is NULL else array
+
+    # --- Methods ------------------------------------------------------------
 
     cpdef void close(self):
         """close(self)\n--
@@ -668,6 +682,8 @@ cdef class MotifFile:
 
 cdef class PriorDist:
 
+    # --- Magic Methods ------------------------------------------------------
+
     def __cinit__(self):
         self._pd = NULL
 
@@ -676,12 +692,16 @@ cdef class PriorDist:
 
 cdef class PSSM:
 
+    # --- Magic Methods ------------------------------------------------------
+
     def __cinit__(self):
         self.motif = None
         self._pssm = NULL
 
     def __dealloc__(self):
         libmeme.pssm.free_pssm(self._pssm)
+
+    # --- Properties ---------------------------------------------------------
 
     @property
     def width(self):
@@ -701,6 +721,8 @@ cdef class PSSM:
 
 cdef class ReservoirSampler:
 
+    # --- Magic Methods ------------------------------------------------------
+
     def __cinit__(self):
         self._reservoir = NULL
 
@@ -709,8 +731,41 @@ cdef class ReservoirSampler:
         if self._reservoir is NULL:
             raise AllocationError("RESERVOIR_SAMPLER_T", sizeof(RESERVOIR_SAMPLER_T*))
 
+    def __dealloc__(self):
+        libmeme.reservoir.free_reservoir(self._reservoir)
 
-# --- Sequence -----------------------------------------------------------------
+    # --- Properties ---------------------------------------------------------
+
+    @property
+    def samples_seen(self):
+        """`int`: The number of samples seen by the reservoir sampler.
+        """
+        assert self._reservoir is not NULL
+        return libmeme.reservoir.get_reservoir_num_samples_seen(self._reservoir)
+
+    @property
+    def samples_retained(self):
+        """`int`: The number of samples retained in the reservoir sampler.
+        """
+        assert self._reservoir is not NULL
+        return libmeme.reservoir.get_reservoir_num_samples_retained(self._reservoir)
+
+    @property
+    def values(self):
+        """`~pymeme.common.Array`: The retained sample values.
+        """
+        # FIXME(@althonos): Avoid copy here is possible?
+        assert self._reservoir is not NULL
+        cdef size_t  length  = libmeme.reservoir.get_reservoir_num_samples_retained(self._reservoir)
+        cdef double* samples = libmeme.reservoir.get_reservoir_samples(self._reservoir)
+        cdef Array   values  = Array.__new__(Array)
+        values._owner = None
+        values._array = libmeme.array.allocate_array(length)
+        libmeme.array.fill_array(samples, values._array)
+        return values
+
+
+# --- Sequence ---------------------------------------------------------------
 
 cdef class Sequence:
 
