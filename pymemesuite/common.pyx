@@ -755,17 +755,33 @@ cdef class ReservoirSampler:
 
     @property
     def values(self):
-        """`~pymeme.common.Array`: The retained sample values.
-        """
-        # FIXME(@althonos): Avoid copy here is possible?
         assert self._reservoir is not NULL
         cdef size_t  length  = libmeme.reservoir.get_reservoir_num_samples_retained(self._reservoir)
         cdef double* samples = libmeme.reservoir.get_reservoir_samples(self._reservoir)
-        cdef Array   values  = Array.__new__(Array)
-        values._owner = None
-        values._array = libmeme.array.allocate_array(length)
-        libmeme.array.fill_array(samples, values._array)
-        return values
+        cdef object mem = PyMemoryView_FromMemory(
+            <char*> samples,
+            length * sizeof(double),
+            PyBUF_READ | PyBUF_WRITE
+        )
+
+        # DANGER (@althonos): We need to make sure that the object is not
+        #                     deallocated before the memoryview, so we
+        #                     register the `ReservoirSampler` object (self) as
+        #                     the memoryview exporter. This needs a bit of
+        #                     tweaking with the internal Py_buffer, because
+        #                     `PyMemoryView_FromMemory` doesn't allow setting
+        #                     up an exporter, and directly setting the `obj`
+        #                     attribute is unsafe.
+        PyBuffer_FillInfo(
+            PyMemoryView_GET_BUFFER(mem),
+            self,
+            <char*> samples,
+            length * sizeof(double),
+            True,
+            PyBUF_READ,
+        )
+
+        return mem.cast('d')
 
 
 # --- Sequence ---------------------------------------------------------------
@@ -855,4 +871,4 @@ cdef class Sequence:
             PyBUF_READ | PyBUF_WRITE,
         )
 
-        return mem
+        return mem.cast('B')
