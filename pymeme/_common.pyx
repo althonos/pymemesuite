@@ -20,12 +20,14 @@ cimport libmeme.macros
 cimport libmeme.matrix
 cimport libmeme.meme
 cimport libmeme.motif
+cimport libmeme.motif_in
 cimport libmeme.pssm
 cimport libmeme.read_sequence
 cimport libmeme.read_seq_file
 cimport libmeme.reservoir
 cimport libmeme.seq
 from libmeme.alphabet cimport ALPH_T
+from libmeme.array cimport ATYPE
 from libmeme.hash_table cimport HASH_TABLE
 from libmeme.data_types cimport WEIGHTS_T, Z_T, LCB_T
 from libmeme.meme cimport CANDIDATE, DATASET, MODEL, OBJTYPE, SAMPLE, THETA, P_POINT, BRANCH_PARAMS, POINT_BRANCHES
@@ -34,6 +36,7 @@ from libmeme.user cimport MINSITES, BFACTOR, HSIZE, HS_DECREASE
 
 # --- Python imports ---------------------------------------------------------
 
+import array
 import os
 import warnings
 
@@ -225,10 +228,10 @@ cdef class Array:
 
         self._owner = None
         self._array = libmeme.array.allocate_array(length)
-        if array._array is NULL:
+        if self._array is NULL:
             raise AllocationError("ARRAY_T", sizeof(ARRAY_T))
         for i, item in enumerate(iterable):
-            libmeme.array.set_array_item(i, item, array._array)
+            libmeme.array.set_array_item(i, item, self._array)
 
     def __dealloc__(self):
         if self._owner is None:
@@ -780,6 +783,11 @@ cdef class Motif:
     # --- Properties ---------------------------------------------------------
 
     @property
+    def width(self):
+        assert self._motif is not NULL
+        return libmeme.motif.get_motif_length(self._motif)
+
+    @property
     def frequencies(self):
         assert self._motif is not NULL
         cdef Matrix matrix = Matrix.__new__(Matrix)
@@ -804,6 +812,13 @@ cdef class Motif:
     def consensus(self):
         assert self._motif is not NULL
         return libmeme.motif.get_motif_consensus(self._motif).decode('ascii')
+
+    @property
+    def url(self):
+        assert self._motif is not NULL
+        if not libmeme.motif.has_motif_url(self._motif):
+            return None
+        return libmeme.motif.get_motif_url(self._motif).decode('ascii')
 
     # --- Python methods -----------------------------------------------------
 
@@ -858,6 +873,84 @@ cdef class Motif:
             )
 
         return pssm
+
+
+# --- MotifFile --------------------------------------------------------------
+
+cdef class MotifFile:
+
+    def __cinit__(self):
+        self._reader = NULL
+        self._close = False
+        self.handle = None
+        self.buffer = None
+
+    def __init__(self, object handle, bint symmetrical=False):
+        self.buffer = bytearray(2048)
+
+        try:
+            self.handle = open(handle, "rb")
+            path = handle
+            self._close = True
+        except TypeError:
+            self.handle = handle
+            path = getattr(handle, "name", None)
+            self._close = False
+
+        if path is not None:
+            name = os.fsencode(path)
+            self._reader = libmeme.motif_in.mread_create(name, 0, symmetrical)
+        else:
+            self._reader = libmeme.motif_in.mread_create(NULL, 0, symmetrical)
+        if self._reader is NULL:
+            raise AllocationError("MREAD_T*", sizeof(MREAD_T*))
+
+    def __dealloc__(self):
+        if self._reader is not NULL:
+            warnings.warn("unclosed motif file", ResourceWarning)
+            self.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
+
+    def __next__(self):
+        cdef Motif motif = self.read()
+        if motif is None:
+            raise StopIteration
+        return motif
+
+    cpdef void close(self):
+        """close(self)\n--
+
+        Close the file and free the resources used by the reader.
+
+        """
+        if self._close:
+            self.handle.close()
+        libmeme.motif_in.mread_destroy(self._reader)
+        self._reader = NULL
+
+    cpdef Motif read(self):
+        assert self._reader is not NULL
+
+        cdef int       bytes_read = 1
+        cdef char[::1] view       = self.buffer
+        cdef Motif     motif      = Motif.__new__(Motif)
+
+        while bytes_read > 0 and not libmeme.motif_in.mread_has_motif(self._reader):
+            bytes_read = self.handle.readinto(self.buffer)
+            libmeme.motif_in.mread_update(self._reader, &view[0], bytes_read, bytes_read == 0)
+
+        motif._motif = libmeme.motif_in.mread_next_motif(self._reader)
+        if motif._motif is NULL:
+            return None
+
+        motif.alphabet = Alphabet.__new__(Alphabet)
+        motif.alphabet._alph = libmeme.alphabet.alph_hold(libmeme.motif.get_motif_alph(motif._motif))
+        return motif
 
 
 # --- Motif summary ----------------------------------------------------------
@@ -935,7 +1028,7 @@ cdef class MotifSummary:
         return self._ms.re
 
     @property
-    def e_value(self):
+    def evalue(self):
         """`float`: The E-value of the motif.
         """
         assert self._ms != NULL

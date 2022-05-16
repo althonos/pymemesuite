@@ -9,6 +9,7 @@ from libmeme.hash_table cimport HASH_TABLE
 from libmeme.data_types cimport WEIGHTS_T, Z_T, LCB_T
 from libmeme.matrix cimport MATRIX_T
 from libmeme.motif cimport MOTIF_T
+from libmeme.motif_in cimport MREAD_T
 from libmeme.meme cimport CANDIDATE, DATASET, MODEL, SAMPLE, THETA, MOTIF_SUMMARY
 from libmeme.prior_dist cimport PRIOR_DIST_T
 from libmeme.pssm cimport PSSM_T
@@ -101,6 +102,18 @@ cdef class Motif:
         int num_gc_bins = *,
         bint no_log = *,
     )
+
+
+# --- MotifFile --------------------------------------------------------------
+
+cdef class MotifFile:
+    cdef          MREAD_T*  _reader
+    cdef          bint      _close
+    cdef readonly object    handle
+    cdef readonly bytearray buffer
+
+    cpdef void close(self)
+    cpdef Motif read(self)
 
 
 # --- Motif summary ----------------------------------------------------------
