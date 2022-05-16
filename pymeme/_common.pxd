@@ -81,6 +81,17 @@ cdef class Motif:
     cdef          MOTIF_T*   _motif
     cdef readonly Alphabet alphabet
 
+    cpdef PSSM build_pssm(
+        self,
+        Array bg_freqs,
+        Array pv_freqs,
+        PriorDist prior_dist = ?,
+        double alpha = *,
+        int range = *,
+        int num_gc_bins = *,
+        bint no_log = *,
+    )
+
 
 # --- Motif summary ----------------------------------------------------------
 
@@ -97,14 +108,15 @@ cdef class MotifSummary:
 
 # --- PriorDistribution ------------------------------------------------------
 
-cdef class PriorDistribution:
+cdef class PriorDist:
     cdef          PRIOR_DIST_T* _pd
 
 
 # --- PSSM -------------------------------------------------------------------
 
 cdef class PSSM:
-    cdef          PSSM_T* _pssm
+    cdef          PSSM_T*  _pssm
+    cdef readonly Motif    motif
 
 
 # --- Sample -----------------------------------------------------------------

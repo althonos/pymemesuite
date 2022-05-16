@@ -18,6 +18,7 @@ cimport libmeme.alphabet
 cimport libmeme.array
 cimport libmeme.macros
 cimport libmeme.meme
+cimport libmeme.pssm
 cimport libmeme.read_sequence
 cimport libmeme.read_seq_file
 from libmeme.alphabet cimport ALPH_T
@@ -659,6 +660,54 @@ cdef class Motif:
         self._motif = NULL
         self.alphabet = None
 
+    cpdef PSSM build_pssm(
+        self,
+        Array bg_freqs,
+        Array pv_freqs,
+        PriorDist prior_dist = None,
+        double alpha = 1.0,
+        int range = 1,
+        int num_gc_bins = 0,
+        bint no_log = False,
+    ):
+        """build_pssm(self, bg_freqs, pv_freqs, prior_dist=None, alpha=1.0, range=1, num_gc_bins=0, no_log=False)
+
+        Build a `PSSM` from this motif.
+
+        Arguments:
+            bg_freqs (`Array`): The background frequencies.
+            pv_freqs (`Array`): The background frequencies for the p-values.
+            prior_dist (`PriorDist`, optional): The distribution of priors,
+                or `None`.
+            alpha (`float`): The scale factor for non-specific priors. Only
+                used when ``prior_dist`` is not `None`.
+            range (`int`): The range of scaled scores.
+            num_gc_bins (`int`): A number of GC bins to use to create the
+                p-value tables instead of using the ``pv_freqs`` array.
+            no_log (`bool`): Set to `True` to build a likelihood ratio PSSM.
+
+        """
+        assert self._motif is not NULL
+
+        if range <= 0:
+            raise ValueError("``range`` must be strictly positive")
+
+        cdef PSSM pssm = PSSM.__new__(PSSM)
+        pssm.motif = self
+        with nogil:
+            pssm._pssm = libmeme.pssm.build_motif_pssm(
+                self._motif,
+                bg_freqs._array,
+                pv_freqs._array,
+                NULL if prior_dist is None else prior_dist._pd,
+                alpha,
+                range,
+                num_gc_bins,
+                no_log
+            )
+
+        return pssm
+
 
 # --- Motif summary ----------------------------------------------------------
 
@@ -758,10 +807,27 @@ cdef class MotifSummary:
 
 # --- PriorDistribution ------------------------------------------------------
 
-cdef class PriorDistribution:
+cdef class PriorDist:
 
     def __cinit__(self):
         self._pd = NULL
+
+
+# --- PSSM -------------------------------------------------------------------
+
+cdef class PSSM:
+
+    def __cinit__(self):
+        self.motif = None
+        self._pssm = NULL
+
+    def __dealloc__(self):
+        libmeme.pssm.free_pssm(self._pssm)
+
+    @property
+    def width(self):
+        assert self._pssm is not NULL
+        return libmeme.pssm.get_pssm_w(self._pssm)
 
 
 # --- Sample -----------------------------------------------------------------
