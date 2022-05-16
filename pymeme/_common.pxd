@@ -10,7 +10,7 @@ from libmeme.data_types cimport WEIGHTS_T, Z_T, LCB_T
 from libmeme.matrix cimport MATRIX_T
 from libmeme.motif cimport MOTIF_T
 from libmeme.motif_in cimport MREAD_T
-from libmeme.meme cimport CANDIDATE, DATASET, MODEL, SAMPLE, THETA, MOTIF_SUMMARY
+
 from libmeme.prior_dist cimport PRIOR_DIST_T
 from libmeme.pssm cimport PSSM_T
 from libmeme.reservoir cimport RESERVOIR_SAMPLER_T
@@ -46,44 +46,11 @@ cdef class Array:
     cpdef Array copy(self)
 
 
-# --- Candidate model --------------------------------------------------------
-
-cdef class Candidate:
-    cdef CANDIDATE* _cd
-
-
-# --- Dataset ----------------------------------------------------------------
-
-cdef class Dataset:
-    cdef          DATASET* _ds
-    cdef readonly Alphabet alphabet
-    cdef          list     samples
-
-    cdef void _allocate(self) except *
-    cdef void _deallocate(self) except *
-    cdef void _append(self, Sample sample) except *
-    cdef void _set_database_freq_and_entropy(self)
-
-    cpdef void shuffle(self) except *
-
-
 # --- Matrix -----------------------------------------------------------------
 
 cdef class Matrix:
     cdef          MATRIX_T* _mx
     cdef readonly object    _owner
-
-
-# --- Model ------------------------------------------------------------------
-
-cdef class Model:
-    cdef          MODEL*   _mm
-    cdef readonly object   _owner
-    cdef readonly Alphabet alphabet
-
-    # cdef void _allocate(self) except *
-    # cdef void _deallocate(self) except *
-    cpdef Model copy(self)
 
 
 # --- Motif ------------------------------------------------------------------
@@ -116,19 +83,6 @@ cdef class MotifFile:
     cpdef Motif read(self)
 
 
-# --- Motif summary ----------------------------------------------------------
-
-cdef class MotifSummaries:
-    cdef readonly Alphabet       alphabet
-    cdef          MOTIF_SUMMARY* _motif_summaries
-    cdef          size_t         _nmotifs
-
-cdef class MotifSummary:
-    cdef          MOTIF_SUMMARY* _ms
-    cdef readonly object         _owner
-    cdef readonly Alphabet       alphabet
-
-
 # --- PriorDistribution ------------------------------------------------------
 
 cdef class PriorDist:
@@ -146,23 +100,6 @@ cdef class PSSM:
 
 cdef class ReservoirSampler:
     cdef          RESERVOIR_SAMPLER_T* _reservoir
-
-
-# --- Sample -----------------------------------------------------------------
-
-cdef class Sample:
-    cdef          SAMPLE*  _sm
-    cdef readonly object   _owner
-    cdef readonly Alphabet alphabet
-    cdef readonly bint     use_complement
-
-    cdef void _allocate(self) except *
-    cdef void _deallocate(self) except *
-    cdef void _encode_sequence(self) except *
-    cdef void _compute_sequence_weights(self) except *
-    cdef void _count_residues(self) except *
-
-    cpdef Sample copy(self)
 
 
 # --- Sequence ---------------------------------------------------------------
