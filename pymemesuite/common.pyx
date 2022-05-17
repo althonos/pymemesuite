@@ -833,7 +833,7 @@ cdef class PSSM:
         with nogil:
             if rc._pssm.motif is not NULL:
                 libmeme.motif.reverse_complement_motif(rc._pssm.motif)
-            for i in range((length + 1) / 2):
+            for i in range((length + 1) // 2):
                 left_scores = libmeme.matrix.get_matrix_row(i, rc._pssm.matrix)
                 right_scores = libmeme.matrix.get_matrix_row(length - i - 1, rc._pssm.matrix)
                 libmeme.alphabet.complement_swap_freqs(alph, left_scores, right_scores)
