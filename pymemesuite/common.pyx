@@ -231,16 +231,26 @@ cdef class Array:
         Create a new array from the given iterable of values.
 
         """
-        cdef int   i
-        cdef ATYPE item
-        cdef int   length = len(iterable)
+        cdef int        i
+        cdef ATYPE      item
+        cdef ATYPE[::1] view
+        cdef int        length = len(iterable)
 
         self._owner = None
         self._array = libmeme.array.allocate_array(length)
         if self._array is NULL:
             raise AllocationError("ARRAY_T", sizeof(ARRAY_T))
-        for i, item in enumerate(iterable):
-            libmeme.array.set_array_item(i, item, self._array)
+
+        try:
+            # attempt to use a memory view to copy the data in one go
+            view = iterable
+            with nogil:
+                libmeme.array.fill_array(&view[0], self._array)
+        except ValueError:
+            # if the iterable is not in contiguous memory, revert back
+            # to manually setting array elements one-by-one
+            for i, item in enumerate(iterable):
+                libmeme.array.set_array_item(i, item, self._array)
 
     def __dealloc__(self):
         if self._owner is None:
@@ -542,7 +552,8 @@ cdef class Motif:
             raise ValueError("Cannot reverse-complement a motif in a non-complementable alphabet")
 
         cdef Motif rc = Motif.__new__(Motif)
-        rc._motif = libmeme.motif.dup_rc_motif(self._motif)
+        with nogil:
+            rc._motif = libmeme.motif.dup_rc_motif(self._motif)
         if rc._motif is NULL:
             raise AllocationError("MOTIF_T", sizeof(MOTIF_T*))
         rc.alphabet = Alphabet.__new__(Alphabet)
@@ -675,7 +686,8 @@ cdef class MotifFile:
             bytes_read = self.handle.readinto(self.buffer)
             libmeme.motif_in.mread_update(self._reader, &view[0], bytes_read, bytes_read == 0)
 
-        motif._motif = libmeme.motif_in.mread_next_motif(self._reader)
+        with nogil:
+            motif._motif = libmeme.motif_in.mread_next_motif(self._reader)
         if motif._motif is NULL:
             return None
 
@@ -735,41 +747,42 @@ cdef class PSSM:
         cdef int  length
         cdef PSSM copy   = PSSM.__new__(PSSM)
 
-        copy._pssm = libmeme.pssm.allocate_pssm(
-            libmeme.pssm.get_pssm_alph(self._pssm),
-            libmeme.pssm.get_pssm_w(self._pssm),
-            libmeme.pssm.get_pssm_alphsize(self._pssm),
-            self._pssm.num_gc_bins,
-        )
-        libmeme.matrix.copy_matrix(self._pssm.matrix, copy._pssm.matrix)
+        with nogil:
+            copy._pssm = libmeme.pssm.allocate_pssm(
+                libmeme.pssm.get_pssm_alph(self._pssm),
+                libmeme.pssm.get_pssm_w(self._pssm),
+                libmeme.pssm.get_pssm_alphsize(self._pssm),
+                self._pssm.num_gc_bins,
+            )
+            libmeme.matrix.copy_matrix(self._pssm.matrix, copy._pssm.matrix)
 
-        copy._pssm.matrix_is_log = self._pssm.matrix_is_log
-        copy._pssm.matrix_is_scaled = self._pssm.matrix_is_scaled
-        copy._pssm.scale = self._pssm.scale
-        copy._pssm.offset = self._pssm.offset
-        copy._pssm.range = self._pssm.range
+            copy._pssm.matrix_is_log = self._pssm.matrix_is_log
+            copy._pssm.matrix_is_scaled = self._pssm.matrix_is_scaled
+            copy._pssm.scale = self._pssm.scale
+            copy._pssm.offset = self._pssm.offset
+            copy._pssm.range = self._pssm.range
 
-        if self._pssm.pv is not NULL:
-            copy._pssm.pv = libmeme.array.allocate_array(libmeme.array.get_array_length(self._pssm.pv))
-            libmeme.array.copy_array(self._pssm.pv, copy._pssm.pv)
-        else:
-            copy._pssm.pv = NULL
+            if self._pssm.pv is not NULL:
+                copy._pssm.pv = libmeme.array.allocate_array(libmeme.array.get_array_length(self._pssm.pv))
+                libmeme.array.copy_array(self._pssm.pv, copy._pssm.pv)
+            else:
+                copy._pssm.pv = NULL
 
-        if self._pssm.gc_pv is not NULL:
-            copy._pssm.gc_pv = <ARRAY_T**> calloc(self._pssm.num_gc_bins, sizeof(ARRAY_T*))
-            if copy._pssm.gc_pv is NULL:
-                raise AllocationError("ARRAY_T*", sizeof(ARRAY_T*), self._pssm.num_gc_bins)
-            for i in range(self._pssm.num_gc_bins):
-                length = libmeme.array.get_array_length(self._pssm.gc_pv[i])
-                copy._pssm.gc_pv[i] = libmeme.array.allocate_array(length)
-                libmeme.array.copy_array(self._pssm.gc_pv[i], copy._pssm.gc_pv[i])
-        else:
-            copy._pssm.gc_pv = NULL
+            if self._pssm.gc_pv is not NULL:
+                copy._pssm.gc_pv = <ARRAY_T**> calloc(self._pssm.num_gc_bins, sizeof(ARRAY_T*))
+                if copy._pssm.gc_pv is NULL:
+                    raise AllocationError("ARRAY_T*", sizeof(ARRAY_T*), self._pssm.num_gc_bins)
+                for i in range(self._pssm.num_gc_bins):
+                    length = libmeme.array.get_array_length(self._pssm.gc_pv[i])
+                    copy._pssm.gc_pv[i] = libmeme.array.allocate_array(length)
+                    libmeme.array.copy_array(self._pssm.gc_pv[i], copy._pssm.gc_pv[i])
+            else:
+                copy._pssm.gc_pv = NULL
 
-        copy._pssm.num_gc_bins = self._pssm.num_gc_bins
-        copy._pssm.min_score = self._pssm.min_score
-        copy._pssm.max_score = self._pssm.max_score
-        copy._pssm.nolog_max_score = self._pssm.nolog_max_score
+            copy._pssm.num_gc_bins = self._pssm.num_gc_bins
+            copy._pssm.min_score = self._pssm.min_score
+            copy._pssm.max_score = self._pssm.max_score
+            copy._pssm.nolog_max_score = self._pssm.nolog_max_score
 
         copy.alphabet = Alphabet.__new__(Alphabet)
         copy.alphabet._alph = libmeme.alphabet.alph_hold(copy._pssm.alph)
@@ -795,13 +808,13 @@ cdef class PSSM:
         cdef PSSM     rc           = self.copy()
         cdef int      length       = libmeme.matrix.get_num_rows(rc._pssm.matrix)
 
-        if rc._pssm.motif is not NULL:
-            libmeme.motif.reverse_complement_motif(rc._pssm.motif)
-
-        for i in range((length + 1) / 2):
-            left_scores = libmeme.matrix.get_matrix_row(i, rc._pssm.matrix)
-            right_scores = libmeme.matrix.get_matrix_row(length - i - 1, rc._pssm.matrix)
-            libmeme.alphabet.complement_swap_freqs(alph, left_scores, right_scores)
+        with nogil:
+            if rc._pssm.motif is not NULL:
+                libmeme.motif.reverse_complement_motif(rc._pssm.motif)
+            for i in range((length + 1) / 2):
+                left_scores = libmeme.matrix.get_matrix_row(i, rc._pssm.matrix)
+                right_scores = libmeme.matrix.get_matrix_row(length - i - 1, rc._pssm.matrix)
+                libmeme.alphabet.complement_swap_freqs(alph, left_scores, right_scores)
 
         return rc
 
