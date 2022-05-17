@@ -45,63 +45,6 @@ import warnings
 from .errors import AllocationError
 
 
-# --- Constants --------------------------------------------------------------
-
-cdef dict MEME_OBJECTIVE_FUNCTIONS = {
-    "classic": OBJTYPE.Classic,
-    "nc": OBJTYPE.NC,
-    "se": OBJTYPE.SE,
-    "smhg": OBJTYPE.SE,
-    "de": OBJTYPE.DE,
-    "hs": OBJTYPE.DE,
-    "cv": OBJTYPE.DE,
-    "nz": OBJTYPE.NZ,
-    "ce": OBJTYPE.CE,
-    "cd": OBJTYPE.CD,
-}
-
-cdef dict MEME_MODEL_TYPES = {
-    "anr": MOTYPE.Tcm,
-    "tcm": MOTYPE.Tcm,
-    "oops": MOTYPE.Oops,
-    "zoops": MOTYPE.Zoops,
-}
-
-# --- Utilities --------------------------------------------------------------
-
-cdef void* allocate(size_t size, str typename) except NULL:
-    cdef void* tmp = malloc(size)
-    if tmp == NULL:
-        raise AllocationError(typename, size)
-    return tmp
-
-cdef void* matrix_create(size_t nrows, size_t ncols, size_t itemsize) except NULL:
-    cdef size_t  r
-    cdef void** matrix
-
-    # allocate array of pointers
-    matrix = <void**> malloc(sizeof(void*) * nrows)
-    if matrix == NULL:
-        raise AllocationError("double*", sizeof(double), nrows)
-
-    # allocate contiguous memory
-    matrix[0] = <void*> malloc(itemsize * nrows * ncols)
-    if matrix[0] == NULL:
-        free(matrix)
-        raise AllocationError("double", sizeof(double), nrows * ncols)
-
-    # update pointer offsets
-    for r in range(nrows):
-        matrix[r] = matrix[0] + r*ncols*itemsize
-    return matrix
-
-cdef void matrix_free(void** matrix):
-    if matrix != NULL and matrix[0] != NULL:
-        free(matrix[0])
-    if matrix != NULL:
-        free(matrix)
-
-
 # --- Alphabet ---------------------------------------------------------------
 
 cdef class Alphabet:

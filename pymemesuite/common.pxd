@@ -25,12 +25,6 @@ import warnings
 from .errors import AllocationError
 
 
-# --- Utils ------------------------------------------------------------------
-
-cdef void* matrix_create(size_t nrows, size_t ncols, size_t itemsize) except NULL
-cdef void matrix_free(void** matrix)
-
-
 # --- Alphabet ---------------------------------------------------------------
 
 cdef class Alphabet:
