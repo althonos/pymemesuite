@@ -92,10 +92,10 @@ cdef extern from "alphabet.h" nogil:
 
     cdef bint alph_has_complement(const ALPH_T* alph)
     cdef bint alph_is_case_insensitive(const ALPH_T* alph)
-    cdef bint alph_index(const ALPH_T* alph, uint8_t letter)
-    cdef bint alph_indexc(const ALPH_T* alph, uint8_t letter)
-    cdef bint alph_encode(const ALPH_T* alph, uint8_t letter)
-    cdef bint alph_encodec(const ALPH_T* alph, uint8_t letter)
+    cdef uint8_t alph_index(const ALPH_T* alph, uint8_t letter)
+    cdef uint8_t alph_indexc(const ALPH_T* alph, uint8_t letter)
+    cdef uint8_t alph_encode(const ALPH_T* alph, uint8_t letter)
+    cdef uint8_t alph_encodec(const ALPH_T* alph, uint8_t letter)
 
     cdef int alph_wild(const ALPH_T* alph)
     cdef uint8_t alph_complement(const ALPH_T* alph, int index)

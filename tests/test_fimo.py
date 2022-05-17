@@ -29,8 +29,8 @@ class TestFIMO(unittest.TestCase):
 
     def assertMatchEqual(self, match, line):
         self.assertEqual( match.source.name.decode(), line[2] )
-        self.assertEqual( match.start, int(line[3]) )
-        self.assertEqual( match.stop, int(line[4]) )
+        self.assertEqual( min(match.start, match.stop), int(line[3]) )
+        self.assertEqual( max(match.start, match.stop), int(line[4]) )
         self.assertEqual( match.strand, line[5] )
         self.assertAlmostEqual( match.score, float(line[6]), places=2)
         self.assertAlmostEqual( match.pvalue, float(line[7]), places=2 )

@@ -10,6 +10,8 @@ then into *q-values* following the method of Benjamini & Hochberg.
 """
 
 from libc.math cimport NAN, isnan, log2
+from libc.stdlib cimport malloc, calloc, realloc, free
+from libc.stdint cimport int8_t
 
 cimport libmeme.alphabet
 cimport libmeme.array
@@ -88,7 +90,7 @@ cdef class FIMO:
 
     cdef site_score_t _score_site(
         self,
-        const unsigned char* sequence,
+        const int8_t* sequence,
         PSSM_T* pssm,
         double prior,
     ) nogil:
@@ -97,6 +99,7 @@ cdef class FIMO:
         cdef double       prior_log_odds
         cdef double       score
         cdef double       pvalue
+        cdef int8_t       aindex
         cdef int          w               = pssm.w
         cdef ARRAY_T*     pv_lookup       = pssm.pv
         cdef MATRIX_T*    pssm_matrix     = pssm.matrix
@@ -105,8 +108,7 @@ cdef class FIMO:
 
         site_score.scoreable = True
         for motif_position in range(w):
-            c = sequence[motif_position]
-            aindex = libmeme.alphabet.alph_indexc(alphabet, c)
+            aindex = sequence[motif_position]
             if aindex == -1:
                 site_score.scoreable = False
                 break
@@ -142,6 +144,8 @@ cdef class FIMO:
         SEQ_T* seq,
         PSSM_T* pssm,
         PSSM_T* pssm_rev,
+        int8_t** buffer,
+        size_t*  buflen,
     ) nogil:
         cdef int                 offset
         cdef int                 start_bwd
@@ -153,16 +157,28 @@ cdef class FIMO:
         cdef SCANNED_SEQUENCE_T* scanned_seq = NULL
         cdef MATCHED_ELEMENT_T*  match_fwd   = NULL
         cdef MATCHED_ELEMENT_T*  match_bwd   = NULL
+        cdef ALPH_T*             alphabet    = libmeme.pssm.get_pssm_alph(pssm)
         cdef unsigned char*      seqdata     = <unsigned char*> libmeme.seq.get_raw_sequence(seq)
         cdef int                 length      = libmeme.seq.get_seq_length(seq)
         cdef int                 width       = pssm.w
 
+        # create a new CisML scanned sequence to store results
         scanned_seq = libmeme.cisml.allocate_scanned_sequence(
             libmeme.seq.get_seq_name(seq),
             libmeme.seq.get_seq_name(seq),
             pattern
         )
 
+        # use the temporary buffer to index the sequence
+        if buflen[0] < length:
+            buffer[0] = <int8_t*> realloc(buffer[0], length * sizeof(int8_t))
+            if buffer[0] == NULL:
+                raise AllocationError("uint8_t", sizeof(int8_t), length)
+            buflen[0] = length
+        for offset in range(length):
+            buffer[0][offset] = libmeme.alphabet.alph_indexc(alphabet, seqdata[offset])
+
+        # iterate the sliding window
         for offset in range(length - width):
             # compute block coordinates
             stop_bwd = start_fwd = offset + 1
@@ -174,7 +190,7 @@ cdef class FIMO:
                 libmeme.cisml.set_matched_element_start(match_fwd, start_fwd)
                 libmeme.cisml.set_matched_element_stop(match_fwd, stop_fwd)
             # match motif on forward strand
-            scores_fwd = self._score_site(&seqdata[offset], pssm, NAN)
+            scores_fwd = self._score_site(&buffer[0][offset], pssm, NAN)
             if scores_fwd.scoreable:
                 libmeme.cisml.set_matched_element_pvalue(match_fwd, scores_fwd.pvalue)
                 if self._record_score(pattern, scanned_seq, reservoir, match_fwd):
@@ -191,7 +207,7 @@ cdef class FIMO:
                     libmeme.cisml.set_matched_element_start(match_bwd, start_bwd)
                     libmeme.cisml.set_matched_element_stop(match_bwd, stop_bwd)
                 # match motif on reverse strand
-                scores_bwd = self._score_site(&seqdata[offset], pssm_rev, NAN)
+                scores_bwd = self._score_site(&buffer[0][offset], pssm_rev, NAN)
                 if scores_bwd.scoreable:
                     libmeme.cisml.set_matched_element_pvalue(match_bwd, scores_bwd.pvalue)
                     if self._record_score(pattern, scanned_seq, reservoir, match_bwd):
@@ -209,6 +225,7 @@ cdef class FIMO:
                         )
                         match_bwd = NULL
 
+        # free matched elements that were not recorded
         if match_fwd is not NULL:
             libmeme.cisml.free_matched_element(match_fwd)
         if match_bwd is not NULL:
@@ -229,6 +246,8 @@ cdef class FIMO:
         cdef int              length       = len(sequences)
         cdef PSSM_T*          pssm_raw_fwd = pssm._pssm
         cdef PSSM_T*          pssm_raw_bwd = NULL
+        cdef int8_t*          seqbuffer    = NULL
+        cdef size_t           seqbuflen    = 0
 
         # store sequences in contiguous array to process them without the GIL
         seqptr = <SEQ_T**> alloca(length * sizeof(SEQ_T*))
@@ -254,6 +273,8 @@ cdef class FIMO:
                     seqptr[i],
                     pssm_raw_fwd,
                     pssm_raw_bwd,
+                    &seqbuffer,
+                    &seqbuflen,
                 )
             # complete pattern
             libmeme.cisml.set_pattern_is_complete(pattern._pattern)
@@ -262,7 +283,7 @@ cdef class FIMO:
             values.items = libmeme.reservoir.get_reservoir_samples(reservoir._reservoir)
             libmeme.cisml.pattern_calculate_qvalues(pattern._pattern, &values)
 
-
+        free(seqbuffer)
         return pattern
 
     cpdef Pattern score_motif(
