@@ -589,6 +589,21 @@ extensions = [
             ("MT_GENERATE_CODE_IN_HEADER", "0"),
         ],
     ),
+    Extension(
+        "pymemesuite.fimo",
+        sources=[
+            os.path.join("pymemesuite", "fimo.pyx"),
+            os.path.join("pymemesuite", "_globals.c"),
+        ],
+        libraries=["m", "xml2", "xslt", "meme"],
+        include_dirs=[
+            os.path.join("vendor", "meme", "src"),
+            os.path.join("vendor", "meme", "src", "libxml2")
+        ],
+        define_macros=[
+            ("MT_GENERATE_CODE_IN_HEADER", "0"),
+        ],
+    ),
 ]
 
 
