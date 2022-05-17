@@ -511,7 +511,6 @@ cdef class Motif:
             raise ValueError("``pv_freqs`` length is inconsistent with motif alphabet")
 
         cdef PSSM pssm = PSSM.__new__(PSSM)
-        pssm.motif = self
         with nogil:
             pssm._pssm = libmeme.pssm.build_motif_pssm(
                 self._motif,
@@ -523,6 +522,10 @@ cdef class Motif:
                 num_gc_bins,
                 no_log
             )
+            pssm._pssm.motif = self._motif
+        pssm.motif = self
+        pssm.alphabet = Alphabet.__new__(Alphabet)
+        pssm.alphabet._alph = libmeme.alphabet.alph_hold(pssm._pssm.alph)
 
         return pssm
 
@@ -704,6 +707,10 @@ cdef class PSSM:
     def __dealloc__(self):
         libmeme.pssm.free_pssm(self._pssm)
 
+    def __copy__(self):
+        assert self._pssm is not NULL
+        return self.copy()
+
     # --- Properties ---------------------------------------------------------
 
     @property
@@ -718,6 +725,65 @@ cdef class PSSM:
         matrix._mx = self._pssm.matrix
         matrix._owner = self
         return matrix
+
+    # --- Methods ------------------------------------------------------------
+
+    cpdef PSSM copy(self):
+        assert self._pssm is not NULL
+
+        cdef int  i
+        cdef int  length
+        cdef PSSM copy   = PSSM.__new__(PSSM)
+
+        copy._pssm = libmeme.pssm.allocate_pssm(
+            libmeme.pssm.get_pssm_alph(self._pssm),
+            libmeme.pssm.get_pssm_w(self._pssm),
+            libmeme.pssm.get_pssm_alphsize(self._pssm),
+            self._pssm.num_gc_bins,
+        )
+        libmeme.matrix.copy_matrix(self._pssm.matrix, copy._pssm.matrix)
+
+        copy._pssm.matrix_is_log = self._pssm.matrix_is_log
+        copy._pssm.matrix_is_scaled = self._pssm.matrix_is_scaled
+        copy._pssm.scale = self._pssm.scale
+        copy._pssm.offset = self._pssm.offset
+        copy._pssm.range = self._pssm.range
+
+        if self._pssm.pv is not NULL:
+            copy._pssm.pv = libmeme.array.allocate_array(libmeme.array.get_array_length(self._pssm.pv))
+            libmeme.array.copy_array(self._pssm.pv, copy._pssm.pv)
+        else:
+            copy._pssm.pv = NULL
+
+        if self._pssm.gc_pv is not NULL:
+            copy._pssm.gc_pv = <ARRAY_T**> calloc(self._pssm.num_gc_bins, sizeof(ARRAY_T*))
+            if copy._pssm.gc_pv is NULL:
+                raise AllocationError("ARRAY_T*", sizeof(ARRAY_T*), self._pssm.num_gc_bins)
+            for i in range(self._pssm.num_gc_bins):
+                length = libmeme.array.get_array_length(self._pssm.gc_pv[i])
+                copy._pssm.gc_pv[i] = libmeme.array.allocate_array(length)
+                libmeme.array.copy_array(self._pssm.gc_pv[i], copy._pssm.gc_pv[i])
+        else:
+            copy._pssm.gc_pv = NULL
+
+        copy._pssm.num_gc_bins = self._pssm.num_gc_bins
+        copy._pssm.min_score = self._pssm.min_score
+        copy._pssm.max_score = self._pssm.max_score
+        copy._pssm.nolog_max_score = self._pssm.nolog_max_score
+
+        copy.alphabet = Alphabet.__new__(Alphabet)
+        copy.alphabet._alph = libmeme.alphabet.alph_hold(copy._pssm.alph)
+
+        if self._pssm.motif is not NULL:
+            copy.motif = Motif.__new__(Motif)
+            copy.motif._motif = libmeme.motif.duplicate_motif(self._pssm.motif)
+            copy._pssm.motif = copy.motif._motif
+            copy.motif.alphabet = copy.alphabet
+        else:
+            copy.motif = None
+            copy._pssm.motif = NULL
+
+        return copy
 
 
 # --- ReservoirSampler -------------------------------------------------------

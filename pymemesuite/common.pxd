@@ -94,7 +94,10 @@ cdef class PriorDist:
 
 cdef class PSSM:
     cdef          PSSM_T*  _pssm
+    cdef readonly Alphabet alphabet
     cdef readonly Motif    motif
+
+    cpdef PSSM copy(self)
 
 
 # --- ReservoirSampler -------------------------------------------------------
