@@ -18,30 +18,36 @@ cdef class CisML:
 # --- MatchedElement ---------------------------------------------------------
 
 cdef class MatchedElements:
-    cdef readonly Pattern             owner
+    cdef readonly object              _owner
+    cdef readonly int                 _length
     cdef          MATCHED_ELEMENT_T** _elements
 
 cdef class MatchedElement:
-    cdef readonly object             owner
+    cdef readonly object             _owner
     cdef          MATCHED_ELEMENT_T* _me
 
 
 # --- MultiPattern -----------------------------------------------------------
 
 cdef class MultiPattern:
-    cdef readonly object           owner
+    cdef readonly object           _owner
     cdef          MULTI_PATTERN_T* _mp
 
 
 # --- Pattern ----------------------------------------------------------------
 
 cdef class Pattern:
-    cdef readonly object          owner
+    cdef readonly object          _owner
     cdef          PATTERN_T*      _pattern
 
 
 # --- ScannedSequence --------------------------------------------------------
 
+cdef class ScannedSequences:
+    cdef readonly object               _owner
+    cdef readonly int                  _length
+    cdef          SCANNED_SEQUENCE_T** _sequences
+
 cdef class ScannedSequence:
-    cdef readonly Pattern             owner
+    cdef readonly object              _owner
     cdef          SCANNED_SEQUENCE_T* _sseq
