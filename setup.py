@@ -127,9 +127,14 @@ class build_ext(_build_ext):
         # update link and include directories
         ext.include_dirs.append(self._clib_cmd.build_clib)
         ext.library_dirs.append(self._clib_cmd.build_clib)
-        for name in ext.libraries:
+
+        # use static linking by directly using the static library path
+        # instead of a `-l` flag, and remove the library so that the compiler
+        # doesn't try to linking against the system libraries
+        for name in ext.libraries.copy():
             lib = self._clib_cmd.get_library(name)
             if lib is not None:
+                ext.libraries.remove(name)
                 ext.include_dirs.extend(lib.include_dirs)
                 ext.extra_objects.append(self.compiler.library_filename(
                     lib.name, output_dir=self._clib_cmd.build_clib
@@ -295,6 +300,7 @@ class configure(_build_clib):
             )
 
             if "filename" in config:
+                self.mkpath(os.path.join(self.build_clib, library.name))
                 self.make_file(
                     [__file__.replace(".py", ".cfg")],
                     os.path.join(self.build_clib, library.name, config["filename"]),
@@ -341,7 +347,7 @@ class configure(_build_clib):
 
         # write the header file
         slug = re.sub("[./-]", "_", filename).upper()
-        with open(os.path.join(self.build_clib, filename), "w") as f:
+        with open(os.path.join(self.build_clib, library.name, filename), "w") as f:
             f.write("#ifndef {}_INCLUDED\n".format(slug))
             f.write("#define {}_INCLUDED\n".format(slug))
             for k, v in defines.items():
@@ -390,8 +396,6 @@ class build_clib(_build_clib):
         system = platform.system()
         if system == "Linux":
             self.compiler.define_macro("Linux")
-        elif system == "Darwin":
-            self.compiler.define_macro("__APPLE__")
         # get hostname
         self.compiler.define_macro("HOSTNAME", '"{}"'.format(socket.gethostname()))
         # compile each library
@@ -419,8 +423,8 @@ class build_clib(_build_clib):
         # C sources try to include it as `../config.h` so we need to add a
         # dummy include folder as well
         include_dirs = library.include_dirs.copy()
-        include_dirs.append(self.build_clib)
-        include_dirs.append(os.path.join(self.build_clib, "vendor"))
+        include_dirs.append(os.path.join(self.build_clib, library.name))
+        include_dirs.append(os.path.join(self.build_clib, library.name, "vendor"))
 
         # build objects and create a static library
         objects = self.compiler.compile(
@@ -438,12 +442,6 @@ class build_clib(_build_clib):
             output_dir=self.build_clib,
             debug=self.debug,
         )
-
-    def destatic(self, old, new):
-        with open(old, "r") as f:
-            lines = f.readlines()
-        with open(new, "w") as f:
-            f.writelines(l.replace("static ", "") for l in lines)
 
 
 class clean(_clean):
@@ -477,6 +475,7 @@ class clean(_clean):
 libraries = [
     Library(
         "xml2",
+        # extra_compile_args=["-std=gnu89"],
         include_dirs=[
             os.path.join("vendor", "meme", "src"),
             os.path.join("vendor", "meme", "src", "libxml2", "include"),
@@ -487,9 +486,7 @@ libraries = [
                 "chvalid", "debugXML", "dict", "encoding", "entities",
                 "error", "globals", "hash", "HTMLparser", "HTMLtree", "list",
                 "parserInternals", "parser", "pattern", "relaxng", "tree",
-                "SAX2",
-                # "threads",
-                "uri", "valid", "xmlIO", "xmlmodule",
+                "SAX2", "threads", "uri", "valid", "xmlIO", "xmlmodule",
                 "xmlreader", "xmlregexp", "xmlsave", "xmlstring", "xmlschemas",
                 "xmlschemastypes", "xmlunicode", "xmlwriter", "xmlmemory",
                 "xpath",
@@ -499,6 +496,7 @@ libraries = [
     Library(
         "xslt",
         libraries=["xml2"],
+        # extra_compile_args=["-std=gnu89"],
         include_dirs=[
             os.path.join("vendor", "meme", "src"),
             os.path.join("vendor", "meme", "src", "libxml2", "include"),
@@ -517,8 +515,9 @@ libraries = [
     Library(
         "meme",
         libraries=["xml2", "xslt"],
+        # extra_compile_args=["-std=gnu89"],
         define_macros=[
-            ("MT_GENERATE_CODE_IN_HEADER", "0"),
+            # ("MT_GENERATE_CODE_IN_HEADER", "0"),
         ],
         include_dirs=[
             "include",
@@ -558,13 +557,9 @@ extensions = [
         "pymemesuite.errors",
         sources=[
             os.path.join("pymemesuite", "errors.pyx"),
-            os.path.join("pymemesuite", "_globals.c"),
         ],
-        libraries=["m", "xml2", "meme"],
-        include_dirs=[os.path.join("meme", "src")],
-        define_macros=[
-            ("MT_GENERATE_CODE_IN_HEADER", "0"),
-        ],
+        # extra_compile_args=["-std=gnu89"],
+        include_dirs=[os.path.join("vendor", "meme", "src")],
     ),
     Extension(
         "pymemesuite.common",
@@ -572,12 +567,10 @@ extensions = [
             os.path.join("pymemesuite", "common.pyx"),
             os.path.join("pymemesuite", "_globals.c"),
         ],
+        # extra_compile_args=["-std=gnu89"],
         libraries=["m", "xml2", "meme"],
         include_dirs=[
             os.path.join("vendor", "meme", "src"),
-        ],
-        define_macros=[
-            ("MT_GENERATE_CODE_IN_HEADER", "0"),
         ],
     ),
     Extension(
@@ -586,13 +579,11 @@ extensions = [
             os.path.join("pymemesuite", "cisml.pyx"),
             os.path.join("pymemesuite", "_globals.c"),
         ],
+        # extra_compile_args=["-std=gnu89"],
         libraries=["m", "xml2", "xslt", "meme"],
         include_dirs=[
             os.path.join("vendor", "meme", "src"),
-            os.path.join("vendor", "meme", "src", "libxml2")
-        ],
-        define_macros=[
-            ("MT_GENERATE_CODE_IN_HEADER", "0"),
+            os.path.join("vendor", "meme", "src", "libxml2", "include")
         ],
     ),
     Extension(
@@ -601,13 +592,11 @@ extensions = [
             os.path.join("pymemesuite", "fimo.pyx"),
             os.path.join("pymemesuite", "_globals.c"),
         ],
+        # extra_compile_args=["-std=gnu89"],
         libraries=["m", "xml2", "xslt", "meme"],
         include_dirs=[
             os.path.join("vendor", "meme", "src"),
-            os.path.join("vendor", "meme", "src", "libxml2")
-        ],
-        define_macros=[
-            ("MT_GENERATE_CODE_IN_HEADER", "0"),
+            os.path.join("vendor", "meme", "src", "libxml2", "include")
         ],
     ),
 ]
