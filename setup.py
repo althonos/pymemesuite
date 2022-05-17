@@ -190,6 +190,9 @@ class configure(_build_clib):
         "getcwd": ["unistd.h"],
         "gethostbyname": ["netdb.h"],
         "isascii": ["ctype.h"],
+        "isinf": ["math.h"],
+        "isnan": ["math.h"],
+        "localtime": ["time.h"],
         "malloc": ["stdlib.h"],
         "memset": ["string.h"],
         "pow": ["math.h"],
@@ -197,9 +200,11 @@ class configure(_build_clib):
         "rint": ["math.h"],
         "socket": ["sys/socket.h"],
         "sqrt": ["math.h"],
+        "stat": ["sys/stat.h"],
         "strchr": ["string.h"],
         "strcspn": ["string.h"],
         "strdup": ["string.h"],
+        "strftime": ["time.h"],
         "strlcpy": ["string.h"],
         "strspn": ["string.h"],
         "strstr": ["string.h"],
@@ -208,21 +213,27 @@ class configure(_build_clib):
 
     _function_args = {
         "floor": ["3.14"],
-        "getcwd": ["NULL", "0"],
+        "getcwd": ["0", "0"],
         "gethostbyname": ['"localhost"'],
         "isascii": ["0"],
+        "isinf": ["0.0"],
+        "isnan": ["0.0"],
+        "localtime": ["0"],
         "malloc": ["0"],
-        "memset": ["NULL", "0", "0"],
+        "memset": ["0", "0", "0"],
         "pow": ["1.0", "0.0"],
-        "realloc": ["NULL", "0"],
+        "realloc": ["0", "0"],
         "rint": ["0.0"],
         "socket": ["0", "0", "0"],
         "sqrt": ["0"],
-        "strchr": ["NULL", "0"],
-        "strcspn": ["NULL", "NULL"],
-        "strdup": ["NULL"],
-        "strspn": ["NULL", "NULL"],
-        "strstr": ["NULL", "NULL"],
+        "stat": ["0", "0"],
+        "strchr": ["0", "0"],
+        "strcspn": ["0", "0"],
+        "strdup": ["0"],
+        "strftime": ["0", "0", '"%a"', "0"],
+        "strlcpy": ["0", "0", "0"],
+        "strspn": ["0", "0"],
+        "strstr": ["0", "0"],
     }
 
     def _has_function(self, funcname):
@@ -286,12 +297,11 @@ class configure(_build_clib):
             if "filename" in config:
                 self.make_file(
                     [__file__.replace(".py", ".cfg")],
-                    os.path.join(self.build_clib, config["filename"]),
+                    os.path.join(self.build_clib, library.name, config["filename"]),
                     self.configure_library,
                     (
                         library,
                         config["filename"],
-                        config.get("copy"),
                         constants,
                         headers,
                         functions,
@@ -300,14 +310,9 @@ class configure(_build_clib):
                         config["filename"], library.name
                     )
                 )
+                library.include_dirs.insert(0, os.path.join(self.build_clib, library.name))
 
-    def configure_library(self, library, filename, copy=None, constants=None, headers=None, functions=None):
-        # if we only need to copy the header (e.g. for divsufsort) then just
-        # do that and then exit
-        if copy is not None:
-            self.copy_file(copy, os.path.join(self.build_clib, filename))
-            return
-
+    def configure_library(self, library, filename, constants=None, headers=None, functions=None):
         # create a mapping to store the defines, and make sure it is ordered
         # (this is to keep compatibility with Python 3.5, a dict would do fine)
         defines = collections.OrderedDict()
@@ -385,6 +390,8 @@ class build_clib(_build_clib):
         system = platform.system()
         if system == "Linux":
             self.compiler.define_macro("Linux")
+        elif system == "Darwin":
+            self.compiler.define_macro("__APPLE__")
         # get hostname
         self.compiler.define_macro("HOSTNAME", '"{}"'.format(socket.gethostname()))
         # compile each library
@@ -418,7 +425,7 @@ class build_clib(_build_clib):
         # build objects and create a static library
         objects = self.compiler.compile(
             library.sources,
-            output_dir=self.build_temp,
+            output_dir=os.path.join(self.build_temp, library.name),
             include_dirs=include_dirs,
             macros=library.define_macros,
             debug=self.debug,
@@ -480,7 +487,9 @@ libraries = [
                 "chvalid", "debugXML", "dict", "encoding", "entities",
                 "error", "globals", "hash", "HTMLparser", "HTMLtree", "list",
                 "parserInternals", "parser", "pattern", "relaxng", "tree",
-                "SAX2", "threads", "uri", "valid", "xmlIO", "xmlmodule",
+                "SAX2",
+                # "threads",
+                "uri", "valid", "xmlIO", "xmlmodule",
                 "xmlreader", "xmlregexp", "xmlsave", "xmlstring", "xmlschemas",
                 "xmlschemastypes", "xmlunicode", "xmlwriter", "xmlmemory",
                 "xpath",
