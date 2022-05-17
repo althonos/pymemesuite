@@ -1,0 +1,11 @@
+motif_id	motif_alt_id	sequence_name	start	stop	strand	score	p-value	q-value	matched_sequence
+MX000001	MexR	BGC0002035.1_3425_15590	6700	6714	-	14.5143	7.01e-07	0.0784	GTTGAGCTGGTCAAC
+MX000001	MexR	BGC0002034.1_15763_16762	94	108	-	12.5571	6.57e-06	0.368	GGTGATCTTGTCCAC
+MX000001	MexR	BGC0002035.1_3425_15590	6700	6714	+	9.28571	1.14e-05	0.425	GTTGACCAGCTCAAC
+MX000001	MexR	BGC0002036.1_10010_10928	610	624	-	7.32857	2.41e-05	0.675	GTAGAGCTTGTCGAC
+MX000001	MexR	BGC0002035.1_17759_19345	388	402	-	6.77143	4.54e-05	1	GTCCATCTTCTCAAC
+MX000001	MexR	BGC0002035.1_3425_15590	8845	8859	-	6.07143	9.32e-05	1	CTTGACCTTGTCGAG
+
+# FIMO (Find Individual Motif Occurrences): Version 5.4.1 compiled on May 10 2022 at 22:16:03
+# The format of this file is described at https://meme-suite.org/meme/doc/fimo-output-format.html.
+# fimo -o /tmp/test tests/data/fimo/prodoric_mx000001_meme.txt tests/data/fimo/mibig-genes.fna

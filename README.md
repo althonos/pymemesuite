@@ -90,6 +90,12 @@ The MEME suite code is available under an academic license which allows
 distribution and non-commercial usage. See `vendor/meme/COPYING` for more
 information.
 
+Some test sequence data were obtained from [MIBiG](https://mibig.secondarymetabolites.org/)
+and are distributed under the [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+license. Some test motifs were obtained from [PRODORIC](https://www.prodoric.de) and are
+distributed under the [CC BY-NC 4.0](https://creativecommons.org/licenses/by/4.0/)
+license.
+
 *This project is in no way affiliated, sponsored, or otherwise endorsed by
 the [original MEME suite authors](https://meme-suite.org/meme/doc/authors.html).
 It was developed by [Martin Larralde](https://github.com/althonos/pymemesuite)
