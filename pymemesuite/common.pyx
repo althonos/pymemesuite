@@ -165,7 +165,7 @@ cdef class Alphabet:
         libmeme.alphabet.alph_release(self._alph)
 
     def __repr__(self):
-        assert self._alph != NULL
+        assert self._alph is not NULL
         if libmeme.alphabet.alph_is_builtin_rna(self._alph):
             return "Alphabet.rna()"
         elif libmeme.alphabet.alph_is_builtin_dna(self._alph):
@@ -181,14 +181,36 @@ cdef class Alphabet:
     def size(self):
         """`int`: The number of core letters in the alphabet.
         """
+        assert self._alph is not NULL
         return libmeme.alphabet.alph_size_core(self._alph)
 
     @property
     def size_wild(self):
         """`int`: The number of core and wildcard letters in the alphabet.
         """
+        assert self._alph is not NULL
         return libmeme.alphabet.alph_size_wild(self._alph)
 
+    @property
+    def size_full(self):
+        """`int`: The number of core and wildcard letters in the alphabet.
+        """
+        assert self._alph is not NULL
+        return libmeme.alphabet.alph_size_full(self._alph)
+
+    @property
+    def wildcard(self):
+        """`str`: The wildcard letter of the alphabet.
+        """
+        assert self._alph is not NULL
+        return chr(libmeme.alphabet.alph_wildcard(self._alph))
+
+    @property
+    def symbols(self):
+        """`str`: The symbols in the alphabet.
+        """
+        assert self._alph is not NULL
+        return self._alph.symbols.decode('ascii')
 
 # --- Array ------------------------------------------------------------------
 
