@@ -294,7 +294,7 @@ void add_cisml_pattern(CISML_T *cisml, PATTERN_T* pattern);
   allocate_cisml_match_iterator
 
   Constructor for an iterator used to traverse all matched elements
-  in in a cisml object. It stores the current index into the array of 
+  in in a cisml object. It stores the current index into the array of
   matched elements for each of the patterns in the CisML object.
 **********************************************************************/
 CISML_MATCH_IT_T *allocate_cisml_match_iterator(CISML_T *cisml);
@@ -406,7 +406,7 @@ MULTI_PATTERN_MATCH_T *get_multi_pattern_match(
   Sets the pvalue member in a cisml pattern object.
 **********************************************************************/
 void set_multi_pattern_match(
-  MULTI_PATTERN_T *multi_pattern, 
+  MULTI_PATTERN_T *multi_pattern,
   MULTI_PATTERN_MATCH_T *match
 );
 
@@ -433,7 +433,7 @@ void add_multi_pattern_pattern(
  *************************************************************************/
 void multi_pattern_calculate_qvalues(
   int num_multi_pattern,
-  MULTI_PATTERN_T **multi_patterns, 
+  MULTI_PATTERN_T **multi_patterns,
   ARRAY_T *sampled_pvalues
 );
 
@@ -504,7 +504,7 @@ void free_pattern(PATTERN_T *pattern);
 /**********************************************************************
   add_pattern_elements_to_scanned_seq
 
-  Updates each scanned sequence belonging to pattern with the 
+  Updates each scanned sequence belonging to pattern with the
   matched_elements assocaited with that sequence.
 
 **********************************************************************/
@@ -557,7 +557,7 @@ void set_pattern_max_pvalue_retained(PATTERN_T *pattern, double max_pvalue);
   Gets the maximum number of elements that will be stored in a cisml
   pattern object.
 **********************************************************************/
-int get_pattern_max_stored_matches(PATTERN_T *pattern); 
+int get_pattern_max_stored_matches(PATTERN_T *pattern);
 
 /**********************************************************************
   get_pattern_num_stored_matches
@@ -565,12 +565,12 @@ int get_pattern_max_stored_matches(PATTERN_T *pattern);
   Gets the maximum number of elements that will be stored in a cisml
   pattern object.
 **********************************************************************/
-int get_pattern_num_stored_matches(PATTERN_T *pattern); 
+int get_pattern_num_stored_matches(PATTERN_T *pattern);
 
 /**********************************************************************
   get_pattern_is_complete
 
-  Returns a flag indicating whether or not all matched elements have 
+  Returns a flag indicating whether or not all matched elements have
   been added to the pattern. If flag is true, the element heap is no
   longer available and all matched elements are stored in an array
   of matched element pointers, sorted by p-value.
@@ -580,9 +580,9 @@ bool get_pattern_is_complete(PATTERN_T *pattern);
 /**********************************************************************
   set_pattern_is_complete
 
-  Sets the flag indicating that all matched elements have 
-  been added to the pattern to true.  Moves  all matched elments out of 
-  the element heap into an array of matched element pointers, sorted by 
+  Sets the flag indicating that all matched elements have
+  been added to the pattern to true.  Moves  all matched elments out of
+  the element heap into an array of matched element pointers, sorted by
   p-value. No further elements can be added to the pattern once
   this function has been called.
 **********************************************************************/
@@ -657,7 +657,7 @@ void set_pattern_score(PATTERN_T *pattern, double score);
 
   Sets the score member in a cisml pattern object to null.
 **********************************************************************/
-void clear_pattern_pvalue(PATTERN_T *pattern);
+void clear_pattern_score(PATTERN_T *pattern);
 
 /**********************************************************************
   has_pattern_score
@@ -956,7 +956,7 @@ void add_scanned_sequence_scanned_position(SCANNED_SEQUENCE_T *sequence);
 /**********************************************************************
   get_scanned_sequence_num_matched_elements
 
-  Gets the number of matched_element objects in a cisml 
+  Gets the number of matched_element objects in a cisml
   scanned_sequence object.
 **********************************************************************/
 int get_scanned_sequence_num_matched_elements(SCANNED_SEQUENCE_T *sequence);
@@ -998,7 +998,7 @@ MATCHED_ELEMENT_T **get_scanned_sequence_matched_elements(
 /**********************************************************************
   get_scanned_sequences_matched_elements
 
-  Gets the array of pointers to matched_element objects in a cisml 
+  Gets the array of pointers to matched_element objects in a cisml
   scanned_sequence object.  May return NULL.
 **********************************************************************/
 MATCHED_ELEMENT_T **get_scanned_sequence_matched_elements(
@@ -1021,8 +1021,8 @@ MATCHED_ELEMENT_T *allocate_matched_element(
 /**********************************************************************
   allocate_matched_element_without_inversion
 
-  Alternative Constructor for the cisml matched_element data structure. 
-  Sets required fields to the provided arguments. 
+  Alternative Constructor for the cisml matched_element data structure.
+  Sets required fields to the provided arguments.
   Other fields set to NULL.
 
   JH: I had to add this because the existing constructor inverts the
@@ -1032,8 +1032,8 @@ MATCHED_ELEMENT_T *allocate_matched_element(
       For the record I think this is a poor way to design a constructor.
 **********************************************************************/
 MATCHED_ELEMENT_T *allocate_matched_element_without_inversion(
-  int start, 
-  int stop, 
+  int start,
+  int stop,
   const char *seq,
   SCANNED_SEQUENCE_T *parent
 );
@@ -1212,7 +1212,7 @@ void set_matched_element_sequence(MATCHED_ELEMENT_T* element, char *seq);
 /*************************************************************************
  * sort_matched_elements
  *
- * Sort an array of pointers to matched-elements sites by pvalue 
+ * Sort an array of pointers to matched-elements sites by pvalue
  * or by sequence name and position.
  *
  * JH - I opened this up to make it accessible outside of the CISML code
@@ -1230,10 +1230,10 @@ void sort_matched_elements(
   Print the opening section of the CisML XML
 **********************************************************************/
 void print_cisml_start(
-  FILE* out, 
-  char *program_name, 
+  FILE* out,
+  char *program_name,
   bool print_header,
-  const char *stylesheet, 
+  const char *stylesheet,
   bool print_namespace
 );
 
@@ -1267,7 +1267,7 @@ void print_cisml(
 /**********************************************************************
   print_cisml_start_pattern
 
-  Print the starting tag for a CisML pattern 
+  Print the starting tag for a CisML pattern
 **********************************************************************/
 void print_cisml_start_pattern(
   CISML_T *cisml,
@@ -1278,7 +1278,7 @@ void print_cisml_start_pattern(
 /**********************************************************************
   print_cisml_end_pattern
 
-  Print the ending tag for a CisML pattern 
+  Print the ending tag for a CisML pattern
 **********************************************************************/
 void print_cisml_end_pattern(FILE *out);
 
