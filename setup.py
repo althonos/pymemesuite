@@ -470,7 +470,6 @@ class clean(_clean):
 libraries = [
     Library(
         "xml2",
-        extra_compile_args=["-Wno-all"],
         include_dirs=[
             os.path.join("vendor", "meme", "src"),
             os.path.join("vendor", "meme", "src", "libxml2", "include"),
@@ -491,7 +490,6 @@ libraries = [
     Library(
         "xslt",
         libraries=["xml2"],
-        extra_compile_args=["-Wno-all"],
         include_dirs=[
             os.path.join("vendor", "meme", "src"),
             os.path.join("vendor", "meme", "src", "libxml2", "include"),
@@ -510,7 +508,6 @@ libraries = [
     Library(
         "meme",
         libraries=["xml2", "xslt"],
-        extra_compile_args=["-Wno-all"],
         define_macros=[
             ("MT_GENERATE_CODE_IN_HEADER", "0"),
         ],
