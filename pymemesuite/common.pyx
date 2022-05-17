@@ -640,9 +640,10 @@ cdef class MotifFile:
         libmeme.motif_in.mread_set_pseudocount(self._reader, pseudocount)
 
     def __dealloc__(self):
-        if self._reader is not NULL:
+        if self._close and not self.handle.closed:
             warnings.warn("unclosed motif file", ResourceWarning)
             self.close()
+        libmeme.motif_in.mread_destroy(self._reader)
 
     def __enter__(self):
         return self
@@ -694,8 +695,6 @@ cdef class MotifFile:
         """
         if self._close:
             self.handle.close()
-        libmeme.motif_in.mread_destroy(self._reader)
-        self._reader = NULL
 
     cpdef Motif read(self):
         assert self._reader is not NULL

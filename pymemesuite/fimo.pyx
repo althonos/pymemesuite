@@ -1,5 +1,14 @@
 # coding: utf-8
 # cython: language_level=3, linetrace=True
+"""Implementation of the Find Individual Motif Occurences (FIMO) method.
+
+FIMO searches a set of sequences for occurrences of known motifs, treating
+each motif independently. It uses a dynamic programming algorithm to convert
+log-odds scores into *p-values*, assuming a zero-order background model, and
+then into *q-values* following the method of Benjamini & Hochberg.
+
+"""
+
 from libc.math cimport NAN, isnan, log2
 
 cimport libmeme.alphabet
@@ -47,6 +56,7 @@ cdef class FIMO:
 
     def __init__(
         self,
+        *,
         double alpha = 1.0,
         bint both_strands = True,
         double threshold = 1e-4,
