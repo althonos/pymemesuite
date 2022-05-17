@@ -209,7 +209,7 @@ cdef class FIMO:
     ):
         cdef int              i
         cdef Sequence         sequence
-        cdef Array            values
+        cdef ARRAY_T          values
         cdef PSSM             pssm_rev     = None
         cdef ReservoirSampler reservoir    = ReservoirSampler(10000)
         cdef Pattern          pattern      = Pattern(pssm.motif.accession, pssm.motif.name)
@@ -232,8 +232,8 @@ cdef class FIMO:
             pssm_rev = pssm.reverse_complement()
             pssm_raw_bwd = pssm_rev._pssm
 
-        # score all sequences with the given motif
         with nogil:
+            # score all sequences with the given motif
             for i in range(length):
                 self._score_sequence(
                     reservoir._reservoir,
@@ -242,11 +242,14 @@ cdef class FIMO:
                     pssm_raw_fwd,
                     pssm_raw_bwd,
                 )
+            # complete pattern
+            libmeme.cisml.set_pattern_is_complete(pattern._pattern)
+            # compute q-values
+            values.num_items = libmeme.reservoir.get_reservoir_num_samples_retained(reservoir._reservoir)
+            values.items = libmeme.reservoir.get_reservoir_samples(reservoir._reservoir)
+            libmeme.cisml.pattern_calculate_qvalues(pattern._pattern, &values)
 
-        # complete pattern, compute q-values and return pattern
-        libmeme.cisml.set_pattern_is_complete(pattern._pattern)
-        values = Array(reservoir.values)
-        libmeme.cisml.pattern_calculate_qvalues(pattern._pattern, values._array)
+
         return pattern
 
     cpdef Pattern score_motif(
