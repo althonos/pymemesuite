@@ -50,9 +50,10 @@ cdef struct site_score_t:
 
 cdef class FIMO:
 
-    cdef double alpha
-    cdef double threshold
-    cdef bint   both_strands
+    cdef double       alpha
+    cdef double       threshold
+    cdef bint         both_strands
+    cdef unsigned int max_stored_scores
 
     def __init__(
         self,
@@ -60,10 +61,12 @@ cdef class FIMO:
         double alpha = 1.0,
         bint both_strands = True,
         double threshold = 1e-4,
+        int max_stored_scores = 100000,
     ):
         self.alpha = alpha
         self.both_strands = both_strands
         self.threshold = threshold
+        self.max_stored_scores = max_stored_scores
 
     cdef bint _record_score(
         self,
@@ -188,7 +191,6 @@ cdef class FIMO:
                     libmeme.cisml.set_matched_element_start(match_bwd, start_bwd)
                     libmeme.cisml.set_matched_element_stop(match_bwd, stop_bwd)
                 # match motif on reverse strand
-                match_bwd = libmeme.cisml.allocate_matched_element(start_fwd, stop_fwd, scanned_seq)
                 scores_bwd = self._score_site(&seqdata[offset], pssm_rev, NAN)
                 if scores_bwd.scoreable:
                     libmeme.cisml.set_matched_element_pvalue(match_bwd, scores_bwd.pvalue)
@@ -235,6 +237,7 @@ cdef class FIMO:
         for i, sequence in enumerate(sequences):
             seqptr[i] = sequence._seq
         # record options in the pattern object
+        libmeme.cisml.set_pattern_max_stored_matches(pattern._pattern, self.max_stored_scores)
         libmeme.cisml.set_pattern_max_pvalue_retained(pattern._pattern, self.threshold)
 
         # compute reverse complement
