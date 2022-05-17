@@ -8,7 +8,7 @@ except ImportError:
 
 import pymemesuite
 from pymemesuite.common import MotifFile, Sequence
-from pymemesuite.fimo import MotifOccurencesFinder
+from pymemesuite.fimo import FIMO
 
 from . import fasta
 
@@ -43,7 +43,7 @@ class TestFIMO(unittest.TestCase):
             motif_file = MotifFile(f, symmetrical=True)
             motif = motif_file.read()
 
-        fimo = MotifOccurencesFinder(both_strands=True)
+        fimo = FIMO(both_strands=True)
         pattern = fimo.score_motif(motif, self.sequences, motif_file.background)
 
         with importlib_resources.open_text("tests.data.fimo", "results.tsv") as f:
@@ -61,7 +61,7 @@ class TestFIMO(unittest.TestCase):
             motif_file = MotifFile(f, symmetrical=False)
             motif = motif_file.read()
 
-        fimo = MotifOccurencesFinder(both_strands=False)
+        fimo = FIMO(both_strands=False)
         pattern = fimo.score_motif(motif, self.sequences, motif_file.background)
 
         with importlib_resources.open_text("tests.data.fimo", "results-norc.tsv") as f:
