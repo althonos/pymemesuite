@@ -785,6 +785,26 @@ cdef class PSSM:
 
         return copy
 
+    cpdef PSSM reverse_complement(self):
+        assert self._pssm is not NULL
+
+        cdef int      i
+        cdef ARRAY_T* left_scores
+        cdef ARRAY_T* right_scores
+        cdef ALPH_T*  alph         = libmeme.pssm.get_pssm_alph(self._pssm)
+        cdef PSSM     rc           = self.copy()
+        cdef int      length       = libmeme.matrix.get_num_rows(rc._pssm.matrix)
+
+        if rc._pssm.motif is not NULL:
+            libmeme.motif.reverse_complement_motif(rc._pssm.motif)
+
+        for i in range((length + 1) / 2):
+            left_scores = libmeme.matrix.get_matrix_row(i, rc._pssm.matrix)
+            right_scores = libmeme.matrix.get_matrix_row(length - i - 1, rc._pssm.matrix)
+            libmeme.alphabet.complement_swap_freqs(alph, left_scores, right_scores)
+
+        return rc
+
 
 # --- ReservoirSampler -------------------------------------------------------
 

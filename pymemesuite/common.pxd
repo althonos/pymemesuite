@@ -98,6 +98,7 @@ cdef class PSSM:
     cdef readonly Motif    motif
 
     cpdef PSSM copy(self)
+    cpdef PSSM reverse_complement(self)
 
 
 # --- ReservoirSampler -------------------------------------------------------
