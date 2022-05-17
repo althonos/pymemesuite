@@ -14,3 +14,7 @@ class TestAlphabet(unittest.TestCase):
         self.assertEqual(rna.size, 4)
         amino = Alphabet.amino()
         self.assertEqual(amino.size, 20)
+
+    def test_wildcard(self):
+        dna = Alphabet.dna()
+        self.assertEqual(dna.wildcard, 'N')

@@ -634,10 +634,24 @@ cdef class MotifFile:
     @property
     def background(self):
         assert self._reader is not NULL
-        cdef Array array = Array.__new__(Array)
+
+        cdef Array     array
+        cdef int       bytes_read = 1
+        cdef char[::1] view       = self.buffer
+        cdef ARRAY_T*  bg         = libmeme.motif_in.mread_get_background(self._reader)
+
+        while bytes_read > 0 and bg is NULL:
+            bytes_read = self.handle.readinto(self.buffer)
+            libmeme.motif_in.mread_update(self._reader, &view[0], bytes_read, bytes_read == 0)
+            bg = libmeme.motif_in.mread_get_background(self._reader)
+
+        if bg is NULL:
+            return None
+
+        array = Array.__new__(Array)
         array._owner = None
-        array._array = libmeme.motif_in.mread_get_background(self._reader)
-        return None if array._array is NULL else array
+        array._array = bg
+        return array
 
     # --- Methods ------------------------------------------------------------
 
