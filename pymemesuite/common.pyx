@@ -370,16 +370,23 @@ cdef class Motif:
         bytes name = None,
         bytes accession = None,
     ):
+        cdef MATRIX_T* freq_ptr = NULL
+        cdef MATRIX_T* scores_ptr = NULL
+
         if frequencies is None and scores is None:
             raise ValueError("Either `frequencies` or `scores` are required to create a `Motif`")
+        if frequencies is not None:
+            freq_ptr = frequencies._mx
+        if scores is not None:
+            scores_ptr = scores._mx
 
         self.alphabet = alphabet
         self._motif = libmeme.motif.allocate_motif(
             b"",
             b"",
             alphabet._alph,
-            NULL if frequencies is None else frequencies._mx,
-            NULL if scores is None else scores._mx,
+            freq_ptr,
+            scores_ptr,
         )
 
     # --- Properties ---------------------------------------------------------
@@ -485,13 +492,17 @@ cdef class Motif:
         if len(bg_freqs) != self.alphabet.size:
             raise ValueError("``pv_freqs`` length is inconsistent with motif alphabet")
 
-        cdef PSSM pssm = PSSM.__new__(PSSM)
+        cdef PRIOR_DIST_T* pd   = NULL
+        cdef PSSM          pssm = PSSM.__new__(PSSM)
+
+        if prior_dist is not None:
+            pd = prior_dist._pd
         with nogil:
             pssm._pssm = libmeme.pssm.build_motif_pssm(
                 self._motif,
                 bg_freqs._array,
                 pv_freqs._array,
-                NULL if prior_dist is None else prior_dist._pd,
+                pd,
                 alpha,
                 range,
                 num_gc_bins,
@@ -861,9 +872,18 @@ cdef class Sequence:
         bytes description = None,
         unsigned int offset = 0,
     ):
+
+        cdef char* name_ptr = NULL
+        cdef char* desc_ptr = NULL
+
+        if name is not None:
+            name_ptr = <char*> name
+        if description is not None:
+            desc_ptr = <char*> description
+
         self._seq = libmeme.seq.allocate_seq(
-            NULL if name is None else <char*> name,
-            NULL if description is None else <char*> description,
+            name_ptr,
+            desc_ptr,
             offset,
             sequence.encode('ascii')
         )
