@@ -124,13 +124,17 @@ class build_ext(_build_ext):
         else:
             ext.define_macros.append(("CYTHON_WITHOUT_ASSERTIONS", 1))
 
+        # use GNU89 extensions if
+        if platform.system() == "Linux" and self.compiler.compiler_type == "unix":
+            ext.extra_compile_args.append("-fgnu89-inline")
+
         # update link and include directories
         ext.include_dirs.append(self._clib_cmd.build_clib)
         ext.library_dirs.append(self._clib_cmd.build_clib)
 
         # use static linking by directly using the static library path
-        # instead of a `-l` flag, and remove the library so that the compiler
-        # doesn't try to linking against the system libraries
+        # instead of a `-l` flag, and remove the library so that the
+        # compiler doesn't try to link against the system libraries
         for name in ext.libraries.copy():
             lib = self._clib_cmd.get_library(name)
             if lib is not None:
@@ -194,6 +198,7 @@ class configure(_build_clib):
         "fork": ["unistd.h"],
         "getcwd": ["unistd.h"],
         "gethostbyname": ["netdb.h"],
+        "gmtime": ["time.h"],
         "isascii": ["ctype.h"],
         "isinf": ["math.h"],
         "isnan": ["math.h"],
@@ -220,6 +225,7 @@ class configure(_build_clib):
         "floor": ["3.14"],
         "getcwd": ["0", "0"],
         "gethostbyname": ['"localhost"'],
+        "gmtime": ["0"],
         "isascii": ["0"],
         "isinf": ["0.0"],
         "isnan": ["0.0"],
@@ -393,14 +399,15 @@ class build_clib(_build_clib):
 
     def build_libraries(self, libraries):
         # check platform
-        system = platform.system()
-        if system == "Linux":
+        if platform.system() == "Linux":
             self.compiler.define_macro("Linux")
         # get hostname
         self.compiler.define_macro("HOSTNAME", '"{}"'.format(socket.gethostname()))
         # compile each library
         self.mkpath(self.build_clib)
         for library in libraries:
+            if platform.system() == "Linux" and self.compiler.compiler_type == "unix":
+                library.extra_compile_args.append("-fgnu89-inline")
             self.make_file(
                 library.sources,
                 self.compiler.library_filename(library.name, output_dir=self.build_clib),
@@ -475,7 +482,6 @@ class clean(_clean):
 libraries = [
     Library(
         "xml2",
-        # extra_compile_args=["-std=gnu89"],
         include_dirs=[
             os.path.join("vendor", "meme", "src"),
             os.path.join("vendor", "meme", "src", "libxml2", "include"),
@@ -496,7 +502,6 @@ libraries = [
     Library(
         "xslt",
         libraries=["xml2"],
-        # extra_compile_args=["-std=gnu89"],
         include_dirs=[
             os.path.join("vendor", "meme", "src"),
             os.path.join("vendor", "meme", "src", "libxml2", "include"),
@@ -515,7 +520,6 @@ libraries = [
     Library(
         "meme",
         libraries=["xml2", "xslt"],
-        # extra_compile_args=["-std=gnu89"],
         define_macros=[
             # ("MT_GENERATE_CODE_IN_HEADER", "0"),
         ],
@@ -558,7 +562,6 @@ extensions = [
         sources=[
             os.path.join("pymemesuite", "errors.pyx"),
         ],
-        # extra_compile_args=["-std=gnu89"],
         include_dirs=[os.path.join("vendor", "meme", "src")],
     ),
     Extension(
@@ -567,7 +570,6 @@ extensions = [
             os.path.join("pymemesuite", "common.pyx"),
             os.path.join("pymemesuite", "_globals.c"),
         ],
-        # extra_compile_args=["-std=gnu89"],
         libraries=["m", "xml2", "meme"],
         include_dirs=[
             os.path.join("vendor", "meme", "src"),
@@ -579,7 +581,6 @@ extensions = [
             os.path.join("pymemesuite", "cisml.pyx"),
             os.path.join("pymemesuite", "_globals.c"),
         ],
-        # extra_compile_args=["-std=gnu89"],
         libraries=["m", "xml2", "xslt", "meme"],
         include_dirs=[
             os.path.join("vendor", "meme", "src"),
@@ -592,7 +593,6 @@ extensions = [
             os.path.join("pymemesuite", "fimo.pyx"),
             os.path.join("pymemesuite", "_globals.c"),
         ],
-        # extra_compile_args=["-std=gnu89"],
         libraries=["m", "xml2", "xslt", "meme"],
         include_dirs=[
             os.path.join("vendor", "meme", "src"),
