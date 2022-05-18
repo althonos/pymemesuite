@@ -49,6 +49,8 @@ from .errors import AllocationError
 # --- Alphabet ---------------------------------------------------------------
 
 cdef class Alphabet:
+    """An alphabet with support for ambiguous symbols and complementation.
+    """
 
     # --- Class methods ------------------------------------------------------
 
@@ -155,6 +157,7 @@ cdef class Alphabet:
         """
         assert self._alph is not NULL
         return self._alph.symbols.decode('ascii')
+
 
 # --- Array ------------------------------------------------------------------
 
@@ -289,10 +292,14 @@ cdef class Array:
 
     @property
     def itemsize(self):
+        """`int`: The size of each array element (in bytes).
+        """
         return sizeof(ATYPE)
 
     @property
     def format(self):
+        """`str`: The format of each array element (in `struct` style).
+        """
         return "d"
 
     # --- Methods ------------------------------------------------------------
@@ -320,11 +327,18 @@ cdef class Array:
 # --- Matrix -----------------------------------------------------------------
 
 cdef class Matrix:
+    """An indirect matrix storing rows as individual arrays.
+    """
 
     # --- Class methods ------------------------------------------------------
 
     @classmethod
     def zeros(cls, int m, int n):
+        """zeros(cls, m, n)\n--
+
+        Create a matrix with ``m`` rows and ``n`` columns filled with zeros.
+
+        """
         if m < 0 or n < 0:
             raise ValueError("Cannot create a matrix with negative dimension")
 
@@ -343,6 +357,14 @@ cdef class Matrix:
     def __cinit__(self):
         self._owner = None
         self._mx = NULL
+
+    def __init__(self, object iterable = ()):
+        """__init__(self, iterable=())\n--
+
+        Create a new matrix from the given iterable of values.
+
+        """
+        raise NotImplementedError("Matrix.__init__")
 
     def __dealloc__(self):
         if self._owner is None:
@@ -434,6 +456,8 @@ cdef class Matrix:
 # --- Motif ------------------------------------------------------------------
 
 cdef class Motif:
+    """A single MEME motif.
+    """
 
     # --- Magic methods ------------------------------------------------------
 
@@ -448,11 +472,32 @@ cdef class Motif:
         self,
         Alphabet alphabet not None,
         *,
-        Matrix frequencies = None,
         Matrix scores = None,
+        Matrix frequencies = None,
         bytes name = None,
         bytes accession = None,
     ):
+        """__init__(self, alphabet, *, scores=None, frequencies=None, name=None, accession=None)\n--
+
+        Create a new motif with the given alphabet and scores / frequencies.
+
+        Arguments:
+            alphabet (`~pymemesuite.common.Alphabet`): The alphabet for the
+                motif.
+            scores (`~pymemesuite.common.Matrix`): The position-specific
+                scoring matrix for this motif.
+            frequencies (`~pymemesuite.common.Matrix`): The frequency matrix
+                for this motif.
+
+        Keyword Arguments:
+            name (`bytes`): The name of the motif.
+            accession (`bytes`): The accession of the motif.
+
+        Caution:
+            Either ``frequencies`` or ``scores`` must be provided to create
+            a new motif.
+
+        """
         cdef MATRIX_T* freq_ptr = NULL
         cdef MATRIX_T* scores_ptr = NULL
 
@@ -476,26 +521,36 @@ cdef class Motif:
 
     @property
     def accession(self):
+        """`bytes`: The accession of the motif.
+        """
         assert self._motif is not NULL
         return libmeme.motif.get_motif_id(self._motif)
 
     @property
     def name(self):
+        """`bytes`: The name of the motif.
+        """
         assert self._motif is not NULL
         return libmeme.motif.get_motif_id2(self._motif)
 
     @property
     def strand(self):
+        """`str`: The strand of the motif (either *+*, *-* or *?*).
+        """
         assert self._motif is not NULL
         return chr(libmeme.motif.get_motif_strand(self._motif))
 
     @property
     def width(self):
+        """`int`: The width of the motif, i.e. the number of sites.
+        """
         assert self._motif is not NULL
         return libmeme.motif.get_motif_length(self._motif)
 
     @property
     def frequencies(self):
+        """`~pymemesuite.common.Matrix`: The frequency matrix.
+        """
         assert self._motif is not NULL
         cdef Matrix matrix = Matrix.__new__(Matrix)
         matrix._owner = self
@@ -504,6 +559,8 @@ cdef class Motif:
 
     @property
     def scores(self):
+        """`~pymemesuite.common.Matrix`: The position-specific scoring matrix.
+        """
         assert self._motif is not NULL
         cdef Matrix matrix = Matrix.__new__(Matrix)
         matrix._owner = self
@@ -512,21 +569,29 @@ cdef class Motif:
 
     @property
     def evalue(self):
+        """`float`: The E-value associated with this motif.
+        """
         assert self._motif is not NULL
         return libmeme.motif.get_motif_evalue(self._motif)
 
     @property
     def log_evalue(self):
+        """`float`: The log10 of E-value associated with this motif.
+        """
         assert self._motif is not NULL
         return libmeme.motif.get_motif_log_evalue(self._motif)
 
     @property
     def consensus(self):
+        """`str`: The single letter consensus obtained from the PSSM.
+        """
         assert self._motif is not NULL
         return libmeme.motif.get_motif_consensus(self._motif).decode('ascii')
 
     @property
     def url(self):
+        """`str`, optional: An optional URL mapping to the motif.
+        """
         assert self._motif is not NULL
         if not libmeme.motif.has_motif_url(self._motif):
             return None
@@ -534,6 +599,8 @@ cdef class Motif:
 
     @property
     def complexity(self):
+        """`float`: The complexity of the motif.
+        """
         assert self._motif is not NULL
         return libmeme.motif.get_motif_complexity(self._motif)
 
@@ -551,7 +618,7 @@ cdef class Motif:
     ):
         """build_pssm(self, bg_freqs, pv_freqs, prior_dist=None, alpha=1.0, range=1, num_gc_bins=0, no_log=False)
 
-        Build a `PSSM` from this motif.
+        Build a `~pymemesuite.common.PSSM` object from this motif.
 
         Arguments:
             bg_freqs (`Array`): The background frequencies.
@@ -623,6 +690,8 @@ cdef class Motif:
 # --- MotifFile --------------------------------------------------------------
 
 cdef class MotifFile:
+    """A reader for files storing MEME motifs.
+    """
 
     # --- Magic methods ------------------------------------------------------
 
@@ -701,6 +770,8 @@ cdef class MotifFile:
 
     @property
     def alphabet(self):
+        """`~pymemesuite.common.Alphabet`: The motifs alphabet, or `None`.
+        """
         assert self._reader is not NULL
 
         cdef ALPH_T*  alph
@@ -716,6 +787,8 @@ cdef class MotifFile:
 
     @property
     def background(self):
+        """`~pymemesuite.common.Array`: The motifs background frequencies.
+        """
         assert self._reader is not NULL
 
         cdef Array     array
@@ -748,6 +821,15 @@ cdef class MotifFile:
             self.handle.close()
 
     cpdef Motif read(self):
+        """read(self)\n--
+
+        Read a single motif from the file.
+
+        Returns:
+            `~pymemesuite.common.Motif`: The next motif from the file, or
+            `None` if all the motifs from the file were parsed.
+
+        """
         assert self._reader is not NULL
 
         cdef int       bytes_read = 1
@@ -777,10 +859,15 @@ cdef class PriorDist:
     def __cinit__(self):
         self._pd = NULL
 
+    def __init__(self):
+        raise NotImplementedError("PriorDist.__init__")
+
 
 # --- PSSM -------------------------------------------------------------------
 
 cdef class PSSM:
+    """A position-specific scoring matrix with custom scale and offset.
+    """
 
     # --- Magic Methods ------------------------------------------------------
 
@@ -791,6 +878,9 @@ cdef class PSSM:
     def __dealloc__(self):
         libmeme.pssm.free_pssm(self._pssm)
 
+    def __init__(self):
+        raise NotImplementedError("PSSM.__init__")
+
     def __copy__(self):
         assert self._pssm is not NULL
         return self.copy()
@@ -799,11 +889,15 @@ cdef class PSSM:
 
     @property
     def width(self):
+        """`int`: The width of the PSSM, i.e. the number of sites.
+        """
         assert self._pssm is not NULL
         return libmeme.pssm.get_pssm_w(self._pssm)
 
     @property
     def matrix(self):
+        """`~pymemesuite.common.Matrix`: The scaled scoring matrix.
+        """
         assert self._pssm is not NULL
         cdef Matrix matrix = Matrix.__new__(Matrix)
         matrix._mx = self._pssm.matrix
@@ -812,6 +906,8 @@ cdef class PSSM:
 
     @property
     def pvalues(self):
+        """`~pymemesuite.common.Array`: The p-value LUT for log-scaled scores.
+        """
         assert self._pssm is not NULL
         cdef Array array = Array.__new__(Array)
         array._array = self._pssm.pv
@@ -820,17 +916,29 @@ cdef class PSSM:
 
     @property
     def scale(self):
+        """`float`: The scale factor for log-scaled scores.
+        """
         assert self._pssm is not NULL
         return libmeme.pssm.get_pssm_scale(self._pssm)
 
     @property
     def offset(self):
+        """`float`: The offset for log-scaled scores.
+        """
         assert self._pssm is not NULL
         return libmeme.pssm.get_pssm_offset(self._pssm)
 
     # --- Methods ------------------------------------------------------------
 
     cpdef PSSM copy(self):
+        """copy(self)\n--
+
+        Create a copy of this position-specific scoring matrix.
+
+        Returns:
+            `~pymemesuite.common.PSSM`: A copy of this PSSM object.
+
+        """
         assert self._pssm is not NULL
 
         cdef int  i
@@ -889,6 +997,16 @@ cdef class PSSM:
         return copy
 
     cpdef PSSM reverse_complement(self):
+        """reverse_complement(self)\n--
+
+        Create a new motif with the reverse-complement of this motif.
+
+        Returns:
+            `~pymemesuite.common.PSSM`: The reverse-complemented copy of
+            this PSSM object. The source motif for this PSSM is
+            reverse-complemented as well.
+
+        """
         assert self._pssm is not NULL
 
         cdef int      i
@@ -912,6 +1030,8 @@ cdef class PSSM:
 # --- ReservoirSampler -------------------------------------------------------
 
 cdef class ReservoirSampler:
+    """A collection for reservoir sampling.
+    """
 
     # --- Magic Methods ------------------------------------------------------
 
@@ -919,6 +1039,11 @@ cdef class ReservoirSampler:
         self._reservoir = NULL
 
     def __init__(self, size_t size):
+        """__init__(self, size)\n--
+
+        Create a new reservoir with the given size.
+
+        """
         self._reservoir = libmeme.reservoir.new_reservoir_sampler(size, NULL)
         if self._reservoir is NULL:
             raise AllocationError("RESERVOIR_SAMPLER_T", sizeof(RESERVOIR_SAMPLER_T*))
@@ -944,6 +1069,8 @@ cdef class ReservoirSampler:
 
     @property
     def values(self):
+        """`memoryview`: The values currently inside the reservoir.
+        """
         assert self._reservoir is not NULL
         cdef size_t  length  = libmeme.reservoir.get_reservoir_num_samples_retained(self._reservoir)
         cdef double* samples = libmeme.reservoir.get_reservoir_samples(self._reservoir)
@@ -976,6 +1103,8 @@ cdef class ReservoirSampler:
 # --- Sequence ---------------------------------------------------------------
 
 cdef class Sequence:
+    """A biological sequence with associated metadata.
+    """
 
     def __cinit__(self):
         self._seq = NULL
@@ -987,7 +1116,19 @@ cdef class Sequence:
         bytes description = None,
         unsigned int offset = 0,
     ):
+        """__init__(self, sequence, name=None, description=None, offset=0)\n--
 
+        Create a new sequence object.
+
+        Arguments:
+            sequence (`str`): The sequence letters.
+            name (`bytes`, *optional*): The name of the sequence.
+            description (`bytes`, *optional*): The description of the
+                sequence.
+            offset (`int`): An offset from the start of the complete
+                sequence, if this object only stores a fragment.
+
+        """
         cdef char* name_ptr = NULL
         cdef char* desc_ptr = NULL
 
@@ -1024,16 +1165,22 @@ cdef class Sequence:
 
     @property
     def name(self):
+        """`bytes`, *optional*: The name of this sequence, or `None`.
+        """
         assert self._seq is not NULL
         return <bytes> libmeme.seq.get_seq_name(self._seq)
 
     @property
     def description(self):
+        """`bytes`, *optional*: The description of this sequence, or `None`.
+        """
         assert self._seq is not NULL
         return <bytes> libmeme.seq.get_seq_description(self._seq)
 
     @property
     def offset(self):
+        """`int`: The offset from the start of the complete sequence.
+        """
         assert self._seq is not NULL
         return libmeme.seq.get_seq_offset(self._seq)
 
@@ -1044,6 +1191,8 @@ cdef class Sequence:
 
     @property
     def sequence(self):
+        """`memoryview`: A view over this sequence letters.
+        """
         assert self._seq is not NULL
 
         cdef object mem = PyMemoryView_FromMemory(
