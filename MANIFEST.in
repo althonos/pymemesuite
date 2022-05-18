@@ -1,0 +1,15 @@
+
+include           README.md
+include           CHANGELOG.md
+include           CONTRIBUTING.md
+include           COPYING
+include           pyproject.toml
+recursive-include include                     *.pxd *.h
+recursive-include pymemesuite                 *.h *.pxd *.pxi *.py *.pyi *.pyx py.typed _globals.c
+prune             tests
+
+recursive-include vendor                      *
+prune             vendor/meme/etc
+prune             vendor/meme/tests
+prune             vendor/meme/doc
+prune             vendor/meme/website
