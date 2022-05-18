@@ -7,7 +7,7 @@ from libmeme.alphabet cimport ALPH_T
 from libmeme.array cimport ARRAY_T
 from libmeme.hash_table cimport HASH_TABLE
 from libmeme.data_types cimport WEIGHTS_T, Z_T, LCB_T
-from libmeme.matrix cimport MATRIX_T
+from libmeme.matrix cimport MATRIX_T, MTYPE
 from libmeme.motif cimport MOTIF_T
 from libmeme.motif_in cimport MREAD_T
 
@@ -34,8 +34,9 @@ cdef class Alphabet:
 # --- Array ------------------------------------------------------------------
 
 cdef class Array:
-    cdef          ARRAY_T* _array
-    cdef readonly object   _owner
+    cdef          ARRAY_T*   _array
+    cdef          Py_ssize_t _len
+    cdef readonly object     _owner
 
     cpdef Array copy(self)
 
@@ -45,6 +46,10 @@ cdef class Array:
 cdef class Matrix:
     cdef          MATRIX_T* _mx
     cdef readonly object    _owner
+
+    cdef Array _get_row(self, int row)
+    cdef MTYPE _get_element(self, int row, int col)
+    cdef int _set_element(self, int row, int col, MTYPE value) except -1
 
 
 # --- Motif ------------------------------------------------------------------

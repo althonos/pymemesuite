@@ -32,6 +32,7 @@ from libmeme.alphabet cimport ALPH_T
 from libmeme.array cimport ATYPE
 from libmeme.hash_table cimport HASH_TABLE
 from libmeme.data_types cimport WEIGHTS_T, Z_T, LCB_T
+from libmeme.matrix cimport MTYPE
 from libmeme.meme cimport CANDIDATE, DATASET, MODEL, OBJTYPE, SAMPLE, THETA, P_POINT, BRANCH_PARAMS, POINT_BRANCHES
 from libmeme.mtype cimport MOTYPE
 from libmeme.user cimport MINSITES, BFACTOR, HSIZE, HS_DECREASE
@@ -211,7 +212,7 @@ cdef class Array:
             view = iterable
             with nogil:
                 libmeme.array.fill_array(&view[0], self._array)
-        except ValueError:
+        except (ValueError, TypeError):
             # if the iterable is not in contiguous memory, revert back
             # to manually setting array elements one-by-one
             for i, item in enumerate(iterable):
@@ -243,11 +244,11 @@ cdef class Array:
         buffer.buf = libmeme.array.raw_array(self._array)
         buffer.internal = NULL
         buffer.itemsize = sizeof(double)
-        buffer.len = libmeme.array.get_array_length(self._array)
+        buffer.len = self._len = libmeme.array.get_array_length(self._array)
         buffer.ndim = 1
         buffer.obj = self
-        buffer.readonly = 0
-        buffer.shape = NULL
+        buffer.readonly = False
+        buffer.shape = &self._len
         buffer.suboffsets = NULL
         buffer.strides = NULL
 
@@ -346,6 +347,88 @@ cdef class Matrix:
     def __dealloc__(self):
         if self._owner is None:
             libmeme.matrix.free_matrix(self._mx)
+
+    def __getitem__(self, object index):
+        assert self._mx is not NULL
+        if isinstance(index, int):
+            return self._get_row(index)
+        if isinstance(index, tuple) and len(index) == 2:
+            if isinstance(index[0], int) and isinstance(index[1], int):
+                return self._get_element(index[0], index[1])
+        ty = type(index).__name__
+        raise TypeError("unsupported index type: {ty}")
+
+    def __setitem__(self, object index, object value):
+        if isinstance(index, tuple) and len(index) == 2:
+            self._set_element(index[0], index[1], value)
+            return
+        ty = type(index).__name__
+        raise TypeError("unsupported index type: {ty}")
+
+    def __len__(self):
+        assert self._mx is not NULL
+        return libmeme.matrix.get_num_rows(self._mx)
+
+    def __repr__(self):
+        cdef Array row
+        cdef type  ty   = type(self)
+        cdef str   name = ty.__name__
+        cdef str   mod  = ty.__module__
+        return f"{mod}.{name}({[list(row) for row in self]!r})"
+
+    # --- Utilities ----------------------------------------------------------
+
+    cdef Array _get_row(self, int row):
+        cdef Array array
+        cdef int   m         = libmeme.matrix.get_num_rows(self._mx)
+        cdef int   row_index = row
+
+        if row_index < 0:
+            row_index += m
+        if row_index < 0 or row_index >= m:
+            raise IndexError(row)
+
+        array = Array.__new__(Array)
+        array._owner = self
+        array._array = self._mx.rows[row_index]
+        return array
+
+    cdef MTYPE _get_element(self, int row, int col):
+        cdef int m         = libmeme.matrix.get_num_rows(self._mx)
+        cdef int n         = libmeme.matrix.get_num_cols(self._mx)
+        cdef int row_index = row
+        cdef int col_index = col
+
+        if row_index < 0:
+            row_index += m
+        if row_index < 0 or row_index >= m:
+            raise IndexError(row)
+
+        if col_index < 0:
+            col_index += n
+        if col_index < 0 or col_index >= n:
+            raise IndexError(col)
+
+        return libmeme.matrix.get_matrix_cell(row_index, col_index, self._mx)
+
+    cdef int _set_element(self, int row, int col, MTYPE value) except -1:
+        cdef int m         = libmeme.matrix.get_num_rows(self._mx)
+        cdef int n         = libmeme.matrix.get_num_cols(self._mx)
+        cdef int row_index = row
+        cdef int col_index = col
+
+        if row_index < 0:
+            row_index += m
+        if row_index < 0 or row_index >= m:
+            raise IndexError(row)
+
+        if col_index < 0:
+            col_index += n
+        if col_index < 0 or col_index >= n:
+            raise IndexError(col)
+
+        libmeme.matrix.set_matrix_cell(row_index, col_index, value, self._mx)
+        return 0
 
 
 # --- Motif ------------------------------------------------------------------
@@ -462,7 +545,7 @@ cdef class Motif:
         Array pv_freqs,
         PriorDist prior_dist = None,
         double alpha = 1.0,
-        int range = 1,
+        int range = libmeme.pssm.PSSM_RANGE,
         int num_gc_bins = 0,
         bint no_log = False,
     ):
@@ -486,11 +569,11 @@ cdef class Motif:
         assert self._motif is not NULL
 
         if range <= 0:
-            raise ValueError("``range`` must be strictly positive")
+            raise ValueError("`range` must be strictly positive")
         if len(bg_freqs) != self.alphabet.size:
-            raise ValueError("``bg_freqs`` length is inconsistent with motif alphabet")
+            raise ValueError("`bg_freqs` length is inconsistent with motif alphabet")
         if len(bg_freqs) != self.alphabet.size:
-            raise ValueError("``pv_freqs`` length is inconsistent with motif alphabet")
+            raise ValueError("`pv_freqs` length is inconsistent with motif alphabet")
 
         cdef PRIOR_DIST_T* pd   = NULL
         cdef PSSM          pssm = PSSM.__new__(PSSM)
@@ -726,6 +809,16 @@ cdef class PSSM:
         matrix._mx = self._pssm.matrix
         matrix._owner = self
         return matrix
+
+    @property
+    def scale(self):
+        assert self._pssm is not NULL
+        return libmeme.pssm.get_pssm_scale(self._pssm)
+
+    @property
+    def offset(self):
+        assert self._pssm is not NULL
+        return libmeme.pssm.get_pssm_offset(self._pssm)
 
     # --- Methods ------------------------------------------------------------
 
