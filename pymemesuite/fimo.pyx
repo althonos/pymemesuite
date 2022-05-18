@@ -65,6 +65,22 @@ cdef class FIMO:
         double threshold = 1e-4,
         int max_stored_scores = 100000,
     ):
+        """__init__(self, *, alpha=1.0, both_strands=True, threshold=1e-4, max_stored_scores=100000)\n--
+
+        Create a new FIMO runner.
+
+        Keyword Arguments:
+            alpha (`float`): The scale factor for non-specific priors,
+            both_strands (`bool`): Whether or not to run the motif scan on
+                both segments.
+            threshold (`float`): The p-value above which matches are
+                marked as non-significant and discarded.
+            max_scored_scores (`int`): The maximum number of scored sites
+                to keep in the result `Pattern`. Using a smaller number
+                will reduce memory consumption at the cost of statistical
+                accuracy, and significant results may be lost.
+
+        """
         self.alpha = alpha
         self.both_strands = both_strands
         self.threshold = threshold
@@ -236,6 +252,21 @@ cdef class FIMO:
         PSSM pssm,
         list sequences,
     ):
+        """score_pssm(self, pssm, sequences)\n--
+
+        Score sequences with a position-specific scoring matrix.
+
+        Arguments:
+            pssm (`~pymemesuite.common.PSSM`): The position-specific scoring
+                matrix to score the sequences with.
+            sequences (`list` of `~pymemesuite.common.Sequence`): A list
+                containing the target sequences.
+
+        Returns:
+            `~pymemesuite.cisml.Pattern`: A pattern object storing
+            significant matches of the PSSM to the sequences.
+
+        """
         cdef int              i
         cdef Sequence         sequence
         cdef ARRAY_T          values
@@ -291,12 +322,40 @@ cdef class FIMO:
         Motif motif,
         list sequences,
         Array bg_freqs,
+        Array pv_freqs = None,
         PriorDist prior_dist = None,
     ):
+        """score_motif(self, pssm, sequences)\n--
+
+        Score sequences with a motif.
+
+        The motif is first converted into a PSSM with `Motif.build_pssm`,
+        and then sequences are scored with the `~FIMO.score_pssm` method.
+
+        Arguments:
+            Motif (`~pymemesuite.common.Motif`): The MEME motif to score
+                the sequences with.
+            sequences (`list` of `~pymemesuite.common.Sequence`): A list
+                containing the target sequences.
+            bg_freqs (`~pymemesuite.common.Array`): The background
+                letter frequencies for building the odds ratio for each
+                position of the PSSM.
+            pv_freqs (`~pymemesuite.common.Array`, *optional*): The
+                background letter frequencies for building the p-value
+                lookup table of the PSSM. If `None`, use the ``bg_freqs``
+                array.
+            prior_dist (`~pymemesuite.common.PriorDist`, *optional*): A
+                distribution of priors for building the PSSM.
+
+        Returns:
+            `~pymemesuite.cisml.Pattern`: A pattern object storing
+            significant matches of the PSSM to the sequences.
+
+        """
         # build PSSMs from motif
         pssm = motif.build_pssm(
             bg_freqs,
-            bg_freqs,
+            bg_freqs if pv_freqs is None else pv_freqs,
             prior_dist,
             self.alpha,
             PSSM_RANGE,
