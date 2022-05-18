@@ -5,14 +5,11 @@
 [![Actions](https://img.shields.io/github/workflow/status/althonos/pymemesuite/Test/master?logo=github&style=flat-square&maxAge=300)](https://github.com/althonos/pymemesuite/actions)
 [![Coverage](https://img.shields.io/codecov/c/gh/althonos/pymemesuite?logo=codecov&style=flat-square&maxAge=3600)](https://codecov.io/gh/althonos/pymemesuite/)
 [![PyPI](https://img.shields.io/pypi/v/pymemesuite.svg?logo=pypi&style=flat-square&maxAge=3600)](https://pypi.org/project/pymemesuite)
-[![Bioconda](https://img.shields.io/conda/vn/bioconda/pymemesuite?logo=anaconda&style=flat-square&maxAge=3600)](https://anaconda.org/bioconda/pymemesuite)
-[![AUR](https://img.shields.io/aur/version/python-pymemesuite?logo=archlinux&style=flat-square&maxAge=3600)](https://aur.archlinux.org/packages/python-pymemesuite)
 [![Wheel](https://img.shields.io/pypi/wheel/pymemesuite.svg?style=flat-square&maxAge=3600)](https://pypi.org/project/pymemesuite/#files)
 [![Python Versions](https://img.shields.io/pypi/pyversions/pymemesuite.svg?logo=python&style=flat-square&maxAge=3600)](https://pypi.org/project/pymemesuite/#files)
 [![Python Implementations](https://img.shields.io/pypi/implementation/pymemesuite.svg?logo=python&style=flat-square&maxAge=3600&label=impl)](https://pypi.org/project/pymemesuite/#files)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square&maxAge=2678400)](https://choosealicense.com/licenses/mit/)
 [![Source](https://img.shields.io/badge/source-GitHub-303030.svg?maxAge=2678400&style=flat-square)](https://github.com/althonos/pymemesuite/)
-[![Mirror](https://img.shields.io/badge/mirror-EMBL-009f4d?style=flat-square&maxAge=2678400)](https://git.embl.de/larralde/pymemesuite/)
 [![GitHub issues](https://img.shields.io/github/issues/althonos/pymemesuite.svg?style=flat-square&maxAge=600)](https://github.com/althonos/pymemesuite/issues)
 [![Docs](https://img.shields.io/readthedocs/pymemesuite/latest?style=flat-square&maxAge=600)](https://pymemesuite.readthedocs.io)
 [![Changelog](https://img.shields.io/badge/keep%20a-changelog-8A0707.svg?maxAge=2678400&style=flat-square)](https://github.com/althonos/pymemesuite/blob/master/CHANGELOG.md)
@@ -21,12 +18,13 @@
 
 ## 🗺️ Overview
 
-The MEME suite is a collection of tools used for discovery and analysis of
-biological sequence motifs.
+The [MEME suite](https://meme-suite.org/) is a collection of tools used for
+discovery and analysis of biological sequence motifs.
 
 `pymemesuite` is a Python module, implemented using the [Cython](https://cython.org)
-language, that provides bindings to the MEME suite. It directly interacts with the
-MEME internals, which has the following advantages over CLI wrappers:
+language, that provides bindings to the [MEME](https://meme-suite.org/) suite.
+It directly interacts with the MEME internals, which has the following
+advantages over CLI wrappers:
 
 - **single dependency**: If your software or your analysis pipeline is
   distributed as a Python package, you can add `pymemesuite` as a dependency
@@ -96,7 +94,20 @@ fimo = FIMO(both_strands=False)
 pattern = fimo.score_motif(motif, sequences, motif_file.background)
 
 for m in pattern.matched_elements:
-    print(pattern.accession.decode(), m.accession.decode(), m.start, m.end, m.strand)
+    print(
+        m.source.accession.decode(),
+        m.start,
+        m.stop,
+        m.strand,
+        m.score,
+        m.pvalue,
+        m.qvalue
+    )
+```
+
+You should then get a single matched element on the forward strand:
+```
+BGC0002035.1_3425_15590 6700 6714 + 9.328571428571422 1.1024163606971822e-05 0.6174858127445146
 ```
 
 ## 📋 Features
