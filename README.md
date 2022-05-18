@@ -2,7 +2,7 @@
 
 *[Cython](https://cython.org/) bindings and Python interface to the [MEME suite](https://meme-suite.org), a collection of tools for the analysis of sequence motifs.*
 
-<!-- [![Actions](https://img.shields.io/github/workflow/status/althonos/pymemesuite/Test/master?logo=github&style=flat-square&maxAge=300)](https://github.com/althonos/pymemesuite/actions)
+[![Actions](https://img.shields.io/github/workflow/status/althonos/pymemesuite/Test/master?logo=github&style=flat-square&maxAge=300)](https://github.com/althonos/pymemesuite/actions)
 [![Coverage](https://img.shields.io/codecov/c/gh/althonos/pymemesuite?logo=codecov&style=flat-square&maxAge=3600)](https://codecov.io/gh/althonos/pymemesuite/)
 [![PyPI](https://img.shields.io/pypi/v/pymemesuite.svg?logo=pypi&style=flat-square&maxAge=3600)](https://pypi.org/project/pymemesuite)
 [![Bioconda](https://img.shields.io/conda/vn/bioconda/pymemesuite?logo=anaconda&style=flat-square&maxAge=3600)](https://anaconda.org/bioconda/pymemesuite)
@@ -17,7 +17,6 @@
 [![Docs](https://img.shields.io/readthedocs/pymemesuite/latest?style=flat-square&maxAge=600)](https://pymemesuite.readthedocs.io)
 [![Changelog](https://img.shields.io/badge/keep%20a-changelog-8A0707.svg?maxAge=2678400&style=flat-square)](https://github.com/althonos/pymemesuite/blob/master/CHANGELOG.md)
 [![Downloads](https://img.shields.io/badge/dynamic/json?style=flat-square&color=303f9f&maxAge=86400&label=downloads&query=%24.total_downloads&url=https%3A%2F%2Fapi.pepy.tech%2Fapi%2Fprojects%2Fpymemesuite)](https://pepy.tech/project/pymemesuite)
--->
 
 
 ## 🗺️ Overview
@@ -40,10 +39,10 @@ MEME internals, which has the following advantages over CLI wrappers:
 
 *This library is still a work-in-progress, and in an experimental stage,
 but it should already pack enough features to run biological analyses or
-workflows involving `fimo`.*
+workflows involving [FIMO](https://meme-suite.org/meme/doc/fimo.html).*
 
 
-<!-- ## 🔧 Installing
+## 🔧 Installing
 
 `pymemesuite` can be installed from [PyPI](https://pypi.org/project/pymemesuite/),
 which hosts some pre-built CPython wheels for x86-64 Linux, as well as the
@@ -51,11 +50,6 @@ code required to compile from source with Cython:
 ```console
 $ pip install pymemesuite
 ```
-
-A [Bioconda](https://bioconda.github.io/) package is also available:
-```console
-$ conda install -c bioconda pymemesuite
-``` -->
 
 <!-- ## 📖 Documentation
 
@@ -66,6 +60,69 @@ directly from the command line using
 ```console
 $ pydoc pymemesuite
 ``` -->
+
+## 💡 Example
+
+Use `MotifFile` to load a motif from a MEME motif file, and display the
+consensus motif sequence followed by the letter frequencies:
+
+```python
+from pymemesuite.common import MotifFile
+
+with MotifFile("tests/data/fimo/prodoric_mx000001_meme.txt") as motif_file:
+    motif = motif_file.read()
+
+print(motif.name.decode())
+print(motif.consensus)
+
+for row in motif.frequencies:
+    print(" ".join(f'{freq:.2f}' for freq in row))
+```
+
+Then use `FIMO` to find occurences of this particular motif in a collection of
+sequences, and show coordinates of matches:
+
+```python
+import Bio.SeqIO
+from pymemesuite.common import Sequence
+from pymemesuite.fimo import FIMO
+
+sequences = [
+    Sequence(str(record.seq), name=record.id.encode())
+    for record in Bio.SeqIO.parse("tests/data/fimo/mibig-genes.fna", "fasta")
+]
+
+fimo = FIMO(both_strands=False)
+pattern = fimo.score_motif(motif, sequences, motif_file.background)
+
+for m in pattern.matched_elements:
+    print(pattern.accession.decode(), m.accession.decode(), m.start, m.end, m.strand)
+```
+
+## 📋 Features
+
+### 🧶 Thread-safety
+
+`FIMO` objects are thread-safe, and the `FIMO.score_motif` and `FIMO.score_pssm`
+methods are re-entrant. This means you can search occurences of several
+motifs in parallel with a `ThreadPool` and a single `FIMO` instance:
+```python
+from multiprocessing.pool import ThreadPool
+from pymemesuite.fimo import FIMO
+
+fimo = FIMO()
+with ThreadPool() as pool:
+    patterns = pool.map(
+        lambda motif: fimo.score_motif(motif, sequences, background),
+        motifs
+    )
+```
+
+### 📌 Roadmap
+
+- [ ] **error management**: Make sure to catch exceptions raised by the MEME core without exiting forcefully.
+- [ ] **transfac**: Support for TRANSFAC motifs in addition to MEME motifs.
+- [ ] **meme**: Motif discovery through enrichment analysis between two collections of sequences.
 
 
 ## 💭 Feedback
@@ -78,9 +135,9 @@ or ask something. If you are filing in on a bug, please include as much
 information as you can about the issue, and try to recreate the same bug
 in a simple, easily reproducible situation.
 
-<!-- ### 🏗️ Contributing
+### 🏗️ Contributing
 
-Contributions are more than welcome! See [`CONTRIBUTING.md`](https://github.com/althonos/pymemesuite/blob/master/CONTRIBUTING.md) for more details. -->
+Contributions are more than welcome! See [`CONTRIBUTING.md`](https://github.com/althonos/pymemesuite/blob/master/CONTRIBUTING.md) for more details.
 
 
 ## ⚖️ License
@@ -90,9 +147,9 @@ The MEME suite code is available under an academic license which allows
 distribution and non-commercial usage. See `vendor/meme/COPYING` for more
 information.
 
-Some test sequence data were obtained from [MIBiG](https://mibig.secondarymetabolites.org/)
+Test sequence data were obtained from [MIBiG](https://mibig.secondarymetabolites.org/)
 and are distributed under the [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
-license. Some test motifs were obtained from [PRODORIC](https://www.prodoric.de) and are
+license. Test motifs were obtained from [PRODORIC](https://www.prodoric.de) and are
 distributed under the [CC BY-NC 4.0](https://creativecommons.org/licenses/by/4.0/)
 license.
 
