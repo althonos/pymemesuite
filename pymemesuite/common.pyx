@@ -811,6 +811,14 @@ cdef class PSSM:
         return matrix
 
     @property
+    def pvalues(self):
+        assert self._pssm is not NULL
+        cdef Array array = Array.__new__(Array)
+        array._array = self._pssm.pv
+        array._owner = self
+        return array
+
+    @property
     def scale(self):
         assert self._pssm is not NULL
         return libmeme.pssm.get_pssm_scale(self._pssm)
