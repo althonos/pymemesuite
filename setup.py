@@ -529,25 +529,58 @@ libraries = [
             os.path.join("vendor", "meme", "src", "libxml2", "include"),
         ],
         sources=[
-            x for x in glob.glob(os.path.join("vendor", "meme", "src", "*.c"))
-            if os.path.basename(x) not in {
-                # obsolete progs
-                "beadstring.c", "draw-mhmm.c", "mhmm.c", "mhmme.c", "mhmms.c",
-                "mhmmscan.c", "shadow.c", "tree.c",
-                # progs
-                "ame.c", "centrimo.c", "fimo.c", "glam2.c", "glam2scane.c",
-                "gomo.c", "mast.c", "mcast.c", "meme.c", "momo.c", "sea.c",
-                "streme.c", "spamo.c", "tgene.c", "tomtom.c",
-                # doesn't have ifdef guards for the `main` function, so we
-                # can't compile it as a library
-                "ama.c", "create-priors.c", "clustalw2phylip.c", "motiph.c",
-                "fasta-holdout-set.c",
-                # declare colliding functions
-                "evomodel.c", "streme-utils.c",
-                # suffixtree code
-                "st_access.c", "st_construct.c", "st_dfs.c", "st_mapfile.c",
-                "st_seterror.c", "st_space.c",
-            }
+            os.path.join("vendor", "meme", "src", basename)
+            for basename in [
+                "alphabet.c",
+                "alph-in.c",
+                "array.c",
+                "array-list.c",
+                "binary-search.c",
+                "cisml.c",
+                "cisml-sax.c",
+                "dreme-sax.c",
+                "hash_table.c",
+                "heap.c",
+                "html-data.c",
+                "io.c",
+                "fasta-get-markov.c",
+                "json-checker.c",
+                "json-reader.c",
+                "json-writer.c",
+                "linked-list.c",
+                "matrix.c",
+                "meme-sax.c",
+                "motif.c",
+                "motif-db.c",
+                "motif-in.c",
+                "motif-in-common.c",
+                "motif-in-dreme-xml.c",
+                "motif-in-meme-html.c",
+                "motif-in-meme-json.c",
+                "motif-in-meme-text.c",
+                "motif-in-meme-xml.c",
+                "motif-in-streme-xml.c",
+                "mtwist.c",
+                "parser-message.c",
+                "pssm.c",
+                "prior-dist.c",
+                "qvalue.c",
+                "red-black-tree.c",
+                "regex-utils.c",
+                "reservoir.c",
+                "sax-parser-utils.c",
+                "scanned-sequence.c",
+                "seq.c",
+                "streme-sax.c",
+                "string-builder.c",
+                "string-list.c",
+                "string-match.c",
+                "ushuffle.c",
+                "utils.c",
+                "xlate-in.c",
+                "xml-out.c",
+                "xml-util.c",
+            ]
         ],
     )
 ]
