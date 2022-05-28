@@ -594,6 +594,7 @@ extensions = [
         "pymemesuite.errors",
         sources=[
             os.path.join("pymemesuite", "errors.pyx"),
+            os.path.join("pymemesuite", "_exceptions.c"),
         ],
         include_dirs=[os.path.join("vendor", "meme", "src")],
     ),
@@ -602,6 +603,7 @@ extensions = [
         sources=[
             os.path.join("pymemesuite", "common.pyx"),
             os.path.join("pymemesuite", "_globals.c"),
+            os.path.join("pymemesuite", "_exceptions.c"),
         ],
         libraries=["m", "xml2", "meme"],
         include_dirs=[
@@ -613,6 +615,7 @@ extensions = [
         sources=[
             os.path.join("pymemesuite", "cisml.pyx"),
             os.path.join("pymemesuite", "_globals.c"),
+            os.path.join("pymemesuite", "_exceptions.c"),
         ],
         libraries=["m", "xml2", "xslt", "meme"],
         include_dirs=[
@@ -625,6 +628,7 @@ extensions = [
         sources=[
             os.path.join("pymemesuite", "fimo.pyx"),
             os.path.join("pymemesuite", "_globals.c"),
+            os.path.join("pymemesuite", "_exceptions.c"),
         ],
         libraries=["m", "xml2", "xslt", "meme"],
         include_dirs=[

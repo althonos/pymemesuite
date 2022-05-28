@@ -335,30 +335,32 @@ FILE* open_command_pipe
 /********************************************************************
  * See .h file for description.
  ********************************************************************/
-void die
-  (char *format,
-   ...)
-{
-  va_list  argp;
 
-  fprintf(stderr, "FATAL: ");
-  va_start(argp, format);
-  vfprintf(stderr, format, argp);
-  va_end(argp);
-  fprintf(stderr, "\n");
-  fflush(stderr);
+//void die
+//  (char *format,
+//   ...)
+//{
+//  va_list  argp;
+//
+//  fprintf(stderr, "FATAL: ");
+//  va_start(argp, format);
+// vfprintf(stderr, format, argp);
+//  va_end(argp);
+//  fprintf(stderr, "\n");
+//  fflush(stderr);
+//
+//#ifdef DEBUG
+///*
+//  Cause a crash
+//*/
+//  char *crash = NULL;
+//  *crash = 'x';
+//  abort();
+//#else
+//  exit(1);
+//#endif
+//}
 
-#ifdef DEBUG
-/*
-  Cause a crash
-*/
-  char *crash = NULL;
-  *crash = 'x';
-  abort();
-#else
-  exit(1);
-#endif
-}
 
 /**************************************************************************
  * See .h file for description.
