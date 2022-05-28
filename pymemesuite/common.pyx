@@ -14,7 +14,7 @@ from libc.math cimport INFINITY
 from libc.stdint cimport uint8_t
 from libc.stdio cimport FILE, fopen, fclose
 from libc.string cimport strdup, strcmp, strcpy, strncpy, memcpy, memset
-from libc.stdlib cimport calloc, free, malloc, realloc
+from libc.stdlib cimport calloc, free, realloc
 
 cimport libmeme.alphabet
 cimport libmeme.array
@@ -703,7 +703,7 @@ cdef class MotifFile:
 
     def __init__(
         self,
-        object handle,
+        object handle not None,
         *,
         bint symmetrical=False,
         double pseudocount=0.1,
@@ -749,7 +749,8 @@ cdef class MotifFile:
         if self._close and not self.handle.closed:
             warnings.warn("unclosed motif file", ResourceWarning)
             self.close()
-        libmeme.motif_in.mread_destroy(self._reader)
+        if self._reader != NULL:
+            libmeme.motif_in.mread_destroy(self._reader)
 
     def __enter__(self):
         return self
