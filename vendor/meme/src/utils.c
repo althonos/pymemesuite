@@ -365,38 +365,38 @@ FILE* open_command_pipe
 /**************************************************************************
  * See .h file for description.
  **************************************************************************/
-void myassert
-  (bool die_on_error,
-   bool test,
-   char * const    format,
-   ...)
-{
-  va_list  argp;
-
-  if (!test) {
-
-    if (die_on_error) {
-      fprintf(stderr, "FATAL: ");
-    } else {
-      fprintf(stderr, "WARNING: ");
-    }
-
-    /* Issue the error message. */
-    va_start(argp, format);
-    vfprintf(stderr, format, argp);
-    va_end(argp);
-    fprintf(stderr, "\n");
-    fflush(stderr);
-
-    if (die_on_error) {
-#ifdef DEBUG
-      abort();
-#else
-      exit(1);
-#endif
-    }
-  }
-}
+//void myassert
+//  (bool die_on_error,
+//   bool test,
+//   char * const    format,
+//   ...)
+//{
+//  va_list  argp;
+//
+//  if (!test) {
+//
+//    if (die_on_error) {
+//      fprintf(stderr, "FATAL: ");
+//    } else {
+//      fprintf(stderr, "WARNING: ");
+//    }
+//
+//    /* Issue the error message. */
+//    va_start(argp, format);
+//    vfprintf(stderr, format, argp);
+//    va_end(argp);
+//    fprintf(stderr, "\n");
+//    fflush(stderr);
+//
+//    if (die_on_error) {
+//#ifdef DEBUG
+//      abort();
+//#else
+//      exit(1);
+//#endif
+//    }
+//  }
+//}
 
 /********************************************************************
  * void mm_malloc, mm_calloc, mm_realloc
