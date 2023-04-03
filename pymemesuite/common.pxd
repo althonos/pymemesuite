@@ -41,6 +41,15 @@ cdef class Array:
     cpdef Array copy(self)
 
 
+# --- Background -------------------------------------------------------------
+
+cdef class Background:
+    cdef readonly Alphabet alphabet
+    cdef readonly Array    frequencies
+
+    cpdef Background copy(self)
+
+
 # --- Matrix -----------------------------------------------------------------
 
 cdef class Matrix:
@@ -61,7 +70,7 @@ cdef class Motif:
     cpdef PSSM build_pssm(
         self,
         Array bg_freqs,
-        Array pv_freqs,
+        Array pv_freqs = ?,
         PriorDist prior_dist = ?,
         double alpha = *,
         int range = *,

@@ -324,6 +324,96 @@ cdef class Array:
         return copy
 
 
+# --- Background -------------------------------------------------------------
+
+cdef class Background:
+    """A zero-order background model.
+    """
+
+    @classmethod
+    def from_uniform(cls, Alphabet alphabet not None):
+        """from_uniform(cls, alphabet)\n--
+
+        Create a zero-order background model filled with uniform frequencies.
+
+        """
+        assert alphabet._alph is not NULL
+
+        cdef Array      freqs = Array.__new__(Array)
+
+        freqs._array = libmeme.alphabet.get_uniform_frequencies(alphabet._alph, NULL)
+        freqs._len = alphabet._alph.ncore
+        if freqs._array is NULL:
+            raise AllocationError("ARRAY_T", sizeof(ARRAY_T))
+
+        return cls(alphabet, freqs)
+
+    @classmethod
+    def from_nrdb(cls, Alphabet alphabet not None):
+        """from_nrdb(cls, alphabet)\n--
+
+        Create a background model from the non-redundant database frequencies.
+
+        """
+        assert alphabet._alph is not NULL
+
+        cdef Array      freqs = Array.__new__(Array)
+
+        if not libmeme.alphabet.alph_is_builtin_dna(alphabet._alph) and not libmeme.alphabet.alph_is_builtin_protein(alphabet._alph):
+            raise ValueError("`Background.default` is only available for DNA and protein alphabets.")
+
+        freqs._array = libmeme.alphabet.get_nrdb_frequencies(alphabet._alph, NULL)
+        freqs._len = alphabet._alph.ncore
+        if freqs._array is NULL:
+            raise AllocationError("ARRAY_T", sizeof(ARRAY_T))
+
+        return cls(alphabet, freqs)
+
+    @classmethod
+    def from_file(cls, Alphabet alphabet not None, object path):
+        """from_file(cls, alphabet, path)\n--
+
+        Load a background model from a file.
+
+        """
+        assert alphabet._alph is not NULL
+
+        cdef bytes    filename
+        cdef Array    freqs    = Array.__new__(Array)
+
+        filename = os.fsencode(path)
+        freqs._array = libmeme.alphabet.get_file_frequencies(alphabet._alph, filename)
+        freqs._len = alphabet._alph.ncore
+        if freqs._array is NULL:
+            raise RuntimeError("Failed to load null-model frequencies.")
+
+        return cls(alphabet, freqs)
+
+    def __cinit__(self):
+        self.alphabet = None
+        self.frequencies = None
+
+    def __init__(self, Alphabet alphabet not None, Array frequencies not None):
+        """__init__(self, alphabet, frequencies)\n--
+
+        Create a new background model with the given frequencies.
+
+        """
+        # TODO(@althonos): validate the frequencies based on the alphabet
+        self.alphabet = alphabet
+        self.frequencies = frequencies
+
+    cpdef Background copy(self):
+        """copy(self)\n--
+
+        Create a copy of the background frequencies.
+
+        """
+        cdef Background copy = Background.__new__(Background)
+        copy.alphabet = self.alphabet
+        copy.frequencies = self.frequencies
+        return copy
+
 # --- Matrix -----------------------------------------------------------------
 
 cdef class Matrix:
@@ -609,14 +699,14 @@ cdef class Motif:
     cpdef PSSM build_pssm(
         self,
         Array bg_freqs,
-        Array pv_freqs,
+        Array pv_freqs = None,
         PriorDist prior_dist = None,
         double alpha = 1.0,
         int range = libmeme.pssm.PSSM_RANGE,
         int num_gc_bins = 0,
         bint no_log = False,
     ):
-        """build_pssm(self, bg_freqs, pv_freqs, prior_dist=None, alpha=1.0, range=1, num_gc_bins=0, no_log=False)
+        """build_pssm(self, bg_freqs, pv_freqs=None, prior_dist=None, alpha=1.0, range=1, num_gc_bins=0, no_log=False)
 
         Build a `~pymemesuite.common.PSSM` object from this motif.
 
@@ -637,9 +727,11 @@ cdef class Motif:
 
         if range <= 0:
             raise ValueError("`range` must be strictly positive")
+        if pv_freqs is None:
+            pv_freqs = bg_freqs
         if len(bg_freqs) != self.alphabet.size:
             raise ValueError("`bg_freqs` length is inconsistent with motif alphabet")
-        if len(bg_freqs) != self.alphabet.size:
+        if len(pv_freqs) != self.alphabet.size:
             raise ValueError("`pv_freqs` length is inconsistent with motif alphabet")
 
         cdef PRIOR_DIST_T* pd   = NULL

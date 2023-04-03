@@ -355,7 +355,7 @@ cdef class FIMO:
         # build PSSMs from motif
         pssm = motif.build_pssm(
             bg_freqs,
-            bg_freqs if pv_freqs is None else pv_freqs,
+            pv_freqs,
             prior_dist,
             self.alpha,
             PSSM_RANGE,

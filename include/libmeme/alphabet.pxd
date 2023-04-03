@@ -137,7 +137,7 @@ cdef extern from "alphabet.h" nogil:
     cdef void normalize_frequencies(ALPH_T* alph, ARRAY_T* freqs, double pseudo)
     cdef ARRAY_T* get_file_frequencies(ALPH_T* alph, char* bg_filename)
 
-    cdef ARRAY_T* load_markov_model(ALPH_T* alph, int* order, const char* bg_filename)
+    cdef ARRAY_T* load_markov_model(ALPH_T* alph, int* order, const char* bg_filename) except NULL
     cdef ARRAY_T* load_markov_model_without_alph(const char* bg_filename, int* order, char** syms)
     cdef ARRAY_T* calculate_markov_model(ALPH_T* alph, int order, double epsilon, bint join_seq, const char* seq, BGCALC_T** save)
     cdef void average_rc_markov_model(ALPH_T* alph, int order, ARRAY_T* bg)
