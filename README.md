@@ -1,8 +1,8 @@
-# 🐍Ⓜ️ pyMEMEsuite [![Stars](https://img.shields.io/github/stars/althonos/pymemesuite.svg?style=social&maxAge=3600&label=Star)](https://github.com/althonos/pymemesuite/stargazers)
+# 🐍Ⓜ️ PyMEMEsuite [![Stars](https://img.shields.io/github/stars/althonos/pymemesuite.svg?style=social&maxAge=3600&label=Star)](https://github.com/althonos/pymemesuite/stargazers)
 
 *[Cython](https://cython.org/) bindings and Python interface to the [MEME suite](https://meme-suite.org), a collection of tools for the analysis of sequence motifs.*
 
-[![Actions](https://img.shields.io/github/workflow/status/althonos/pymemesuite/Test/main?logo=github&style=flat-square&maxAge=300)](https://github.com/althonos/pymemesuite/actions)
+[![Actions](https://img.shields.io/github/actions/workflow/status/althonos/pymemesuite/test.yml?branch=main&logo=github&style=flat-square&maxAge=300)](https://github.com/althonos/pymemesuite/actions)
 [![Coverage](https://img.shields.io/codecov/c/gh/althonos/pymemesuite?logo=codecov&style=flat-square&maxAge=3600)](https://codecov.io/gh/althonos/pymemesuite/)
 [![PyPI](https://img.shields.io/pypi/v/pymemesuite.svg?logo=pypi&style=flat-square&maxAge=3600)](https://pypi.org/project/pymemesuite)
 [![Wheel](https://img.shields.io/pypi/wheel/pymemesuite.svg?style=flat-square&maxAge=3600)](https://pypi.org/project/pymemesuite/#files)
