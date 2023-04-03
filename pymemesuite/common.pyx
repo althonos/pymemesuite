@@ -323,6 +323,22 @@ cdef class Array:
 
         return copy
 
+    cpdef ATYPE sum(self):
+        """sum(self)\n--
+
+        Compute the sum of all elements in the array.
+
+        Example:
+            >>> a = Array([1.0, 1.5, 2.5])
+            >>> a.sum()
+            5.0
+
+        """
+        assert self._array is not NULL
+
+        with nogil:
+            return libmeme.array.array_total(self._array)
+        
 
 # --- Background -------------------------------------------------------------
 

@@ -4,7 +4,7 @@
 """
 
 from libmeme.alphabet cimport ALPH_T
-from libmeme.array cimport ARRAY_T
+from libmeme.array cimport ATYPE, ARRAY_T
 from libmeme.hash_table cimport HASH_TABLE
 from libmeme.data_types cimport WEIGHTS_T, Z_T, LCB_T
 from libmeme.matrix cimport MATRIX_T, MTYPE
@@ -39,6 +39,7 @@ cdef class Array:
     cdef readonly object     _owner
 
     cpdef Array copy(self)
+    cpdef ATYPE sum(self)
 
 
 # --- Background -------------------------------------------------------------
