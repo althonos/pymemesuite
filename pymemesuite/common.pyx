@@ -279,8 +279,7 @@ cdef class Array:
     def __repr__(self):
         cdef type ty   = type(self)
         cdef str  name = ty.__name__
-        cdef str  mod  = ty.__module__
-        return f"{mod}.{name}({list(self)!r})"
+        return f"{name}({list(self)!r})"
 
     def __sizeof__(self):
         assert self._array is not NULL
@@ -430,6 +429,11 @@ cdef class Background:
         self.alphabet = alphabet
         self.frequencies = frequencies
 
+    def __repr__(self):
+        cdef type ty   = type(self)
+        cdef str  name = ty.__name__
+        return f"{name}({self.alphabet!r}, {self.frequencies!r})"
+
     cpdef Background copy(self):
         """copy(self)\n--
 
@@ -512,8 +516,7 @@ cdef class Matrix:
         cdef Array row
         cdef type  ty   = type(self)
         cdef str   name = ty.__name__
-        cdef str   mod  = ty.__module__
-        return f"{mod}.{name}({[list(row) for row in self]!r})"
+        return f"{name}({[list(row) for row in self]!r})"
 
     # --- Utilities ----------------------------------------------------------
 
