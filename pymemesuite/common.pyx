@@ -372,6 +372,12 @@ cdef class Background:
 
         Create a zero-order background model filled with uniform frequencies.
 
+        Example:
+            >>> dna = Alphabet.dna()
+            >>> bg = Background.from_uniform(dna)
+            >>> bg.frequencies
+            Array([0.25, 0.25, 0.25, 0.25])
+
         """
         assert alphabet._alph is not NULL
 
@@ -389,6 +395,12 @@ cdef class Background:
         """from_nrdb(cls, alphabet)\n--
 
         Create a background model from the non-redundant database frequencies.
+
+        Example:
+            >>> dna = Alphabet.dna()
+            >>> bg = Background.from_nrdb(dna)
+            >>> bg.frequencies
+            Array([0.281..., 0.222..., 0.228..., 0.267...])
 
         """
         assert alphabet._alph is not NULL
