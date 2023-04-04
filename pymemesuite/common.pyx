@@ -111,6 +111,13 @@ cdef class Alphabet:
     def __dealloc__(self):
         libmeme.alphabet.alph_release(self._alph)
 
+    def __eq__(self, object other):
+        cdef Alphabet other_
+        if isinstance(other, Alphabet):
+            other_ = other
+            return libmeme.alphabet.alph_equal(self._alph, other_._alph)
+        return NotImplemented
+
     def __repr__(self):
         assert self._alph is not NULL
         if libmeme.alphabet.alph_is_builtin_rna(self._alph):
