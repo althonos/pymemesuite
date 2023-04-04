@@ -276,6 +276,19 @@ cdef class Array:
 
         return libmeme.array.get_array_item(i, self._array)
 
+    def __setitem__(self, int index, double value):
+        assert self._array is not NULL
+
+        cdef int length = libmeme.array.get_array_length(self._array)
+        cdef int i      = index
+
+        if i < 0:
+            i += index
+        if i < 0 or i >= length:
+            raise IndexError(index)
+
+        libmeme.array.set_array_item(i, value, self._array)
+
     def __repr__(self):
         cdef type ty   = type(self)
         cdef str  name = ty.__name__
@@ -396,7 +409,7 @@ cdef class Background:
     def from_file(cls, Alphabet alphabet not None, object path):
         """from_file(cls, alphabet, path)\n--
 
-        Load a background model from a file.
+        Load frequencies from a background file.
 
         """
         assert alphabet._alph is not NULL
@@ -409,6 +422,92 @@ cdef class Background:
         freqs._len = alphabet._alph.ncore
         if freqs._array is NULL:
             raise RuntimeError("Failed to load null-model frequencies.")
+
+        return cls(alphabet, freqs)
+
+    @classmethod
+    def from_sequences(
+        cls,
+        Alphabet alphabet not None,
+        *sequences,
+        bint rc = True,
+        double pseudo = 0.1,
+    ):
+        """from_sequences(cls, alphabet, *sequences, rc=True, pseudo=0.1)\n--
+
+        Create a new background model from a collection of sequences.
+
+        Example:
+            Build a background model by computing individual symbol
+            frequencies from several reference sequences::
+
+                >>> dna = Alphabet.dna()
+                >>> seqs = [ Sequence("ATTA"), Sequence("ATGG") ]
+                >>> bg = Background.from_sequences(dna, *seqs)
+                >>> bg.frequencies
+                Array([0.374..., 0.125..., 0.125..., 0.374...])
+
+            Explicitly disable reverse-complementing when computing
+            frequencies, which can be useful when working with RNA
+            instead of DNA sequences (it is always disabled for protein
+            sequences)::
+
+                >>> bg2 = Background.from_sequences(dna, *seqs, rc=False)
+                >>> bg2.frequencies
+                Array([0.373..., 0.003..., 0.25, 0.373...])
+
+        """
+        assert alphabet._alph is not NULL
+
+        cdef Sequence     sequence
+        cdef const char*  letters
+        cdef char         c
+        cdef unsigned int length
+        cdef unsigned int i
+        cdef unsigned int n
+        cdef double       count
+        cdef double       freq
+        cdef uint8_t      encoded
+        cdef uint8_t      wildcard = libmeme.alphabet.alph_wild(alphabet._alph)
+        cdef Array        counts   = Array.zeros(alphabet.size)
+        cdef Array        freqs    = Array.zeros(alphabet.size)
+
+        # disable reverse-complement for protein alphabet
+        if libmeme.alphabet.alph_extends_protein(alphabet._alph):
+            rc = False
+
+        # obtain counts from the sequences
+        for n, sequence in enumerate(sequences):
+            letters = libmeme.seq.get_raw_sequence(sequence._seq)
+            length = libmeme.seq.get_seq_length(sequence._seq)
+            for i in range(length):
+                encoded = libmeme.alphabet.alph_index(alphabet._alph, letters[i])
+                if encoded == 0xFF:
+                    raise ValueError(f"Invalid symbol found in sequence {n!r} at position {i!r}: {chr(letters[i])!r}")
+                libmeme.array.incr_array_item(encoded, 1, counts._array)
+
+        # compute frequencies
+        # NOTE(@althonos): we can't use `normalize_frequencies` from `alphabet.h`
+        #                  because the handling of pseudocounts is different
+        #                  in there and in `fasta-get-markov`: for consistency,
+        #                  we use the pseudocount rescaling from `fasta-get-markov`
+
+        total = counts.sum()
+        if total == 0:
+            pseudo = 1.0
+        pseudo_frac = pseudo / alphabet.size
+        if rc:
+            total *= 2
+        for i in range(alphabet.size):
+            count = libmeme.array.get_array_item(i, counts._array)
+            if rc:
+                c = libmeme.alphabet.alph_complement(alphabet._alph, i)
+                if c == 0xFF:
+                    symbol = libmeme.alphabet.alph_char(alphabet._alph, i)
+                    raise ValueError(f"Symbol without complement: {chr(symbol)!r}")
+                count += libmeme.array.get_array_item(c, counts._array)
+            freq = (pseudo_frac+count) / (pseudo + total)
+            libmeme.array.set_array_item(i, freq, freqs._array)
 
         return cls(alphabet, freqs)
 
