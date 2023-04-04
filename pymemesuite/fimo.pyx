@@ -7,6 +7,11 @@ each motif independently. It uses a dynamic programming algorithm to convert
 log-odds scores into *p-values*, assuming a zero-order background model, and
 then into *q-values* following the method of Benjamini & Hochberg.
 
+See Also:
+    `Grant, Charles E., Timothy L. Bailey, and William Stafford Noble.
+    ‘FIMO: Scanning for Occurrences of a given Motif’. Bioinformatics 27, no. 7
+    (1 April 2011): 1017–18. <https://doi.org/10.1093/bioinformatics/btr064>`_.
+
 """
 
 from libc.math cimport NAN, isnan, log2
