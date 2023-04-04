@@ -40,6 +40,7 @@ from libmeme.user cimport MINSITES, BFACTOR, HSIZE, HS_DECREASE
 # --- Python imports ---------------------------------------------------------
 
 import array
+import math
 import os
 import warnings
 
@@ -338,7 +339,7 @@ cdef class Array:
 
         with nogil:
             return libmeme.array.array_total(self._array)
-        
+
 
 # --- Background -------------------------------------------------------------
 
@@ -415,7 +416,10 @@ cdef class Background:
         Create a new background model with the given frequencies.
 
         """
-        # TODO(@althonos): validate the frequencies based on the alphabet
+        if len(frequencies) != alphabet.size:
+            raise ValueError(f"Frequencies dimension inconsistent with alphabet size: {len(frequencies)} != {alphabet.size}")
+        if not math.isclose(frequencies.sum(), 1.0):
+            raise ValueError(f"Frequencies are not in normalized form")
         self.alphabet = alphabet
         self.frequencies = frequencies
 
@@ -714,8 +718,8 @@ cdef class Motif:
 
     cpdef PSSM build_pssm(
         self,
-        Array bg_freqs,
-        Array pv_freqs = None,
+        Background background,
+        Background background_p = None,
         PriorDist prior_dist = None,
         double alpha = 1.0,
         int range = libmeme.pssm.PSSM_RANGE,
@@ -727,8 +731,11 @@ cdef class Motif:
         Build a `~pymemesuite.common.PSSM` object from this motif.
 
         Arguments:
-            bg_freqs (`Array`): The background frequencies.
-            pv_freqs (`Array`): The background frequencies for the p-values.
+            background (`Background`): The background frequencies to use for
+                building the PSSM.
+            background_p (`Background`, optional): The background frequencies
+                for computing the p-values. If `None` given, use ``background``
+                frequencies.
             prior_dist (`PriorDist`, optional): The distribution of priors,
                 or `None`.
             alpha (`float`): The scale factor for non-specific priors. Only
@@ -743,12 +750,12 @@ cdef class Motif:
 
         if range <= 0:
             raise ValueError("`range` must be strictly positive")
-        if pv_freqs is None:
-            pv_freqs = bg_freqs
-        if len(bg_freqs) != self.alphabet.size:
-            raise ValueError("`bg_freqs` length is inconsistent with motif alphabet")
-        if len(pv_freqs) != self.alphabet.size:
-            raise ValueError("`pv_freqs` length is inconsistent with motif alphabet")
+        if background_p is None:
+            background_p = background
+        if background.alphabet != self.alphabet:
+            raise ValueError("Background alphabet is inconsistent with motif alphabet")
+        if background_p.alphabet != self.alphabet:
+            raise ValueError("Background (p-values) alphabet is inconsistent with motif alphabet")
 
         cdef PRIOR_DIST_T* pd   = NULL
         cdef PSSM          pssm = PSSM.__new__(PSSM)
@@ -758,8 +765,8 @@ cdef class Motif:
         with nogil:
             pssm._pssm = libmeme.pssm.build_motif_pssm(
                 self._motif,
-                bg_freqs._array,
-                pv_freqs._array,
+                background.frequencies._array,
+                background_p.frequencies._array,
                 pd,
                 alpha,
                 range,
@@ -896,7 +903,7 @@ cdef class MotifFile:
 
     @property
     def background(self):
-        """`~pymemesuite.common.Array`: The motifs background frequencies.
+        """`~pymemesuite.common.Background`: The motifs background frequencies.
         """
         assert self._reader is not NULL
 
@@ -916,7 +923,7 @@ cdef class MotifFile:
         array = Array.__new__(Array)
         array._owner = None
         array._array = bg
-        return array
+        return Background(self.alphabet, array)
 
     # --- Methods ------------------------------------------------------------
 

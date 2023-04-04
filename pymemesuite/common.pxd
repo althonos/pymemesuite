@@ -70,8 +70,8 @@ cdef class Motif:
 
     cpdef PSSM build_pssm(
         self,
-        Array bg_freqs,
-        Array pv_freqs = ?,
+        Background background,
+        Background background_p = ?,
         PriorDist prior_dist = ?,
         double alpha = *,
         int range = *,

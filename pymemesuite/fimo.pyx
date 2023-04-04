@@ -30,7 +30,7 @@ from libmeme.reservoir cimport RESERVOIR_SAMPLER_T
 from libmeme.seq cimport SEQ_T
 from libmeme.cisml cimport PATTERN_T, SCANNED_SEQUENCE_T, MATCHED_ELEMENT_T
 
-from .common cimport Array, Motif, PSSM, Sequence, ReservoirSampler, PriorDist
+from .common cimport Array, Background, Motif, PSSM, Sequence, ReservoirSampler, PriorDist
 from .cisml cimport Pattern, MatchedElement, ScannedSequence
 
 # --- Python imports ---------------------------------------------------------
@@ -321,8 +321,8 @@ cdef class FIMO:
         self,
         Motif motif,
         list sequences,
-        Array bg_freqs,
-        Array pv_freqs = None,
+        Background background,
+        Background background_p = None,
         PriorDist prior_dist = None,
     ):
         """score_motif(self, pssm, sequences)\n--
@@ -337,14 +337,14 @@ cdef class FIMO:
                 the sequences with.
             sequences (`list` of `~pymemesuite.common.Sequence`): A list
                 containing the target sequences.
-            bg_freqs (`~pymemesuite.common.Array`): The background
+            background (`~pymemesuite.common.Background`): The background
                 letter frequencies for building the odds ratio for each
                 position of the PSSM.
-            pv_freqs (`~pymemesuite.common.Array`, *optional*): The
+            background_p (`~pymemesuite.common.Background`, optional): The
                 background letter frequencies for building the p-value
-                lookup table of the PSSM. If `None`, use the ``bg_freqs``
-                array.
-            prior_dist (`~pymemesuite.common.PriorDist`, *optional*): A
+                lookup table of the PSSM. If `None`, use the `background`
+                values.
+            prior_dist (`~pymemesuite.common.PriorDist`, optional): A
                 distribution of priors for building the PSSM.
 
         Returns:
@@ -354,8 +354,8 @@ cdef class FIMO:
         """
         # build PSSMs from motif
         pssm = motif.build_pssm(
-            bg_freqs,
-            pv_freqs,
+            background,
+            background_p,
             prior_dist,
             self.alpha,
             PSSM_RANGE,
