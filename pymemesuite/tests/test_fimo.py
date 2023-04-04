@@ -17,7 +17,7 @@ class TestFIMO(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        with importlib_resources.open_text("tests.data.fimo", "mibig-genes.fna") as f:
+        with importlib_resources.open_text("pymemesuite.tests.data.fimo", "mibig-genes.fna") as f:
             cls.sequences = [
                 Sequence(
                     record.seq,
@@ -39,14 +39,14 @@ class TestFIMO(unittest.TestCase):
 
     def test_both_strands(self):
 
-        with importlib_resources.open_binary("tests.data.fimo", "prodoric_mx000001_meme.txt") as f:
+        with importlib_resources.open_binary("pymemesuite.tests.data.fimo", "prodoric_mx000001_meme.txt") as f:
             motif_file = MotifFile(f, symmetrical=True)
             motif = motif_file.read()
 
         fimo = FIMO(both_strands=True)
         pattern = fimo.score_motif(motif, self.sequences, motif_file.background)
 
-        with importlib_resources.open_text("tests.data.fimo", "results.tsv") as f:
+        with importlib_resources.open_text("pymemesuite.tests.data.fimo", "results.tsv") as f:
             reader = csv.reader(f.readlines()[1:-4], dialect="excel-tab")
             hits = [ line for line in reader ]
             hits.sort(key=lambda line: float(line[7]))
@@ -57,14 +57,14 @@ class TestFIMO(unittest.TestCase):
 
     def test_single_strand(self):
 
-        with importlib_resources.open_binary("tests.data.fimo", "prodoric_mx000001_meme.txt") as f:
+        with importlib_resources.open_binary("pymemesuite.tests.data.fimo", "prodoric_mx000001_meme.txt") as f:
             motif_file = MotifFile(f, symmetrical=False)
             motif = motif_file.read()
 
         fimo = FIMO(both_strands=False)
         pattern = fimo.score_motif(motif, self.sequences, motif_file.background)
 
-        with importlib_resources.open_text("tests.data.fimo", "results-norc.tsv") as f:
+        with importlib_resources.open_text("pymemesuite.tests.data.fimo", "results-norc.tsv") as f:
             reader = csv.reader(f.readlines()[1:-4], dialect="excel-tab")
             hits = [ line for line in reader ]
             hits.sort(key=lambda line: float(line[7]))

@@ -19,7 +19,7 @@ class TestMotifFile(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.motif_data = importlib_resources.read_binary("tests.data.fimo", "prodoric_mx000001_meme.txt")
+        cls.motif_data = importlib_resources.read_binary("pymemesuite.tests.data.fimo", "prodoric_mx000001_meme.txt")
 
     def test_fileobject(self):
         fileobj = io.BytesIO(self.motif_data)
