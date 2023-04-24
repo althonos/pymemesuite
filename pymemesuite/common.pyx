@@ -596,7 +596,20 @@ cdef class Matrix:
         Create a new matrix from the given iterable of values.
 
         """
-        raise NotImplementedError("Matrix.__init__")
+        cdef size_t m = len(iterable)
+        cdef size_t n
+
+        for i, row in enumerate(iterable):
+            if i == 0:
+                n = len(row)
+                self._owner = None
+                self._mx = libmeme.matrix.allocate_matrix(m, n)
+                if self._mx is NULL:
+                    raise AllocationError("MATRIX_T", sizeof(MATRIX_T))
+            elif len(row) != n:
+                raise ValueError(f"Invalid length for row {i}: {len(row)}")
+            for j, value in enumerate(row):
+                self._set_element(i, j, value)
 
     def __dealloc__(self):
         if self._owner is None:
