@@ -19,9 +19,11 @@ jobs:
         - cp39-manylinux_aarch64
         - cp310-manylinux_aarch64
         - cp311-manylinux_aarch64
+        - cp312-manylinux_aarch64
         - pp37-manylinux_aarch64
         - pp38-manylinux_aarch64
         - pp39-manylinux_aarch64
+        - pp310-manylinux_aarch64
     steps:
     - uses: actions/checkout@v3
       with:
@@ -32,7 +34,7 @@ jobs:
       with:
         platforms: all
     - name: Build manylinux wheels
-      uses: pypa/cibuildwheel@v2.11.3
+      uses: pypa/cibuildwheel@v2.19.1
       env:
         CIBW_ARCHS: aarch64
         CIBW_BUILD: ${{ matrix.python-tag }}
@@ -59,15 +61,17 @@ jobs:
         - cp39-manylinux_x86_64
         - cp310-manylinux_x86_64
         - cp311-manylinux_x86_64
+        - cp312-manylinux_x86_64
         - pp37-manylinux_x86_64
         - pp38-manylinux_x86_64
         - pp39-manylinux_x86_64
+        - pp310-manylinux_x86_64
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: true
     - name: Build manylinux wheels
-      uses: pypa/cibuildwheel@v2.11.3
+      uses: pypa/cibuildwheel@v2.19.1
       env:
         CIBW_ARCHS: x86_64
         CIBW_BUILD: ${{ matrix.python-tag }}
@@ -94,15 +98,17 @@ jobs:
         - cp39-macosx_x86_64
         - cp310-macosx_x86_64
         - cp311-macosx_x86_64
+        - cp312-macosx_x86_64
         - pp37-macosx_x86_64
         - pp38-macosx_x86_64
         - pp39-macosx_x86_64
+        - pp310-macosx_x86_64
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: true
     - name: Build manylinux wheels
-      uses: pypa/cibuildwheel@v2.11.3
+      uses: pypa/cibuildwheel@v2.19.1
       env:
         CIBW_ARCHS: x86_64
         CIBW_BUILD: ${{ matrix.python-tag }}
@@ -127,12 +133,13 @@ jobs:
         - cp39-macosx_arm64
         - cp310-macosx_arm64
         - cp311-macosx_arm64
+        - cp312-macosx_arm64
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: true
     - name: Build manylinux wheels
-      uses: pypa/cibuildwheel@v2.11.3
+      uses: pypa/cibuildwheel@v2.19.1
       env:
         CIBW_ARCHS: arm64
         CIBW_BUILD: ${{ matrix.python-tag }}
@@ -167,7 +174,7 @@ jobs:
   #     with:
   #       submodules: true
   #   - name: Build manylinux wheels
-  #     uses: pypa/cibuildwheel@v2.11.3
+  #     uses: pypa/cibuildwheel@v2.19.1
   #     env:
   #       CIBW_ARCHS: AMD64
   #       CIBW_BUILD: ${{ matrix.python-tag }}
@@ -229,6 +236,8 @@ jobs:
     environment: PyPI
     runs-on: ubuntu-latest
     name: Upload
+    permissions:
+      id-token: write
     needs:
     - sdist
     - test-sdist
@@ -242,12 +251,8 @@ jobs:
       with:
         name: wheels
         path: dist
-    - uses: pypa/gh-action-pypi-publish@master
+    - uses: pypa/gh-action-pypi-publish@release/v1
       if: startsWith(github.ref, 'refs/tags')
-      with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
-        skip_existing: true
 
   release:
     environment: GitHub Releases

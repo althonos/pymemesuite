@@ -6,7 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-[Unreleased]: https://github.com/althonos/pymemesuite/compare/v0.1.0-a2...HEAD
+[Unreleased]: https://github.com/althonos/pymemesuite/compare/v0.1.0-a3...HEAD
+
+
+## [v0.1.0-a3] - 2024-06-14
+[v0.1.0-a3]: https://github.com/althonos/pymemesuite/compare/v0.1.0-a2...v0.1.0-a3
+
+### Added
+- `Matrix` constructor from an iterable of rows.
+- Wheels for CPython 3.12 and PyPy 3.10.
+
+### Changed
+- Bumped Cython dependency to `v3.0`.
 
 
 ## [v0.1.0-a2] - 2023-04-04
