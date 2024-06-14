@@ -12,8 +12,8 @@ cdef extern from "seq.h" nogil:
         pass
     ctypedef seq SEQ_T
 
-    const int SEQ_KEEP = 1
-    const int SEQ_NOAMBIG = 2
+    const int SEQ_KEEP
+    const int SEQ_NOAMBIG
 
     cdef SEQ_T* allocate_seq(char* name, char* description, unsigned int offset, char* sequence)
 

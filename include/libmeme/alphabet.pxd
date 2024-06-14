@@ -46,12 +46,12 @@ cdef extern from "alphabet.h" nogil:
     ctypedef bgcalc BGCALC_T
 
 
-    const int ALPH_FLAG_BUILTIN         = 1
-    const int ALPH_FLAG_EXTENDS         = 6
-    const int ALPH_FLAG_EXTENDS_DNA     = 2
-    const int ALPH_FLAG_EXTENDS_RNA     = 4
-    const int ALPH_FLAG_EXTENDS_PROTEIN = 4
-    const int ALPH_CASE_INSENSITIVE     = 8
+    const int ALPH_FLAG_BUILTIN
+    const int ALPH_FLAG_EXTENDS
+    const int ALPH_FLAG_EXTENDS_DNA
+    const int ALPH_FLAG_EXTENDS_RNA
+    const int ALPH_FLAG_EXTENDS_PROTEIN
+    const int ALPH_CASE_INSENSITIVE
 
     cdef int alph_sym_cmp(const void* v1, const void* v2)
     cdef int alph_str_cmp(const void* v1, const void* v2)
@@ -160,9 +160,9 @@ cdef extern from "alphabet.h" nogil:
 
     cdef void complement_swap_freqs(ALPH_T* alph, ARRAY_T* a1, ARRAY_T* a2)
 
-    const int ALPH_NO_ALIASES = 1
-    const int ALPH_NO_AMBIGS  = 2
-    const int ALPH_NO_UNKNOWN = 4
+    const int ALPH_NO_ALIASES
+    const int ALPH_NO_AMBIGS
+    const int ALPH_NO_UNKNOWN
 
     cdef void translate_seq(ALPH_T* alph, char* sequence, int flags)
     cdef void invcomp_seq(ALPH_T* alph, char* sequence, long length)

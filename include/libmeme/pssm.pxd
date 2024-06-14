@@ -9,7 +9,7 @@ from libmeme.prior_dist cimport PRIOR_DIST_T
 
 cdef extern from "pssm.h" nogil:
 
-    const size_t PSSM_RANGE = 1000
+    const size_t PSSM_RANGE
 
     cdef struct pssm:
         MATRIX_T* matrix

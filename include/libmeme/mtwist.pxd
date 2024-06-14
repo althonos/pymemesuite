@@ -5,7 +5,7 @@ from libc.stdio cimport FILE
 cdef extern from * nogil:
 # cdef extern from "mtwist.h" nogil:
 
-    const size_t MT_STATE_SIZE = 624
+    const size_t MT_STATE_SIZE
 
     ctypedef struct mt_state:
         uint32_t statevec[MT_STATE_SIZE]

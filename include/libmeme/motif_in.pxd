@@ -8,10 +8,10 @@ from libmeme.motif cimport MOTIF_T
 
 cdef extern from "motif-in-flags.h" nogil:
 
-    const int OPEN_MFILE = 1
-    const int CALC_AMBIGS = 2
-    const int SCANNED_SITES = 4
-    const int SKIP_POST_PROCESSING = 8
+    const int OPEN_MFILE
+    const int CALC_AMBIGS
+    const int SCANNED_SITES
+    const int SKIP_POST_PROCESSING
 
 
 cdef extern from "motif-in.h" nogil:

@@ -3,7 +3,7 @@ from libmeme.string_list cimport STRING_LIST_T
 
 cdef extern from "hash_table.h" nogil:
 
-    const size_t MAX_BINS = 10000000
+    const size_t MAX_BINS
 
     cdef struct hash_table_entry:
         pass

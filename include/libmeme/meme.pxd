@@ -10,8 +10,8 @@ from libmeme.prior cimport PriorLib
 
 cdef extern from "user.h" nogil:
 
-    const int MAXALPH = 28
-    const int MAXSITE = 300
+    const int MAXALPH
+    const int MAXSITE
 
 
 cdef extern from "meme.h" nogil:
@@ -73,7 +73,7 @@ cdef extern from "meme.h" nogil:
         ALL
         NO_POINT_B
 
-    const size_t MAX_LOCAL_MAXIMA = 1000000
+    const size_t MAX_LOCAL_MAXIMA
 
     cdef struct sample:
         char*      sample_name

@@ -49,7 +49,7 @@ cdef extern from "sp_matrix.h" nogil:
     cdef void free_sp_matrix(SP_MATRIX* sp_mat)
     cdef void print_sp_matrix(SP_MATRIX* sp_mat, FILE* out)
 
-    const size_t SEED_PACKET_LENGTH = 7
+    const size_t SEED_PACKET_LENGTH
     cdef struct seed_packet:
         double score
         int width
