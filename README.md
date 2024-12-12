@@ -16,6 +16,8 @@
 [![Downloads](https://img.shields.io/badge/dynamic/json?style=flat-square&color=303f9f&maxAge=86400&label=downloads&query=%24.total_downloads&url=https%3A%2F%2Fapi.pepy.tech%2Fapi%2Fprojects%2Fpymemesuite)](https://pepy.tech/project/pymemesuite)
 
 
+**🚩 If you are interested in running sequence motif analyses with PSSMs, I recommend using the [`lightmotif`](https://github.com/althonos/lightmotif/tree/main/lightmotif-py) project, which is a re-implementation of the algorithm used in FIMO, which can process sequences at speeds of GB/s.**
+
 ## 🗺️ Overview
 
 The [MEME suite](https://meme-suite.org/) is a collection of tools used for
