@@ -9,7 +9,7 @@ jobs:
 
   wheel-linux-aarch64:
     name: Build Linux wheels (Aarch64)
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04-arm
     strategy:
       matrix:
         python-tag:
@@ -28,11 +28,6 @@ jobs:
     - uses: actions/checkout@v3
       with:
         submodules: true
-    - name: Set up QEMU
-      id: qemu
-      uses: docker/setup-qemu-action@v2
-      with:
-        platforms: all
     - name: Build manylinux wheels
       uses: pypa/cibuildwheel@v2.19.1
       env:
@@ -296,7 +291,7 @@ jobs:
   #   - name: Generate PKGBUILD
   #     run: 'sed -e "s/%pkgver/${{ env.PKGVER }}/g" -e "s/%sha256sum/${{ env.SHA256 }}/g" pkg/aur/PKGBUILD.in > pkg/aur/PKGBUILD'
   #   - name: Update package
-  #     uses: KSXGitHub/github-actions-deploy-aur@v2.2.5
+  #     uses: KSXGitHub/github-actions-deploy-aur@v2.7.2
   #     with:
   #       pkgname: python-pymemesuite
   #       pkgbuild: pkg/aur/PKGBUILD
@@ -304,4 +299,3 @@ jobs:
   #       commit_email: ${{ secrets.AUR_EMAIL }}
   #       ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
   #       commit_message: ${{ github.event.head_commit.message }}
-  #       ssh_keyscan_types: rsa,dsa,ecdsa,ed25519
