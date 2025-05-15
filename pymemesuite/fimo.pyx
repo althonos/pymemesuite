@@ -14,9 +14,20 @@ See Also:
 
 """
 
+from cpython.pythread cimport (
+    PyThread_type_lock,
+    PyThread_allocate_lock,
+    PyThread_free_lock,
+    PyThread_acquire_lock,
+    PyThread_release_lock,
+    WAIT_LOCK,
+    PY_LOCK_FAILURE,
+)
+
 from libc.math cimport NAN, isnan, log2
 from libc.stdlib cimport malloc, calloc, realloc, free
 from libc.stdint cimport int8_t
+from libc.stdio cimport printf
 
 cimport libmeme.alphabet
 cimport libmeme.array
@@ -97,7 +108,7 @@ cdef class FIMO:
         SCANNED_SEQUENCE_T* scanned_seq,
         RESERVOIR_SAMPLER_T* reservoir,
         MATCHED_ELEMENT_T* match,
-    ) nogil:
+    ) noexcept nogil:
         cdef double pvalue   = libmeme.cisml.get_matched_element_pvalue(match)
         cdef bint   recorded = False
 
@@ -114,7 +125,7 @@ cdef class FIMO:
         const int8_t* sequence,
         PSSM_T* pssm,
         double prior,
-    ) nogil:
+    ) noexcept nogil:
         cdef site_score_t site_score
         cdef int          motif_position
         cdef double       prior_log_odds
@@ -158,7 +169,7 @@ cdef class FIMO:
 
         return site_score
 
-    cdef void _score_sequence(
+    cdef int _score_sequence(
         self,
         RESERVOIR_SAMPLER_T* reservoir,
         PATTERN_T* pattern,
@@ -167,7 +178,7 @@ cdef class FIMO:
         PSSM_T* pssm_rev,
         int8_t** buffer,
         size_t*  buflen,
-    ) nogil:
+    ) except 1 nogil:
         cdef int                 offset
         cdef int                 start_bwd
         cdef int                 start_fwd
@@ -252,6 +263,8 @@ cdef class FIMO:
         if match_bwd is not NULL:
             libmeme.cisml.free_matched_element(match_bwd)
 
+        return 0
+
     cpdef Pattern score_pssm(
         self,
         PSSM pssm,
@@ -286,40 +299,42 @@ cdef class FIMO:
         cdef size_t           seqbuflen    = 0
 
         # store sequences in contiguous array to process them without the GIL
-        seqptr = <SEQ_T**> alloca(length * sizeof(SEQ_T*))
+        seqptr = <SEQ_T**> calloc(length, sizeof(SEQ_T*))
         if seqptr is NULL:
             raise AllocationError("SEQ_T*", sizeof(SEQ_T*), length)
         for i, sequence in enumerate(sequences):
             seqptr[i] = sequence._seq
-        # record options in the pattern object
-        libmeme.cisml.set_pattern_max_stored_matches(pattern._pattern, self.max_stored_scores)
-        libmeme.cisml.set_pattern_max_pvalue_retained(pattern._pattern, self.threshold)
 
-        # compute reverse complement
-        if self.both_strands:
-            pssm_rev = pssm.reverse_complement()
-            pssm_raw_bwd = pssm_rev._pssm
-
-        with nogil:
-            # score all sequences with the given motif
-            for i in range(length):
-                self._score_sequence(
-                    reservoir._reservoir,
-                    pattern._pattern,
-                    seqptr[i],
-                    pssm_raw_fwd,
-                    pssm_raw_bwd,
-                    &seqbuffer,
-                    &seqbuflen,
-                )
-            # complete pattern
-            libmeme.cisml.set_pattern_is_complete(pattern._pattern)
-            # compute q-values
-            values.num_items = libmeme.reservoir.get_reservoir_num_samples_retained(reservoir._reservoir)
-            values.items = libmeme.reservoir.get_reservoir_samples(reservoir._reservoir)
-            libmeme.cisml.pattern_calculate_qvalues(pattern._pattern, &values)
-
-        free(seqbuffer)
+        try:
+            # record options in the pattern object
+            libmeme.cisml.set_pattern_max_stored_matches(pattern._pattern, self.max_stored_scores)
+            libmeme.cisml.set_pattern_max_pvalue_retained(pattern._pattern, self.threshold)
+            # compute reverse complement
+            if self.both_strands:
+                pssm_rev = pssm.reverse_complement()
+                pssm_raw_bwd = pssm_rev._pssm
+            with nogil:
+                # score all sequences with the given motif
+                for i in range(length):
+                    self._score_sequence(
+                        reservoir._reservoir,
+                        pattern._pattern,
+                        seqptr[i],
+                        pssm_raw_fwd,
+                        pssm_raw_bwd,
+                        &seqbuffer,
+                        &seqbuflen,
+                    )
+                # complete pattern
+                libmeme.cisml.set_pattern_is_complete(pattern._pattern)
+                # compute q-values
+                values.num_items = libmeme.reservoir.get_reservoir_num_samples_retained(reservoir._reservoir)
+                values.items = libmeme.reservoir.get_reservoir_samples(reservoir._reservoir)
+                libmeme.cisml.pattern_calculate_qvalues(pattern._pattern, &values)
+        finally:
+            free(seqptr)
+            free(seqbuffer)
+    
         return pattern
 
     cpdef Pattern score_motif(
