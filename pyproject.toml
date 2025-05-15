@@ -1,10 +1,10 @@
 [build-system]
-requires = ['setuptools >=46.4', 'cython ~=3.0']
+requires = ['setuptools >=46.4', 'wheel', 'cython ~=3.0']
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "pymemesuite"
-version = "0.11.1"
+dynamic = ["version"]
 description = "Cython bindings and Python interface to the MEME suite."
 readme = "README.md"
 requires-python = ">=3.7"
@@ -45,8 +45,19 @@ classifiers = [
 [project.optional-dependencies]
 test = ["importlib-resources ; python_version < '3.9'"]
 
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {attr = "pymemesuite.__version__"}
+
+[tool.setuptools.packages.find]
+namespaces = false
+include = ["pymemesuite", "pymemesuite.data", "pymemesuite.tests"]
+exclude = ["docs*", "tests*"]
+
 [tool.cibuildwheel]
-before-build = "pip install setuptools cython"
+before-build = "pip install setuptools wheel cython"
 build-frontend = { name = "pip", args = ["--no-build-isolation"] }
 build-verbosity = 1
 test-command = "python -m unittest pymemesuite.tests -v"

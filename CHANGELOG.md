@@ -6,7 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-[Unreleased]: https://github.com/althonos/pymemesuite/compare/v0.1.0-a3...HEAD
+[Unreleased]: https://github.com/althonos/pymemesuite/compare/v0.1.0-a4...HEAD
+
+
+## [v0.1.0-a4] - 2024-06-14
+[v0.1.0-a4]: https://github.com/althonos/pymemesuite/compare/v0.1.0-a3...v0.1.0-a4
+
+### Fixed
+- Multithreading issue caused by Cython 3.0 `noexcept` code ([#2](https://github.com/althonos/pymemesuite/issues/2)).
 
 
 ## [v0.1.0-a3] - 2024-06-14
