@@ -13,7 +13,6 @@ jobs:
     strategy:
       matrix:
         python-tag:
-        - cp36-manylinux_aarch64
         - cp37-manylinux_aarch64
         - cp38-manylinux_aarch64
         - cp39-manylinux_aarch64
@@ -46,11 +45,10 @@ jobs:
 
   wheel-linux-x86_64:
     name: Build Linux wheels (x86-64)
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         python-tag:
-        - cp36-manylinux_x86_64
         - cp37-manylinux_x86_64
         - cp38-manylinux_x86_64
         - cp39-manylinux_x86_64
@@ -83,11 +81,10 @@ jobs:
 
   wheel-macos-x86_64:
     name: Build MacOS wheels (x86-64)
-    runs-on: macOS-11
+    runs-on: macOS-12
     strategy:
       matrix:
         python-tag:
-        - cp36-macosx_x86_64
         - cp37-macosx_x86_64
         - cp38-macosx_x86_64
         - cp39-macosx_x86_64

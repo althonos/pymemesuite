@@ -8,18 +8,12 @@ jobs:
 
   test_linux:
     name: Test (Linux)
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     env:
       OS: Linux
     strategy:
       matrix:
         include:
-        - python-version: 3.6
-          python-release: v3.6
-          python-impl: CPython
-        - python-version: 3.7
-          python-release: v3.7
-          python-impl: CPython
         - python-version: 3.8
           python-release: v3.8
           python-impl: CPython
@@ -35,12 +29,9 @@ jobs:
         - python-version: '3.12'
           python-release: 'v3.12'
           python-impl: CPython
-        - python-version: pypy-3.6
-          python-release: v3.6
-          python-impl: PyPy
-        - python-version: pypy-3.7
-          python-release: v3.7
-          python-impl: PyPy
+        - python-version: '3.13'
+          python-release: 'v3.13'
+          python-impl: CPython
         - python-version: pypy-3.8
           python-release: v3.8
           python-impl: PyPy
@@ -52,31 +43,21 @@ jobs:
           python-impl: PyPy
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         submodules: true
-    - name: Cache Python requirements
-      uses: actions/cache@v2
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ matrix.python-version }}
-        restore-keys: ${{ runner.os }}-pip-${{ matrix.python-version }}
-    - name: Cache built C files
-      uses: actions/cache@v2
-      with:
-        path: build
-        key: ${{ runner.os }}-build-${{ matrix.python-version }}
-        restore-keys: ${{ runner.os }}-build-${{ matrix.python-version }}
     - name: Setup Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5.1.0
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Show Python build environment
+      run: python -m sysconfig
     - name: Update pip
       run: python -m pip install -U pip wheel setuptools
     - name: Install Python requirements
       run: python -m pip install -r .github/workflows/requirements.txt
     - name: Build C extension
-      run: python setup.py build_ext --inplace --debug
+      run: pip install -vv -e . --no-build-isolation
     - name: Install test requirements
       run: python -m pip install -r pymemesuite/tests/requirements.txt
     - name: Test with coverage
@@ -85,10 +66,12 @@ jobs:
       if: matrix.python-impl == 'CPython'
       uses: codecov/codecov-action@v3
       with:
-        flags: ${{ matrix.python-impl }},${{ matrix.python-release }},${{ env.OS }}
+        flags: ${{ matrix.python-release }}
+        env_vars: OS
         name: test-python-${{ matrix.python-version }}
-        fail_ci_if_error: true
+        fail_ci_if_error: false
         token: ${{ secrets.CODECOV_TOKEN }}
+        verbose: true
 
   test_osx:
     name: Test (OSX)
@@ -98,12 +81,6 @@ jobs:
     strategy:
       matrix:
         include:
-        - python-version: 3.6
-          python-release: v3.6
-          python-impl: CPython
-        - python-version: 3.7
-          python-release: v3.7
-          python-impl: CPython
         - python-version: 3.8
           python-release: v3.8
           python-impl: CPython
@@ -119,9 +96,9 @@ jobs:
         - python-version: '3.12'
           python-release: 'v3.12'
           python-impl: CPython
-        - python-version: pypy-3.7
-          python-release: v3.7
-          python-impl: PyPy
+        - python-version: '3.13'
+          python-release: 'v3.13'
+          python-impl: CPython
         - python-version: pypy-3.8
           python-release: v3.8
           python-impl: PyPy
@@ -133,43 +110,23 @@ jobs:
           python-impl: PyPy
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         submodules: true
-    - name: Cache Python requirements
-      uses: actions/cache@v2
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ matrix.python-version }}
-        restore-keys: ${{ runner.os }}-pip-${{ matrix.python-version }}
-    - name: Cache built C files
-      uses: actions/cache@v2
-      with:
-        path: build
-        key: ${{ runner.os }}-build-${{ matrix.python-version }}
-        restore-keys: ${{ runner.os }}-build-${{ matrix.python-version }}
     - name: Setup Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5.1.0
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Show Python build environment
+      run: python -m sysconfig
     - name: Update pip
       run: python -m pip install -U pip wheel setuptools
     - name: Install Python requirements
       run: python -m pip install -r .github/workflows/requirements.txt
     - name: Build C extension
-      run: python setup.py build_ext --inplace --debug
+      run: pip install -vv -e . --no-build-isolation
     - name: Install test requirements
       run: python -m pip install -r pymemesuite/tests/requirements.txt
       if: matrix.python-impl == 'CPython'
-    - name: Test with coverage
-      run: python -m coverage run -m unittest pymemesuite.tests -vv
-    - name: Upload to Codecov
-      uses: codecov/codecov-action@v3
-      if: matrix.python-impl == 'CPython'
-      with:
-        flags: ${{ matrix.python-impl }},${{ matrix.python-release }}
-        name: test-python-${{ matrix.python-version }}
-        env: OS
-        fail_ci_if_error: true
-        token: ${{ secrets.CODECOV_TOKEN }}
-        codecov_curl_args: "--globoff"
+    - name: Test without coverage
+      run: python -m unittest pymemesuite.tests -vv
