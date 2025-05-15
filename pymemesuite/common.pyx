@@ -540,6 +540,9 @@ cdef class Background:
         self.alphabet = alphabet
         self.frequencies = frequencies
 
+    def __copy__(self):
+        return self.copy()
+
     def __repr__(self):
         cdef type ty   = type(self)
         cdef str  name = ty.__name__
