@@ -146,7 +146,7 @@ void hash_destroy(
 */
 /**********************************************************************/
 
-static void hash_entry_destroy(
+void hash_entry_destroy(
   HASH_TABLE_ENTRY *hte, 	/* hash table entry to destroy */
   void (*free_value)(void *) 	// function for freeing entry value;
 				// caller must free them if NULL

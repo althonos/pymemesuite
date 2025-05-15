@@ -536,7 +536,7 @@ char* get_meme_bin_file(const char* file_name);
  * alternatively NULL is returned if no such file exists.
  * The caller is responsible for freeing memory.
 ******************************************************************/
-char* get_meme_libexec_file();
+char* get_meme_libexec_file(const char* file_name);
 
 /******************************************************************
  *
