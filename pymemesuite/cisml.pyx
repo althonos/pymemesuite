@@ -1,5 +1,5 @@
 # coding: utf-8
-# cython: language_level=3, linetrace=True
+# cython: language_level=3
 """Types for the CisML data model.
 
 CisML is an XML-based format proposed by Haverty & Weng for reporting

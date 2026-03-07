@@ -1,5 +1,5 @@
 # coding: utf-8
-# cython: language_level=3, linetrace=True
+# cython: language_level=3
 """Implementation of the Find Individual Motif Occurences (FIMO) method.
 
 FIMO searches a set of sequences for occurrences of known motifs, treating
